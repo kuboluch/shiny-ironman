@@ -2,7 +2,6 @@ package kniemkiewicz.jqblocks.ingame.controller;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.object.Player;
-import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.geom.Rectangle;
 
 /**
@@ -46,10 +45,10 @@ public class HitResolver {
       case IGNORE:
         break;
     }
-    Assert.assertThat(player.getXMovement().getPos() > Sizes.MIN_X);
-    Assert.assertThat(player.getXMovement().getPos() < Sizes.MAX_X + 100);
-    Assert.assertThat(player.getYMovement().getPos() > Sizes.MIN_Y);
-    Assert.assertThat(player.getYMovement().getPos() < Sizes.MAX_Y + 100);
+    assert player.getXMovement().getPos() > Sizes.MIN_X;
+    assert player.getXMovement().getPos() < Sizes.MAX_X + 100;
+    assert player.getYMovement().getPos() > Sizes.MIN_Y;
+    assert player.getYMovement().getPos() < Sizes.MAX_Y + 100;
   }
 
   static Decision decide(Rectangle player, float dx, float dy, Rectangle rect) {
