@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.controller.InventoryController;
 import kniemkiewicz.jqblocks.ingame.controller.PlayerController;
 import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
+import kniemkiewicz.jqblocks.ingame.ui.TimingInfo;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -42,6 +43,9 @@ public class Game extends BasicGame{
   @Autowired
   LevelGenerator levelGenerator;
 
+  @Autowired
+  TimingInfo timingInfo;
+
   List<InputListener> inputListeners = new ArrayList<InputListener>();
 
   @Override
@@ -54,17 +58,24 @@ public class Game extends BasicGame{
     levelGenerator.setSeed(1);
     levelGenerator.generate();
     playerController.init();
+    renderQueue.add(timingInfo);
   }
 
   @Override
   public void update(GameContainer gameContainer, int delta) throws SlickException {
+    // This happens mostly with breakpoints and generally breaks physics.
+    if (delta > 100) return;
+    TimingInfo.Timer t = timingInfo.getTimer("update");
     clickCounter.update();
     for (InputListener l : inputListeners) {
       l.listen(gameContainer.getInput(), delta);
     }
+    t.record();
   }
 
   public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
+    TimingInfo.Timer t = timingInfo.getTimer("render");
     renderQueue.render(graphics);
+    t.record();
   }
 }
