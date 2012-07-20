@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.object;
 
+import kniemkiewicz.jqblocks.ingame.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
@@ -42,7 +43,7 @@ public abstract class AbstractBlock implements RenderableObject, PhysicalObject 
     return shape;
   }
 
-  public void removeRect(Rectangle rect, SolidBlocks blocks) {
+  public void removeRect(Rectangle rect, SolidBlocks blocks, Backgrounds backgrounds) {
     blocks.remove(this);
     // We have to check this after removing the block itself.
     Assert.assertThat(!blocks.intersects(this.getShape()).hasNext());

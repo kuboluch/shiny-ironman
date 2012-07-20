@@ -9,8 +9,19 @@ import org.newdawn.slick.geom.Shape;
  * Date: 08.07.12
  */
 public interface RenderableObject {
+
+  enum Layer {
+    MINUS_INF,
+    BACKGROUND,
+    WALL,
+    OBJECTS,
+    PLUS_INF
+  }
+
   // Graphics are shifted by pov before a call to this method.
   public void renderObject(Graphics g, PointOfView pov);
 
   public Shape getShape();
+
+  public Layer getLayer();
 }

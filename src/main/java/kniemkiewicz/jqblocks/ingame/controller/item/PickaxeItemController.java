@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.controller.item;
 
+import kniemkiewicz.jqblocks.ingame.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
@@ -25,6 +26,9 @@ public class PickaxeItemController implements ItemController {
   @Autowired
   private SolidBlocks blocks;
 
+  @Autowired
+  private Backgrounds backgrounds;
+
   public void listen(List<Click> clicks) {
     for (Click c : clicks) {
       int x = Sizes.roundToBlockSizeX(c.getX());
@@ -32,7 +36,7 @@ public class PickaxeItemController implements ItemController {
       Rectangle rect = new Rectangle(x, y, Sizes.BLOCK - 1 , Sizes.BLOCK - 1);
       Iterator<AbstractBlock> it = blocks.intersects(rect);
       if (it.hasNext()) {
-        it.next().removeRect(rect, blocks);
+        it.next().removeRect(rect, blocks, backgrounds);
       }
       Assert.assertThat(!blocks.intersects(rect).hasNext());
     }

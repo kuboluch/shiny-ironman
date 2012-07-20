@@ -7,8 +7,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * User: krzysiek
@@ -20,13 +19,19 @@ public class RenderQueue implements Renderable {
   @Autowired
   PointOfView pointOfView;
 
-  Set<RenderableObject> renderableObjects = new HashSet<RenderableObject>();
+  EnumMap<RenderableObject.Layer, Set<RenderableObject>> renderableObjects = new EnumMap<RenderableObject.Layer, Set<RenderableObject>>(RenderableObject.Layer.class);
   Set<Renderable> renderables = new HashSet<Renderable>();
   
   public static final Color SKY = new Color(26f/255, 100f/255, 191f/255);
-  
+
+  RenderQueue() {
+    for (RenderableObject.Layer l : RenderableObject.Layer.values()) {
+      renderableObjects.put(l, new HashSet<RenderableObject>());
+    }
+  }
+
   public void add(RenderableObject renderable) {
-    renderableObjects.add(renderable);
+    renderableObjects.get(renderable.getLayer()).add(renderable);
   }
 
   public void add(Renderable renderable) {
@@ -38,9 +43,11 @@ public class RenderQueue implements Renderable {
     g.setLineWidth(1);
     g.translate(-pointOfView.getShiftX(), -pointOfView.getShiftY());
     Rectangle window = new Rectangle(pointOfView.getShiftX(), pointOfView.getShiftY(), Sizes.WINDOW_WIDTH, Sizes.WINDOW_HEIGHT);
-    for (RenderableObject r : renderableObjects) {
-      if (window.intersects(r.getShape())) {
-        r.renderObject(g, pointOfView);
+    for (RenderableObject.Layer l : RenderableObject.Layer.values()) {
+      for (RenderableObject r : renderableObjects.get(l)) {
+        if (window.intersects(r.getShape())) {
+          r.renderObject(g, pointOfView);
+        }
       }
     }
     g.translate(pointOfView.getShiftX(), pointOfView.getShiftY());
@@ -50,6 +57,6 @@ public class RenderQueue implements Renderable {
   }
 
   public void remove(RenderableObject block) {
-    renderableObjects.remove(block);
+    renderableObjects.get(block.getLayer()).remove(block);
   }
 }

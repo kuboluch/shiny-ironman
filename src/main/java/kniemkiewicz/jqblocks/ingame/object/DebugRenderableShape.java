@@ -27,4 +27,9 @@ public class DebugRenderableShape implements RenderableObject{
   public Shape getShape() {
     return shape;
   }
+
+  @Override
+  public Layer getLayer() {
+    return Layer.PLUS_INF;
+  }
 }

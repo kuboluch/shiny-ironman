@@ -76,6 +76,11 @@ public class Player implements RenderableObject,PhysicalObject {
     return shape;
   }
 
+  @Override
+  public Layer getLayer() {
+    return Layer.OBJECTS;
+  }
+
 
   @Override
   public String toString() {

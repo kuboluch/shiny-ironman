@@ -22,4 +22,9 @@ public class EndOfTheWorldWall extends AbstractBlock{
     g.setColor(Color.black);
     g.fillRect(x,y,width,height);
   }
+
+  @Override
+  public Layer getLayer() {
+    return Layer.WALL;
+  }
 }
