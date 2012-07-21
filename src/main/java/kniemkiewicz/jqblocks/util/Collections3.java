@@ -20,4 +20,12 @@ public class Collections3 {
     }
     return li;
   }
+  public static <T> Iterable<T> getIterable(final Iterator<T> it) {
+    return new Iterable<T>() {
+      @Override
+      public Iterator<T> iterator() {
+        return it;
+      }
+    };
+  }
 }
