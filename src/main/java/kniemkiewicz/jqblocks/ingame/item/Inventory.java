@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.item;
 
+import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Renderable;
 import kniemkiewicz.jqblocks.ingame.Sizes;
@@ -24,6 +25,9 @@ public class Inventory implements Renderable {
 
   @Autowired
   PickaxeItem pickAxe;
+
+  @Autowired
+  PointOfView pointOfView;
 
   List<Item> items = new ArrayList<Item>();
   public static int SQUARE_SIZE = 25;
@@ -55,7 +59,7 @@ public class Inventory implements Renderable {
   final static private String[] ids = {"1", "2","3","4","5","6","7","8","9","0"};
   public void render(Graphics g) {
 
-    int x = Sizes.WINDOW_WIDTH - items.size() * SQUARE_SIZE - (items.size() - 1) * SQUARE_DIST - X_MARGIN;
+    int x = pointOfView.getWindowWidth() - items.size() * SQUARE_SIZE - (items.size() - 1) * SQUARE_DIST - X_MARGIN;
     int i = 0;
     for (Item item : items) {
       if (i == selectedIndex) {

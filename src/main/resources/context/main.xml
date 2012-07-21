@@ -12,4 +12,5 @@
 
   <context:annotation-config />
   <bean id="springGameAdaptor" class="kniemkiewicz.jqblocks.SpringGameAdaptor"/>
+  <bean id="configuration" class="kniemkiewicz.jqblocks.Configuration"/>
 </beans>

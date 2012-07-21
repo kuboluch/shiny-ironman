@@ -1,9 +1,11 @@
 package kniemkiewicz.jqblocks.ingame.level;
 
+import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.object.DirtBlock;
 import org.newdawn.slick.geom.Rectangle;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -17,7 +19,11 @@ import java.util.Random;
 @Component
 public class SurfaceGenerator {
 
+  @Autowired
+  private Configuration configuration;
+
   Random random;
+
   int[] heights = new int[(Sizes.MAX_X - Sizes.MIN_X) / Sizes.BLOCK];
 
   void generate(Random random, SolidBlocks blocks) {
@@ -80,15 +86,12 @@ public class SurfaceGenerator {
     }
   }
 
-  private static int MIN_HILL_SIZE = 10;
-  private static int MAX_HILL_SIZE = 30;
-
-  private static float HILL_DENSITY = 0.5f;
-  private static int MAX_HILL_HEIGHT = 8;
-  private static int MIN_HILL_HEIGHT = 2;
-  private static int HILL_RND_HEIGHT = 2;
-
   private void generateHills() {
+    float HILL_DENSITY = configuration.getFloat("SurfaceGenerator.HILL_DENSITY", 0.5f);
+    int MAX_HILL_SIZE = configuration.getInt("SurfaceGenerator.MAX_HILL_SIZE", 30);
+    int MIN_HILL_SIZE = configuration.getInt("SurfaceGenerator.MIN_HILL_SIZE", 10);
+    int MIN_HILL_HEIGHT = configuration.getInt("SurfaceGenerator.MIN_HILL_HEIGHT", 2);
+    int MAX_HILL_HEIGHT = configuration.getInt("SurfaceGenerator.MAX_HILL_HEIGHT", 8);
     int numberOfHills = (int)(2 * (Sizes.MAX_X - Sizes.MIN_X) / (MIN_HILL_SIZE + MAX_HILL_SIZE) * HILL_DENSITY);
     for (int i = 0; i < numberOfHills; i++) {
       int width = random.nextInt(MAX_HILL_SIZE - MIN_HILL_SIZE) + MIN_HILL_SIZE;
@@ -97,6 +100,7 @@ public class SurfaceGenerator {
       assert width > 4;
       assert x + width < heights.length;
       int topPosition = random.nextInt(width - 4) + 2;
+      int HILL_RND_HEIGHT = 2;
       for (int j = 0; j < topPosition; j++) {
         heights[x + j] += Sizes.BLOCK * (height * (j + 1) / topPosition + random.nextInt(HILL_RND_HEIGHT * 2) - HILL_RND_HEIGHT);
       }

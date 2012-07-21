@@ -42,7 +42,7 @@ public class RenderQueue implements Renderable {
     g.setBackground(SKY);
     g.setLineWidth(1);
     g.translate(-pointOfView.getShiftX(), -pointOfView.getShiftY());
-    Rectangle window = new Rectangle(pointOfView.getShiftX(), pointOfView.getShiftY(), Sizes.WINDOW_WIDTH, Sizes.WINDOW_HEIGHT);
+    Rectangle window = new Rectangle(pointOfView.getShiftX(), pointOfView.getShiftY(), pointOfView.getWindowWidth(), pointOfView.getWindowHeight());
     for (RenderableObject.Layer l : RenderableObject.Layer.values()) {
       for (RenderableObject r : renderableObjects.get(l)) {
         if (window.intersects(r.getShape())) {
