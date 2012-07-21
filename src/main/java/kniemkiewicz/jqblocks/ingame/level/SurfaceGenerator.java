@@ -3,7 +3,6 @@ package kniemkiewicz.jqblocks.ingame.level;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.object.DirtBlock;
-import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.stereotype.Component;
 
@@ -48,14 +47,14 @@ public class SurfaceGenerator {
         while(new_y >= proposals.get(proposals.size() - 1).getMaxY()) {
           Rectangle r = proposals.get(proposals.size() - 1);
           proposals.remove(proposals.size() - 1);
-          Assert.assertThat(blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), Sizes.MIN_X + i * Sizes.BLOCK - r.getMinX(), r.getHeight())));
+          assert blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), Sizes.MIN_X + i * Sizes.BLOCK - r.getMinX(), r.getHeight()));
         }
         // We should never reach bottom of the level so there is always at least the last block that we can cut into
         // smaller one if new height is lowest ever seen.
         if (new_y > proposals.get(proposals.size() - 1).getMinY()) {
           Rectangle r = proposals.get(proposals.size() - 1);
           int diff = (int)(new_y - r.getMinY());
-          Assert.assertThat(blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), Sizes.MIN_X + i * Sizes.BLOCK - r.getMinX(), diff)));
+          assert blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), Sizes.MIN_X + i * Sizes.BLOCK - r.getMinX(), diff));
           r.setY(r.getY() + diff);
           r.setHeight(r.getHeight() - diff);
         }
@@ -63,7 +62,7 @@ public class SurfaceGenerator {
       h = heights[i];
     }
     for (Rectangle r : proposals) {
-      Assert.assertThat(blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), Sizes.MAX_X - r.getMinX(), r.getHeight())));
+      assert blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), Sizes.MAX_X - r.getMinX(), r.getHeight()));
     }
   }
 

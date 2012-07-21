@@ -3,7 +3,6 @@ package kniemkiewicz.jqblocks.ingame.controller;
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.object.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.Player;
-import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
@@ -83,7 +82,7 @@ public class PlayerController implements InputListener {
       player.updateShape();
     }
     for (AbstractBlock b : colliding_blocks) {
-      Assert.assertThat(!player.getShape().intersects(b.getShape()));
+      assert !player.getShape().intersects(b.getShape());
     }
     pointOfView.setCenterX(Math.round(player.getShape().getCenterX()));
     pointOfView.setCenterY(Math.round(player.getShape().getCenterY()));

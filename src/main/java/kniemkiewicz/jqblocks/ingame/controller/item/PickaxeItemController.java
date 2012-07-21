@@ -1,14 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.controller.item;
 
 import kniemkiewicz.jqblocks.ingame.Backgrounds;
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.object.AbstractBlock;
-import kniemkiewicz.jqblocks.ingame.object.DebugRenderableShape;
-import kniemkiewicz.jqblocks.util.Assert;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -38,7 +34,7 @@ public class PickaxeItemController implements ItemController {
       if (it.hasNext()) {
         it.next().removeRect(rect, blocks, backgrounds);
       }
-      Assert.assertThat(!blocks.intersects(rect).hasNext());
+      assert !blocks.intersects(rect).hasNext();
     }
   }
 }

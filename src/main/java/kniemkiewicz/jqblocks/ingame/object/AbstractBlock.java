@@ -4,7 +4,6 @@ import kniemkiewicz.jqblocks.ingame.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
-import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -51,7 +50,7 @@ public abstract class AbstractBlock implements RenderableObject, PhysicalObject,
   public void removeRect(Rectangle rect, SolidBlocks blocks, Backgrounds backgrounds) {
     blocks.remove(this);
     // We have to check this after removing the block itself.
-    Assert.assertThat(!blocks.intersects(this.getShape()).hasNext());
+    assert !blocks.intersects(this.getShape()).hasNext();
     int rectMinY = Sizes.roundToBlockSizeY(rect.getMinY());
     int rectMaxY = Sizes.roundToBlockSizeY(rect.getMaxY());
     int rectMinX = Sizes.roundToBlockSizeX(rect.getMinX());
