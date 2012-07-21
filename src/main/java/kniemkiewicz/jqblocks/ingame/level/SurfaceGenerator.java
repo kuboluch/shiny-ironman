@@ -23,7 +23,7 @@ public class SurfaceGenerator {
   void generate(Random random, SolidBlocks blocks) {
     this.random = random;
     generateFlat();
-
+    generateHills();
     prepareBlocks(blocks);
   }
 
@@ -77,6 +77,33 @@ public class SurfaceGenerator {
         heights[x] = y;
       }
       i += dx;
+    }
+  }
+
+  private static int MIN_HILL_SIZE = 10;
+  private static int MAX_HILL_SIZE = 30;
+
+  private static float HILL_DENSITY = 0.5f;
+  private static int MAX_HILL_HEIGHT = 8;
+  private static int MIN_HILL_HEIGHT = 2;
+  private static int HILL_RND_HEIGHT = 2;
+
+  private void generateHills() {
+    int numberOfHills = (int)(2 * (Sizes.MAX_X - Sizes.MIN_X) / (MIN_HILL_SIZE + MAX_HILL_SIZE) * HILL_DENSITY);
+    for (int i = 0; i < numberOfHills; i++) {
+      int width = random.nextInt(MAX_HILL_SIZE - MIN_HILL_SIZE) + MIN_HILL_SIZE;
+      int x = random.nextInt(heights.length - width - 1);
+      int height = random.nextInt(MAX_HILL_HEIGHT - MIN_HILL_HEIGHT) + MIN_HILL_HEIGHT;
+      assert width > 4;
+      assert x + width < heights.length;
+      int topPosition = random.nextInt(width - 4) + 2;
+      for (int j = 0; j < topPosition; j++) {
+        heights[x + j] += Sizes.BLOCK * (height * (j + 1) / topPosition + random.nextInt(HILL_RND_HEIGHT * 2) - HILL_RND_HEIGHT);
+      }
+      int remainingWidth = width - topPosition;
+      for (int j = topPosition; j < width; j++) {
+        heights[x + j] += Sizes.BLOCK * (height * (width - j) / remainingWidth + random.nextInt(HILL_RND_HEIGHT * 2) - HILL_RND_HEIGHT);
+      }
     }
   }
 }

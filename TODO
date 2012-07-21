@@ -5,6 +5,7 @@ Krzysiek:
 - simple enemy that hides in caves
 - joining block horizontally
 - faster collision detection
+- fix assert error when hitting ceiling
 
 Kuba:
 - odpalic repo :)
