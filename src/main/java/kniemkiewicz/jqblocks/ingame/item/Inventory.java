@@ -43,7 +43,8 @@ public class Inventory implements Renderable {
     renderQueue.add(this);
     items.add(new DirtBlockItem());
     items.add(pickAxe);
-    for (int i = 0; i < SIZE - 2; i++) {
+    items.add(new BowItem());
+    for (int i = 0; i < SIZE - items.size(); i++) {
       items.add(new EmptyItem());
     }
   }

@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame;
 
 import kniemkiewicz.jqblocks.ingame.object.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.EndOfTheWorldWall;
+import kniemkiewicz.jqblocks.ingame.util.LinearIntersectionIterator;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -42,54 +43,13 @@ public class SolidBlocks {
     return Collections.unmodifiableSet(blocks);
   }
 
-  // TODO: This should be done much faster.
-  static class IntersectionIterator implements Iterator<AbstractBlock> {
-    Iterator<AbstractBlock> it;
-    Rectangle rect;
-    AbstractBlock next = null;
-
-    IntersectionIterator(Iterator<AbstractBlock> it, Rectangle rect) {
-      this.it = it;
-      this.rect = rect;
-    }
-
-    void updateNext() {
-      if (next != null) return;
-      while (it.hasNext()) {
-        AbstractBlock b = it.next();
-        if (b.getShape().intersects(rect)) {
-          next = b;
-          return;
-        }
-      }
-    }
-
-    public boolean hasNext() {
-      updateNext();
-      return next != null;
-    }
-
-    public AbstractBlock next() {
-      updateNext();
-      AbstractBlock b = next;
-      next = null;
-      return b;
-    }
-
-
-
-    public void remove() {
-      throw new UnsupportedOperationException();
-    }
-  }
-
   public Iterator<AbstractBlock> intersects(Rectangle rect) {
-    return new IntersectionIterator(blocks.iterator(), rect);
+    return new LinearIntersectionIterator(blocks.iterator(), rect);
   }
 
   public boolean add(AbstractBlock block) {
     if (intersects(block.getShape()).hasNext()) return false;
-    if (movingObjects.intersects(block.getShape()) != null) return false;
+    if (movingObjects.intersects(block.getShape()).hasNext()) return false;
     blocks.add(block);
     renderQueue.add(block);
     return true;

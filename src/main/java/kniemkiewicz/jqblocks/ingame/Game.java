@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame;
 
+import kniemkiewicz.jqblocks.ingame.controller.ArrowController;
 import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.controller.InventoryController;
 import kniemkiewicz.jqblocks.ingame.controller.PlayerController;
@@ -44,6 +45,9 @@ public class Game extends BasicGame{
   LevelGenerator levelGenerator;
 
   @Autowired
+  ArrowController arrowController;
+
+  @Autowired
   TimingInfo timingInfo;
 
   List<InputListener> inputListeners = new ArrayList<InputListener>();
@@ -70,6 +74,7 @@ public class Game extends BasicGame{
     for (InputListener l : inputListeners) {
       l.listen(gameContainer.getInput(), delta);
     }
+    arrowController.update(delta);
     t.record();
   }
 

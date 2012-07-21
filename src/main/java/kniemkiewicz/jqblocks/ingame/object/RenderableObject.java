@@ -15,6 +15,7 @@ public interface RenderableObject {
     BACKGROUND,
     WALL,
     OBJECTS,
+    ARROWS,
     PLUS_INF
   }
 
