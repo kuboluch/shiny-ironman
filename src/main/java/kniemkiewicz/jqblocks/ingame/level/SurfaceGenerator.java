@@ -36,6 +36,9 @@ public class SurfaceGenerator {
   // This method translates heights[x] into actual blocks, trying to use as few blocks as possible and making sure
   // that we use mostly horizontal blocks.
   private void prepareBlocks(SolidBlocks blocks) {
+    int MAX_ALLOWED_PILLAR_HEIGHT = configuration.getInt("SurfaceGenerator.MAX_ALLOWED_PILLAR_HEIGHT", 2);
+    float maxAllowedPillarHeight = MAX_ALLOWED_PILLAR_HEIGHT * Sizes.BLOCK;
+    float PILLAR_WIDTH = 1.2f * Sizes.BLOCK;
     //TODO: Use something else than Rectangle, it is too expensive here.
     //TODO: Consider using Stack
     List<Rectangle> proposals = new ArrayList<Rectangle>();
@@ -53,14 +56,22 @@ public class SurfaceGenerator {
         while(new_y >= proposals.get(proposals.size() - 1).getMaxY()) {
           Rectangle r = proposals.get(proposals.size() - 1);
           proposals.remove(proposals.size() - 1);
-          assert blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), Sizes.MIN_X + i * Sizes.BLOCK - r.getMinX(), r.getHeight()));
+          float width = Sizes.MIN_X + i * Sizes.BLOCK - r.getMinX();
+          if ((MAX_ALLOWED_PILLAR_HEIGHT > 0) && (width < PILLAR_WIDTH) && (r.getHeight() >= maxAllowedPillarHeight)) {
+            continue;
+          }
+          assert blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), width, r.getHeight()));
         }
         // We should never reach bottom of the level so there is always at least the last block that we can cut into
         // smaller one if new height is lowest ever seen.
         if (new_y > proposals.get(proposals.size() - 1).getMinY()) {
           Rectangle r = proposals.get(proposals.size() - 1);
           int diff = (int)(new_y - r.getMinY());
-          assert blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), Sizes.MIN_X + i * Sizes.BLOCK - r.getMinX(), diff));
+          float width = Sizes.MIN_X + i * Sizes.BLOCK - r.getMinX();
+          if ((MAX_ALLOWED_PILLAR_HEIGHT > 0) && (width < PILLAR_WIDTH) && (diff >= maxAllowedPillarHeight)) {
+            continue;
+          }
+          assert blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), width, diff));
           r.setY(r.getY() + diff);
           r.setHeight(r.getHeight() - diff);
         }
@@ -92,6 +103,7 @@ public class SurfaceGenerator {
     int MIN_HILL_SIZE = configuration.getInt("SurfaceGenerator.MIN_HILL_SIZE", 10);
     int MIN_HILL_HEIGHT = configuration.getInt("SurfaceGenerator.MIN_HILL_HEIGHT", 2);
     int MAX_HILL_HEIGHT = configuration.getInt("SurfaceGenerator.MAX_HILL_HEIGHT", 8);
+    int HILL_RND_HEIGHT = configuration.getInt("SurfaceGenerator.HILL_RND_HEIGHT", 2);
     int numberOfHills = (int)(2 * (Sizes.MAX_X - Sizes.MIN_X) / (MIN_HILL_SIZE + MAX_HILL_SIZE) * HILL_DENSITY);
     for (int i = 0; i < numberOfHills; i++) {
       int width = random.nextInt(MAX_HILL_SIZE - MIN_HILL_SIZE) + MIN_HILL_SIZE;
@@ -100,13 +112,14 @@ public class SurfaceGenerator {
       assert width > 4;
       assert x + width < heights.length;
       int topPosition = random.nextInt(width - 4) + 2;
-      int HILL_RND_HEIGHT = 2;
       for (int j = 0; j < topPosition; j++) {
-        heights[x + j] += Sizes.BLOCK * (height * (j + 1) / topPosition + random.nextInt(HILL_RND_HEIGHT * 2) - HILL_RND_HEIGHT);
+        int rnd = HILL_RND_HEIGHT > 0 ? random.nextInt(HILL_RND_HEIGHT * 2) - HILL_RND_HEIGHT : 0;
+        heights[x + j] += Sizes.BLOCK * (height * (j + 1) / topPosition + rnd);
       }
       int remainingWidth = width - topPosition;
       for (int j = topPosition; j < width; j++) {
-        heights[x + j] += Sizes.BLOCK * (height * (width - j) / remainingWidth + random.nextInt(HILL_RND_HEIGHT * 2) - HILL_RND_HEIGHT);
+        int rnd = HILL_RND_HEIGHT > 0 ? random.nextInt(HILL_RND_HEIGHT * 2) - HILL_RND_HEIGHT : 0;
+        heights[x + j] += Sizes.BLOCK * ((height * (width - j) / remainingWidth + rnd));
       }
     }
   }
