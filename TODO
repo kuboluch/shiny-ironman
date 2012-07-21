@@ -7,8 +7,10 @@ Krzysiek:
 - fix assert error when hitting ceiling
 
 Kuba:
+- you made creating level take ages as you apparently compute a lot of stuff while I add blocks to the level.
+Need to optimize this or make level save/load feature instead of generating each time. We need to discuss this.
 - remove duplicates from "Unassigned" :P
-- grass fix(krzysiek: not sure what you mean here but I see problems with missing grass when digging
+- grass fix(krzysiek: not sure what you mean here but I see problems with missing grass when digging)
 - darkness & light
 - noninstant digging
 - pile of * after digging

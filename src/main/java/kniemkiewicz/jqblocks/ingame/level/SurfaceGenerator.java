@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.object.DirtBlock;
+import kniemkiewicz.jqblocks.util.TimeLog;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,9 +29,13 @@ public class SurfaceGenerator {
 
   void generate(Random random, SolidBlocks blocks) {
     this.random = random;
+    TimeLog t = new TimeLog();
     generateFlat();
+    t.logTimeAndRestart("generate flat");
     generateHills();
+    t.logTimeAndRestart("generate hills");
     prepareBlocks(blocks);
+    t.logTimeAndRestart("prepare blocks");
   }
 
   // This method translates heights[x] into actual blocks, trying to use as few blocks as possible and making sure
