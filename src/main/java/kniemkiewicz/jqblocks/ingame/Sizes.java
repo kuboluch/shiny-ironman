@@ -13,10 +13,10 @@ public class Sizes {
   public static int WINDOW_WIDTH = 1000;
   public static int WINDOW_HEIGHT = 800;
 
-  public static int MIN_X = -100 * WINDOW_WIDTH;
-  public static int MAX_X = 100 * WINDOW_WIDTH;
+  public static int MIN_X = -1 * WINDOW_WIDTH;
+  public static int MAX_X = 1 * WINDOW_WIDTH;
   public static int MIN_Y = 0;
-  public static int MAX_Y = 8 * WINDOW_WIDTH;
+  public static int MAX_Y = 1 * WINDOW_WIDTH;
 
   static public int roundToBlockSizeX(int x) {
     return (x - MIN_X) / BLOCK * BLOCK + MIN_X;

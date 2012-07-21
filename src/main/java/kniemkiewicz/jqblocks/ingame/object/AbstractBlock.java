@@ -8,16 +8,19 @@ import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
+import java.util.List;
+
 /**
  * User: krzysiek
  * Date: 14.07.12
  */
-public abstract class AbstractBlock implements RenderableObject, PhysicalObject {
+public abstract class AbstractBlock implements RenderableObject, PhysicalObject, NeighborAwareObject<AbstractBlock> {
   protected int x;
   protected int y;
   protected int width;
   protected int height;
   protected Rectangle shape;
+  protected NeighborAwareObject neighbors;
 
   public AbstractBlock(int x, int y, int width, int height) {
     this.x = x;
@@ -25,14 +28,16 @@ public abstract class AbstractBlock implements RenderableObject, PhysicalObject 
     this.width = width;
     this.height = height;
     shape = new Rectangle(this.x, this.y, this.width - 1, this.height - 1);
+    neighbors = new NeighborAwareBlock();
   }
 
   public AbstractBlock(float x, float y, float width, float height) {
-    this.x =  Sizes.roundToBlockSizeX(x);
+    this.x = Sizes.roundToBlockSizeX(x);
     this.y = Sizes.roundToBlockSizeY(y);
-    this.width =  Sizes.roundToBlockSize(width);
+    this.width = Sizes.roundToBlockSize(width);
     this.height = Sizes.roundToBlockSize(height);
     shape = new Rectangle(this.x, this.y, this.width - 1, this.height - 1);
+    neighbors = new NeighborAwareBlock();
   }
 
   protected abstract AbstractBlock getSubBlock(AbstractBlock parent, int x, int y, int width, int height);
@@ -63,6 +68,47 @@ public abstract class AbstractBlock implements RenderableObject, PhysicalObject 
     if (y + height > rectMaxY) {
       blocks.add(getSubBlock(this, x, rectMaxY, width, y + height - rectMaxY));
     }
+  }
+
+
+  @Override
+  public List<AbstractBlock> getLeftNeighbors() {
+    return neighbors.getLeftNeighbors();
+  }
+
+  @Override
+  public List<AbstractBlock> getTopNeighbors() {
+    return neighbors.getTopNeighbors();
+  }
+
+  @Override
+  public List<AbstractBlock> getRightNeighbors() {
+    return neighbors.getRightNeighbors();
+  }
+
+  @Override
+  public List<AbstractBlock> getBottomNeighbors() {
+    return neighbors.getBottomNeighbors();
+  }
+
+  @Override
+  public void addLeftNeighbor(AbstractBlock neighbor) {
+    neighbors.addLeftNeighbor(neighbor);
+  }
+
+  @Override
+  public void addTopNeighbor(AbstractBlock neighbor) {
+    neighbors.addTopNeighbor(neighbor);
+  }
+
+  @Override
+  public void addRightNeighbor(AbstractBlock neighbor) {
+    neighbors.addRightNeighbor(neighbor);
+  }
+
+  @Override
+  public void addBottomNeighbor(AbstractBlock neighbor) {
+    neighbors.addBottomNeighbor(neighbor);
   }
 
   @Override

@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.controller.InventoryController;
 import kniemkiewicz.jqblocks.ingame.controller.PlayerController;
 import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
+import kniemkiewicz.jqblocks.ingame.ui.MouseInputInfo;
 import kniemkiewicz.jqblocks.ingame.ui.TimingInfo;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -46,6 +47,9 @@ public class Game extends BasicGame{
   @Autowired
   TimingInfo timingInfo;
 
+  @Autowired
+  MouseInputInfo mouseInputInfo;
+
   List<InputListener> inputListeners = new ArrayList<InputListener>();
 
   @Override
@@ -55,10 +59,12 @@ public class Game extends BasicGame{
     inputListeners.add(inventoryController);
     clickCounter.add(inventoryController);
     gameContainer.getInput().addMouseListener(clickCounter);
+    gameContainer.getInput().addMouseListener(mouseInputInfo);
     levelGenerator.setSeed(1);
     levelGenerator.generate();
     playerController.init();
     renderQueue.add(timingInfo);
+    renderQueue.add(mouseInputInfo);
   }
 
   @Override
