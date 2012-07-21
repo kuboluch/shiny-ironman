@@ -8,10 +8,13 @@ Krzysiek:
 - fix assert error when hitting ceiling
 
 Kuba:
-- odpalic repo :)
-- odpalic repo z idei :)
 - grass fix
-- darkness
+- darkness & light
+- noninstant digging
+- pile of * after digging
+- carry pile
+- pile process to resource
+- ladder
 
 Unassigned:
 - item gathering

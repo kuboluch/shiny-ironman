@@ -3,6 +3,8 @@ package kniemkiewicz.jqblocks.ingame.object;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -17,6 +19,9 @@ import javax.annotation.Resource;
  */
 @Component
 public class Player implements RenderableObject,PhysicalObject {
+
+  public static Log logger = LogFactory.getLog(Player.class);
+
   @Resource(name = "playerLeftImage")
   private Image leftImage;
   @Resource(name = "playerRightImage")
@@ -41,6 +46,7 @@ public class Player implements RenderableObject,PhysicalObject {
   }
 
   public void renderObject(Graphics g, PointOfView pov) {
+    //logger.debug("player [x="+xMovement.getPos()+", y="+yMovement.getPos()+"]");
     g.setColor(Color.white);
    // g.draw(shape);
     if (leftFaced) {
