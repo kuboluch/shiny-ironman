@@ -55,7 +55,7 @@ public class DirtBlock extends AbstractBlock {
   }
 
   public static void renderGrass(Graphics g, PointOfView pov, DirtBlock block) {
-    Rectangle window = new Rectangle(pov.getShiftX(), pov.getShiftY(), Sizes.WINDOW_WIDTH, Sizes.WINDOW_HEIGHT);
+    Rectangle window = new Rectangle(pov.getShiftX(), pov.getShiftY(), pov.getWindowWidth(), pov.getWindowHeight());
 
     g.setColor(DARK_GREEN);
     // TODO czy potrzebny Sizes.round?
