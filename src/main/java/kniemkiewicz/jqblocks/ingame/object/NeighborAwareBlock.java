@@ -58,6 +58,26 @@ public class NeighborAwareBlock implements NeighborAwareObject<AbstractBlock> {
   }
 
   @Override
+  public void removeLeftNeighbor(AbstractBlock neighbor) {
+    leftNeighbors.remove(neighbor);
+  }
+
+  @Override
+  public void removeTopNeighbor(AbstractBlock neighbor) {
+    topNeighbors.remove(neighbor);
+  }
+
+  @Override
+  public void removeRightNeighbor(AbstractBlock neighbor) {
+    rightNeighbors.remove(neighbor);
+  }
+
+  @Override
+  public void removeBottomNeighbor(AbstractBlock neighbor) {
+    bottomNeighbors.remove(neighbor);
+  }
+
+  @Override
   public List<AbstractBlock> getLeftNeighbors() {
     if (leftNeighbors == null) {
       return new ArrayList<AbstractBlock>();

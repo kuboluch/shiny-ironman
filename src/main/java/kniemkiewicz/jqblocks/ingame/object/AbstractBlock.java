@@ -91,6 +91,26 @@ public abstract class AbstractBlock implements RenderableObject, PhysicalObject,
   }
 
   @Override
+  public void removeLeftNeighbor(AbstractBlock neighbor) {
+    neighbors.removeLeftNeighbor(neighbor);
+  }
+
+  @Override
+  public void removeTopNeighbor(AbstractBlock neighbor) {
+    neighbors.removeTopNeighbor(neighbor);
+  }
+
+  @Override
+  public void removeRightNeighbor(AbstractBlock neighbor) {
+    neighbors.removeRightNeighbor(neighbor);
+  }
+
+  @Override
+  public void removeBottomNeighbor(AbstractBlock neighbor) {
+    neighbors.removeBottomNeighbor(neighbor);
+  }
+
+  @Override
   public void addLeftNeighbor(AbstractBlock neighbor) {
     neighbors.addLeftNeighbor(neighbor);
   }
