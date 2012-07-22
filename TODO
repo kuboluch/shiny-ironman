@@ -1,14 +1,14 @@
 Krzysiek:
-- hills in level generator
 - caves in level generator
 - bow
-- simple enemy that hides in caves
+- simple enemy that hides in caves (aka some class for handling AI and stuff)
 - joining block horizontally
 - faster collision detection
 - fix assert error when hitting ceiling
 
 Kuba:
-- grass fix
+- remove duplicates from "Unassigned" :P
+- grass fix(krzysiek: not sure what you mean here but I see problems with missing grass when digging
 - darkness & light
 - noninstant digging
 - pile of * after digging
@@ -20,5 +20,4 @@ Unassigned:
 - item gathering
 - item combining/production
 - more complicated digging
-- carrying blocks
 ...
