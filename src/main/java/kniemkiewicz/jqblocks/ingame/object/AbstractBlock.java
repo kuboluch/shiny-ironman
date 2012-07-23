@@ -21,6 +21,7 @@ public abstract class AbstractBlock implements RenderableObject, PhysicalObject,
   protected int height;
   protected Rectangle shape;
   protected NeighborAwareObject neighbors;
+  protected int endurance = Sizes.DEFAULT_BLOCK_ENDURANCE;
 
   public AbstractBlock(int x, int y, int width, int height) {
     this.x = x;
@@ -129,6 +130,14 @@ public abstract class AbstractBlock implements RenderableObject, PhysicalObject,
   @Override
   public void addBottomNeighbor(AbstractBlock neighbor) {
     neighbors.addBottomNeighbor(neighbor);
+  }
+
+  public int getEndurance() {
+    return endurance;
+  }
+
+  public void setEndurance(int endurance) {
+    this.endurance = endurance;
   }
 
   @Override

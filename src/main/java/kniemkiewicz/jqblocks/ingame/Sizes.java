@@ -18,6 +18,9 @@ public class Sizes {
   public static int MIN_Y = 0;
   public static int MAX_Y = 10 * DEFAULT_WINDOW_HEIGHT;
 
+  public static int DEFAULT_BLOCK_ENDURANCE = 1000;
+  public static int DEFAULT_PICKAXE_STRENGTH = 1;
+
   static public int roundToBlockSizeX(int x) {
     return (x - MIN_X) / BLOCK * BLOCK + MIN_X;
   }

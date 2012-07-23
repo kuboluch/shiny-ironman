@@ -35,6 +35,7 @@ public class UpdateQueue {
     for (ToBeUpdated o : toBeRemoved) {
       objects.remove(o);
     }
+    toBeRemoved.clear();
     for (ToBeUpdated o : objects) {
       UpdateController controller = (UpdateController) springBeanProvider.getBean(o.getController());
       controller.update(o, delta);
@@ -43,6 +44,7 @@ public class UpdateQueue {
 
   public void add(ToBeUpdated ob) {
     objects.add(ob);
+    toBeRemoved.remove(ob);
   }
 
   public void remove(ToBeUpdated ob) {

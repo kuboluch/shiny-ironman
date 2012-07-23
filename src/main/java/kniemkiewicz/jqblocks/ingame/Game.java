@@ -1,10 +1,8 @@
 package kniemkiewicz.jqblocks.ingame;
 
-import kniemkiewicz.jqblocks.ingame.controller.ArrowController;
 import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.controller.InventoryController;
 import kniemkiewicz.jqblocks.ingame.controller.PlayerController;
-import kniemkiewicz.jqblocks.ingame.controller.item.PickaxeItemController;
 import kniemkiewicz.jqblocks.ingame.input.MouseInputEventBus;
 import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
 import kniemkiewicz.jqblocks.ingame.ui.MouseInputInfo;

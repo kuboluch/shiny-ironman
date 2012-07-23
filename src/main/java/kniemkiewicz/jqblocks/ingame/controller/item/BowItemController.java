@@ -32,7 +32,6 @@ public class BowItemController implements ItemController {
   @Override
   public void listen(List<InputEvent> events) {
     List<MouseClickEvent> clickEvents = Collections3.collect(events, MouseClickEvent.class);
-
     if (!clickEvents.isEmpty()) {
       handleClickEvent(clickEvents);
     }

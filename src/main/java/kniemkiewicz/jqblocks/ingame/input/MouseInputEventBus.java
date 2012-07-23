@@ -68,7 +68,12 @@ public class MouseInputEventBus implements MouseListener {
     }
   }
 
-  public void mouseDragged(int oldx, int oldy, int newx, int newy) { }
+  public void mouseDragged(int oldx, int oldy, int newx, int newy) {
+    synchronized (lock) {
+      events.add(new MouseDraggedEvent(oldx + pointOfView.getShiftX(), oldy + pointOfView.getShiftY(), oldx, oldy,
+          newx + pointOfView.getShiftX(), newy + pointOfView.getShiftY(), newx, newy));
+    }
+  }
 
   public void setInput(Input input) { }
 

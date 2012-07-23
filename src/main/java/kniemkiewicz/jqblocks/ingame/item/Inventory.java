@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,10 @@ public class Inventory implements Renderable {
   RenderQueue renderQueue;
 
   @Autowired
-  PickaxeItem pickAxe;
+  ShinyPickaxeItem shinyPickaxe;
+
+  @Autowired
+  PickaxeItem pickaxe;
 
   @Autowired
   PointOfView pointOfView;
@@ -42,8 +46,9 @@ public class Inventory implements Renderable {
   void init() {
     renderQueue.add(this);
     items.add(new DirtBlockItem());
-    items.add(pickAxe);
+    items.add(shinyPickaxe);
     items.add(new BowItem());
+    items.add(pickaxe);
     for (int i = 0; i < SIZE - items.size(); i++) {
       items.add(new EmptyItem());
     }

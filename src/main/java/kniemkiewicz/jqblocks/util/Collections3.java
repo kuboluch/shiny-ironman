@@ -34,7 +34,7 @@ public class Collections3 {
   public static <T> List<T> collect(Collection<? super T> collection, Class<T> clazz) {
     List result = new ArrayList();
     for (Object element : collection) {
-      if (element.getClass().isAssignableFrom(clazz)) {
+      if (element.getClass().equals(clazz)) {
         result.add(element);
       }
     }
