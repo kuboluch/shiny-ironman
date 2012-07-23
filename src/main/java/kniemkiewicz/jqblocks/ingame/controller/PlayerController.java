@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.ingame.controller;
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.object.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.Player;
+import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.newdawn.slick.Input;
@@ -27,9 +28,6 @@ public class PlayerController implements InputListener {
 
   @Autowired
   PointOfView pointOfView;
-
-  @Autowired
-  RenderQueue renderQueue;
 
   /**
    * This is manually invoked by Game to make sure that level is created before.
@@ -83,7 +81,7 @@ public class PlayerController implements InputListener {
       player.updateShape();
     }
     for (AbstractBlock b : colliding_blocks) {
-      assert !GeometryUtils.intersects(player.getShape(),b.getShape());
+      assert !GeometryUtils.intersects(player.getShape(), b.getShape());
     }
     pointOfView.setCenterX(Math.round(player.getShape().getCenterX()));
     pointOfView.setCenterY(Math.round(player.getShape().getCenterY()));

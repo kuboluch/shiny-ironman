@@ -8,7 +8,7 @@ import org.newdawn.slick.geom.Shape;
  * User: krzysiek
  * Date: 08.07.12
  */
-public interface RenderableObject {
+public interface RenderableObject extends PhysicalObject{
 
   enum Layer {
     MINUS_INF,
@@ -21,8 +21,6 @@ public interface RenderableObject {
 
   // Graphics are shifted by pov before a call to this method.
   public void renderObject(Graphics g, PointOfView pov);
-
-  public Shape getShape();
 
   public Layer getLayer();
 }

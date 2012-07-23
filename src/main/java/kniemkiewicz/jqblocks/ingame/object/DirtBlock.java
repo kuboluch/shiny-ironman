@@ -1,7 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.object;
 
-import com.sun.xml.internal.bind.v2.TODO;
-import kniemkiewicz.jqblocks.ingame.Backgrounds;
+import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
@@ -11,7 +10,6 @@ import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * User: krzysiek
@@ -156,6 +154,6 @@ public class DirtBlock extends AbstractBlock {
 
   public void removeRect(Rectangle rect, SolidBlocks blocks, Backgrounds backgrounds) {
     super.removeRect(rect, blocks, backgrounds);
-    backgrounds.add(new NaturalDirtBackground(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight()));
+    backgrounds.add(backgrounds.getNaturalDirtBackground(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight()));
   }
 }
