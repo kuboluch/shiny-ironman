@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.object.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.Player;
 import kniemkiewicz.jqblocks.util.Collections3;
+import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +83,7 @@ public class PlayerController implements InputListener {
       player.updateShape();
     }
     for (AbstractBlock b : colliding_blocks) {
-      assert !player.getShape().intersects(b.getShape());
+      assert !GeometryUtils.intersects(player.getShape(),b.getShape());
     }
     pointOfView.setCenterX(Math.round(player.getShape().getCenterX()));
     pointOfView.setCenterY(Math.round(player.getShape().getCenterY()));

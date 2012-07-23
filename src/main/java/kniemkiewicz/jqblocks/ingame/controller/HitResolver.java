@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.controller;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.object.Player;
+import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.newdawn.slick.geom.Rectangle;
 
 /**
@@ -23,7 +24,7 @@ public class HitResolver {
    * Player.getShape has to be partially inside rect. dx and dy give the direction of recent player movement.
    */
   public static void resolve(Player player, float dx, float dy, Rectangle rect) {
-    if (!player.getShape().intersects(rect)) return;
+    if (!GeometryUtils.intersects(rect, player.getShape())) return;
     Decision decision = decide(player.getShape(), dx, dy, rect);
     switch (decision) {
       case TOP:

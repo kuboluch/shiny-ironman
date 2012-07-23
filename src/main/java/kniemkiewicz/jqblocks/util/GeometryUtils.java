@@ -18,6 +18,9 @@ public class GeometryUtils {
     if (shape2 instanceof Line) {
       return shape1.contains(shape2);
     }
+    if (shape1 instanceof Line) {
+      return shape2.contains(shape1);
+    }
     return false;
   }
 }

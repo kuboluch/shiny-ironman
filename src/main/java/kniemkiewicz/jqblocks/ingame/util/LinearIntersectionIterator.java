@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.util;
 
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
+import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.newdawn.slick.geom.Shape;
 
 import java.util.Iterator;
@@ -19,7 +20,7 @@ public class LinearIntersectionIterator<T extends PhysicalObject> implements Ite
     if (next != null) return;
     while (it.hasNext()) {
       T b = it.next();
-      if (b.getShape().intersects(shape)) {
+      if (GeometryUtils.intersects(b.getShape(), shape)) {
         next = b;
         return;
       }
