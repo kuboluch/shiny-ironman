@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
+import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -56,16 +57,16 @@ public abstract class AbstractBlock implements RenderableObject, PhysicalObject,
     int rectMinX = Sizes.roundToBlockSizeX(rect.getMinX());
     int rectMaxX = Sizes.roundToBlockSizeX(rect.getMaxX());
     if (y < rectMinY) {
-      blocks.add(getSubBlock(this, x, y, width, rectMinY - y));
+      Assert.executeAndAssert(blocks.add(getSubBlock(this, x, y, width, rectMinY - y)));
     }
     if (x < rectMinX) {
-      blocks.add(getSubBlock(this, x, rectMinY, rectMinX - x, rectMaxY - rectMinY));
+      Assert.executeAndAssert(blocks.add(getSubBlock(this, x, rectMinY, rectMinX - x, rectMaxY - rectMinY)));
     }
     if (x + width > rectMaxX) {
-      blocks.add(getSubBlock(this, rectMaxX, rectMinY, x + width - rectMaxX, rectMaxY - rectMinY));
+      Assert.executeAndAssert(blocks.add(getSubBlock(this, rectMaxX, rectMinY, x + width - rectMaxX, rectMaxY - rectMinY)));
     }
     if (y + height > rectMaxY) {
-      blocks.add(getSubBlock(this, x, rectMaxY, width, y + height - rectMaxY));
+      Assert.executeAndAssert(blocks.add(getSubBlock(this, x, rectMaxY, width, y + height - rectMaxY)));
     }
   }
 

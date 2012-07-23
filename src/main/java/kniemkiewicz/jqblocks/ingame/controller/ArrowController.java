@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.ingame.controller;
 import kniemkiewicz.jqblocks.ingame.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
+import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.object.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.Arrow;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
@@ -18,8 +19,7 @@ import java.util.*;
  * Date: 7/21/12
  */
 @Component
-public class ArrowController {
-  LinkedList<Arrow> arrows = new LinkedList<Arrow>();
+public class ArrowController implements UpdateQueue.UpdateController<Arrow>{
 
   @Autowired
   RenderQueue renderQueue;
@@ -30,8 +30,11 @@ public class ArrowController {
   @Autowired
   MovingObjects movingObjects;
 
+  @Autowired
+  UpdateQueue updateQueue;
+
   public void add(Arrow arrow) {
-    arrows.add(arrow);
+    updateQueue.add(arrow);
     renderQueue.add(arrow);
   }
 
@@ -54,14 +57,11 @@ public class ArrowController {
     return false;
   }
 
-  public void update(int delta) {
-    Iterator<Arrow> it = arrows.iterator();
-    while (it.hasNext()) {
-      Arrow arrow = it.next();
-      arrow.update(delta);
-      if (checkArrowHit(arrow)) {
-        it.remove();
-      }
+  @Override
+  public void update(Arrow arrow, int delta) {
+    arrow.update(delta);
+    if (checkArrowHit(arrow)) {
+      updateQueue.remove(arrow);
     }
   }
 }

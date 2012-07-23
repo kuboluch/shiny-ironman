@@ -2,6 +2,8 @@ package kniemkiewicz.jqblocks.ingame.object;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.controller.ArrowController;
 import kniemkiewicz.jqblocks.ingame.controller.item.BowItemController;
 import kniemkiewicz.jqblocks.ingame.item.BowItem;
 import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
@@ -13,7 +15,7 @@ import org.newdawn.slick.geom.Shape;
  * User: knie
  * Date: 7/21/12
  */
-public class Arrow implements RenderableObject {
+public class Arrow implements RenderableObject,UpdateQueue.ToBeUpdated<Arrow> {
 
   Line line;
   LimitedSpeed xMovement;
@@ -51,9 +53,10 @@ public class Arrow implements RenderableObject {
     yMovement.setAcceleration(Sizes.G);
     xMovement.update(delta);
     yMovement.update(delta);
-    float dx = xMovement.getPos() - line.getCenterX();
-    float dy = yMovement.getPos() - line.getCenterY();
+    float dx = xMovement.getSpeed();
+    float dy = yMovement.getSpeed();
     float v = (float)Math.sqrt(dx * dx + dy * dy);
+    assert v > 0;
     float lx = dx / v * LENGTH / 2;
     float ly = dy / v * LENGTH / 2;
     line.set(xMovement.getPos() - lx, yMovement.getPos() - ly, xMovement.getPos() + lx, yMovement.getPos() + ly);
@@ -69,5 +72,10 @@ public class Arrow implements RenderableObject {
 
   public Object getSource() {
     return source;
+  }
+
+  @Override
+  public Class<ArrowController> getController() {
+    return ArrowController.class;
   }
 }

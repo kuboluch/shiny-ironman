@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.object.DirtBlock;
+import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.TimeLog;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,7 @@ public class SurfaceGenerator {
           if ((MAX_ALLOWED_PILLAR_HEIGHT > 0) && (width < PILLAR_WIDTH) && (r.getHeight() >= maxAllowedPillarHeight)) {
             continue;
           }
-          assert blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), width, r.getHeight()));
+          Assert.executeAndAssert(blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), width, r.getHeight())));
         }
         // We should never reach bottom of the level so there is always at least the last block that we can cut into
         // smaller one if new height is lowest ever seen.
@@ -76,7 +77,7 @@ public class SurfaceGenerator {
           if ((MAX_ALLOWED_PILLAR_HEIGHT > 0) && (width < PILLAR_WIDTH) && (diff >= maxAllowedPillarHeight)) {
             continue;
           }
-          assert blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), width, diff));
+          Assert.executeAndAssert(blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), width, diff)));
           r.setY(r.getY() + diff);
           r.setHeight(r.getHeight() - diff);
         }
@@ -84,7 +85,7 @@ public class SurfaceGenerator {
       h = heights[i];
     }
     for (Rectangle r : proposals) {
-      assert blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), Sizes.MAX_X - r.getMinX(), r.getHeight()));
+      Assert.executeAndAssert(blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), Sizes.MAX_X - r.getMinX(), r.getHeight())));
     }
   }
 
