@@ -16,6 +16,14 @@ public interface NeighborAwareObject<T> {
 
   public void addBottomNeighbor(T neighbor);
 
+  public void removeLeftNeighbor(T neighbor);
+
+  public void removeTopNeighbor(T neighbor);
+
+  public void removeRightNeighbor(T neighbor);
+
+  public void removeBottomNeighbor(T neighbor);
+
   public List<T> getLeftNeighbors();
 
   public List<T> getTopNeighbors();

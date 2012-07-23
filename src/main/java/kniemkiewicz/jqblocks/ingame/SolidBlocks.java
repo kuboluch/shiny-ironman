@@ -116,6 +116,22 @@ public class SolidBlocks {
 
   public void remove(AbstractBlock block) {
     blocks.remove(block);
+    removeFromNeighbors(block);
     renderQueue.remove(block);
+  }
+
+  private void removeFromNeighbors(AbstractBlock block) {
+    for (AbstractBlock neighbor : block.getLeftNeighbors()) {
+      neighbor.removeRightNeighbor(block);
+    }
+    for (AbstractBlock neighbor : block.getTopNeighbors()) {
+      neighbor.removeBottomNeighbor(block);
+    }
+    for (AbstractBlock neighbor : block.getRightNeighbors()) {
+      neighbor.removeLeftNeighbor(block);
+    }
+    for (AbstractBlock neighbor : block.getBottomNeighbors()) {
+      neighbor.removeTopNeighbor(block);
+    }
   }
 }

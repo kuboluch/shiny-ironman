@@ -51,7 +51,7 @@ public class DirtBlock extends AbstractBlock {
   public static void renderDirt(Graphics g, int x, int y, int height, int width) {
     g.setColor(BROWN);
     g.fillRect(x, y, width, height);
-    //logger.debug("block fillRect [x="+x+", y="+y+", width="+width+", height="+height+"]");
+    logger.debug("block fillRect [x="+x+", y="+y+", width="+width+", height="+height+"]");
   }
 
   public static void renderGrass(Graphics g, PointOfView pov, DirtBlock block) {
@@ -98,7 +98,7 @@ public class DirtBlock extends AbstractBlock {
       }
       if (drawGrass) {
         g.fillRect(block.x, y, 2, Sizes.BLOCK);
-        //logger.debug("grass left fillRect [x="+x+", y="+block.y+", width="+(x+Sizes.BLOCK)+", height="+2+"]");
+        logger.debug("grass left fillRect [x="+block.x+", y="+y+", width="+2+", height="+Sizes.BLOCK+"]");
       }
     }
   }
@@ -115,7 +115,7 @@ public class DirtBlock extends AbstractBlock {
       }
       if (drawGrass) {
         g.fillRect(x, block.y, Sizes.BLOCK, 2);
-        //logger.debug("grass top fillRect [x="+x+", y="+block.y+", width="+(x+Sizes.BLOCK)+", height="+2+"]");
+        logger.debug("grass top fillRect [x="+x+", y="+block.y+", width="+Sizes.BLOCK+", height="+2+"]");
       }
     }
   }
@@ -131,8 +131,8 @@ public class DirtBlock extends AbstractBlock {
         }
       }
       if (drawGrass) {
-        g.fillRect(block.x + block.width, y, 2, Sizes.BLOCK);
-        //logger.debug("grass right fillRect [x="+x+", y="+block.y+", width="+(x+Sizes.BLOCK)+", height="+2+"]");
+        g.fillRect(block.x + block.width - 2, y, 2, Sizes.BLOCK);
+        logger.debug("grass right fillRect [x="+(block.x + block.width - 2)+", y="+y+", width="+2+", height="+Sizes.BLOCK+"]");
       }
     }
   }   
@@ -148,8 +148,8 @@ public class DirtBlock extends AbstractBlock {
         }
       }
       if (drawGrass) {
-        g.fillRect(x, block.y + block.height, Sizes.BLOCK, 2);
-        //logger.debug("grass bottom fillRect [x="+x+", y="+block.y+", width="+(x+Sizes.BLOCK)+", height="+2+"]");
+        g.fillRect(x, block.y + block.height - 2, Sizes.BLOCK, 2);
+        logger.debug("grass bottom fillRect [x="+x+", y="+(block.y + block.height - 2)+", width="+Sizes.BLOCK+", height="+2+"]");
       }
     }
   }
