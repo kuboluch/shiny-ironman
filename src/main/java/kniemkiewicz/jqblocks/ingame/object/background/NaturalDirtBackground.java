@@ -21,7 +21,7 @@ public class NaturalDirtBackground implements RenderableObject{
   int width;
   int height;
 
-  public NaturalDirtBackground(float x, float y, float width, float height) {
+  NaturalDirtBackground(float x, float y, float width, float height) {
     this.x =  Sizes.roundToBlockSizeX(x);
     this.y = Sizes.roundToBlockSizeY(y);
     this.width =  Sizes.roundToBlockSize(width);

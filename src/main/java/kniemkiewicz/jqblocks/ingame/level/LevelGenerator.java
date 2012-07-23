@@ -29,7 +29,7 @@ public class LevelGenerator {
   public void generate() {
     // TODO: This takes way too long on my laptop.
     TimeLog t = new TimeLog();
-    surfaceGenerator.generate(random, blocks);
+    surfaceGenerator.generate(random);
     t.logTimeAndRestart("level generation");
   }
 

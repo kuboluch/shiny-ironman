@@ -16,4 +16,7 @@
     <bean id="pickaxeImage" class="org.newdawn.slick.Image">
         <constructor-arg value="images/pickaxe.png"/>
     </bean>
+    <bean id="treeImage" class="org.newdawn.slick.Image">
+        <constructor-arg value="images/tree.png"/>
+    </bean>
 </beans>

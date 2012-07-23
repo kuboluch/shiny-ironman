@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.object.DirtBlock;
+import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.TimeLog;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,17 @@ public class SurfaceGenerator {
   @Autowired
   private Configuration configuration;
 
+  @Autowired
+  private ObjectGenerator objectGenerator;
+
+  @Autowired
+  private SolidBlocks blocks;
+
   Random random;
 
   int[] heights = new int[(Sizes.MAX_X - Sizes.MIN_X) / Sizes.BLOCK];
 
-  void generate(Random random, SolidBlocks blocks) {
+  void generate(Random random) {
     this.random = random;
     TimeLog t = new TimeLog();
     generateFlat();
@@ -36,6 +43,8 @@ public class SurfaceGenerator {
     t.logTimeAndRestart("generate hills");
     prepareBlocks(blocks);
     t.logTimeAndRestart("prepare blocks");
+    objectGenerator.generateTrees(random, heights);
+    t.logTimeAndRestart("generate trees");
   }
 
   // This method translates heights[x] into actual blocks, trying to use as few blocks as possible and making sure
@@ -63,9 +72,11 @@ public class SurfaceGenerator {
           proposals.remove(proposals.size() - 1);
           float width = Sizes.MIN_X + i * Sizes.BLOCK - r.getMinX();
           if ((MAX_ALLOWED_PILLAR_HEIGHT > 0) && (width < PILLAR_WIDTH) && (r.getHeight() >= maxAllowedPillarHeight)) {
+            // fixing the array as it will be used later as well.
+            heights[i - 1] -= r.getHeight();
             continue;
           }
-          assert blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), width, r.getHeight()));
+          Assert.executeAndAssert(blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), width, r.getHeight())));
         }
         // We should never reach bottom of the level so there is always at least the last block that we can cut into
         // smaller one if new height is lowest ever seen.
@@ -74,9 +85,10 @@ public class SurfaceGenerator {
           int diff = (int)(new_y - r.getMinY());
           float width = Sizes.MIN_X + i * Sizes.BLOCK - r.getMinX();
           if ((MAX_ALLOWED_PILLAR_HEIGHT > 0) && (width < PILLAR_WIDTH) && (diff >= maxAllowedPillarHeight)) {
+            heights[i - 1] -= r.getHeight();
             continue;
           }
-          assert blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), width, diff));
+          Assert.executeAndAssert(blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), width, diff)));
           r.setY(r.getY() + diff);
           r.setHeight(r.getHeight() - diff);
         }
@@ -84,7 +96,7 @@ public class SurfaceGenerator {
       h = heights[i];
     }
     for (Rectangle r : proposals) {
-      assert blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), Sizes.MAX_X - r.getMinX(), r.getHeight()));
+      Assert.executeAndAssert(blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), Sizes.MAX_X - r.getMinX(), r.getHeight())));
     }
   }
 

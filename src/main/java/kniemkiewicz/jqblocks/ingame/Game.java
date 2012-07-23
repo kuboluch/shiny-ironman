@@ -48,10 +48,7 @@ public class Game extends BasicGame{
   LevelGenerator levelGenerator;
 
   @Autowired
-  PickaxeItemController pickaxeItemController;
-
-  @Autowired
-  ArrowController arrowController;
+  UpdateQueue updateQueue;
 
   @Autowired
   TimingInfo timingInfo;
@@ -85,7 +82,7 @@ public class Game extends BasicGame{
     for (InputListener l : inputListeners) {
       l.listen(gameContainer.getInput(), delta);
     }
-    arrowController.update(delta);
+    updateQueue.update(delta);
     t.record();
   }
 

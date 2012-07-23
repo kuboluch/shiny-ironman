@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.controller.item;
 
-import kniemkiewicz.jqblocks.ingame.Backgrounds;
+import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;

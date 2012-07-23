@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.object;
 
-import kniemkiewicz.jqblocks.ingame.Backgrounds;
+import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
@@ -154,6 +154,6 @@ public class DirtBlock extends AbstractBlock {
 
   public void removeRect(Rectangle rect, SolidBlocks blocks, Backgrounds backgrounds) {
     super.removeRect(rect, blocks, backgrounds);
-    backgrounds.add(new NaturalDirtBackground(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight()));
+    backgrounds.add(backgrounds.getNaturalDirtBackground(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight()));
   }
 }
