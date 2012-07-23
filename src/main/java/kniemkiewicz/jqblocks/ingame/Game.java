@@ -4,6 +4,8 @@ import kniemkiewicz.jqblocks.ingame.controller.ArrowController;
 import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.controller.InventoryController;
 import kniemkiewicz.jqblocks.ingame.controller.PlayerController;
+import kniemkiewicz.jqblocks.ingame.controller.item.PickaxeItemController;
+import kniemkiewicz.jqblocks.ingame.input.MouseInputEventBus;
 import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
 import kniemkiewicz.jqblocks.ingame.ui.MouseInputInfo;
 import kniemkiewicz.jqblocks.ingame.ui.TimingInfo;
@@ -40,10 +42,13 @@ public class Game extends BasicGame{
   RenderQueue renderQueue;
 
   @Autowired
-  ClickCounter clickCounter;
+  MouseInputEventBus mouseInputEventBus;
 
   @Autowired
   LevelGenerator levelGenerator;
+
+  @Autowired
+  PickaxeItemController pickaxeItemController;
 
   @Autowired
   ArrowController arrowController;
@@ -61,9 +66,9 @@ public class Game extends BasicGame{
     inputListeners.add(playerController);
     inputListeners.add(endGameController);
     inputListeners.add(inventoryController);
-    clickCounter.add(inventoryController);
-    gameContainer.getInput().addMouseListener(clickCounter);
-    gameContainer.getInput().addMouseListener(mouseInputInfo);
+    gameContainer.getInput().addMouseListener(mouseInputEventBus);
+    mouseInputEventBus.add(mouseInputInfo);
+    mouseInputEventBus.add(inventoryController);
     levelGenerator.setSeed(1);
     levelGenerator.generate();
     playerController.init();
@@ -76,7 +81,7 @@ public class Game extends BasicGame{
     // This happens mostly with breakpoints and generally breaks physics.
     if (delta > 100) return;
     TimingInfo.Timer t = timingInfo.getTimer("update");
-    clickCounter.update();
+    mouseInputEventBus.update();
     for (InputListener l : inputListeners) {
       l.listen(gameContainer.getInput(), delta);
     }

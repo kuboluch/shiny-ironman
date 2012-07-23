@@ -1,6 +1,8 @@
 package kniemkiewicz.jqblocks.ingame.controller;
 
 import kniemkiewicz.jqblocks.ingame.*;
+import kniemkiewicz.jqblocks.ingame.input.MouseInputListener;
+import kniemkiewicz.jqblocks.ingame.input.event.InputEvent;
 import kniemkiewicz.jqblocks.ingame.item.Inventory;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.apache.commons.logging.Log;
@@ -16,7 +18,7 @@ import java.util.List;
  * Date: 11.07.12
  */
 @Component
-public class InventoryController implements InputListener, MouseClickListener {
+public class InventoryController implements InputListener, MouseInputListener {
   @Autowired
   Inventory inventory;
   @Autowired
@@ -33,12 +35,13 @@ public class InventoryController implements InputListener, MouseClickListener {
     }
   }
 
-  public void listen(List<Click> clicks) {
-    if (clicks.size() == 0) return;
+  @Override
+  public void listen(List<InputEvent> events) {
+    if (events.size() == 0) return;
     Class<? extends ItemController> clazz = inventory.getSelectedItem().getController();
     if (clazz != null) {
       ItemController controller = provider.getBean(clazz);
-      controller.listen(clicks);
+      controller.listen(events);
     }
   }
 }

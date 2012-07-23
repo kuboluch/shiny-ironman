@@ -1,15 +1,17 @@
 package kniemkiewicz.jqblocks.ingame.controller.item;
 
-import kniemkiewicz.jqblocks.ingame.MouseClickListener;
-import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.controller.ArrowController;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
+import kniemkiewicz.jqblocks.ingame.input.event.InputEvent;
+import kniemkiewicz.jqblocks.ingame.input.event.MouseClickEvent;
 import kniemkiewicz.jqblocks.ingame.object.Arrow;
 import kniemkiewicz.jqblocks.ingame.object.Player;
+import kniemkiewicz.jqblocks.util.Collections3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,11 +30,19 @@ public class BowItemController implements ItemController {
   private static float SPEED = Sizes.MAX_FALL_SPEED / 1.5f;
 
   @Override
-  public void listen(List<Click> clicks) {
-    assert clicks.size() > 0;
-    Click c = clicks.get(0);
-    int dx = (int)(c.getX() - player.getXMovement().getPos());
-    int dy = (int)(c.getY() - player.getYMovement().getPos());
+  public void listen(List<InputEvent> events) {
+    List<MouseClickEvent> clickEvents = Collections3.collect(events, MouseClickEvent.class);
+
+    if (!clickEvents.isEmpty()) {
+      handleClickEvent(clickEvents);
+    }
+  }
+
+  private void handleClickEvent(List<MouseClickEvent> clickEvents) {
+    assert clickEvents.size() > 0;
+    MouseClickEvent ce = clickEvents.get(0);
+    int dx = (int)(ce.getLevelX() - player.getXMovement().getPos());
+    int dy = (int)(ce.getLevelY() - player.getYMovement().getPos());
     if ((dx == 0) && (dy == 0)) return;
     float dd = (float)Math.sqrt(dx * dx + dy * dy);
     float vx = dx / dd * SPEED;

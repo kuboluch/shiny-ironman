@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class Collections3 {
     }
     return li;
   }
+
   public static <T> Iterable<T> getIterable(final Iterator<T> it) {
     return new Iterable<T>() {
       @Override
@@ -27,5 +29,15 @@ public class Collections3 {
         return it;
       }
     };
+  }
+
+  public static <T> List<T> collect(Collection<? super T> collection, Class<T> clazz) {
+    List result = new ArrayList();
+    for (Object element : collection) {
+      if (element.getClass().isAssignableFrom(clazz)) {
+        result.add(element);
+      }
+    }
+    return result;
   }
 }

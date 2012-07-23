@@ -2,15 +2,19 @@ package kniemkiewicz.jqblocks.ingame.ui;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Renderable;
+import kniemkiewicz.jqblocks.ingame.input.MouseInputListener;
+import kniemkiewicz.jqblocks.ingame.input.event.InputEvent;
+import kniemkiewicz.jqblocks.ingame.input.event.MouseMovedEvent;
+import kniemkiewicz.jqblocks.util.Collections3;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.MouseListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
-public class MouseInputInfo implements MouseListener, Renderable {
+public class MouseInputInfo implements MouseInputListener, Renderable {
 
   private int x;
   private int y;
@@ -18,30 +22,21 @@ public class MouseInputInfo implements MouseListener, Renderable {
   @Autowired
   PointOfView pointOfView;
 
-  public void mouseWheelMoved(int change) { }
+  @Override
+  public void listen(List<InputEvent> events) {
+    List<MouseMovedEvent> mousePressedEvents = Collections3.collect(events, MouseMovedEvent.class);
 
-  public void mouseClicked(int button, int x, int y, int clickCount) { }
-
-  public void mousePressed(int button, int x, int y) { }
-
-  public void mouseReleased(int button, int x, int y) {  }
-
-  public void mouseMoved(int oldx, int oldy, int newx, int newy) {
-    x = newx + pointOfView.getShiftX();
-    y = newy + pointOfView.getShiftY();
+    if (!mousePressedEvents.isEmpty()) {
+      handleMouseMovedEvent(mousePressedEvents);
+    }
   }
 
-  public void mouseDragged(int oldx, int oldy, int newx, int newy) {  }
-
-  public void setInput(Input input) {  }
-
-  public boolean isAcceptingInput() {
-    return true;
+  private void handleMouseMovedEvent(List<MouseMovedEvent> mouseMovedEvents) {
+    assert mouseMovedEvents.size() > 0;
+    MouseMovedEvent mme = mouseMovedEvents.get(0);
+    x = mme.getNewLevelX();
+    y = mme.getNewLevelY();
   }
-
-  public void inputEnded() {  }
-
-  public void inputStarted() {  }
 
   @Override
   public void render(Graphics g) {
