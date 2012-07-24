@@ -49,7 +49,8 @@ public class Inventory implements Renderable {
     items.add(shinyPickaxe);
     items.add(new BowItem());
     items.add(pickaxe);
-    for (int i = 0; i < SIZE - items.size(); i++) {
+    int currentSize = items.size();
+    for (int i = 0; i < SIZE - currentSize; i++) {
       items.add(new EmptyItem());
     }
   }
