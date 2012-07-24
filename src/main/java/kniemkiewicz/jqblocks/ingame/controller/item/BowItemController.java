@@ -3,8 +3,9 @@ package kniemkiewicz.jqblocks.ingame.controller.item;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.controller.ArrowController;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
-import kniemkiewicz.jqblocks.ingame.input.event.InputEvent;
-import kniemkiewicz.jqblocks.ingame.input.event.MouseClickEvent;
+import kniemkiewicz.jqblocks.ingame.event.Event;
+import kniemkiewicz.jqblocks.ingame.event.input.InputEvent;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseClickEvent;
 import kniemkiewicz.jqblocks.ingame.item.BowItem;
 import kniemkiewicz.jqblocks.ingame.object.Arrow;
 import kniemkiewicz.jqblocks.ingame.object.Player;
@@ -12,7 +13,6 @@ import kniemkiewicz.jqblocks.util.Collections3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +31,7 @@ public class BowItemController implements ItemController<BowItem> {
   private static float SPEED = Sizes.MAX_FALL_SPEED / 1.5f;
 
   @Override
-  public void listen(BowItem bowItem, List<InputEvent> events) {
+  public void listen(BowItem bowItem, List<Event> events) {
     List<MouseClickEvent> clickEvents = Collections3.collect(events, MouseClickEvent.class);
     if (!clickEvents.isEmpty()) {
       handleClickEvent(clickEvents);

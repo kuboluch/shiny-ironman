@@ -1,4 +1,6 @@
-package kniemkiewicz.jqblocks.ingame.input.event;
+package kniemkiewicz.jqblocks.ingame.event.input.mouse;
+
+import kniemkiewicz.jqblocks.ingame.event.input.InputEvent;
 
 public class MouseClickEvent extends InputEvent {
   private int button;

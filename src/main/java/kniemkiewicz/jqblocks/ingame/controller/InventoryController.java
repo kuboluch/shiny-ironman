@@ -1,8 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.controller;
 
 import kniemkiewicz.jqblocks.ingame.*;
-import kniemkiewicz.jqblocks.ingame.input.MouseInputListener;
-import kniemkiewicz.jqblocks.ingame.input.event.InputEvent;
+import kniemkiewicz.jqblocks.ingame.event.Event;
+import kniemkiewicz.jqblocks.ingame.event.EventListener;
+import kniemkiewicz.jqblocks.ingame.event.input.InputEvent;
+import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.item.Inventory;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.apache.commons.logging.Log;
@@ -11,6 +13,7 @@ import org.newdawn.slick.Input;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,7 +21,7 @@ import java.util.List;
  * Date: 11.07.12
  */
 @Component
-public class InventoryController implements InputListener, MouseInputListener {
+public class InventoryController implements InputListener, EventListener {
   @Autowired
   Inventory inventory;
   @Autowired
@@ -36,7 +39,12 @@ public class InventoryController implements InputListener, MouseInputListener {
   }
 
   @Override
-  public void listen(List<InputEvent> events) {
+  public List<Class> getEventTypesOfIntrest() {
+    return Arrays.asList((Class) InputEvent.class, (Class) ScreenMovedEvent.class);
+  }
+
+  @Override
+  public void listen(List<Event> events) {
     if (events.size() == 0) return;
     Class<? extends ItemController> clazz = inventory.getSelectedItem().getController();
     if (clazz != null) {

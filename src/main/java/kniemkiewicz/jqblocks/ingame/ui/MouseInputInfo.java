@@ -2,20 +2,20 @@ package kniemkiewicz.jqblocks.ingame.ui;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Renderable;
-import kniemkiewicz.jqblocks.ingame.input.MouseInputListener;
-import kniemkiewicz.jqblocks.ingame.input.event.InputEvent;
-import kniemkiewicz.jqblocks.ingame.input.event.MouseMovedEvent;
+import kniemkiewicz.jqblocks.ingame.event.Event;
+import kniemkiewicz.jqblocks.ingame.event.EventListener;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseMovedEvent;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class MouseInputInfo implements MouseInputListener, Renderable {
-
+public class MouseInputInfo implements EventListener, Renderable {
   private int x;
   private int y;
 
@@ -23,11 +23,16 @@ public class MouseInputInfo implements MouseInputListener, Renderable {
   PointOfView pointOfView;
 
   @Override
-  public void listen(List<InputEvent> events) {
-    List<MouseMovedEvent> mousePressedEvents = Collections3.collect(events, MouseMovedEvent.class);
+  public List<Class> getEventTypesOfIntrest() {
+    return Arrays.asList((Class) MouseMovedEvent.class);
+  }
 
-    if (!mousePressedEvents.isEmpty()) {
-      handleMouseMovedEvent(mousePressedEvents);
+  @Override
+  public void listen(List<Event> events) {
+    List<MouseMovedEvent> mouseMovedEvents = Collections3.collect(events, MouseMovedEvent.class);
+
+    if (!mouseMovedEvents.isEmpty()) {
+      handleMouseMovedEvent(mouseMovedEvents);
     }
   }
 

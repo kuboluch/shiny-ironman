@@ -1,7 +1,8 @@
-package kniemkiewicz.jqblocks.ingame.input;
+package kniemkiewicz.jqblocks.ingame.event.input.mouse;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
-import kniemkiewicz.jqblocks.ingame.input.event.*;
+import kniemkiewicz.jqblocks.ingame.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.event.input.InputEvent;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.MouseListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,9 @@ import java.util.List;
 
 @Component
 public class MouseInputEventBus implements MouseListener {
+
+  @Autowired
+  EventBus eventBus;
 
   @Autowired
   PointOfView pointOfView;
@@ -28,15 +32,13 @@ public class MouseInputEventBus implements MouseListener {
   }
 
   public void update() {
-    List<InputEvent> eventsForListener;
+    List<InputEvent> eventsToBroadcast;
     synchronized (lock) {
-      eventsForListener = events;
+      eventsToBroadcast = events;
       events = new ArrayList<InputEvent>();
     }
-    Collections.sort(eventsForListener, new InputEvent.TimeComparator());
-    for (MouseInputListener l : listeners) {
-      l.listen(eventsForListener);
-    }
+    Collections.sort(eventsToBroadcast, new InputEvent.TimeComparator());
+    eventBus.broadcast(eventsToBroadcast);
   }
 
   public void mousePressed(int button, int x, int y) {

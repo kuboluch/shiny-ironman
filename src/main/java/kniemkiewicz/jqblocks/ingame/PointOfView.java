@@ -2,6 +2,8 @@ package kniemkiewicz.jqblocks.ingame;
 
 import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.Main;
+import kniemkiewicz.jqblocks.ingame.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +23,9 @@ public class PointOfView {
 
   @Autowired
   Configuration configuration;
+
+  @Autowired
+  EventBus eventBus;
 
   @PostConstruct
   void init() {
@@ -44,19 +49,19 @@ public class PointOfView {
     this.shiftY = shiftY;
   }
 
-  public void setCenterX(int x) {
-    shiftX = x - windowWidth / 2;
-  }
-
-  public void setCenterY(int y) {
-    shiftY = y - windowHeight / 2;
-  }
-
   public int getWindowWidth() {
     return windowWidth;
   }
 
   public int getWindowHeight() {
     return windowHeight;
+  }
+
+  public void setCenter(int x, int y) {
+    int oldShiftX = shiftX;
+    int oldShiftY = shiftY;
+    shiftX = x - windowWidth / 2;
+    shiftY = y - windowHeight / 2;
+    eventBus.broadcast(new ScreenMovedEvent(oldShiftX, oldShiftY, shiftX, shiftY));
   }
 }

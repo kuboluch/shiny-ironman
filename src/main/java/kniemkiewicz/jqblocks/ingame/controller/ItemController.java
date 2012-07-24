@@ -1,7 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.controller;
 
-import kniemkiewicz.jqblocks.ingame.input.event.InputEvent;
-import kniemkiewicz.jqblocks.ingame.item.Item;
+import kniemkiewicz.jqblocks.ingame.event.Event;
 
 import java.util.List;
 
@@ -11,6 +10,6 @@ import java.util.List;
  */
 public interface ItemController<T> {
 
-  public void listen(T selectedItem, List<InputEvent> events);
+  public void listen(T selectedItem, List<Event> events);
 
 }

@@ -33,7 +33,6 @@ public class PlayerController implements InputListener {
    * This is manually invoked by Game to make sure that level is created before.
    */
   public void init() {
-
     int x = (Sizes.MIN_X + Sizes.MAX_X) / 2;
     player.getXMovement().setPos(x);
 
@@ -49,6 +48,7 @@ public class PlayerController implements InputListener {
     }
     player.getYMovement().setPos(minY - Player.HEIGHT - 5);
   }
+
   public void listen(Input input, int delta) {
     /*
     if (KeyboardUtils.isDownPressed(input)) {
@@ -83,7 +83,6 @@ public class PlayerController implements InputListener {
     for (AbstractBlock b : colliding_blocks) {
       assert !GeometryUtils.intersects(player.getShape(), b.getShape());
     }
-    pointOfView.setCenterX(Math.round(player.getShape().getCenterX()));
-    pointOfView.setCenterY(Math.round(player.getShape().getCenterY()));
+    pointOfView.setCenter(Math.round(player.getShape().getCenterX()), Math.round(player.getShape().getCenterY()));
   }
 }

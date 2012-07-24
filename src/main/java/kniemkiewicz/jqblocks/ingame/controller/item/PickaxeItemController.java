@@ -4,17 +4,22 @@ import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
-import kniemkiewicz.jqblocks.ingame.input.event.InputEvent;
-import kniemkiewicz.jqblocks.ingame.input.event.MouseDraggedEvent;
-import kniemkiewicz.jqblocks.ingame.input.event.MousePressedEvent;
-import kniemkiewicz.jqblocks.ingame.input.event.MouseReleasedEvent;
-import kniemkiewicz.jqblocks.ingame.item.Item;
+import kniemkiewicz.jqblocks.ingame.event.Event;
+import kniemkiewicz.jqblocks.ingame.event.input.InputEvent;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseDraggedEvent;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseReleasedEvent;
+import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
+import kniemkiewicz.jqblocks.ingame.input.MouseInput;
 import kniemkiewicz.jqblocks.ingame.item.PickaxeItem;
 import kniemkiewicz.jqblocks.ingame.object.AbstractBlock;
+import kniemkiewicz.jqblocks.ingame.object.Player;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,6 +31,8 @@ import java.util.List;
 public class PickaxeItemController implements UpdateQueue.UpdateController<PickaxeItem>, ItemController<PickaxeItem> {
   public static Log logger = LogFactory.getLog(PickaxeItemController.class);
 
+  public static final int RANGE = 75;
+
   @Autowired
   private SolidBlocks blocks;
 
@@ -33,7 +40,13 @@ public class PickaxeItemController implements UpdateQueue.UpdateController<Picka
   UpdateQueue updateQueue;
 
   @Autowired
+  Player player;
+
+  @Autowired
   private Backgrounds backgrounds;
+
+  @Autowired
+  MouseInput mouseInput;
 
   private Rectangle affectedBlock;
 
@@ -52,7 +65,7 @@ public class PickaxeItemController implements UpdateQueue.UpdateController<Picka
   }
 
   @Override
-  public void listen(PickaxeItem pickaxe, List<InputEvent> events) {
+  public void listen(PickaxeItem pickaxe, List<Event> events) {
     List<MousePressedEvent> mousePressedEvents = Collections3.collect(events, MousePressedEvent.class);
     if (!mousePressedEvents.isEmpty()) {
       handleMousePressedEvent(pickaxe, mousePressedEvents);
@@ -67,6 +80,11 @@ public class PickaxeItemController implements UpdateQueue.UpdateController<Picka
     if (!mouseReleasedEvents.isEmpty()) {
       handleMouseReleasedEvent(pickaxe, mouseReleasedEvents);
     }
+
+    List<ScreenMovedEvent> screenMovedEvents = Collections3.collect(events, ScreenMovedEvent.class);
+    if (!screenMovedEvents.isEmpty()) {
+      handleScreenMovedEvent(pickaxe, screenMovedEvents);
+    }
   }
 
   public void handleMousePressedEvent(PickaxeItem pickaxe, List<MousePressedEvent> mousePressedEvents) {
@@ -74,6 +92,9 @@ public class PickaxeItemController implements UpdateQueue.UpdateController<Picka
     MousePressedEvent mpe = mousePressedEvents.get(0);
     int x = Sizes.roundToBlockSizeX(mpe.getLevelX());
     int y = Sizes.roundToBlockSizeY(mpe.getLevelY());
+    if (!isInRange(x, y)) {
+      return;
+    }
     Rectangle blockRect = new Rectangle(x, y, Sizes.BLOCK - 1 , Sizes.BLOCK - 1);
     AbstractBlock block = getBlock(blockRect);
     if (block != null) {
@@ -87,10 +108,28 @@ public class PickaxeItemController implements UpdateQueue.UpdateController<Picka
     MouseDraggedEvent mde = mouseDraggedEvents.get(0);
     int x = Sizes.roundToBlockSizeX(mde.getNewLevelX());
     int y = Sizes.roundToBlockSizeY(mde.getNewLevelY());
+    handleMouseCoordChange(pickaxe, x, y);
+  }
+
+  public void handleScreenMovedEvent(PickaxeItem pickaxe, List<ScreenMovedEvent> screenMovedEvents) {
+    if (!mouseInput.isMouseButtonDown(0)) {
+      return;
+    }
+    assert screenMovedEvents.size() > 0;
+    ScreenMovedEvent sme = screenMovedEvents.get(0);
+    int x = Sizes.roundToBlockSizeX(mouseInput.getMouseX() + sme.getNewShiftX());
+    int y = Sizes.roundToBlockSizeY(mouseInput.getMouseY() + sme.getNewShiftY());
+    handleMouseCoordChange(pickaxe, x, y);
+  }
+
+  private void handleMouseCoordChange(PickaxeItem pickaxe, int x, int y) {
     Rectangle blockRect = new Rectangle(x, y, Sizes.BLOCK - 1 , Sizes.BLOCK - 1);
-    if (affectedBlock != null && !affectedBlock.intersects(blockRect)) {
+    if (affectedBlock != null && (!affectedBlock.intersects(blockRect)) || !isInRange(x, y)) {
       logger.debug("stopDigging on dragged [affectedBlock="+affectedBlock+"]");
       stopDigging(pickaxe);
+    }
+    if (!isInRange(x, y)) {
+      return;
     }
     AbstractBlock block = getBlock(blockRect);
     if (affectedBlock == null && block != null) {
@@ -107,6 +146,9 @@ public class PickaxeItemController implements UpdateQueue.UpdateController<Picka
     MouseReleasedEvent mre = mouseReleasedEvents.get(0);
     int x = Sizes.roundToBlockSizeX(mre.getLevelX());
     int y = Sizes.roundToBlockSizeY(mre.getLevelY());
+    if (!isInRange(x, y)) {
+      return;
+    }
     if (blockEndurance <= 0) {
       if (affectedBlock.intersects(new Rectangle(x, y, Sizes.BLOCK - 1 , Sizes.BLOCK - 1))) {
         AbstractBlock block = getBlock(affectedBlock);
@@ -133,6 +175,12 @@ public class PickaxeItemController implements UpdateQueue.UpdateController<Picka
   private void removeBlock(AbstractBlock block) {
     block.removeRect(affectedBlock, blocks, backgrounds);
     assert !blocks.intersects(affectedBlock).hasNext();
+  }
+
+  public boolean isInRange(int x, int y) {
+    final Circle circle = new Circle(player.getXMovement().getPos() + Player.WIDTH / 2,
+        player.getYMovement().getPos() + Player.HEIGHT / 2, RANGE);
+    return circle.contains(x, y);
   }
 
   @Override

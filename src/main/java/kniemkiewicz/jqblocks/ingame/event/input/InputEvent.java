@@ -1,8 +1,10 @@
-package kniemkiewicz.jqblocks.ingame.input.event;
+package kniemkiewicz.jqblocks.ingame.event.input;
+
+import kniemkiewicz.jqblocks.ingame.event.Event;
 
 import java.util.Comparator;
 
-public class InputEvent {
+public class InputEvent implements Event {
 
   private long time;
 
@@ -44,5 +46,4 @@ public class InputEvent {
       return 0;
     }
   }
-
 }

@@ -34,7 +34,17 @@ public class Collections3 {
   public static <T> List<T> collect(Collection<? super T> collection, Class<T> clazz) {
     List result = new ArrayList();
     for (Object element : collection) {
-      if (element.getClass().equals(clazz)) {
+      if (clazz.equals(element.getClass())) {
+        result.add(element);
+      }
+    }
+    return result;
+  }
+
+  public static <T> List<T> collectSubclasses(Collection<? super T> collection, Class<T> clazz) {
+    List result = new ArrayList();
+    for (Object element : collection) {
+      if (clazz.isAssignableFrom(element.getClass())) {
         result.add(element);
       }
     }

@@ -3,7 +3,9 @@ package kniemkiewicz.jqblocks.ingame;
 import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.controller.InventoryController;
 import kniemkiewicz.jqblocks.ingame.controller.PlayerController;
-import kniemkiewicz.jqblocks.ingame.input.MouseInputEventBus;
+import kniemkiewicz.jqblocks.ingame.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseInputEventBus;
+import kniemkiewicz.jqblocks.ingame.input.MouseInput;
 import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
 import kniemkiewicz.jqblocks.ingame.ui.MouseInputInfo;
 import kniemkiewicz.jqblocks.ingame.ui.TimingInfo;
@@ -40,6 +42,9 @@ public class Game extends BasicGame{
   RenderQueue renderQueue;
 
   @Autowired
+  EventBus eventBus;
+
+  @Autowired
   MouseInputEventBus mouseInputEventBus;
 
   @Autowired
@@ -54,16 +59,21 @@ public class Game extends BasicGame{
   @Autowired
   MouseInputInfo mouseInputInfo;
 
+  @Autowired
+  MouseInput mouseInput;
+
   List<InputListener> inputListeners = new ArrayList<InputListener>();
 
   @Override
   public void init(GameContainer gameContainer) throws SlickException {
+    mouseInput.setInput(gameContainer.getInput());
+    // TODO rewrite using event bus?
     inputListeners.add(playerController);
     inputListeners.add(endGameController);
     inputListeners.add(inventoryController);
     gameContainer.getInput().addMouseListener(mouseInputEventBus);
-    mouseInputEventBus.add(mouseInputInfo);
-    mouseInputEventBus.add(inventoryController);
+    eventBus.addListener(mouseInputInfo);
+    eventBus.addListener(inventoryController);
     levelGenerator.setSeed(1);
     levelGenerator.generate();
     playerController.init();
@@ -77,6 +87,7 @@ public class Game extends BasicGame{
     if (delta > 100) return;
     TimingInfo.Timer t = timingInfo.getTimer("update");
     mouseInputEventBus.update();
+    eventBus.update();
     for (InputListener l : inputListeners) {
       l.listen(gameContainer.getInput(), delta);
     }
