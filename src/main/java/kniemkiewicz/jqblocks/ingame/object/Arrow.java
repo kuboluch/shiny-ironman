@@ -21,7 +21,7 @@ public class Arrow implements RenderableObject,UpdateQueue.ToBeUpdated<Arrow> {
   LimitedSpeed xMovement;
   LimitedSpeed yMovement;
   Object source;
-  private static int LENGTH = Sizes.BLOCK / 2;
+  private static int LENGTH = Sizes.SMALL_BLOCK;
 
   public Arrow(float x, float y, Object source, float xSpeed, float ySpeed) {
     this.line = new Line(x, y, x, y);

@@ -76,7 +76,7 @@ public class PickaxeItemController implements UpdateQueue.UpdateController<Picka
     MousePressedEvent mpe = mousePressedEvents.get(0);
     int x = Sizes.roundToBlockSizeX(mpe.getLevelX());
     int y = Sizes.roundToBlockSizeY(mpe.getLevelY());
-    Rectangle blockRect = new Rectangle(x, y, Sizes.BLOCK - 1 , Sizes.BLOCK - 1);
+    Rectangle blockRect = new Rectangle(x, y, Sizes.SMALL_BLOCK - 1 , Sizes.SMALL_BLOCK - 1);
     AbstractBlock block = getBlock(blockRect);
     if (block != null) {
       logger.debug("startDigging on pressed [blockRect="+blockRect+"]");
@@ -89,7 +89,7 @@ public class PickaxeItemController implements UpdateQueue.UpdateController<Picka
     MouseDraggedEvent mde = mouseDraggedEvents.get(0);
     int x = Sizes.roundToBlockSizeX(mde.getNewLevelX());
     int y = Sizes.roundToBlockSizeY(mde.getNewLevelY());
-    Rectangle blockRect = new Rectangle(x, y, Sizes.BLOCK - 1 , Sizes.BLOCK - 1);
+    Rectangle blockRect = new Rectangle(x, y, Sizes.SMALL_BLOCK - 1 , Sizes.SMALL_BLOCK - 1);
     if (affectedBlock != null && !affectedBlock.intersects(blockRect)) {
       logger.debug("stopDigging on dragged [affectedBlock="+affectedBlock+"]");
       stopDigging();
@@ -110,7 +110,7 @@ public class PickaxeItemController implements UpdateQueue.UpdateController<Picka
     int x = Sizes.roundToBlockSizeX(mre.getLevelX());
     int y = Sizes.roundToBlockSizeY(mre.getLevelY());
     if (blockEndurance <= 0) {
-      if (affectedBlock.intersects(new Rectangle(x, y, Sizes.BLOCK - 1 , Sizes.BLOCK - 1))) {
+      if (affectedBlock.intersects(new Rectangle(x, y, Sizes.SMALL_BLOCK - 1 , Sizes.SMALL_BLOCK - 1))) {
         AbstractBlock block = getBlock(affectedBlock);
         if (block != null) {
           logger.debug("removeBlock on release [affectedBlock="+affectedBlock+"]");

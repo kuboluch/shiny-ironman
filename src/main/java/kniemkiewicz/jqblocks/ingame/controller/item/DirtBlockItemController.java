@@ -44,7 +44,7 @@ public class DirtBlockItemController implements ItemController {
       if (circle.contains(click.getLevelX(), click.getLevelY())) {
         int blockX = Sizes.roundToBlockSizeX(click.getLevelX());
         int blockY = Sizes.roundToBlockSizeY(click.getLevelY());
-        DirtBlock block = new DirtBlock(blockX, blockY, Sizes.BLOCK, Sizes.BLOCK);
+        DirtBlock block = new DirtBlock(blockX, blockY, Sizes.SMALL_BLOCK, Sizes.SMALL_BLOCK);
         blocks.add(block);
       }
     }

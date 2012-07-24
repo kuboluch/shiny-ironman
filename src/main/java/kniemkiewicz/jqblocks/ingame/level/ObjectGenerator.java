@@ -23,16 +23,19 @@ public class ObjectGenerator {
   Configuration configuration;
 
   void generateTrees(Random random, int[] heights) {
-    assert Tree.WIDTH / Sizes.BLOCK == 2;
-    float TREE_DENSITY = configuration.getFloat("ObjectGenerator.TREE_DENSITY", 0.5f);
+    float TREE_DENSITY = configuration.getFloat("ObjectGenerator.TREE_DENSITY", 0.7f);
+    int REQUIRED_OK_BLOCKS = Tree.WIDTH / Sizes.SMALL_BLOCK - 1;
     int prevHeight = heights[0];
-    boolean treePut = false;
+    int okBlocks = 0;
     for (int i = 1; i < heights.length; i++) {
-      if ((heights[i] == prevHeight) && !treePut && (random.nextFloat() < TREE_DENSITY)) {
-        backgrounds.add(backgrounds.getTree(Sizes.MIN_X + (i - 1) * Sizes.BLOCK, Sizes.MAX_Y -  heights[i] - Tree.HEIGHT));
-        treePut = true;
+      if (heights[i] == prevHeight) {
+        okBlocks++;
+        if ((okBlocks == REQUIRED_OK_BLOCKS) && (random.nextFloat() < TREE_DENSITY)) {
+          okBlocks = -1; // Let the trees have at least one block between them.
+          backgrounds.add(backgrounds.getTree(Sizes.MIN_X + (i + 1) * Sizes.SMALL_BLOCK - Tree.WIDTH, Sizes.MAX_Y -  heights[i] - Tree.HEIGHT));
+        }
       } else {
-        treePut = false;
+        okBlocks = 0;
       }
       prevHeight = heights[i];
     }

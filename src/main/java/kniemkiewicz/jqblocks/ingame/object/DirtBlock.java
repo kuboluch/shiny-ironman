@@ -85,7 +85,7 @@ public class DirtBlock extends AbstractBlock {
   }
 
   private static void renderLeftGrass(Graphics g, DirtBlock block, int fromY, int toY) {
-    for (int y = fromY; y < toY; y += Sizes.BLOCK) {
+    for (int y = fromY; y < toY; y += Sizes.SMALL_BLOCK) {
       boolean drawGrass = true;
       for (AbstractBlock neighbor : block.getLeftNeighbors()) {
         int neighborMinY = Sizes.roundToBlockSizeY(neighbor.getShape().getMinY());
@@ -95,14 +95,14 @@ public class DirtBlock extends AbstractBlock {
         }
       }
       if (drawGrass) {
-        g.fillRect(block.x, y, 2, Sizes.BLOCK);
+        g.fillRect(block.x, y, 2, Sizes.SMALL_BLOCK);
         //logger.debug("grass left fillRect [x="+block.x+", y="+y+", width="+2+", height="+Sizes.BLOCK+"]");
       }
     }
   }
 
   private static void renderTopGrass(Graphics g, DirtBlock block, int fromX, int toX) {
-    for (int x = fromX; x < toX; x += Sizes.BLOCK) {
+    for (int x = fromX; x < toX; x += Sizes.SMALL_BLOCK) {
       boolean drawGrass = true;
       for (AbstractBlock neighbor : block.getTopNeighbors()) {
         int neighborMinX = Sizes.roundToBlockSizeX(neighbor.getShape().getMinX());
@@ -112,14 +112,14 @@ public class DirtBlock extends AbstractBlock {
         }
       }
       if (drawGrass) {
-        g.fillRect(x, block.y, Sizes.BLOCK, 2);
+        g.fillRect(x, block.y, Sizes.SMALL_BLOCK, 2);
         //logger.debug("grass top fillRect [x="+x+", y="+block.y+", width="+Sizes.BLOCK+", height="+2+"]");
       }
     }
   }
   
   private static void renderRightGrass(Graphics g, DirtBlock block, int fromY, int toY) {
-    for (int y = fromY; y < toY; y += Sizes.BLOCK) {
+    for (int y = fromY; y < toY; y += Sizes.SMALL_BLOCK) {
       boolean drawGrass = true;
       for (AbstractBlock neighbor : block.getRightNeighbors()) {
         int neighborMinY = Sizes.roundToBlockSizeY(neighbor.getShape().getMinY());
@@ -129,14 +129,14 @@ public class DirtBlock extends AbstractBlock {
         }
       }
       if (drawGrass) {
-        g.fillRect(block.x + block.width - 2, y, 2, Sizes.BLOCK);
+        g.fillRect(block.x + block.width - 2, y, 2, Sizes.SMALL_BLOCK);
         //logger.debug("grass right fillRect [x="+(block.x + block.width - 2)+", y="+y+", width="+2+", height="+Sizes.BLOCK+"]");
       }
     }
   }   
   
   private static void renderBottomGrass(Graphics g, DirtBlock block, int fromX, int toX) {
-    for (int x = fromX; x < toX; x += Sizes.BLOCK) {
+    for (int x = fromX; x < toX; x += Sizes.SMALL_BLOCK) {
       boolean drawGrass = true;
       for (AbstractBlock neighbor : block.getBottomNeighbors()) {
         int neighborMinX = Sizes.roundToBlockSizeX(neighbor.getShape().getMinX());
@@ -146,7 +146,7 @@ public class DirtBlock extends AbstractBlock {
         }
       }
       if (drawGrass) {
-        g.fillRect(x, block.y + block.height - 2, Sizes.BLOCK, 2);
+        g.fillRect(x, block.y + block.height - 2, Sizes.SMALL_BLOCK, 2);
         //logger.debug("grass bottom fillRect [x="+x+", y="+(block.y + block.height - 2)+", width="+Sizes.BLOCK+", height="+2+"]");
       }
     }

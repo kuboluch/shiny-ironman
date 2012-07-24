@@ -45,7 +45,7 @@ public class ShinyPickaxeItemController implements ItemController {
     MousePressedEvent mpe = mousePressedEvents.get(0);
     int x = Sizes.roundToBlockSizeX(mpe.getLevelX());
     int y = Sizes.roundToBlockSizeY(mpe.getLevelY());
-    Rectangle affectedBlock = new Rectangle(x, y, Sizes.BLOCK - 1 , Sizes.BLOCK - 1);
+    Rectangle affectedBlock = new Rectangle(x, y, Sizes.SMALL_BLOCK - 1 , Sizes.SMALL_BLOCK - 1);
     removeBlock(affectedBlock);
   }
 
