@@ -38,14 +38,14 @@ public class ArrowController implements UpdateQueue.UpdateController<Arrow>{
 
 
   private boolean checkArrowHit(Arrow arrow) {
-    for (AbstractBlock b : Collections3.getIterable(blocks.intersects(GeometryUtils.getBoundingRectangle(arrow.getShape())))) {
+    for (AbstractBlock b : blocks.intersects(GeometryUtils.getBoundingRectangle(arrow.getShape()))) {
       if (GeometryUtils.intersects(b.getShape(), arrow.getShape())) {
         if (b != arrow.getSource()) {
           return true;
         }
       }
     }
-    for (PhysicalObject b : Collections3.getIterable(movingObjects.intersects(arrow.getShape()))) {
+    for (PhysicalObject b : movingObjects.intersects(arrow.getShape())) {
       if (GeometryUtils.intersects(b.getShape(), arrow.getShape())) {
         if (b != arrow.getSource()) {
           return true;

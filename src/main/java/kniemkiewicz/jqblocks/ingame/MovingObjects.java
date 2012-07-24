@@ -5,6 +5,7 @@ import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.Player;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.util.LinearIntersectionIterator;
+import kniemkiewicz.jqblocks.util.IterableIterator;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class MovingObjects {
 
 
 
-  public Iterator<PhysicalObject> intersects(Shape shape) {
+  public IterableIterator<PhysicalObject> intersects(Shape shape) {
     return new LinearIntersectionIterator<PhysicalObject>(objects.iterator(), shape);
   }
 }

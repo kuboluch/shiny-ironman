@@ -2,11 +2,12 @@ package kniemkiewicz.jqblocks.ingame.util;
 
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
+import kniemkiewicz.jqblocks.util.IterableIterator;
 import org.newdawn.slick.geom.Shape;
 
 import java.util.Iterator;
 
-public class LinearIntersectionIterator<T extends PhysicalObject> implements Iterator<T> {
+public class LinearIntersectionIterator<T extends PhysicalObject> extends IterableIterator<T>{
   Iterator<T> it;
   Shape shape;
   T next = null;
