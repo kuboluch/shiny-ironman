@@ -32,7 +32,7 @@ public class SurfaceGenerator {
 
   Random random;
 
-  int[] heights = new int[(Sizes.MAX_X - Sizes.MIN_X) / Sizes.SMALL_BLOCK];
+  int[] heights = new int[(Sizes.MAX_X - Sizes.MIN_X) / Sizes.BLOCK];
 
   void generate(Random random) {
     this.random = random;
@@ -61,7 +61,7 @@ public class SurfaceGenerator {
     for (int i = 1; i < heights.length; i++) {
       if (heights[i] > h) {
         // we have to add some more blocks, above the existing proposals.
-        proposals.add(new Rectangle(Sizes.MIN_X + i * Sizes.SMALL_BLOCK, Sizes.MAX_Y - heights[i], 0, heights[i] - h));
+        proposals.add(new Rectangle(Sizes.MIN_X + i * Sizes.BLOCK, Sizes.MAX_Y - heights[i], 0, heights[i] - h));
       }
       if (heights[i] < h) {
         // Some blocks may end completely.
@@ -69,7 +69,7 @@ public class SurfaceGenerator {
         while(new_y >= proposals.get(proposals.size() - 1).getMaxY()) {
           Rectangle r = proposals.get(proposals.size() - 1);
           proposals.remove(proposals.size() - 1);
-          float width = Sizes.MIN_X + i * Sizes.SMALL_BLOCK - r.getMinX();
+          float width = Sizes.MIN_X + i * Sizes.BLOCK - r.getMinX();
           Assert.executeAndAssert(blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), width, r.getHeight())));
         }
         // We should never reach bottom of the level so there is always at least the last block that we can cut into
@@ -77,7 +77,7 @@ public class SurfaceGenerator {
         if (new_y > proposals.get(proposals.size() - 1).getMinY()) {
           Rectangle r = proposals.get(proposals.size() - 1);
           int diff = (int)(new_y - r.getMinY());
-          float width = Sizes.MIN_X + i * Sizes.SMALL_BLOCK - r.getMinX();
+          float width = Sizes.MIN_X + i * Sizes.BLOCK - r.getMinX();
           Assert.executeAndAssert(blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), width, diff)));
           r.setY(r.getY() + diff);
           r.setHeight(r.getHeight() - diff);
@@ -96,7 +96,7 @@ public class SurfaceGenerator {
     while (i < heights.length) {
       int dx = random.nextInt(10);
       int dy = random.nextInt(3) - 1;
-      y += dy * Sizes.SMALL_BLOCK;
+      y += dy * Sizes.BLOCK;
       for (int x = i; x < i + dx && x < heights.length; x++) {
         heights[x] = y;
       }
@@ -121,12 +121,12 @@ public class SurfaceGenerator {
       int topPosition = random.nextInt(width - 4) + 2;
       for (int j = 0; j < topPosition; j++) {
         int rnd = HILL_RND_HEIGHT > 0 ? random.nextInt(HILL_RND_HEIGHT * 2) - HILL_RND_HEIGHT : 0;
-        heights[x + j] += Sizes.SMALL_BLOCK * (height * (j + 1) / topPosition + rnd);
+        heights[x + j] += Sizes.BLOCK * (height * (j + 1) / topPosition + rnd);
       }
       int remainingWidth = width - topPosition;
       for (int j = topPosition; j < width; j++) {
         int rnd = HILL_RND_HEIGHT > 0 ? random.nextInt(HILL_RND_HEIGHT * 2) - HILL_RND_HEIGHT : 0;
-        heights[x + j] += Sizes.SMALL_BLOCK * ((height * (width - j) / remainingWidth + rnd));
+        heights[x + j] += Sizes.BLOCK * ((height * (width - j) / remainingWidth + rnd));
       }
     }
   }

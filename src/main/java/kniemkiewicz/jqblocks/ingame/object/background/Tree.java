@@ -7,9 +7,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * User: knie
@@ -22,8 +19,8 @@ public class Tree implements RenderableObject {
   Rectangle rectangle;
   int x;
   int y;
-  public static int HEIGHT = Sizes.SMALL_BLOCK * 8;
-  public static int WIDTH = Sizes.SMALL_BLOCK * 4;
+  public static int HEIGHT = Sizes.BLOCK * 8;
+  public static int WIDTH = Sizes.BLOCK * 4;
 
   Tree(int x, int y, Image image) {
     this.x = Sizes.roundToBlockSizeX(x);

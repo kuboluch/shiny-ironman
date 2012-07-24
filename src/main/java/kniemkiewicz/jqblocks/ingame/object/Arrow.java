@@ -4,7 +4,6 @@ import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.controller.ArrowController;
-import kniemkiewicz.jqblocks.ingame.controller.item.BowItemController;
 import kniemkiewicz.jqblocks.ingame.item.BowItem;
 import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
 import org.newdawn.slick.Graphics;
@@ -21,7 +20,7 @@ public class Arrow implements RenderableObject,UpdateQueue.ToBeUpdated<Arrow> {
   LimitedSpeed xMovement;
   LimitedSpeed yMovement;
   Object source;
-  private static int LENGTH = Sizes.SMALL_BLOCK;
+  private static int LENGTH = Sizes.BLOCK;
 
   public Arrow(float x, float y, Object source, float xSpeed, float ySpeed) {
     this.line = new Line(x, y, x, y);

@@ -5,7 +5,6 @@ import kniemkiewicz.jqblocks.ingame.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.input.event.InputEvent;
 import kniemkiewicz.jqblocks.ingame.input.event.MouseClickEvent;
-import kniemkiewicz.jqblocks.ingame.input.event.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.object.DirtBlock;
 import kniemkiewicz.jqblocks.ingame.object.Player;
 import kniemkiewicz.jqblocks.util.Collections3;
@@ -44,7 +43,7 @@ public class DirtBlockItemController implements ItemController {
       if (circle.contains(click.getLevelX(), click.getLevelY())) {
         int blockX = Sizes.roundToBlockSizeX(click.getLevelX());
         int blockY = Sizes.roundToBlockSizeY(click.getLevelY());
-        DirtBlock block = new DirtBlock(blockX, blockY, Sizes.SMALL_BLOCK, Sizes.SMALL_BLOCK);
+        DirtBlock block = new DirtBlock(blockX, blockY, Sizes.BLOCK, Sizes.BLOCK);
         blocks.add(block);
       }
     }
