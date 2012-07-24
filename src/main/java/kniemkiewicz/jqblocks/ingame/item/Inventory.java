@@ -6,6 +6,7 @@ import kniemkiewicz.jqblocks.ingame.Renderable;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,13 +26,10 @@ public class Inventory implements Renderable {
   RenderQueue renderQueue;
 
   @Autowired
-  ShinyPickaxeItem shinyPickaxe;
-
-  @Autowired
-  PickaxeItem pickaxe;
-
-  @Autowired
   PointOfView pointOfView;
+
+  @Resource(name = "pickaxeImage")
+  private Image pickaxeImage;
 
   List<Item> items = new ArrayList<Item>();
   public static int SQUARE_SIZE = 25;
@@ -46,9 +44,9 @@ public class Inventory implements Renderable {
   void init() {
     renderQueue.add(this);
     items.add(new DirtBlockItem());
-    items.add(shinyPickaxe);
+    items.add(new PickaxeItem(pickaxeImage));
     items.add(new BowItem());
-    items.add(pickaxe);
+    items.add(new PickaxeItem(1000000, pickaxeImage));
     int currentSize = items.size();
     for (int i = 0; i < SIZE - currentSize; i++) {
       items.add(new EmptyItem());

@@ -5,6 +5,7 @@ import kniemkiewicz.jqblocks.ingame.controller.ArrowController;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.input.event.InputEvent;
 import kniemkiewicz.jqblocks.ingame.input.event.MouseClickEvent;
+import kniemkiewicz.jqblocks.ingame.item.BowItem;
 import kniemkiewicz.jqblocks.ingame.object.Arrow;
 import kniemkiewicz.jqblocks.ingame.object.Player;
 import kniemkiewicz.jqblocks.util.Collections3;
@@ -19,7 +20,7 @@ import java.util.List;
  * Date: 7/21/12
  */
 @Component
-public class BowItemController implements ItemController {
+public class BowItemController implements ItemController<BowItem> {
 
   @Autowired
   Player player;
@@ -30,7 +31,7 @@ public class BowItemController implements ItemController {
   private static float SPEED = Sizes.MAX_FALL_SPEED / 1.5f;
 
   @Override
-  public void listen(List<InputEvent> events) {
+  public void listen(BowItem bowItem, List<InputEvent> events) {
     List<MouseClickEvent> clickEvents = Collections3.collect(events, MouseClickEvent.class);
     if (!clickEvents.isEmpty()) {
       handleClickEvent(clickEvents);

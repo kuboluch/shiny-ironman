@@ -5,6 +5,7 @@ import kniemkiewicz.jqblocks.ingame.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.input.event.InputEvent;
 import kniemkiewicz.jqblocks.ingame.input.event.MouseClickEvent;
+import kniemkiewicz.jqblocks.ingame.item.DirtBlockItem;
 import kniemkiewicz.jqblocks.ingame.object.DirtBlock;
 import kniemkiewicz.jqblocks.ingame.object.Player;
 import kniemkiewicz.jqblocks.util.Collections3;
@@ -19,7 +20,7 @@ import java.util.List;
  * Date: 14.07.12
  */
 @Component
-public class DirtBlockItemController implements ItemController {
+public class DirtBlockItemController implements ItemController<DirtBlockItem> {
   @Autowired
   Player player;
 
@@ -28,8 +29,8 @@ public class DirtBlockItemController implements ItemController {
 
   public static final int RANGE = 75;
 
-  @Override
-  public void listen(List<InputEvent> events) {
+@Override
+  public void listen(DirtBlockItem dirtBlockItem, List<InputEvent> events) {
     List<MouseClickEvent> clickEvents = Collections3.collect(events, MouseClickEvent.class);
     if (!clickEvents.isEmpty()) {
       handleClickEvent(clickEvents);

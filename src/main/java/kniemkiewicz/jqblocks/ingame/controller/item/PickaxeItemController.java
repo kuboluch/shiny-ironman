@@ -8,6 +8,7 @@ import kniemkiewicz.jqblocks.ingame.input.event.InputEvent;
 import kniemkiewicz.jqblocks.ingame.input.event.MouseDraggedEvent;
 import kniemkiewicz.jqblocks.ingame.input.event.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.input.event.MouseReleasedEvent;
+import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.PickaxeItem;
 import kniemkiewicz.jqblocks.ingame.object.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
@@ -22,7 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Component
-public class PickaxeItemController implements UpdateQueue.UpdateController<PickaxeItem>, ItemController {
+public class PickaxeItemController implements UpdateQueue.UpdateController<PickaxeItem>, ItemController<PickaxeItem> {
   public static Log logger = LogFactory.getLog(PickaxeItemController.class);
 
   @Autowired
@@ -34,44 +35,41 @@ public class PickaxeItemController implements UpdateQueue.UpdateController<Picka
   @Autowired
   private Backgrounds backgrounds;
 
-  @Autowired
-  PickaxeItem pickaxe;
-
   private Rectangle affectedBlock;
 
   private int blockEndurance = 0;
 
-  private void startDigging(Rectangle rect, AbstractBlock block) {
+  private void startDigging(PickaxeItem pickaxe, Rectangle rect, AbstractBlock block) {
     affectedBlock = rect;
     blockEndurance = block.getEndurance();
     updateQueue.add(pickaxe);
   }
 
-  private void stopDigging() {
+  private void stopDigging(PickaxeItem pickaxe) {
     affectedBlock = null;
     blockEndurance = 0;
     updateQueue.remove(pickaxe);
   }
 
   @Override
-  public void listen(List<InputEvent> events) {
+  public void listen(PickaxeItem pickaxe, List<InputEvent> events) {
     List<MousePressedEvent> mousePressedEvents = Collections3.collect(events, MousePressedEvent.class);
     if (!mousePressedEvents.isEmpty()) {
-      handleMousePressedEvent(mousePressedEvents);
+      handleMousePressedEvent(pickaxe, mousePressedEvents);
     }
 
     List<MouseDraggedEvent> mouseDraggedEvents = Collections3.collect(events, MouseDraggedEvent.class);
     if (!mouseDraggedEvents.isEmpty()) {
-      handleMouseDraggedEvent(mouseDraggedEvents);
+      handleMouseDraggedEvent(pickaxe, mouseDraggedEvents);
     }
 
     List<MouseReleasedEvent> mouseReleasedEvents = Collections3.collect(events, MouseReleasedEvent.class);
     if (!mouseReleasedEvents.isEmpty()) {
-      handleMouseReleasedEvent(mouseReleasedEvents);
+      handleMouseReleasedEvent(pickaxe, mouseReleasedEvents);
     }
   }
 
-  public void handleMousePressedEvent(List<MousePressedEvent> mousePressedEvents) {
+  public void handleMousePressedEvent(PickaxeItem pickaxe, List<MousePressedEvent> mousePressedEvents) {
     assert mousePressedEvents.size() > 0;
     MousePressedEvent mpe = mousePressedEvents.get(0);
     int x = Sizes.roundToBlockSizeX(mpe.getLevelX());
@@ -80,11 +78,11 @@ public class PickaxeItemController implements UpdateQueue.UpdateController<Picka
     AbstractBlock block = getBlock(blockRect);
     if (block != null) {
       logger.debug("startDigging on pressed [blockRect="+blockRect+"]");
-      startDigging(blockRect, block);
+      startDigging(pickaxe, blockRect, block);
     }
   }
 
-  public void handleMouseDraggedEvent(List<MouseDraggedEvent> mouseDraggedEvents) {
+  public void handleMouseDraggedEvent(PickaxeItem pickaxe, List<MouseDraggedEvent> mouseDraggedEvents) {
     assert mouseDraggedEvents.size() > 0;
     MouseDraggedEvent mde = mouseDraggedEvents.get(0);
     int x = Sizes.roundToBlockSizeX(mde.getNewLevelX());
@@ -92,16 +90,16 @@ public class PickaxeItemController implements UpdateQueue.UpdateController<Picka
     Rectangle blockRect = new Rectangle(x, y, Sizes.BLOCK - 1 , Sizes.BLOCK - 1);
     if (affectedBlock != null && !affectedBlock.intersects(blockRect)) {
       logger.debug("stopDigging on dragged [affectedBlock="+affectedBlock+"]");
-      stopDigging();
+      stopDigging(pickaxe);
     }
     AbstractBlock block = getBlock(blockRect);
     if (affectedBlock == null && block != null) {
       logger.debug("startDigging on dragged [blockRect="+blockRect+"]");
-      startDigging(blockRect, block);
+      startDigging(pickaxe, blockRect, block);
     }
   }
 
-  public void handleMouseReleasedEvent(List<MouseReleasedEvent> mouseReleasedEvents) {
+  public void handleMouseReleasedEvent(PickaxeItem pickaxe, List<MouseReleasedEvent> mouseReleasedEvents) {
     if (affectedBlock == null) {
       return;
     }
@@ -119,7 +117,7 @@ public class PickaxeItemController implements UpdateQueue.UpdateController<Picka
       }
     }
     logger.debug("stopDigging on release [affectedBlock="+affectedBlock+"]");
-    stopDigging();
+    stopDigging(pickaxe);
   }
 
   private AbstractBlock getBlock(Rectangle rect) {
@@ -151,7 +149,7 @@ public class PickaxeItemController implements UpdateQueue.UpdateController<Picka
         removeBlock(block);
       }
       logger.debug("stopDigging on update [affectedBlock="+affectedBlock+"]");
-      stopDigging();
+      stopDigging(pickaxe);
     }
   }
 }

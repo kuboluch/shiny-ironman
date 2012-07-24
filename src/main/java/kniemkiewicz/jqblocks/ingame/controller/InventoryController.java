@@ -41,7 +41,7 @@ public class InventoryController implements InputListener, MouseInputListener {
     Class<? extends ItemController> clazz = inventory.getSelectedItem().getController();
     if (clazz != null) {
       ItemController controller = provider.getBean(clazz);
-      controller.listen(events);
+      controller.listen(inventory.getSelectedItem(), events);
     }
   }
 }
