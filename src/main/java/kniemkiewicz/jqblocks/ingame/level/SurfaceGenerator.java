@@ -3,7 +3,7 @@ package kniemkiewicz.jqblocks.ingame.level;
 import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
-import kniemkiewicz.jqblocks.ingame.object.DirtBlock;
+import kniemkiewicz.jqblocks.ingame.object.block.DirtBlock;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.TimeLog;
 import org.newdawn.slick.geom.Rectangle;

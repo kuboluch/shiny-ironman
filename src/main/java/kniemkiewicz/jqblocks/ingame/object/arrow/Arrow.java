@@ -1,9 +1,9 @@
-package kniemkiewicz.jqblocks.ingame.object;
+package kniemkiewicz.jqblocks.ingame.object.arrow;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
-import kniemkiewicz.jqblocks.ingame.controller.ArrowController;
+import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.item.BowItem;
 import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
 import org.newdawn.slick.Graphics;

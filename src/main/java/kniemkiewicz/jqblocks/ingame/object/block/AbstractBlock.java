@@ -1,5 +1,8 @@
-package kniemkiewicz.jqblocks.ingame.object;
+package kniemkiewicz.jqblocks.ingame.object.block;
 
+import kniemkiewicz.jqblocks.ingame.object.NeighborAwareObject;
+import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
+import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;

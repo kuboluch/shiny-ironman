@@ -1,9 +1,9 @@
-package kniemkiewicz.jqblocks.ingame.controller;
+package kniemkiewicz.jqblocks.ingame.object.player;
 
 import kniemkiewicz.jqblocks.ingame.*;
-import kniemkiewicz.jqblocks.ingame.object.AbstractBlock;
-import kniemkiewicz.jqblocks.ingame.object.Player;
-import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
+import kniemkiewicz.jqblocks.ingame.controller.HitResolver;
+import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
+import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.newdawn.slick.Input;

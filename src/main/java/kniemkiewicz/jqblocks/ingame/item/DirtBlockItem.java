@@ -1,7 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.item;
 
 import kniemkiewicz.jqblocks.ingame.controller.item.DirtBlockItemController;
-import kniemkiewicz.jqblocks.ingame.object.DirtBlock;
+import kniemkiewicz.jqblocks.ingame.object.block.DirtBlock;
 import org.newdawn.slick.Graphics;
 
 /**

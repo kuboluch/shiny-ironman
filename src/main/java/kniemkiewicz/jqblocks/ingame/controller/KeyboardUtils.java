@@ -11,13 +11,13 @@ public class KeyboardUtils {
   static boolean isDownPressed(Input input) {
     return (input.isKeyDown(Input.KEY_S) || input.isKeyDown(Input.KEY_DOWN));
   }
-  static boolean isUpPressed(Input input) {
+  public static boolean isUpPressed(Input input) {
     return (input.isKeyDown(Input.KEY_W) || input.isKeyDown(Input.KEY_UP));
   }
-  static boolean isLeftPressed(Input input) {
+  public static boolean isLeftPressed(Input input) {
     return (input.isKeyDown(Input.KEY_A) || input.isKeyDown(Input.KEY_LEFT));
   }
-  static boolean isRightPressed(Input input) {
+  public static boolean isRightPressed(Input input) {
     return (input.isKeyDown(Input.KEY_D) || input.isKeyDown(Input.KEY_RIGHT));
   }
   public static boolean isExitKeyPressed(Input input) {

@@ -2,7 +2,7 @@ package kniemkiewicz.jqblocks.ingame;
 
 import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.controller.InventoryController;
-import kniemkiewicz.jqblocks.ingame.controller.PlayerController;
+import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseInputEventBus;
 import kniemkiewicz.jqblocks.ingame.input.MouseInput;

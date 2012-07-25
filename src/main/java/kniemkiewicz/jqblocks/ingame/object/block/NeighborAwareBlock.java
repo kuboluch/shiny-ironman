@@ -1,4 +1,7 @@
-package kniemkiewicz.jqblocks.ingame.object;
+package kniemkiewicz.jqblocks.ingame.object.block;
+
+import kniemkiewicz.jqblocks.ingame.object.NeighborAwareObject;
+import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 
 import java.util.ArrayList;
 import java.util.Collections;

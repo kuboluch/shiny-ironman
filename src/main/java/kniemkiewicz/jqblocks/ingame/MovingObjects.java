@@ -1,19 +1,16 @@
 package kniemkiewicz.jqblocks.ingame;
 
-import kniemkiewicz.jqblocks.ingame.object.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
-import kniemkiewicz.jqblocks.ingame.object.Player;
+import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.util.LinearIntersectionIterator;
 import kniemkiewicz.jqblocks.util.IterableIterator;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**

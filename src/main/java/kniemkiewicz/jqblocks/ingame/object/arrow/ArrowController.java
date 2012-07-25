@@ -1,13 +1,11 @@
-package kniemkiewicz.jqblocks.ingame.controller;
+package kniemkiewicz.jqblocks.ingame.object.arrow;
 
 import kniemkiewicz.jqblocks.ingame.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
-import kniemkiewicz.jqblocks.ingame.object.AbstractBlock;
-import kniemkiewicz.jqblocks.ingame.object.Arrow;
+import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
-import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

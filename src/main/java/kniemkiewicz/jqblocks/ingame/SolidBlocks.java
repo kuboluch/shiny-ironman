@@ -1,7 +1,7 @@
 package kniemkiewicz.jqblocks.ingame;
 
-import kniemkiewicz.jqblocks.ingame.object.AbstractBlock;
-import kniemkiewicz.jqblocks.ingame.object.EndOfTheWorldWall;
+import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
+import kniemkiewicz.jqblocks.ingame.object.block.EndOfTheWorldWall;
 import kniemkiewicz.jqblocks.ingame.util.LinearIntersectionIterator;
 import kniemkiewicz.jqblocks.util.IterableIterator;
 import org.newdawn.slick.geom.Rectangle;

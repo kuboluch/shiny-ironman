@@ -1,7 +1,9 @@
-package kniemkiewicz.jqblocks.ingame.object;
+package kniemkiewicz.jqblocks.ingame.object.player;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
+import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
