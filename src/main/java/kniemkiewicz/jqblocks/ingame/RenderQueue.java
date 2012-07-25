@@ -1,7 +1,9 @@
 package kniemkiewicz.jqblocks.ingame;
 
+import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
+import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -19,6 +21,9 @@ public class RenderQueue implements Renderable {
 
   @Autowired
   PointOfView pointOfView;
+
+  @Autowired
+  SpringBeanProvider beanProvider;
 
   EnumMap<RenderableObject.Layer, Set<RenderableObject>> renderableObjects = new EnumMap<RenderableObject.Layer, Set<RenderableObject>>(RenderableObject.Layer.class);
   Set<Renderable> renderables = new HashSet<Renderable>();
@@ -39,6 +44,15 @@ public class RenderQueue implements Renderable {
     renderables.add(renderable);
   }
 
+  public void doRender(RenderableObject r, Graphics g, PointOfView pov) {
+    Class renderer = r.getRenderer();
+    if (renderer != null) {
+      ((ObjectRenderer)beanProvider.getBean(renderer)).render(r, g,  pov);
+    } else {
+      r.renderObject(g, pov);
+    }
+  }
+
   public void render(Graphics g) {
     g.setBackground(SKY);
     g.setLineWidth(1);
@@ -47,7 +61,7 @@ public class RenderQueue implements Renderable {
     for (RenderableObject.Layer l : RenderableObject.Layer.values()) {
       for (RenderableObject r : renderableObjects.get(l)) {
         if (GeometryUtils.intersects(window, r.getShape())) {
-          r.renderObject(g, pointOfView);
+          doRender(r, g, pointOfView);
         }
       }
     }

@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.ingame.object.arrow;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.item.BowItem;
 import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
@@ -14,7 +15,7 @@ import org.newdawn.slick.geom.Shape;
  * User: knie
  * Date: 7/21/12
  */
-public class Arrow implements RenderableObject,UpdateQueue.ToBeUpdated<Arrow> {
+public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Arrow> {
 
   Line line;
   LimitedSpeed xMovement;
@@ -27,6 +28,11 @@ public class Arrow implements RenderableObject,UpdateQueue.ToBeUpdated<Arrow> {
     xMovement = new LimitedSpeed(2 * xSpeed, xSpeed, x, 0);
     yMovement = new LimitedSpeed(Sizes.MAX_FALL_SPEED, ySpeed, y, 0);
     this.source = source;
+  }
+
+  @Override
+  public Class<? extends ObjectRenderer<Arrow>> getRenderer() {
+    return null;
   }
 
   @Override

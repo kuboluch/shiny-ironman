@@ -8,7 +8,9 @@ import org.newdawn.slick.geom.Shape;
  * User: krzysiek
  * Date: 08.07.12
  */
-public interface RenderableObject extends PhysicalObject{
+// T should be equal to class implementing this interface. Unfortunately Java does not
+// allow me to force it at compile time.
+public interface RenderableObject<T extends RenderableObject> extends PhysicalObject{
 
   enum Layer {
     MINUS_INF,
@@ -18,6 +20,10 @@ public interface RenderableObject extends PhysicalObject{
     ARROWS,
     PLUS_INF
   }
+
+  // This should return class implementing ObjectRenderer or null. Null means
+  // that this object will handle rendering itself, using renderObject method.
+  Class<? extends ObjectRenderer<T>> getRenderer();
 
   // Graphics are shifted by pov before a call to this method.
   public void renderObject(Graphics g, PointOfView pov);

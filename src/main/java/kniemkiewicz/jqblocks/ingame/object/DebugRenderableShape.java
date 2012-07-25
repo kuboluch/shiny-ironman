@@ -9,7 +9,7 @@ import org.newdawn.slick.geom.Shape;
  * User: krzysiek
  * Date: 17.07.12
  */
-public class DebugRenderableShape implements RenderableObject{
+public class DebugRenderableShape implements RenderableObject<DebugRenderableShape>{
 
   Shape shape;
   Color color;
@@ -17,6 +17,11 @@ public class DebugRenderableShape implements RenderableObject{
   public DebugRenderableShape(Shape shape, Color color) {
     this.shape = shape;
     this.color = color;
+  }
+
+  @Override
+  public Class<? extends ObjectRenderer<DebugRenderableShape>> getRenderer() {
+    return null;
   }
 
   public void renderObject(Graphics g, PointOfView pov) {

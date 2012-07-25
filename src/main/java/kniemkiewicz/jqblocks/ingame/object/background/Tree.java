@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.object.background;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -12,7 +13,7 @@ import org.newdawn.slick.geom.Shape;
  * User: knie
  * Date: 7/23/12
  */
-public class Tree implements RenderableObject {
+public class Tree implements RenderableObject<Tree> {
 
   private Image image;
 
@@ -27,6 +28,12 @@ public class Tree implements RenderableObject {
     this.y = Sizes.roundToBlockSizeY(y);
     rectangle = new Rectangle(x, y, WIDTH, HEIGHT);
     this.image = image;
+  }
+
+  @Override
+  public Class<? extends ObjectRenderer<Tree>> getRenderer() {
+    // TODO: Implement renderer.
+    return null;
   }
 
   @Override

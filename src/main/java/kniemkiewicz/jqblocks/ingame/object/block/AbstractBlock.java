@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.object.block;
 
 import kniemkiewicz.jqblocks.ingame.object.NeighborAwareObject;
+import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
@@ -17,7 +18,7 @@ import java.util.List;
  * User: krzysiek
  * Date: 14.07.12
  */
-public abstract class AbstractBlock implements RenderableObject, PhysicalObject, NeighborAwareObject<AbstractBlock> {
+public abstract class AbstractBlock<T extends AbstractBlock> implements RenderableObject<T>, PhysicalObject, NeighborAwareObject<AbstractBlock> {
   protected int x;
   protected int y;
   protected int width;
@@ -51,6 +52,11 @@ public abstract class AbstractBlock implements RenderableObject, PhysicalObject,
   protected abstract AbstractBlock getSubBlock(AbstractBlock parent, int x, int y, int width, int height);
 
   public abstract void renderObject(Graphics g, PointOfView pov);
+
+  @Override
+  public Class<? extends ObjectRenderer<T>> getRenderer() {
+    return null;
+  }
 
   public Rectangle getShape() {
     return shape;

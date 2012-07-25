@@ -121,17 +121,17 @@ public class SolidBlocks {
     renderQueue.remove(block);
   }
 
-  private void removeFromNeighbors(AbstractBlock block) {
-    for (AbstractBlock neighbor : block.getLeftNeighbors()) {
+  private void removeFromNeighbors(AbstractBlock<?> block) {
+    for (AbstractBlock<?> neighbor : block.getLeftNeighbors()) {
       neighbor.removeRightNeighbor(block);
     }
-    for (AbstractBlock neighbor : block.getTopNeighbors()) {
+    for (AbstractBlock<?> neighbor : block.getTopNeighbors()) {
       neighbor.removeBottomNeighbor(block);
     }
-    for (AbstractBlock neighbor : block.getRightNeighbors()) {
+    for (AbstractBlock<?> neighbor : block.getRightNeighbors()) {
       neighbor.removeLeftNeighbor(block);
     }
-    for (AbstractBlock neighbor : block.getBottomNeighbors()) {
+    for (AbstractBlock<?> neighbor : block.getBottomNeighbors()) {
       neighbor.removeTopNeighbor(block);
     }
   }

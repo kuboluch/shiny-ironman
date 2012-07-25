@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.object.player;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
@@ -20,7 +21,7 @@ import javax.annotation.Resource;
  * Date: 08.07.12
  */
 @Component
-public class Player implements RenderableObject,PhysicalObject {
+public class Player implements RenderableObject<Player>,PhysicalObject {
 
   public static Log logger = LogFactory.getLog(Player.class);
 
@@ -45,6 +46,11 @@ public class Player implements RenderableObject,PhysicalObject {
     xMovement = new LimitedSpeed(MAX_X_SPEED, 0, 0, DEFAULT_X_DECELERATION);
     yMovement = new LimitedSpeed(Sizes.MAX_FALL_SPEED, 0, 0, 0);
     shape = new Rectangle(xMovement.getPos(), yMovement.getPos(), WIDTH - 1, HEIGHT - 1);
+  }
+
+  @Override
+  public Class<? extends ObjectRenderer<Player>> getRenderer() {
+    return null;
   }
 
   public void renderObject(Graphics g, PointOfView pov) {

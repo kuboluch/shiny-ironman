@@ -10,7 +10,7 @@ import org.newdawn.slick.geom.Shape;
  * User: knie
  * Date: 7/24/12
  */
-public class DigEffect implements RenderableObject {
+public class DigEffect implements RenderableObject<DigEffect> {
 
   final Rectangle rectangle;
   final int startingEndurance;
@@ -20,6 +20,11 @@ public class DigEffect implements RenderableObject {
     startingEndurance = endurance;
     currentEndurance = startingEndurance;
     rectangle = rect;
+  }
+
+  @Override
+  public Class<? extends ObjectRenderer<DigEffect>> getRenderer() {
+    return null;
   }
 
   @Override
