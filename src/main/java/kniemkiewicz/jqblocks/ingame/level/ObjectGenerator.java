@@ -1,9 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.level;
 
 import kniemkiewicz.jqblocks.Configuration;
-import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.Tree;
+import kniemkiewicz.jqblocks.ingame.object.bat.Bat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,19 @@ public class ObjectGenerator {
   Backgrounds backgrounds;
 
   @Autowired
+  MovingObjects movingObjects;
+
+  @Autowired
+  SolidBlocks solidBlocks;
+
+  @Autowired
+  RenderQueue renderQueue;
+
+  @Autowired
   Configuration configuration;
+
+  @Autowired
+  UpdateQueue updateQueue;
 
   void generateTrees(Random random, int[] heights) {
     float TREE_DENSITY = configuration.getFloat("ObjectGenerator.TREE_DENSITY", 0.7f);
@@ -38,6 +51,20 @@ public class ObjectGenerator {
         okBlocks = 0;
       }
       prevHeight = heights[i];
+    }
+  }
+
+  void generateBats(Random random, int[] heights) {
+    float DENSITY = configuration.getFloat("ObjectGenerator.BAT_DENSITY", 0.05f);
+    int ALTITUDE = configuration.getInt("ObjectGenerator.BAT_ALTITUDE", 5);
+    for (int i = 0; i < heights.length; i++) {
+      if (random.nextFloat() < DENSITY) {
+        Bat bat = new Bat(Sizes.MIN_X + Sizes.BLOCK * i, Sizes.MAX_Y - heights[i] - ALTITUDE * Sizes.BLOCK);
+        if (solidBlocks.intersects(bat.getShape()).hasNext()) continue;
+        movingObjects.add(bat);
+        renderQueue.add(bat);
+        updateQueue.add(bat);
+      }
     }
   }
 }

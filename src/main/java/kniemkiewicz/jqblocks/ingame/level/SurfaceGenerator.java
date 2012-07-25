@@ -34,7 +34,7 @@ public class SurfaceGenerator {
 
   int[] heights = new int[(Sizes.MAX_X - Sizes.MIN_X) / Sizes.BLOCK];
 
-  void generate(Random random) {
+  int[] generate(Random random) {
     this.random = random;
     TimeLog t = new TimeLog();
     generateFlat();
@@ -45,8 +45,7 @@ public class SurfaceGenerator {
     t.logTimeAndRestart("sliding window");
     prepareBlocks(blocks);
     t.logTimeAndRestart("prepare blocks");
-    objectGenerator.generateTrees(random, heights);
-    t.logTimeAndRestart("generate trees");
+    return heights;
   }
 
   // This method translates heights[x] into actual blocks, trying to use as few blocks as possible and making sure

@@ -48,7 +48,7 @@ public class InventoryController implements InputListener, EventListener {
     if (events.size() == 0) return;
     Class<? extends ItemController> clazz = inventory.getSelectedItem().getController();
     if (clazz != null) {
-      ItemController controller = provider.getBean(clazz);
+      ItemController controller = provider.getBean(clazz, true);
       controller.listen(inventory.getSelectedItem(), events);
     }
   }

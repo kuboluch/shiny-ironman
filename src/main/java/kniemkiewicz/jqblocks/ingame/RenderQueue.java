@@ -47,7 +47,7 @@ public class RenderQueue implements Renderable {
   public void doRender(RenderableObject r, Graphics g, PointOfView pov) {
     Class renderer = r.getRenderer();
     if (renderer != null) {
-      ((ObjectRenderer)beanProvider.getBean(renderer)).render(r, g,  pov);
+      ((ObjectRenderer)beanProvider.getBean(renderer, true)).render(r, g,  pov);
     } else {
       r.renderObject(g, pov);
     }

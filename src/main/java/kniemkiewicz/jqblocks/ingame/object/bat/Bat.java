@@ -1,10 +1,14 @@
 package kniemkiewicz.jqblocks.ingame.object.bat;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
+import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.ingame.object.player.Player;
+import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
 /**
@@ -13,16 +17,25 @@ import org.newdawn.slick.geom.Shape;
  */
 public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat> {
 
+  Rectangle rectangle;
+  int y;
+  LimitedSpeed xMovement;
+  public static final float X_SPEED = Player.MAX_X_SPEED / 3;
+  public static final int SIZE = 2 * Sizes.BLOCK;
+
+  public Bat(int x, int y) {
+    this.xMovement = new LimitedSpeed(X_SPEED, X_SPEED, x, 0);
+    this.y = y;
+    rectangle = new Rectangle(x, y, SIZE, SIZE);
+  }
 
   @Override
   public Class<? extends ObjectRenderer<Bat>> getRenderer() {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return BatRenderer.class;
   }
 
   @Override
-  public void renderObject(Graphics g, PointOfView pov) {
-    //To change body of implemented methods use File | Settings | File Templates.
-  }
+  public void renderObject(Graphics g, PointOfView pov) {  }
 
   @Override
   public Layer getLayer() {
@@ -30,12 +43,12 @@ public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat> {
   }
 
   @Override
-  public Shape getShape() {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+  public Rectangle getShape() {
+    return rectangle;
   }
 
   @Override
   public Class<? extends UpdateQueue.UpdateController<Bat>> getController() {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return BatController.class;
   }
 }

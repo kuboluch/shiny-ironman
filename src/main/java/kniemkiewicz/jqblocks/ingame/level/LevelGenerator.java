@@ -19,18 +19,21 @@ public class LevelGenerator {
   public static Log logger = LogFactory.getLog(LevelGenerator.class);
 
   @Autowired
-  SolidBlocks blocks;
+  SurfaceGenerator surfaceGenerator;
 
   @Autowired
-  SurfaceGenerator surfaceGenerator;
+  ObjectGenerator objectGenerator;
 
   Random random = new Random();
 
   public void generate() {
     // TODO: This takes way too long on my laptop.
     TimeLog t = new TimeLog();
-    surfaceGenerator.generate(random);
+    int[] heights = surfaceGenerator.generate(random);
     t.logTimeAndRestart("level generation");
+    objectGenerator.generateTrees(random, heights);
+    objectGenerator.generateBats(random, heights);
+    t.logTimeAndRestart("generate objects");
   }
 
   public void setSeed(int seed) {

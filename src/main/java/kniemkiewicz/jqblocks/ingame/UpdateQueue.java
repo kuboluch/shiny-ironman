@@ -37,7 +37,7 @@ public class UpdateQueue {
     }
     toBeRemoved.clear();
     for (ToBeUpdated o : objects) {
-      UpdateController controller = (UpdateController) springBeanProvider.getBean(o.getController());
+      UpdateController controller = (UpdateController) springBeanProvider.getBean(o.getController(), true);
       controller.update(o, delta);
     }
   }

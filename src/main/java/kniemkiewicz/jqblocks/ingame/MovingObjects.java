@@ -32,7 +32,7 @@ public class MovingObjects {
     this.add(player);
   }
 
-  void add(PhysicalObject object) {
+  public void add(PhysicalObject object) {
     objects.add(object);
     if (RenderableObject.class.isAssignableFrom(object.getClass())) {
       queue.add((RenderableObject)object);
