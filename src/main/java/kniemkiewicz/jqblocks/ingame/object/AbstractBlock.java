@@ -30,6 +30,8 @@ public abstract class AbstractBlock implements RenderableObject, PhysicalObject,
     this.height = height;
     shape = new Rectangle(this.x, this.y, this.width - 1, this.height - 1);
     neighbors = new NeighborAwareBlock();
+    assert this.width > 0;
+    assert this.height > 0;
   }
 
   public AbstractBlock(float x, float y, float width, float height) {
@@ -39,6 +41,8 @@ public abstract class AbstractBlock implements RenderableObject, PhysicalObject,
     this.height = Sizes.roundToBlockSize(height);
     shape = new Rectangle(this.x, this.y, this.width - 1, this.height - 1);
     neighbors = new NeighborAwareBlock();
+    assert this.width > 0;
+    assert this.height > 0;
   }
 
   protected abstract AbstractBlock getSubBlock(AbstractBlock parent, int x, int y, int width, int height);

@@ -91,7 +91,7 @@ public class SurfaceGenerator {
   }
 
   private void generateFlat() {
-    int y = 4 * (Sizes.MAX_Y - Sizes.MIN_Y) / 5;
+    int y = Sizes.roundToBlockSize(4 * (Sizes.MAX_Y - Sizes.MIN_Y) / 5);
     int i = 0;
     while (i < heights.length) {
       int dx = random.nextInt(10);
