@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.controller.item;
 
+import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
@@ -12,12 +13,12 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseReleasedEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.MouseInput;
 import kniemkiewicz.jqblocks.ingame.item.PickaxeItem;
-import kniemkiewicz.jqblocks.ingame.object.AbstractBlock;
-import kniemkiewicz.jqblocks.ingame.object.Player;
+import kniemkiewicz.jqblocks.ingame.object.*;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
@@ -43,12 +44,17 @@ public class PickaxeItemController implements UpdateQueue.UpdateController<Picka
   Player player;
 
   @Autowired
-  private Backgrounds backgrounds;
+  private RenderQueue renderQueue;
 
   @Autowired
   MouseInput mouseInput;
 
+  @Autowired
+  Backgrounds backgrounds;
+
   private Rectangle affectedBlock;
+
+  private DigEffect digEffect;
 
   private int blockEndurance = 0;
 
@@ -56,9 +62,13 @@ public class PickaxeItemController implements UpdateQueue.UpdateController<Picka
     affectedBlock = rect;
     blockEndurance = block.getEndurance();
     updateQueue.add(pickaxe);
+    digEffect = new DigEffect(blockEndurance, rect);
+    renderQueue.add(digEffect);
   }
 
   private void stopDigging(PickaxeItem pickaxe) {
+    renderQueue.remove(digEffect);
+    digEffect = null;
     affectedBlock = null;
     blockEndurance = 0;
     updateQueue.remove(pickaxe);
@@ -190,6 +200,7 @@ public class PickaxeItemController implements UpdateQueue.UpdateController<Picka
     }
     logger.debug("update [affectedBlock="+affectedBlock+", enduranceLeft="+blockEndurance+"]");
     blockEndurance -= delta * pickaxe.getStrength();
+    digEffect.setCurrentEndurance(blockEndurance);
     if (blockEndurance <= 0) {
       AbstractBlock block = getBlock(affectedBlock);
       if (block != null) {

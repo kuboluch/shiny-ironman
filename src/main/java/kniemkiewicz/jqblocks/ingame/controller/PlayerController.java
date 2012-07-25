@@ -83,6 +83,9 @@ public class PlayerController implements InputListener {
     for (AbstractBlock b : colliding_blocks) {
       assert !GeometryUtils.intersects(player.getShape(), b.getShape());
     }
-    pointOfView.setCenter(Math.round(player.getShape().getCenterX()), Math.round(player.getShape().getCenterY()));
+    // Do not change this without a good reason. May lead to screen flickering in rare conditions.
+    int centerX = (int)player.getXMovement().getPos() + Player.WIDTH / 2;
+    int centerY = (int)player.getYMovement().getPos() + Player.HEIGHT / 2;
+    pointOfView.setCenter(centerX, centerY);
   }
 }
