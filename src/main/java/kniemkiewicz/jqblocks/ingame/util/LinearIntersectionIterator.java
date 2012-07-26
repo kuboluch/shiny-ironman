@@ -43,6 +43,6 @@ public class LinearIntersectionIterator<T extends PhysicalObject> extends Iterab
 
 
   public void remove() {
-    throw new UnsupportedOperationException();
+    it.remove();
   }
 }

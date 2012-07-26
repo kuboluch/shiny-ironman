@@ -23,4 +23,9 @@ public class DirtBlockItem implements Item {
   public Class<? extends DirtBlockItemController> getController() {
     return DirtBlockItemController.class;
   }
+
+  @Override
+  public boolean isLarge() {
+    return false;
+  }
 }

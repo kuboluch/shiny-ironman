@@ -3,6 +3,11 @@ package kniemkiewicz.jqblocks.ingame.object.player;
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.controller.HitResolver;
 import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
+import kniemkiewicz.jqblocks.ingame.item.Inventory;
+import kniemkiewicz.jqblocks.ingame.item.Item;
+import kniemkiewicz.jqblocks.ingame.object.ObjectKiller;
+import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
+import kniemkiewicz.jqblocks.ingame.object.PickableObject;
 import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
@@ -28,6 +33,15 @@ public class PlayerController implements InputListener {
 
   @Autowired
   PointOfView pointOfView;
+
+  @Autowired
+  MovingObjects movingObjects;
+
+  @Autowired
+  ObjectKiller objectKiller;
+
+  @Autowired
+  Inventory inventory;
 
   /**
    * This is manually invoked by Game to make sure that level is created before.
@@ -83,6 +97,18 @@ public class PlayerController implements InputListener {
     for (AbstractBlock b : colliding_blocks) {
       assert !GeometryUtils.intersects(player.getShape(), b.getShape());
     }
+    Iterator<PhysicalObject> it  = movingObjects.intersects(player.getShape());
+    while (it.hasNext()) {
+      PhysicalObject po = it.next();
+      if (po instanceof PickableObject) {
+        Item item = ((PickableObject)po).getItem();
+        if (inventory.add(item)) {
+          it.remove();
+          objectKiller.killMovingObject(po);
+        }
+      }
+    }
+
     // Do not change this without a good reason. May lead to screen flickering in rare conditions.
     int centerX = (int)player.getXMovement().getPos() + Player.WIDTH / 2;
     int centerY = (int)player.getYMovement().getPos() + Player.HEIGHT / 2;

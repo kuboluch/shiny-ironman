@@ -14,4 +14,9 @@ public class EmptyItem implements Item {
   public Class<? extends ItemController> getController() {
     return null;
   }
+
+  @Override
+  public boolean isLarge() {
+    return false;
+  }
 }

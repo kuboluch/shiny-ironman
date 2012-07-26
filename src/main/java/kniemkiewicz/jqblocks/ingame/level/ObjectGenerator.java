@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.level;
 
 import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.*;
+import kniemkiewicz.jqblocks.ingame.object.rock.Rock;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.Tree;
 import kniemkiewicz.jqblocks.ingame.object.bat.Bat;
@@ -61,9 +62,28 @@ public class ObjectGenerator {
       if (random.nextFloat() < DENSITY) {
         Bat bat = new Bat(Sizes.MIN_X + Sizes.BLOCK * i, Sizes.MAX_Y - heights[i] - ALTITUDE * Sizes.BLOCK);
         if (solidBlocks.intersects(bat.getShape()).hasNext()) continue;
-        movingObjects.add(bat);
-        renderQueue.add(bat);
-        updateQueue.add(bat);
+        bat.addTo(movingObjects, renderQueue, updateQueue);
+      }
+    }
+  }
+
+  void generateRocks(Random random, int[] heights) {
+    float SMALL_ROCK_DENSITY = configuration.getFloat("ObjectGenerator.SMALL_ROCK_DENSITY", 0.1f);
+    float LARGE_ROCK_DENSITY = configuration.getFloat("ObjectGenerator.LARGE_ROCK_DENSITY", 0.05f);
+    assert SMALL_ROCK_DENSITY + LARGE_ROCK_DENSITY < 1;
+    for (int i = 0; i < heights.length; i++) {
+      float r = random.nextFloat();
+      Boolean large = null;
+      if (r < LARGE_ROCK_DENSITY) {
+        large = true;
+      } else {
+        if (r < LARGE_ROCK_DENSITY + SMALL_ROCK_DENSITY) {
+          large = false;
+        }
+      }
+      if (large != null) {
+        Rock rock = new Rock(Sizes.MIN_X + Sizes.BLOCK * i + Sizes.BLOCK / 2, Sizes.MAX_Y - heights[i], large);
+        rock.addTo(renderQueue, movingObjects);
       }
     }
   }

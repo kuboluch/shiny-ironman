@@ -15,6 +15,7 @@ public interface RenderableObject<T extends RenderableObject> extends PhysicalOb
   enum Layer {
     MINUS_INF,
     BACKGROUND,
+    PASSIVE_OBJECTS,
     WALL,
     OBJECTS,
     ARROWS,

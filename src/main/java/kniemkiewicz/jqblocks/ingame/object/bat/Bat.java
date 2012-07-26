@@ -1,8 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.object.bat;
 
-import kniemkiewicz.jqblocks.ingame.PointOfView;
-import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
@@ -27,6 +25,13 @@ public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat> {
     this.xMovement = new LimitedSpeed(X_SPEED, X_SPEED, x, 0);
     this.y = y;
     rectangle = new Rectangle(x, y, SIZE, SIZE);
+  }
+
+  // Do not add objects manually. Using this method makes sure you won't forget any part.
+  public void addTo(MovingObjects movingObjects, RenderQueue renderQueue, UpdateQueue updateQueue) {
+    movingObjects.add(this);
+    renderQueue.add(this);
+    updateQueue.add(this);
   }
 
   @Override

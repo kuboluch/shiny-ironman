@@ -33,6 +33,7 @@ public class LevelGenerator {
     t.logTimeAndRestart("level generation");
     objectGenerator.generateTrees(random, heights);
     objectGenerator.generateBats(random, heights);
+    objectGenerator.generateRocks(random, heights);
     t.logTimeAndRestart("generate objects");
   }
 

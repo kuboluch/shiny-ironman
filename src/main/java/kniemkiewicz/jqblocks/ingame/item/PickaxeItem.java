@@ -42,4 +42,9 @@ public class PickaxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<Pick
   public Class<PickaxeItemController> getController() {
     return PickaxeItemController.class;
   }
+
+  @Override
+  public boolean isLarge() {
+    return false;
+  }
 }

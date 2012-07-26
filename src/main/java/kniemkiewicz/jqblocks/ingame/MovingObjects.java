@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -25,23 +26,27 @@ public class MovingObjects {
   @Autowired
   RenderQueue queue;
 
-  List<PhysicalObject> objects = new ArrayList<PhysicalObject>();
+  HashSet<PhysicalObject> objects = new HashSet<PhysicalObject>();
 
   @PostConstruct
   void init() {
-    this.add(player);
+    queue.add(player);
+    objects.add(player);
   }
 
-  public void add(PhysicalObject object) {
+  public boolean add(PhysicalObject object) {
+    if (this.intersects(object.getShape()).hasNext()) return false;
     objects.add(object);
-    if (RenderableObject.class.isAssignableFrom(object.getClass())) {
-      queue.add((RenderableObject)object);
-    }
+    return true;
   }
 
 
 
   public IterableIterator<PhysicalObject> intersects(Shape shape) {
     return new LinearIntersectionIterator<PhysicalObject>(objects.iterator(), shape);
+  }
+
+  public void remove(PhysicalObject po) {
+    objects.remove(po);
   }
 }

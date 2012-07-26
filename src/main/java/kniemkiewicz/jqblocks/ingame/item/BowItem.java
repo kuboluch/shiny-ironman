@@ -34,4 +34,9 @@ public class BowItem implements Item {
   public Class<? extends ItemController> getController() {
     return BowItemController.class;
   }
+
+  @Override
+  public boolean isLarge() {
+    return false;
+  }
 }
