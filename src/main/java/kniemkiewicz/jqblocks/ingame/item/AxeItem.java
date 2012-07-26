@@ -2,26 +2,23 @@ package kniemkiewicz.jqblocks.ingame.item;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.item.controller.AxeItemController;
 import kniemkiewicz.jqblocks.ingame.item.controller.PickaxeItemController;
 import kniemkiewicz.jqblocks.ingame.item.feature.Strength;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
-/**
- * User: krzysiek
- * Date: 15.07.12
- */
-public class PickaxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<PickaxeItem> {
+public class AxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<AxeItem> {
 
   private Image image;
 
-  private int strength = Sizes.DEFAULT_PICKAXE_STRENGTH;
+  private int strength = Sizes.DEFAULT_AXE_STRENGTH;
 
-  public PickaxeItem(Image image) {
+  public AxeItem(Image image) {
     this.image = image;
   }
 
-  public PickaxeItem(int strength, Image image) {
+  public AxeItem(int strength, Image image) {
     this.strength = strength;
     this.image = image;
   }
@@ -35,8 +32,8 @@ public class PickaxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<Pick
   }
 
   @Override
-  public Class<PickaxeItemController> getController() {
-    return PickaxeItemController.class;
+  public Class<AxeItemController> getController() {
+    return AxeItemController.class;
   }
 
   @Override

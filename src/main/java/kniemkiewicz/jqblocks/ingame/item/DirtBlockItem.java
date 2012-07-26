@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.item;
 
-import kniemkiewicz.jqblocks.ingame.controller.item.DirtBlockItemController;
+import kniemkiewicz.jqblocks.ingame.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.item.controller.DirtBlockItemController;
 import kniemkiewicz.jqblocks.ingame.object.block.DirtBlock;
 import org.newdawn.slick.Graphics;
 
@@ -8,7 +9,7 @@ import org.newdawn.slick.Graphics;
  * User: krzysiek
  * Date: 11.07.12
  */
-public class DirtBlockItem implements Item {
+public class DirtBlockItem implements Item, UpdateQueue.ToBeUpdated<DirtBlockItem> {
   public void renderItem(Graphics g, int x, int y, int square_size) {
     x+= square_size / 10;
     y+= square_size / 10;

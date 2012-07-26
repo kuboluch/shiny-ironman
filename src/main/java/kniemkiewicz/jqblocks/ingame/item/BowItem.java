@@ -1,7 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.item;
 
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
-import kniemkiewicz.jqblocks.ingame.controller.item.BowItemController;
+import kniemkiewicz.jqblocks.ingame.item.controller.BowItemController;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 

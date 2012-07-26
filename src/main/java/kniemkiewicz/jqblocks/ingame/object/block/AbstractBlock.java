@@ -62,7 +62,7 @@ public abstract class AbstractBlock<T extends AbstractBlock> implements Renderab
     return shape;
   }
 
-  public void removeRect(Rectangle rect, SolidBlocks blocks, Backgrounds backgrounds) {
+  public void removeRect(Rectangle rect, SolidBlocks blocks) {
     blocks.remove(this);
     // We have to check this after removing the block itself.
     assert !blocks.intersects(this.getShape()).hasNext();

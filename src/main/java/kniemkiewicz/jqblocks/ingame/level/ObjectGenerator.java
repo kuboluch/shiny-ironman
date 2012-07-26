@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.level;
 
 import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.*;
+import kniemkiewicz.jqblocks.ingame.object.background.BackgroundFactory;
 import kniemkiewicz.jqblocks.ingame.object.rock.Rock;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.Tree;
@@ -36,6 +37,9 @@ public class ObjectGenerator {
   @Autowired
   UpdateQueue updateQueue;
 
+  @Autowired
+  BackgroundFactory backgroundFactory;
+
   void generateTrees(Random random, int[] heights) {
     float TREE_DENSITY = configuration.getFloat("ObjectGenerator.TREE_DENSITY", 0.7f);
     int REQUIRED_OK_BLOCKS = Tree.WIDTH / Sizes.BLOCK - 1;
@@ -46,7 +50,7 @@ public class ObjectGenerator {
         okBlocks++;
         if ((okBlocks == REQUIRED_OK_BLOCKS) && (random.nextFloat() < TREE_DENSITY)) {
           okBlocks = -1; // Let the trees have at least one block between them.
-          backgrounds.add(backgrounds.getTree(Sizes.MIN_X + (i + 1) * Sizes.BLOCK - Tree.WIDTH, Sizes.MAX_Y -  heights[i] - Tree.HEIGHT));
+          backgrounds.add(backgroundFactory.getTree(Sizes.MIN_X + (i + 1) * Sizes.BLOCK - Tree.WIDTH, Sizes.MAX_Y -  heights[i] - Tree.HEIGHT));
         }
       } else {
         okBlocks = 0;

@@ -1,4 +1,4 @@
-package kniemkiewicz.jqblocks.ingame.controller.item;
+package kniemkiewicz.jqblocks.ingame.item.controller;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.object.arrow.ArrowController;

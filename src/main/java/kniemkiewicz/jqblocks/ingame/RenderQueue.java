@@ -71,7 +71,7 @@ public class RenderQueue implements Renderable {
     }
   }
 
-  public void remove(RenderableObject block) {
-    renderableObjects.get(block.getLayer()).remove(block);
+  public void remove(RenderableObject renderable) {
+    renderableObjects.get(renderable.getLayer()).remove(renderable);
   }
 }

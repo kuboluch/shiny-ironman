@@ -24,34 +24,23 @@ import java.util.*;
  * all of them to renderQueue.
  */
 @Component
-public class Backgrounds{
+public class Backgrounds {
   @Autowired
   RenderQueue queue;
 
-  Set<RenderableObject> backgrounds = new HashSet<RenderableObject>();
+  Set<AbstractBackgroundElement> backgrounds = new HashSet<AbstractBackgroundElement>();
 
-  public void add(RenderableObject background) {
+  public void add(AbstractBackgroundElement background) {
     queue.add(background);
     backgrounds.add(background);
   }
 
-  public void remove(RenderableObject background) {
+  public void remove(AbstractBackgroundElement background) {
     backgrounds.remove(background);
     queue.remove(background);
   }
 
-  public Iterator<RenderableObject> intersects(Rectangle rect) {
-    return new LinearIntersectionIterator<RenderableObject>(backgrounds.iterator(), rect);
-  }
-
-  @Resource(name = "treeImage")
-  private Image treeImage;
-
-  public NaturalDirtBackground getNaturalDirtBackground(float x, float y, float width, float height) {
-    return new NaturalDirtBackground(x, y, width, height);
-  }
-
-  public Tree getTree(int x, int y) {
-    return new Tree(x, y, treeImage);
+  public Iterator<AbstractBackgroundElement> intersects(Rectangle rect) {
+    return new LinearIntersectionIterator<AbstractBackgroundElement>(backgrounds.iterator(), rect);
   }
 }

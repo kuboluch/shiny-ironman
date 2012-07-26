@@ -52,6 +52,7 @@ public class Inventory implements Renderable {
     }
     Assert.executeAndAssert(add(new DirtBlockItem()));
     Assert.executeAndAssert(add(new PickaxeItem(pickaxeImage)));
+    Assert.executeAndAssert(add(new AxeItem(pickaxeImage)));
     Assert.executeAndAssert(add(new BowItem()));
     Assert.executeAndAssert(add(new PickaxeItem(1000000, pickaxeImage)));
   }
