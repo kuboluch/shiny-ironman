@@ -10,7 +10,6 @@ import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.item.Inventory;
 import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController;
 import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
-import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
@@ -60,13 +59,7 @@ public class InventoryController implements InputListener, EventListener {
     return Arrays.asList((Class) InputEvent.class, (Class) ScreenMovedEvent.class);
   }
 
-  private boolean dropItem(int x, int y) {
-    if (!AbstractActionItemController.isInRange(x, y, player, DROP_RANGE)) return false;
-    Class<? extends ItemController> clazz = inventory.getSelectedItem().getController();
-    if (clazz == null) return false;
-    ItemController controller = provider.getBean(clazz, true);
-    MovingPhysicalObject dropObject = controller.getDropObject(inventory.getSelectedItem(), x, y);
-    if (dropObject == null) return false;
+  public void dropObject(MovingPhysicalObject dropObject) {
     Shape shape = dropObject.getShape();
     // We will use this infinite vertical rectangle too look where item should drop, as
     // there is no applicable free fall implementation yet.
@@ -79,6 +72,16 @@ public class InventoryController implements InputListener, EventListener {
       }
     }
     dropObject.setY((int)(minY - shape.getHeight() - 1));
+  }
+
+  private boolean dropItem(int x, int y) {
+    if (!AbstractActionItemController.isInRange(x, y, player, DROP_RANGE)) return false;
+    Class<? extends ItemController> clazz = inventory.getSelectedItem().getItemController();
+    if (clazz == null) return false;
+    ItemController controller = provider.getBean(clazz, true);
+    MovingPhysicalObject dropObject = controller.getDropObject(inventory.getSelectedItem(), x, y);
+    if (dropObject == null) return false;
+    dropObject(dropObject);
     inventory.removeSelectedItem();
     return true;
   }
@@ -96,7 +99,7 @@ public class InventoryController implements InputListener, EventListener {
         }
       }
     }
-    Class<? extends ItemController> clazz = inventory.getSelectedItem().getController();
+    Class<? extends ItemController> clazz = inventory.getSelectedItem().getItemController();
     if (clazz != null) {
       ItemController controller = provider.getBean(clazz, true);
       controller.listen(inventory.getSelectedItem(), events);

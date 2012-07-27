@@ -33,7 +33,7 @@ public class AxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<AxeItem>
   }
 
   @Override
-  public Class<? extends ItemController> getController() {
+  public Class<? extends ItemController> getItemController() {
     return AxeItemController.class;
   }
 

@@ -36,7 +36,7 @@ public class PickaxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<Pick
   }
 
   @Override
-  public Class<? extends ItemController> getController() {
+  public Class<? extends ItemController> getItemController() {
     return PickaxeItemController.class;
   }
 

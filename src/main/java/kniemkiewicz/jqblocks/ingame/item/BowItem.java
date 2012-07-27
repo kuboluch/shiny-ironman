@@ -31,7 +31,7 @@ public class BowItem implements Item {
   }
 
   @Override
-  public Class<? extends ItemController> getController() {
+  public Class<? extends ItemController> getItemController() {
     return BowItemController.class;
   }
 

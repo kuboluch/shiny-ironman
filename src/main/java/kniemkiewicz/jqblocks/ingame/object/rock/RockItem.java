@@ -28,7 +28,7 @@ public class RockItem implements Item {
   }
 
   @Override
-  public Class<? extends ItemController> getController() {
+  public Class<? extends ItemController> getItemController() {
     return RockItemController.class;
   }
 

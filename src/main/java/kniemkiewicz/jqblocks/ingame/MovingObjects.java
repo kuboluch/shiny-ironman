@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -32,6 +33,16 @@ public class MovingObjects {
   void init() {
     queue.add(player);
     objects.add(player);
+  }
+
+  // TODO: It should be known which object can collide with which.
+  public boolean addCollidingWithPlayer(PhysicalObject object) {
+    Iterator<PhysicalObject> it = this.intersects(object.getShape());
+    if (it.hasNext()) {
+      if (!(it.next() instanceof Player)) return false;
+    }
+    objects.add(object);
+    return true;
   }
 
   public boolean add(PhysicalObject object) {

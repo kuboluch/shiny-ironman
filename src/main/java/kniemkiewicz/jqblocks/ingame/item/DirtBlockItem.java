@@ -21,7 +21,7 @@ public class DirtBlockItem implements Item, UpdateQueue.ToBeUpdated<DirtBlockIte
     g.drawRoundRect(x +1, y + 1, square_size - 2, square_size - 2, 5);
   }
 
-  public Class<? extends DirtBlockItemController> getController() {
+  public Class<? extends DirtBlockItemController> getItemController() {
     return DirtBlockItemController.class;
   }
 

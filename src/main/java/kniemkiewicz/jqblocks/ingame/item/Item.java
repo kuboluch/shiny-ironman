@@ -11,7 +11,7 @@ import org.newdawn.slick.Graphics;
 public interface Item {
   void renderItem(Graphics g, int x, int y, int square_size);
 
-  Class<? extends ItemController> getController();
+  Class<? extends ItemController> getItemController();
 
   boolean isLarge();
 }

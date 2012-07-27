@@ -11,7 +11,7 @@ public class EmptyItem implements Item {
 
   public void renderItem(Graphics g, int x, int y, int square_size) { }
 
-  public Class<? extends ItemController> getController() {
+  public Class<? extends ItemController> getItemController() {
     return null;
   }
 
