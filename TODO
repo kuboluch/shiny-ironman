@@ -5,15 +5,10 @@ Krzysiek:
 - faster collision detection
 - fix assert error when hitting ceiling
 - decide what to do with arrows stuck in the walls
-- check if we need to cache controllers instead of just taking them from context
 
 Kuba:
-- grass fix reported by Krzysiek
 - you made creating level take ages as you apparently compute a lot of stuff while I add blocks to the level.
-- point of view change events
-- handle pov point of view change while digging
 - pile of * after digging
-- carry pile
 - pile process to resource
 - ladder
 - cutting tree

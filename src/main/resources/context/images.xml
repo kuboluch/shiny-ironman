@@ -22,4 +22,7 @@
     <bean id="batImage" class="org.newdawn.slick.Image">
         <constructor-arg value="images/bat.png"/>
     </bean>
+    <bean id="axeImage" class="org.newdawn.slick.Image">
+        <constructor-arg value="images/axe.png"/>
+    </bean>
 </beans>
