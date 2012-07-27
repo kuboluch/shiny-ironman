@@ -58,6 +58,7 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
 
   @Override
   void stopAction(AxeItem item) {
+    if (wood.getAmount() == 0) return;
     ResourceObject ob = new ResourceObject(wood, (int)player.getXMovement().getPos(), (int)player.getYMovement().getPos());
     ob.addTo(renderQueue, movingObjects);
     // There is a high chance that this object will be immediately picked up.
