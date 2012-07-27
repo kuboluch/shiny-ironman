@@ -23,7 +23,7 @@ public class MouseInputInfo implements EventListener, Renderable {
   PointOfView pointOfView;
 
   @Override
-  public List<Class> getEventTypesOfIntrest() {
+  public List<Class> getEventTypesOfInterest() {
     return Arrays.asList((Class) MouseMovedEvent.class);
   }
 

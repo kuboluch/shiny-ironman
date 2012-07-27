@@ -36,19 +36,13 @@ public class DirtBlockItemController extends AbstractActionItemController<DirtBl
   }
 
   @Override
-  void startAction(DirtBlockItem item) {
-    return;
-  }
+  void startAction(DirtBlockItem item) {  }
 
   @Override
-  void stopAction(DirtBlockItem item) {
-    return;
-  }
+  void stopAction(DirtBlockItem item) {  }
 
   @Override
-  void updateAction(DirtBlockItem item, int delta) {
-    return;
-  }
+  void updateAction(DirtBlockItem item, int delta) {  }
 
   @Override
   boolean isActionCompleted() {

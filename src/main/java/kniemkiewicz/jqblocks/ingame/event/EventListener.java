@@ -6,6 +6,6 @@ public interface EventListener {
 
   void listen(List<Event> events);
 
-  List<Class> getEventTypesOfIntrest();
+  List<Class> getEventTypesOfInterest();
 
 }

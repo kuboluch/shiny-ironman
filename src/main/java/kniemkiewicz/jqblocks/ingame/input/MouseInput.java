@@ -29,6 +29,7 @@ public class MouseInput {
   }
 
   public boolean isMouseButtonDown(int button) {
+    // TODO: Use Button enum here.
     return input.isMouseButtonDown(button);
   }
 }

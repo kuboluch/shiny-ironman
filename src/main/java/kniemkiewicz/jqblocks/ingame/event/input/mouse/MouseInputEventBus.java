@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 
 @Component
@@ -24,6 +25,8 @@ public class MouseInputEventBus implements MouseListener {
   final Object lock = new Object();
 
   List<InputEvent> events = new ArrayList<InputEvent>();
+
+  EnumSet<Button> pressedButtons = EnumSet.noneOf(Button.class);
 
   final List<MouseInputListener> listeners = new ArrayList<MouseInputListener>();
 
@@ -43,23 +46,25 @@ public class MouseInputEventBus implements MouseListener {
 
   public void mousePressed(int button, int x, int y) {
     synchronized (lock) {
-      events.add(new MousePressedEvent(button, x + pointOfView.getShiftX(), y + pointOfView.getShiftY(), x, y));
+      Button b = Button.parseInt(button);
+      events.add(new MousePressedEvent(b, x + pointOfView.getShiftX(), y + pointOfView.getShiftY(), x, y));
+      pressedButtons.add(b);
     }
   }
 
   public void mouseWheelMoved(int change) { }
 
   public void mouseClicked(int button, int x, int y, int clickCount) {
-    // left clicks only, for now.
-    if (button != 0) return;
     synchronized (lock) {
-      events.add(new MouseClickEvent(button, x + pointOfView.getShiftX(), y + pointOfView.getShiftY(), x, y, clickCount));
+      events.add(new MouseClickEvent(Button.parseInt(button), x + pointOfView.getShiftX(), y + pointOfView.getShiftY(), x, y, clickCount));
     }
   }
 
   public void mouseReleased(int button, int x, int y) {
     synchronized (lock) {
-      events.add(new MouseReleasedEvent(button, x + pointOfView.getShiftX(), y + pointOfView.getShiftY(), x, y));
+      Button b = Button.parseInt(button);
+      events.add(new MouseReleasedEvent(b, x + pointOfView.getShiftX(), y + pointOfView.getShiftY(), x, y));
+      pressedButtons.remove(b);
     }
   }
 
@@ -72,8 +77,10 @@ public class MouseInputEventBus implements MouseListener {
 
   public void mouseDragged(int oldx, int oldy, int newx, int newy) {
     synchronized (lock) {
-      events.add(new MouseDraggedEvent(oldx + pointOfView.getShiftX(), oldy + pointOfView.getShiftY(), oldx, oldy,
-          newx + pointOfView.getShiftX(), newy + pointOfView.getShiftY(), newx, newy));
+      for (Button b : pressedButtons) {
+        events.add(new MouseDraggedEvent(oldx + pointOfView.getShiftX(), oldy + pointOfView.getShiftY(), oldx, oldy,
+            newx + pointOfView.getShiftX(), newy + pointOfView.getShiftY(), newx, newy, b));
+      }
     }
   }
 

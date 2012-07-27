@@ -39,7 +39,7 @@ public class EventBus {
     }
     for (EventListener listener : listeners) {
       List<Event> eventsOfIntrest = new ArrayList<Event>();
-      List<Class> eventTypes = listener.getEventTypesOfIntrest();
+      List<Class> eventTypes = listener.getEventTypesOfInterest();
       for (Class eventType : eventTypes) {
         eventsOfIntrest.addAll(Collections3.collectSubclasses(eventsForListeners, eventType));
       }

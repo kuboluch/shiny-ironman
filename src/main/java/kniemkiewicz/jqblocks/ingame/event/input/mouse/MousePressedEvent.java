@@ -3,13 +3,13 @@ package kniemkiewicz.jqblocks.ingame.event.input.mouse;
 import kniemkiewicz.jqblocks.ingame.event.input.InputEvent;
 
 public class MousePressedEvent extends InputEvent {
-  private int button;
+  private Button button;
   private int levelX;
   private int levelY;
   private int screenX;
   private int screenY;
 
-  public MousePressedEvent(int button, int levelX, int levelY, int screenX, int screenY) {
+  public MousePressedEvent(Button button, int levelX, int levelY, int screenX, int screenY) {
     super();
     this.button = button;
     this.levelX = levelX;
@@ -18,7 +18,7 @@ public class MousePressedEvent extends InputEvent {
     this.screenY = screenY;
   }
 
-  public int getButton() {
+  public Button getButton() {
     return button;
   }
 

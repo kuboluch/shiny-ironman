@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.event.Event;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseDraggedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseReleasedEvent;
@@ -68,12 +69,18 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
 
   public void handleMousePressedEvent(T item, List<MousePressedEvent> mousePressedEvents) {
     assert mousePressedEvents.size() > 0;
-    MousePressedEvent mpe = mousePressedEvents.get(0);
-    int x = Sizes.roundToBlockSizeX(mpe.getLevelX());
-    int y = Sizes.roundToBlockSizeY(mpe.getLevelY());
-    if (!isInRange(x, y)) {
-      return;
+    MousePressedEvent mpe = null;
+    int x = 0;
+    int y = 0;
+    for (MousePressedEvent e : mousePressedEvents) {
+      x = Sizes.roundToBlockSizeX(e.getLevelX());
+      y = Sizes.roundToBlockSizeY(e.getLevelY());
+      if (isInRange(x, y) && e.getButton() == Button.LEFT) {
+        mpe = e;
+        break;
+      }
     }
+    if (mpe == null) return;
 
     Rectangle rect = new Rectangle(x, y, Sizes.BLOCK - 1, Sizes.BLOCK - 1);
     if (canPerformAction(rect)) {
@@ -85,7 +92,9 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
 
   public void handleMouseDraggedEvent(T item, List<MouseDraggedEvent> mouseDraggedEvents) {
     assert mouseDraggedEvents.size() > 0;
+    // TODO: there may be more than 1 event!
     MouseDraggedEvent mde = mouseDraggedEvents.get(0);
+    if (mde.getButton() != Button.LEFT) return;
     int x = Sizes.roundToBlockSizeX(mde.getNewLevelX());
     int y = Sizes.roundToBlockSizeY(mde.getNewLevelY());
     handleMouseCoordChange(item, x, y);
@@ -95,6 +104,7 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
     if (!mouseInput.isMouseButtonDown(0)) {
       return;
     }
+    // TODO: there may be more than 1 event!
     assert screenMovedEvents.size() > 0;
     ScreenMovedEvent sme = screenMovedEvents.get(0);
     int x = Sizes.roundToBlockSizeX(mouseInput.getMouseX() + sme.getNewShiftX());
@@ -124,8 +134,10 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
     if (affectedBlock == null) {
       return;
     }
+    // TODO: there may be more than 1 event!
     assert mouseReleasedEvents.size() > 0;
     MouseReleasedEvent mre = mouseReleasedEvents.get(0);
+    if (mre.getButton() != Button.LEFT) return;
     int x = Sizes.roundToBlockSizeX(mre.getLevelX());
     int y = Sizes.roundToBlockSizeY(mre.getLevelY());
     if (!isInRange(x, y)) {
