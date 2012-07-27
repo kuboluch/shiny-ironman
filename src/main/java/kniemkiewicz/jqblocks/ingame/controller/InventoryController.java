@@ -8,10 +8,18 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseClickEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.item.Inventory;
+import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController;
+import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
+import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
+import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
+import kniemkiewicz.jqblocks.ingame.object.player.Player;
+import kniemkiewicz.jqblocks.util.GeometryUtils;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,10 +32,17 @@ import java.util.List;
  */
 @Component
 public class InventoryController implements InputListener, EventListener {
+
+  private static int DROP_RANGE = 4 * Sizes.BLOCK;
+
   @Autowired
   Inventory inventory;
   @Autowired
   SpringBeanProvider provider;
+  @Autowired
+  SolidBlocks solidBlocks;
+  @Autowired
+  Player player;
 
   public static Log logger = LogFactory.getLog(InventoryController.class);
 
@@ -46,7 +61,25 @@ public class InventoryController implements InputListener, EventListener {
   }
 
   private boolean dropItem(int x, int y) {
-    logger.info("Dropping");
+    if (!AbstractActionItemController.isInRange(x, y, player, DROP_RANGE)) return false;
+    Class<? extends ItemController> clazz = inventory.getSelectedItem().getController();
+    if (clazz == null) return false;
+    ItemController controller = provider.getBean(clazz, true);
+    MovingPhysicalObject dropObject = controller.getDropObject(inventory.getSelectedItem(), x, y);
+    if (dropObject == null) return false;
+    Shape shape = dropObject.getShape();
+    // We will use this infinite vertical rectangle too look where item should drop, as
+    // there is no applicable free fall implementation yet.
+    Rectangle rect = GeometryUtils.getNewBoundingRectangle(shape);
+    rect.setHeight(Sizes.MAX_Y - Sizes.MIN_Y);
+    int minY = Sizes.MAX_Y;
+    for (AbstractBlock block : solidBlocks.intersects(rect)) {
+      if (block.getShape().getY() < minY) {
+        minY = (int)block.getShape().getY();
+      }
+    }
+    dropObject.setY((int)(minY - shape.getHeight() - 1));
+    inventory.removeSelectedItem();
     return true;
   }
 

@@ -21,7 +21,7 @@ public class UpdateQueue {
   }
 
   public interface ToBeUpdated<T> {
-    Class<? extends UpdateController<T>> getController();
+    Class<? extends UpdateController<T>> getUpdateController();
   }
 
   @Autowired
@@ -37,7 +37,7 @@ public class UpdateQueue {
     }
     toBeRemoved.clear();
     for (ToBeUpdated o : objects) {
-      UpdateController controller = (UpdateController) springBeanProvider.getBean(o.getController(), true);
+      UpdateController controller = (UpdateController) springBeanProvider.getBean(o.getUpdateController(), true);
       controller.update(o, delta);
     }
   }

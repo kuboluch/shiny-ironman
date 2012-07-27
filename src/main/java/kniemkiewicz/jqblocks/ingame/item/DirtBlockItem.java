@@ -29,4 +29,9 @@ public class DirtBlockItem implements Item, UpdateQueue.ToBeUpdated<DirtBlockIte
   public boolean isLarge() {
     return false;
   }
+
+  @Override
+  public Class<? extends UpdateQueue.UpdateController<DirtBlockItem>> getUpdateController() {
+    return DirtBlockItemController.class;
+  }
 }

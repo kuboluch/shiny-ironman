@@ -53,7 +53,7 @@ public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat> {
   }
 
   @Override
-  public Class<? extends UpdateQueue.UpdateController<Bat>> getController() {
+  public Class<? extends UpdateQueue.UpdateController<Bat>> getUpdateController() {
     return BatController.class;
   }
 }

@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.item.controller;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.arrow.ArrowController;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.event.Event;
@@ -35,6 +36,11 @@ public class BowItemController implements ItemController<BowItem> {
     if (!clickEvents.isEmpty()) {
       handleClickEvent(clickEvents);
     }
+  }
+
+  @Override
+  public MovingPhysicalObject getDropObject(BowItem item, int centerX, int centerY) {
+    return null;
   }
 
   private void handleClickEvent(List<MouseClickEvent> clickEvents) {

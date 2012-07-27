@@ -107,4 +107,9 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
         affectedBlock.getX(), affectedBlock.getY(), affectedBlock.getWidth(), affectedBlock.getHeight()));
     assert !blocks.intersects(affectedBlock).hasNext();
   }
+
+  @Override
+  public MovingPhysicalObject getDropObject(PickaxeItem item, int centerX, int centerY) {
+    return null;
+  }
 }

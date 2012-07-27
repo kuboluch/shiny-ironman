@@ -119,5 +119,9 @@ public class Inventory implements Renderable {
       i += 1;
     }
   }
+
+  public void removeSelectedItem() {
+    items.set(selectedIndex, emptyItem);
+  }
 }
 

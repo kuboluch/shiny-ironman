@@ -10,6 +10,7 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseReleasedEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.MouseInput;
+import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.newdawn.slick.geom.Circle;
@@ -18,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpdated<T>> implements ItemController<T>, UpdateQueue.UpdateController<T> {
+public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpdated<T> & Item> implements ItemController<T>, UpdateQueue.UpdateController<T> {
   public static final int RANGE = 75;
 
   @Autowired
@@ -149,10 +150,14 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
     affectedBlock = null;
   }
 
+  public static boolean isInRange(int x, int y, Player player, int range) {
+    float px = player.getXMovement().getPos();
+    float py = player.getYMovement().getPos();
+    return  (px - x) * (px - x) + (py - y) * (py - y) < range * range;
+  }
+
   public boolean isInRange(int x, int y) {
-    final Circle circle = new Circle(player.getXMovement().getPos() + Player.WIDTH / 2,
-        player.getYMovement().getPos() + Player.HEIGHT / 2, RANGE);
-    return circle.contains(x, y);
+    return isInRange(x, y, player, RANGE);
   }
 
   @Override

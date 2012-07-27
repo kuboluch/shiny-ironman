@@ -5,6 +5,7 @@ import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.item.Item;
+import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.PickableObject;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
@@ -18,10 +19,10 @@ import org.newdawn.slick.geom.Shape;
  * User: knie
  * Date: 7/25/12
  */
-public class Rock implements RenderableObject<Rock>, PickableObject {
+public class Rock implements RenderableObject<Rock>, PickableObject, MovingPhysicalObject {
 
-  private static int SMALL_CIRCLE_RADIUS = Sizes.BLOCK / 4;
-  private static int LARGE_CIRCLE_RADIUS = Sizes.BLOCK / 2;
+  static int SMALL_CIRCLE_RADIUS = Sizes.BLOCK / 4;
+  static int LARGE_CIRCLE_RADIUS = Sizes.BLOCK / 2;
 
   static Color LARGE_COLOR = Color.gray;
   static Color SMALL_COLOR = Color.lightGray;
@@ -66,5 +67,10 @@ public class Rock implements RenderableObject<Rock>, PickableObject {
   @Override
   public Item getItem() {
     return new RockItem(large);
+  }
+
+  @Override
+  public void setY(int y) {
+    circle.setY(y);
   }
 }

@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.item;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.item.controller.AxeItemController;
 import kniemkiewicz.jqblocks.ingame.item.controller.PickaxeItemController;
 import kniemkiewicz.jqblocks.ingame.item.feature.Strength;
@@ -32,7 +33,12 @@ public class AxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<AxeItem>
   }
 
   @Override
-  public Class<AxeItemController> getController() {
+  public Class<? extends ItemController> getController() {
+    return AxeItemController.class;
+  }
+
+  @Override
+  public Class<AxeItemController> getUpdateController() {
     return AxeItemController.class;
   }
 

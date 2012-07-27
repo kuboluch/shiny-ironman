@@ -80,7 +80,7 @@ public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Ar
   }
 
   @Override
-  public Class<ArrowController> getController() {
+  public Class<ArrowController> getUpdateController() {
     return ArrowController.class;
   }
 }

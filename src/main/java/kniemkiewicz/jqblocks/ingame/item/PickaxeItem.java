@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.item;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.item.controller.PickaxeItemController;
 import kniemkiewicz.jqblocks.ingame.item.feature.Strength;
 import org.newdawn.slick.Graphics;
@@ -35,7 +36,12 @@ public class PickaxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<Pick
   }
 
   @Override
-  public Class<PickaxeItemController> getController() {
+  public Class<? extends ItemController> getController() {
+    return PickaxeItemController.class;
+  }
+
+  @Override
+  public Class<PickaxeItemController> getUpdateController() {
     return PickaxeItemController.class;
   }
 

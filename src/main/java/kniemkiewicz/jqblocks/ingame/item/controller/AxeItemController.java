@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.item.controller;
 
 import kniemkiewicz.jqblocks.ingame.item.AxeItem;
+import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.background.AbstractBackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
@@ -76,5 +77,10 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
     }
     assert !it.hasNext();
     return backgroundElement;
+  }
+
+  @Override
+  public MovingPhysicalObject getDropObject(AxeItem item, int centerX, int centerY) {
+    return null;
   }
 }

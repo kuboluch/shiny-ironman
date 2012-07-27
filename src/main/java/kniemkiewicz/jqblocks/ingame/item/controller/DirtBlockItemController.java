@@ -9,6 +9,7 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.MouseInput;
 import kniemkiewicz.jqblocks.ingame.item.DirtBlockItem;
+import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.block.DirtBlock;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
@@ -42,7 +43,7 @@ public class DirtBlockItemController extends AbstractActionItemController<DirtBl
   void stopAction(DirtBlockItem item) {  }
 
   @Override
-  void updateAction(DirtBlockItem item, int delta) {  }
+  void updateAction(DirtBlockItem item, int delta) { }
 
   @Override
   boolean isActionCompleted() {
@@ -75,5 +76,10 @@ public class DirtBlockItemController extends AbstractActionItemController<DirtBl
     }
     assert !it.hasNext();
     return block;
+  }
+
+  @Override
+  public MovingPhysicalObject getDropObject(DirtBlockItem item, int centerX, int centerY) {
+    return null;
   }
 }

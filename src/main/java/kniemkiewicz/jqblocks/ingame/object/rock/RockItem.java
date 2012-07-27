@@ -29,7 +29,7 @@ public class RockItem implements Item {
 
   @Override
   public Class<? extends ItemController> getController() {
-    return null;
+    return RockItemController.class;
   }
 
   @Override

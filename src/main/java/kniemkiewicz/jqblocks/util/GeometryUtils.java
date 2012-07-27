@@ -10,6 +10,10 @@ import org.newdawn.slick.geom.Shape;
  */
 public class GeometryUtils {
   public static Rectangle getBoundingRectangle(Shape shape) {
+    if (shape instanceof Rectangle) return (Rectangle)shape;
+    return getNewBoundingRectangle(shape);
+  }
+  public static Rectangle getNewBoundingRectangle(Shape shape) {
     return new Rectangle(shape.getMinX(), shape.getMinY(), shape.getWidth(), shape.getHeight());
   }
   public static boolean intersects(Shape shape1, Shape shape2) {
