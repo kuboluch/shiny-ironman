@@ -1,8 +1,10 @@
-package kniemkiewicz.jqblocks.ingame.object;
+package kniemkiewicz.jqblocks.ingame;
 
 import kniemkiewicz.jqblocks.ingame.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
+import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Component;
  * Date: 7/25/12
  */
 @Component
-public class ObjectKiller {
+public class World {
 
   @Autowired
   RenderQueue renderQueue;

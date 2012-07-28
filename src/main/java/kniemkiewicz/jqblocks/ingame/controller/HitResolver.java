@@ -46,9 +46,9 @@ public class HitResolver {
       case IGNORE:
         break;
     }
-    assert player.getXMovement().getPos() > Sizes.MIN_X;
+    assert player.getXMovement().getPos() > Sizes.MIN_X - Player.WIDTH;
     assert player.getXMovement().getPos() < Sizes.MAX_X + 100;
-    assert player.getYMovement().getPos() > Sizes.MIN_Y;
+    assert player.getYMovement().getPos() > Sizes.MIN_Y - Player.HEIGHT;
     assert player.getYMovement().getPos() < Sizes.MAX_Y + 100;
   }
 

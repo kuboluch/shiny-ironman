@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.object.hp;
 
-import kniemkiewicz.jqblocks.ingame.object.ObjectKiller;
+import kniemkiewicz.jqblocks.ingame.World;
 
 /**
  * User: knie
@@ -8,5 +8,5 @@ import kniemkiewicz.jqblocks.ingame.object.ObjectKiller;
  */
 public interface HasHealthPoints {
   HealthPoints getHp();
-  void killed(ObjectKiller killer);
+  void killed(World killer);
 }

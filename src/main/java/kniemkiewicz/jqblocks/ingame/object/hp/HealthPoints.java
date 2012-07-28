@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.object.hp;
 
-import kniemkiewicz.jqblocks.ingame.object.ObjectKiller;
+import kniemkiewicz.jqblocks.ingame.World;
 
 /**
  * User: knie
@@ -22,7 +22,7 @@ public class HealthPoints {
     this.object = object;
   }
 
-  public void damage(int dmg, ObjectKiller killer) {
+  public void damage(int dmg, World killer) {
     currentHp -= dmg;
     if (currentHp <= 0) {
       currentHp = 0;
