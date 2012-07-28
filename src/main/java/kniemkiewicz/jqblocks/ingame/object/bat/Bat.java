@@ -1,8 +1,11 @@
 package kniemkiewicz.jqblocks.ingame.object.bat;
 
 import kniemkiewicz.jqblocks.ingame.*;
+import kniemkiewicz.jqblocks.ingame.object.ObjectKiller;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.ingame.object.hp.HasHealthPoints;
+import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
 import org.newdawn.slick.Graphics;
@@ -13,13 +16,15 @@ import org.newdawn.slick.geom.Shape;
  * User: knie
  * Date: 7/24/12
  */
-public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat> {
+public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat>,HasHealthPoints {
 
   Rectangle rectangle;
   int y;
   LimitedSpeed xMovement;
   public static final float X_SPEED = Player.MAX_X_SPEED / 3;
   public static final int SIZE = 2 * Sizes.BLOCK;
+  private static int BAT_BP = 5;
+  HealthPoints healthPoints = new HealthPoints(BAT_BP, this);
 
   public Bat(int x, int y) {
     this.xMovement = new LimitedSpeed(X_SPEED, X_SPEED, x, 0);
@@ -55,5 +60,15 @@ public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat> {
   @Override
   public Class<? extends UpdateQueue.UpdateController<Bat>> getUpdateController() {
     return BatController.class;
+  }
+
+  @Override
+  public HealthPoints getHp() {
+    return healthPoints;
+  }
+
+  @Override
+  public void killed(ObjectKiller killer) {
+    killer.killMovingObject(this);
   }
 }
