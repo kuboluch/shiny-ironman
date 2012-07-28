@@ -10,6 +10,7 @@ import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.ResourceBackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
+import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.object.resource.Resource;
 import kniemkiewicz.jqblocks.ingame.object.resource.ResourceObject;
 import kniemkiewicz.jqblocks.ingame.object.resource.Wood;
@@ -32,7 +33,7 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   private InventoryController inventoryController;
 
   @Autowired
-  private Player player;
+  private PlayerController playerController;
 
   @Autowired
   private RenderQueue renderQueue;
@@ -59,6 +60,7 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   @Override
   void stopAction(AxeItem item) {
     if (wood.getAmount() == 0) return;
+    Player player = playerController.getPlayer();
     ResourceObject ob = new ResourceObject(wood, (int)player.getXMovement().getPos(), (int)player.getYMovement().getPos());
     ob.addTo(renderQueue, movingObjects);
     // There is a high chance that this object will be immediately picked up.

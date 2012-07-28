@@ -21,19 +21,11 @@ import java.util.List;
  */
 @Component
 public class MovingObjects {
-  @Autowired
-  Player player;
 
   @Autowired
   RenderQueue queue;
 
   HashSet<PhysicalObject> objects = new HashSet<PhysicalObject>();
-
-  @PostConstruct
-  void init() {
-    queue.add(player);
-    objects.add(player);
-  }
 
   // TODO: It should be known which object can collide with which.
   public boolean addCollidingWithPlayer(PhysicalObject object) {

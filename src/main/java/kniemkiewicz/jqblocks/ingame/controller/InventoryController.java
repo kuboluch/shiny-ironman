@@ -12,6 +12,7 @@ import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController
 import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
+import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.apache.commons.logging.Log;
@@ -41,7 +42,7 @@ public class InventoryController implements InputListener, EventListener {
   @Autowired
   SolidBlocks solidBlocks;
   @Autowired
-  Player player;
+  PlayerController playerController;
 
   public static Log logger = LogFactory.getLog(InventoryController.class);
 
@@ -75,7 +76,7 @@ public class InventoryController implements InputListener, EventListener {
   }
 
   private boolean dropItem(int x, int y) {
-    if (!AbstractActionItemController.isInRange(x, y, player, DROP_RANGE)) return false;
+    if (!AbstractActionItemController.isInRange(x, y, playerController.getPlayer(), DROP_RANGE)) return false;
     Class<? extends ItemController> clazz = inventory.getSelectedItem().getItemController();
     if (clazz == null) return false;
     ItemController controller = provider.getBean(clazz, true);

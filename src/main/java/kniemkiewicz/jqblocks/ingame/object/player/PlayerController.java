@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Component
 public class PlayerController implements InputListener {
-  @Autowired
+
   Player player;
 
   @Autowired
@@ -43,10 +43,15 @@ public class PlayerController implements InputListener {
   @Autowired
   Inventory inventory;
 
+  @Autowired
+  RenderQueue renderQueue;
+
   /**
    * This is manually invoked by Game to make sure that level is created before.
    */
   public void init() {
+    player = new Player();
+    player.addTo(renderQueue, movingObjects);
     int x = (Sizes.MIN_X + Sizes.MAX_X) / 2;
     player.getXMovement().setPos(x);
 
@@ -113,5 +118,9 @@ public class PlayerController implements InputListener {
     int centerX = (int)player.getXMovement().getPos() + Player.WIDTH / 2;
     int centerY = (int)player.getYMovement().getPos() + Player.HEIGHT / 2;
     pointOfView.setCenter(centerX, centerY);
+  }
+
+  public Player getPlayer() {
+    return player;
   }
 }

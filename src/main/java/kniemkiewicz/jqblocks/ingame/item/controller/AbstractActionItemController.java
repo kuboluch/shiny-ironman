@@ -12,6 +12,7 @@ import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.MouseInput;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
+import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
@@ -26,7 +27,7 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
   UpdateQueue updateQueue;
 
   @Autowired
-  Player player;
+  PlayerController playerController;
 
   @Autowired
   MouseInput mouseInput;
@@ -157,7 +158,7 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
   }
 
   public boolean isInRange(int x, int y) {
-    return isInRange(x, y, player, RANGE);
+    return isInRange(x, y, playerController.getPlayer(), RANGE);
   }
 
   @Override

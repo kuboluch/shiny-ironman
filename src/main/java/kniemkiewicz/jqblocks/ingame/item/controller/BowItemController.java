@@ -9,6 +9,7 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseClickEvent;
 import kniemkiewicz.jqblocks.ingame.item.BowItem;
 import kniemkiewicz.jqblocks.ingame.object.arrow.Arrow;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
+import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ import java.util.List;
 public class BowItemController implements ItemController<BowItem> {
 
   @Autowired
-  Player player;
+  PlayerController playerController;
 
   @Autowired
   ArrowController arrowController;
@@ -46,6 +47,7 @@ public class BowItemController implements ItemController<BowItem> {
   private void handleClickEvent(List<MouseClickEvent> clickEvents) {
     assert clickEvents.size() > 0;
     MouseClickEvent ce = clickEvents.get(0);
+    Player player = playerController.getPlayer();
     int dx = (int)(ce.getLevelX() - player.getXMovement().getPos());
     int dy = (int)(ce.getLevelY() - player.getYMovement().getPos());
     if ((dx == 0) && (dy == 0)) return;
