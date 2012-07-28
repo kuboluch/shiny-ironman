@@ -7,6 +7,7 @@ import kniemkiewicz.jqblocks.ingame.object.rock.Rock;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.Tree;
 import kniemkiewicz.jqblocks.ingame.object.bat.Bat;
+import kniemkiewicz.jqblocks.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -87,7 +88,7 @@ public class ObjectGenerator {
       }
       if (large != null) {
         Rock rock = new Rock(Sizes.MIN_X + Sizes.BLOCK * i + Sizes.BLOCK / 2, Sizes.MAX_Y - heights[i], large);
-        rock.addTo(renderQueue, movingObjects);
+        Assert.executeAndAssert(rock.addTo(renderQueue, movingObjects));
       }
     }
   }

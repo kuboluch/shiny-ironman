@@ -8,6 +8,7 @@ import kniemkiewicz.jqblocks.ingame.object.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
+import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
@@ -33,10 +34,11 @@ public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat>,H
   }
 
   // Do not add objects manually. Using this method makes sure you won't forget any part.
-  public void addTo(MovingObjects movingObjects, RenderQueue renderQueue, UpdateQueue updateQueue) {
-    movingObjects.add(this);
+  public boolean addTo(MovingObjects movingObjects, RenderQueue renderQueue, UpdateQueue updateQueue) {
+    if (!movingObjects.add(this)) return false;
     renderQueue.add(this);
     updateQueue.add(this);
+    return true;
   }
 
   @Override

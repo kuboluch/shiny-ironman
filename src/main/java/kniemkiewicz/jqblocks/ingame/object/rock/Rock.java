@@ -9,6 +9,7 @@ import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.PickableObject;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
@@ -36,9 +37,10 @@ public class Rock implements RenderableObject<Rock>, PickableObject, MovingPhysi
     circle = new Circle(centerX, maxY - radius, radius);
   }
 
-  public void addTo(RenderQueue renderQueue, MovingObjects movingObjects) {
+  public boolean addTo(RenderQueue renderQueue, MovingObjects movingObjects) {
+    if (!movingObjects.add(this)) return false;
     renderQueue.add(this);
-    movingObjects.add(this);
+    return true;
   }
 
   @Override

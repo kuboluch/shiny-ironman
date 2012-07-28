@@ -67,7 +67,9 @@ public class ArrowController implements UpdateQueue.UpdateController<Arrow>{
     arrow.update(delta);
     Out<PhysicalObject> po = new Out<PhysicalObject>();
     if (checkArrowHit(arrow, po)) {
-      renderQueue.remove(arrow);
+      if (po.get() != null) {
+        renderQueue.remove(arrow);
+      }
       updateQueue.remove(arrow);
       if ((po.get() != null) && (po.get() instanceof HasHealthPoints)) {
         ((HasHealthPoints)po.get()).getHp().damage(ARROW_DMG, killer);
