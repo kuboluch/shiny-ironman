@@ -1,13 +1,12 @@
 package kniemkiewicz.jqblocks.ingame;
 
+import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * User: knie
@@ -20,7 +19,7 @@ public class UpdateQueue {
     void update(T object, int delta);
   }
 
-  public interface ToBeUpdated<T> {
+  public interface ToBeUpdated<T> extends Serializable{
     Class<? extends UpdateController<T>> getUpdateController();
   }
 
@@ -43,6 +42,7 @@ public class UpdateQueue {
   }
 
   public void add(ToBeUpdated ob) {
+    assert Assert.validateSerializable(ob);
     objects.add(ob);
     toBeRemoved.remove(ob);
   }
@@ -50,5 +50,10 @@ public class UpdateQueue {
   public void remove(ToBeUpdated ob) {
     // This often happens during iteration so we cannot just remove.
     toBeRemoved.add(ob);
+  }
+
+  public Iterator<ToBeUpdated> iterateAll() {
+    assert toBeRemoved.size() == 0;
+    return objects.iterator();
   }
 }

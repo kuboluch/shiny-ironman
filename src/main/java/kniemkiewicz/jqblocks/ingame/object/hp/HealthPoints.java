@@ -2,11 +2,13 @@ package kniemkiewicz.jqblocks.ingame.object.hp;
 
 import kniemkiewicz.jqblocks.ingame.World;
 
+import java.io.Serializable;
+
 /**
  * User: knie
  * Date: 7/28/12
  */
-public class HealthPoints {
+public class HealthPoints implements Serializable{
 
   private int currentHp;
   private int maxHp;

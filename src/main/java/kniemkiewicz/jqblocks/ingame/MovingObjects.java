@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.util.LinearIntersectionIterator;
+import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.IterableIterator;
 import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class MovingObjects {
   }
 
   public boolean add(PhysicalObject object) {
+    assert Assert.validateSerializable(object);
     if (this.intersects(object.getShape()).hasNext()) return false;
     objects.add(object);
     return true;
@@ -51,5 +53,9 @@ public class MovingObjects {
 
   public void remove(PhysicalObject po) {
     objects.remove(po);
+  }
+
+  public Iterator<PhysicalObject> iterateAll() {
+    return objects.iterator();
   }
 }

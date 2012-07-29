@@ -1,10 +1,12 @@
 package kniemkiewicz.jqblocks.ingame.util;
 
+import java.io.Serializable;
+
 /**
  * User: krzysiek
  * Date: 08.07.12
  */
-public class LimitedSpeed {
+public class LimitedSpeed implements Serializable{
   float pos;
   float speed;
   float maxSpeed;

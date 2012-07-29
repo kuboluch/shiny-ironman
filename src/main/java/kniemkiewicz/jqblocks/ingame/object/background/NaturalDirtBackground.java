@@ -23,6 +23,11 @@ public class NaturalDirtBackground extends AbstractBackgroundElement<NaturalDirt
   }
 
   @Override
+  public Class<? extends ObjectRenderer<NaturalDirtBackground>> getRenderer() {
+    return null;
+  }
+
+  @Override
   public void renderObject(Graphics g, PointOfView pov) {
     g.setColor(BROWN);
     g.fillRect(x, y, width, height);

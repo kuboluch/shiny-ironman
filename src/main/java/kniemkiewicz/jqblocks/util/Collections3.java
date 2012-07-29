@@ -1,9 +1,6 @@
 package kniemkiewicz.jqblocks.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: krzysiek
@@ -22,11 +19,21 @@ public class Collections3 {
     return li;
   }
 
-  public static <T> Iterable<T> getIterable(final Iterator<T> it) {
-    return new Iterable<T>() {
+  public static <T> IterableIterator<T> getIterable(final Iterator<T> it) {
+    return new IterableIterator<T>() {
       @Override
-      public Iterator<T> iterator() {
-        return it;
+      public boolean hasNext() {
+        return it.hasNext();
+      }
+
+      @Override
+      public T next() {
+        return it.next();
+      }
+
+      @Override
+      public void remove() {
+        it.remove();
       }
     };
   }
@@ -49,5 +56,54 @@ public class Collections3 {
       }
     }
     return result;
+  }
+
+  public static <T> IterableIterator<T> iterateOverAll(final List<? extends Iterable<T>> iterables) {
+    // Assuming list of iterables is small. Otherwise reimplement using only iterator.
+    List<Iterator<T>> iterators = new ArrayList<Iterator<T>>();
+    for (Iterable<T> it : iterables) {
+      iterators.add(it.iterator());
+    }
+    return iterateOverAllIterators(iterators);
+  }
+
+  // Add "?" as long as all compiles...
+  public static <T> IterableIterator<T> iterateOverAllIterators(final List<? extends Iterator<? extends T>> iterables) {
+    if (iterables.size() == 0) {
+      return getIterable(Collections.<T>emptyList().iterator());
+    }
+    return new IterableIterator<T>() {
+      int currentIterable = 0;
+      Iterator<? extends T> currentIterator = iterables.get(0);
+
+      void update() {
+        while (currentIterable < iterables.size() && !currentIterator.hasNext()) {
+          currentIterable++;
+          if (currentIterable < iterables.size()) {
+            currentIterator = iterables.get(currentIterable);
+          }
+        }
+      }
+      @Override
+      public boolean hasNext() {
+        update();
+        return currentIterable < iterables.size();
+      }
+
+      @Override
+      public T next() {
+        update();
+        return currentIterator.next();
+      }
+
+      @Override
+      public void remove() {
+        currentIterator.remove();
+      }
+    };
+  }
+
+  static class MultiIterator {
+
   }
 }

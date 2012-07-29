@@ -2,8 +2,7 @@ package kniemkiewicz.jqblocks.ingame;
 
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
-import kniemkiewicz.jqblocks.util.GeometryUtils;
-import kniemkiewicz.jqblocks.util.SpringBeanProvider;
+import kniemkiewicz.jqblocks.util.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -37,6 +36,8 @@ public class RenderQueue implements Renderable {
   }
 
   public void add(RenderableObject renderable) {
+    assert Assert.validateSerializable(renderable);
+    assert renderable.getRenderer() == null || beanProvider.getBean(renderable.getRenderer(), true) != null;
     renderableObjects.get(renderable.getLayer()).add(renderable);
   }
 
@@ -73,5 +74,11 @@ public class RenderQueue implements Renderable {
 
   public void remove(RenderableObject renderable) {
     renderableObjects.get(renderable.getLayer()).remove(renderable);
+  }
+
+  public IterableIterator<?> iterateAllObjects() {
+    List<Set<RenderableObject>> sets = new ArrayList<Set<RenderableObject>>();
+    sets.addAll(renderableObjects.values());
+    return Collections3.iterateOverAll(sets);
   }
 }

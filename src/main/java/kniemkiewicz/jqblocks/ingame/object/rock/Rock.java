@@ -28,7 +28,8 @@ public class Rock implements RenderableObject<Rock>, PickableObject, MovingPhysi
   static Color LARGE_COLOR = Color.gray;
   static Color SMALL_COLOR = Color.lightGray;
 
-  Circle circle;
+  //TODO: this will not load.
+  transient Circle circle;
   boolean large;
 
   public Rock(int centerX, int maxY, boolean large) {

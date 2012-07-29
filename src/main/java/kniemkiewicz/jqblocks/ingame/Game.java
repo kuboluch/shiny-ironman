@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame;
 
 import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.controller.InventoryController;
+import kniemkiewicz.jqblocks.ingame.controller.SaveGameListener;
 import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseInputEventBus;
@@ -34,6 +35,9 @@ public class Game extends BasicGame{
 
   @Autowired
   EndGameController endGameController;
+
+  @Autowired
+  SaveGameListener saveGameListener;
 
   @Autowired
   InventoryController inventoryController;
@@ -70,6 +74,7 @@ public class Game extends BasicGame{
     // TODO rewrite using event bus?
     inputListeners.add(playerController);
     inputListeners.add(endGameController);
+    inputListeners.add(saveGameListener);
     inputListeners.add(inventoryController);
     gameContainer.getInput().addMouseListener(mouseInputEventBus);
     eventBus.addListener(mouseInputInfo);

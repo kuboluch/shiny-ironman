@@ -12,19 +12,21 @@ import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * User: krzysiek
  * Date: 14.07.12
  */
-public abstract class AbstractBlock<T extends AbstractBlock> implements RenderableObject<T>, PhysicalObject, NeighborAwareObject<AbstractBlock> {
+public abstract class AbstractBlock<T extends AbstractBlock> implements RenderableObject<T>, PhysicalObject, NeighborAwareObject<AbstractBlock>, Serializable {
   protected int x;
   protected int y;
   protected int width;
   protected int height;
   protected Rectangle shape;
-  protected NeighborAwareObject neighbors;
+  // TODO: this will not load correctly :/
+  transient protected NeighborAwareObject neighbors;
   protected int endurance = Sizes.DEFAULT_BLOCK_ENDURANCE;
 
   public AbstractBlock(int x, int y, int width, int height) {

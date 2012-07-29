@@ -135,4 +135,8 @@ public class SolidBlocks {
       neighbor.removeTopNeighbor(block);
     }
   }
+
+  public Iterator<AbstractBlock> iterateAll() {
+    return blocks.iterator();
+  }
 }

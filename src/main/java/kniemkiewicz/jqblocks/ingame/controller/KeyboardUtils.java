@@ -27,6 +27,10 @@ public class KeyboardUtils {
     return (input.isKeyDown(Input.KEY_R));
   }
 
+  public static boolean isSaveKeyPressed(Input input) {
+    return (input.isKeyDown(Input.KEY_F6));
+  }
+
   /**
    * @return 0-9 for keys and -1 if none is selected
    */
