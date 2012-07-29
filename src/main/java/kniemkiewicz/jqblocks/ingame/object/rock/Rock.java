@@ -22,6 +22,8 @@ import org.newdawn.slick.geom.Shape;
  */
 public class Rock implements RenderableObject<Rock>, PickableObject, MovingPhysicalObject {
 
+  private static final long serialVersionUID = 1;
+
   static int SMALL_CIRCLE_RADIUS = Sizes.BLOCK / 4;
   static int LARGE_CIRCLE_RADIUS = Sizes.BLOCK / 2;
 

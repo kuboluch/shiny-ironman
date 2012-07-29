@@ -17,6 +17,8 @@ import org.newdawn.slick.geom.Shape;
  */
 public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Arrow> {
 
+  private static final long serialVersionUID = 1;
+
   Line line;
   LimitedSpeed xMovement;
   LimitedSpeed yMovement;

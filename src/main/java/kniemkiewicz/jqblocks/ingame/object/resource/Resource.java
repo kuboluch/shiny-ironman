@@ -1,6 +1,8 @@
 package kniemkiewicz.jqblocks.ingame.object.resource;
 
-public interface Resource {
+import java.io.Serializable;
+
+public interface Resource extends Serializable {
 
   public int getAmount();
 

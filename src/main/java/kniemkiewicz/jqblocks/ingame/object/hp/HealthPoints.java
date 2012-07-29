@@ -8,7 +8,9 @@ import java.io.Serializable;
  * User: knie
  * Date: 7/28/12
  */
-public class HealthPoints implements Serializable{
+public class HealthPoints implements Serializable {
+
+  private static final long serialVersionUID = 1;
 
   private int currentHp;
   private int maxHp;

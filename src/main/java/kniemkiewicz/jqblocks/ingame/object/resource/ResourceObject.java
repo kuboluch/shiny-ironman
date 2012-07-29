@@ -21,6 +21,8 @@ import org.newdawn.slick.geom.Shape;
  */
 public class ResourceObject implements RenderableObject<ResourceObject>, PickableObject, MovingPhysicalObject {
 
+  private static final long serialVersionUID = 1;
+
   static final int SIZE = Sizes.BLOCK / 2;
 
   Rectangle rectangle;

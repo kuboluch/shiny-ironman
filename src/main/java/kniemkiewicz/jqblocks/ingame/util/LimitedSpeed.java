@@ -7,6 +7,9 @@ import java.io.Serializable;
  * Date: 08.07.12
  */
 public class LimitedSpeed implements Serializable{
+
+  private static final long serialVersionUID = 1;
+
   float pos;
   float speed;
   float maxSpeed;

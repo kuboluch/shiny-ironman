@@ -15,6 +15,8 @@ import org.newdawn.slick.geom.Shape;
  */
 public class NaturalDirtBackground extends AbstractBackgroundElement<NaturalDirtBackground> {
 
+  private static final long serialVersionUID = 1;
+
   public static Color BROWN = new Color(100.0f/255, 50.0f/255, 0);
 
   NaturalDirtBackground(float x, float y, float width, float height) {

@@ -20,6 +20,8 @@ import org.newdawn.slick.geom.Rectangle;
  */
 public class Player implements RenderableObject<Player>,PhysicalObject,HasHealthPoints {
 
+  private static final long serialVersionUID = 1;
+
   private static int INITIAL_HP = 100;
 
   boolean leftFaced;

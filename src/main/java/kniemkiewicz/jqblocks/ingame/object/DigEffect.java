@@ -12,6 +12,8 @@ import org.newdawn.slick.geom.Shape;
  */
 public class DigEffect implements RenderableObject<DigEffect> {
 
+  private static final long serialVersionUID = 1;
+
   final Rectangle rectangle;
   final int startingEndurance;
   int currentEndurance;

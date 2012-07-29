@@ -21,6 +21,8 @@ import javax.annotation.Resource;
  */
 public class Tree extends AbstractBackgroundElement<Tree> implements ResourceBackgroundElement<Wood> {
 
+  private static final long serialVersionUID = 1;
+
   public static int HEIGHT = Sizes.BLOCK * 8;
   public static int WIDTH = Sizes.BLOCK * 4;
 

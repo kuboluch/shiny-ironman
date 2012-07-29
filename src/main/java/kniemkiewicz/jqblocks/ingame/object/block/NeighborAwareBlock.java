@@ -14,6 +14,8 @@ import java.util.List;
  */
 public class NeighborAwareBlock implements NeighborAwareObject<AbstractBlock> {
 
+  private static final long serialVersionUID = 1;
+
   private List<AbstractBlock> leftNeighbors;
   private List<AbstractBlock> topNeighbors;
   private List<AbstractBlock> rightNeighbors;
