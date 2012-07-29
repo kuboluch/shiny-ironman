@@ -19,15 +19,15 @@ import org.newdawn.slick.geom.Shape;
  * User: knie
  * Date: 7/27/12
  */
-public class ResourceObject implements RenderableObject<ResourceObject>, PickableObject, MovingPhysicalObject {
+public class ResourceObject<T extends Resource> implements RenderableObject<ResourceObject>, PickableObject, MovingPhysicalObject {
 
-  static final int SIZE = Sizes.BLOCK / 2;
+  public static final int SIZE = Sizes.BLOCK;
 
   Rectangle rectangle;
 
-  Resource resource;
+  T resource;
 
-  public ResourceObject(Resource resource, int x, int y) {
+  public ResourceObject(T resource, int x, int y) {
     this.rectangle = new Rectangle(x, y, SIZE, SIZE);
     this.resource = resource;
   }
@@ -67,5 +67,37 @@ public class ResourceObject implements RenderableObject<ResourceObject>, Pickabl
   @Override
   public void setY(int y) {
     rectangle.setY(y);
+  }
+
+  public int getResourceAmount() {
+    return resource.getAmount();
+  }
+
+  public boolean isFull() {
+    assert resource.getAmount() <= resource.getMaxPileSize();
+    return resource.getAmount() == resource.getMaxPileSize();
+  }
+
+  public int getResourceMaxPileSize() {
+    return resource.getMaxPileSize();
+  }
+
+  public T addResource(T resource) {
+    if (!isFull()) {
+      int roomLeft = this.resource.getMaxPileSize() - this.resource.getAmount();
+      if (roomLeft < resource.getAmount()) {
+        resource.removeAmount(roomLeft);
+        this.resource.addAmount(roomLeft);
+      } else {
+        this.resource.add(resource);
+        resource.deplete();
+      }
+    }
+    return resource;
+  }
+
+  public boolean isSameType(Resource resource) {
+    Assert.assertTrue(resource != null);
+    return this.resource.getType().equals(resource.getType());
   }
 }

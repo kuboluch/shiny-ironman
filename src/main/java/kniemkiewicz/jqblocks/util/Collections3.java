@@ -50,4 +50,26 @@ public class Collections3 {
     }
     return result;
   }
+
+  public static <T> List<T> collect(final Iterator<? super T> it, Class<T> clazz) {
+    List result = new ArrayList();
+    while (it.hasNext()) {
+      Object element = it.next();
+      if (clazz.equals(element.getClass())) {
+        result.add(element);
+      }
+    }
+    return result;
+  }
+
+  public static <T> List<T> collectSubclasses(final Iterator<? super T> it, Class<T> clazz) {
+    List result = new ArrayList();
+    while (it.hasNext()) {
+      Object element = it.next();
+      if (clazz.isAssignableFrom(element.getClass())) {
+        result.add(element);
+      }
+    }
+    return result;
+  }
 }

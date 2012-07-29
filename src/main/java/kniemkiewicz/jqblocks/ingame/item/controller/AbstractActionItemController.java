@@ -14,7 +14,6 @@ import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.util.Collections3;
-import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,9 +31,11 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
   @Autowired
   MouseInput mouseInput;
 
-  Rectangle affectedBlock;
+  Rectangle affectedRectangle;
 
-  abstract boolean canPerformAction(Rectangle rect);
+  abstract boolean canPerformAction(int x, int y);
+
+  abstract Rectangle getAffectedRectangle(int x, int y);
 
   abstract void startAction(T item);
 
@@ -45,6 +46,12 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
   abstract boolean isActionCompleted();
 
   abstract void onAction();
+
+  public boolean canPerformAction() {
+    int x = Sizes.roundToBlockSizeX(affectedRectangle.getX());
+    int y = Sizes.roundToBlockSizeY(affectedRectangle.getY());
+    return canPerformAction(x, y);
+  }
 
   @Override
   public void listen(T item, List<Event> events) {
@@ -84,9 +91,8 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
     }
     if (mpe == null) return;
 
-    Rectangle rect = new Rectangle(x, y, Sizes.BLOCK - 1, Sizes.BLOCK - 1);
-    if (canPerformAction(rect)) {
-      affectedBlock = rect;
+    if (canPerformAction(x, y)) {
+      affectedRectangle = getAffectedRectangle(x, y);
       startAction(item);
       updateQueue.add(item);
     }
@@ -115,25 +121,25 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
   }
 
   private void handleMouseCoordChange(T item, int x, int y) {
-    Rectangle rect = new Rectangle(x, y, Sizes.BLOCK - 1, Sizes.BLOCK - 1);
-    if (affectedBlock != null && (!affectedBlock.intersects(rect)) || !isInRange(x, y)) {
+    Rectangle rect = new Rectangle(x, y, 1, 1);
+    if (affectedRectangle != null && (!affectedRectangle.intersects(rect) || !isInRange(x, y))) {
       updateQueue.remove(item);
       stopAction(item);
-      affectedBlock = null;
+      affectedRectangle = null;
     }
     if (!isInRange(x, y)) {
       return;
     }
 
-    if (affectedBlock == null && canPerformAction(rect)) {
-      affectedBlock = rect;
+    if (affectedRectangle == null && canPerformAction(x, y)) {
+      affectedRectangle = getAffectedRectangle(x, y);
       startAction(item);
       updateQueue.add(item);
     }
   }
 
   public void handleMouseReleasedEvent(T item, List<MouseReleasedEvent> mouseReleasedEvents) {
-    if (affectedBlock == null) {
+    if (affectedRectangle == null) {
       return;
     }
     // TODO: there may be more than 1 event!
@@ -148,7 +154,7 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
 
     updateQueue.remove(item);
     stopAction(item);
-    affectedBlock = null;
+    affectedRectangle = null;
   }
 
   public static boolean isInRange(int x, int y, Player player, int range) {
@@ -163,17 +169,17 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
 
   @Override
   public void update(T item, int delta) {
-    if (affectedBlock == null) {
+    if (affectedRectangle == null) {
       return;
     }
     updateAction(item, delta);
     if (isActionCompleted()) {
-      if (canPerformAction(affectedBlock)) {
+      if (canPerformAction()) {
         onAction();
       }
       updateQueue.remove(item);
       stopAction(item);
-      affectedBlock = null;
+      affectedRectangle = null;
     }
   }
 }

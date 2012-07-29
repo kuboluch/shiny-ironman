@@ -1,19 +1,21 @@
 package kniemkiewicz.jqblocks.ingame.item.controller;
 
 import kniemkiewicz.jqblocks.ingame.MovingObjects;
+import kniemkiewicz.jqblocks.ingame.PlayerResourceController;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
+import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.controller.InventoryController;
 import kniemkiewicz.jqblocks.ingame.item.AxeItem;
+import kniemkiewicz.jqblocks.ingame.object.CompletionEffect;
 import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.background.AbstractBackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.ResourceBackgroundElement;
-import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
-import kniemkiewicz.jqblocks.ingame.object.resource.Resource;
 import kniemkiewicz.jqblocks.ingame.object.resource.ResourceObject;
 import kniemkiewicz.jqblocks.ingame.object.resource.Wood;
+import kniemkiewicz.jqblocks.util.Collections3;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.geom.Rectangle;
@@ -21,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Iterator;
+import java.util.List;
 
 @Component
 public class AxeItemController extends AbstractActionItemController<AxeItem> {
@@ -33,7 +36,7 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   private InventoryController inventoryController;
 
   @Autowired
-  private PlayerController playerController;
+  private PlayerResourceController playerResourceController;
 
   @Autowired
   private RenderQueue renderQueue;
@@ -41,11 +44,13 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   @Autowired
   private MovingObjects movingObjects;
 
-  Resource wood = new Wood();
+  private CompletionEffect completionEffect;
+
+  Wood wood = new Wood();
 
   @Override
-  boolean canPerformAction(Rectangle rect) {
-    BackgroundElement backgroundElement = getBackgroundElement(rect);
+  boolean canPerformAction(int x, int y) {
+    BackgroundElement backgroundElement = getBackgroundElement(new Rectangle(x, y, 1, 1));
     if (backgroundElement != null && backgroundElement.isResource()) {
       if (((ResourceBackgroundElement) backgroundElement).getMiningItemType().isAssignableFrom(AxeItem.class)) {
         return true;
@@ -55,26 +60,84 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   }
 
   @Override
-  void startAction(AxeItem item) {  }
+  Rectangle getAffectedRectangle(int x, int y) {
+    Rectangle rect = null;
+    BackgroundElement backgroundElement = getBackgroundElement(new Rectangle(x, y, 1, 1));
+    if (backgroundElement != null && backgroundElement.isResource()) {
+      if (((ResourceBackgroundElement) backgroundElement).getMiningItemType().isAssignableFrom(AxeItem.class)) {
+        assert backgroundElement.getShape() instanceof Rectangle;
+        rect = (Rectangle) backgroundElement.getShape();
+      }
+    }
+    assert rect != null;
+    return rect;
+  }
+
+  @Override
+  void startAction(AxeItem item) {
+    assert completionEffect == null;
+    completionEffect = new CompletionEffect(affectedRectangle);
+    renderQueue.add(completionEffect);
+  }
 
   @Override
   void stopAction(AxeItem item) {
+    assert completionEffect != null;
+    renderQueue.remove(completionEffect);
+    completionEffect = null;
     if (wood.getAmount() == 0) return;
-    Player player = playerController.getPlayer();
-    ResourceObject ob = new ResourceObject(wood, (int)player.getXMovement().getPos(), (int)player.getYMovement().getPos());
-    ob.addTo(renderQueue, movingObjects);
-    // There is a high chance that this object will be immediately picked up.
-    inventoryController.dropObject(ob);
+    transformToPile(wood);
+    //playerResourceController.addResource(wood);
     wood = new Wood();
   }
 
   @Override
   void updateAction(AxeItem item, int delta) {
-    BackgroundElement backgroundElement = getAffectedBackgroundElement();
-    if (backgroundElement != null && backgroundElement.isResource()) {
-      Resource resource = ((ResourceBackgroundElement) backgroundElement).mine(delta);
-      wood.add(resource);
+    BackgroundElement be = getAffectedBackgroundElement();
+    if (be != null && be.isResource()) {
+      ResourceBackgroundElement<Wood> rbe = ((ResourceBackgroundElement) be);
+      if (rbe.getMiningItemType().isAssignableFrom(AxeItem.class)) {
+        Wood resource = rbe.mine(delta);
+        wood.add(resource);
+        transformToPile(wood);
+      }
     }
+  }
+
+  private void transformToPile(Wood wood) {
+    if (wood.getAmount() > 0) {
+      int pileX = Sizes.roundToBlockSizeX(affectedRectangle.getX());
+      int pileY = Sizes.roundToBlockSizeY(affectedRectangle.getMaxY()) - ResourceObject.SIZE;
+      for (int i = 0; wood.getAmount() > 0 && pileX < affectedRectangle.getMaxX(); i++, pileX += ResourceObject.SIZE + 1) {
+        ResourceObject<Wood> woodPile = getWoodPile(pileX, pileY);
+        if (woodPile == null) {
+          woodPile = createAndDropWoodPile(pileX, pileY);
+        }
+        wood = woodPile.addResource(wood);
+        completionEffect.setPercentage((woodPile.getResourceAmount() * 100) / woodPile.getResourceMaxPileSize());
+      }
+      wood.deplete();
+    }
+  }
+
+  private ResourceObject<Wood> createAndDropWoodPile(int x, int y) {
+    ResourceObject<Wood> woodObject = new ResourceObject<Wood>(new Wood(), x, y);
+    woodObject.addTo(renderQueue, movingObjects);
+    // There is a high chance that this object will be immediately picked up.
+    inventoryController.dropObject(woodObject);
+    return woodObject;
+  }
+
+  private ResourceObject<Wood> getWoodPile(int x, int y) {
+    ResourceObject<Wood> woodObject = null;
+    List<ResourceObject> resourceObjects =
+        Collections3.collect(movingObjects.intersects(new Rectangle(x ,y, 1, 1)), ResourceObject.class);
+    for (ResourceObject ro : resourceObjects) {
+      if (ro.isSameType(new Wood())) {
+        woodObject = (ResourceObject<Wood>) ro;
+      }
+    }
+    return woodObject;
   }
 
   @Override
@@ -83,10 +146,11 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   }
 
   @Override
-  void onAction() {  }
+  void onAction() {
+  }
 
   private BackgroundElement getAffectedBackgroundElement() {
-    return getBackgroundElement(affectedBlock);
+    return getBackgroundElement(affectedRectangle);
   }
 
   private BackgroundElement getBackgroundElement(Rectangle rect) {

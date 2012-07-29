@@ -8,6 +8,7 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseInputEventBus;
 import kniemkiewicz.jqblocks.ingame.input.MouseInput;
 import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
 import kniemkiewicz.jqblocks.ingame.ui.MouseInputInfo;
+import kniemkiewicz.jqblocks.ingame.ui.ResourceInfo;
 import kniemkiewicz.jqblocks.ingame.ui.TimingInfo;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -60,6 +61,9 @@ public class Game extends BasicGame{
   MouseInputInfo mouseInputInfo;
 
   @Autowired
+  ResourceInfo resourceInfo;
+
+  @Autowired
   MouseInput mouseInput;
 
   List<InputListener> inputListeners = new ArrayList<InputListener>();
@@ -79,6 +83,7 @@ public class Game extends BasicGame{
     playerController.init();
     renderQueue.add(timingInfo);
     renderQueue.add(mouseInputInfo);
+    renderQueue.add(resourceInfo);
   }
 
   @Override

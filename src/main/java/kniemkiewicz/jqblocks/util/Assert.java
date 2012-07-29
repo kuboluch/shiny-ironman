@@ -8,4 +8,10 @@ public class Assert {
   public static void executeAndAssert(boolean expression) {
     assert expression;
   }
+
+  public static void assertTrue(boolean condition) {
+    if (!condition) {
+      throw new AssertionError(condition);
+    }
+  }
 }
