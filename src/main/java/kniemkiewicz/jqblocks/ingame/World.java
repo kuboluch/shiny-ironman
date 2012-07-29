@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.ingame;
 import kniemkiewicz.jqblocks.ingame.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.item.Inventory;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.util.Collections3;
@@ -33,6 +34,9 @@ public class World {
 
   @Autowired
   SolidBlocks solidBlocks;
+
+  @Autowired
+  Inventory inventory;
 
   @Autowired
   SpringBeanProvider springBeanProvider;
@@ -74,5 +78,6 @@ public class World {
     stream.writeObject(markIndexes(indexes, movingObjects.iterateAll()));
     stream.writeObject(markIndexes(indexes, solidBlocks.iterateAll()));
     stream.writeObject(markIndexes(indexes, updateQueue.iterateAll()));
+    inventory.serializeItems(stream);
   }
 }

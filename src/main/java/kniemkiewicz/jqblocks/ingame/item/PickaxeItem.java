@@ -5,6 +5,7 @@ import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.item.controller.PickaxeItemController;
 import kniemkiewicz.jqblocks.ingame.item.feature.Strength;
+import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
@@ -14,31 +15,32 @@ import org.newdawn.slick.Image;
  */
 public class PickaxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<PickaxeItem> {
 
-  private Image image;
-
   private int strength = Sizes.DEFAULT_PICKAXE_STRENGTH;
 
-  public PickaxeItem(Image image) {
-    this.image = image;
-  }
+  public PickaxeItem() { }
 
-  public PickaxeItem(int strength, Image image) {
+  public PickaxeItem(int strength) {
     this.strength = strength;
-    this.image = image;
   }
 
   public int getStrength() {
     return strength;
   }
 
-  public void renderItem(Graphics g, int x, int y, int square_size) {
-    image.draw(x,y,square_size, square_size);
-  }
-
   @Override
   public Class<? extends ItemController> getItemController() {
     return PickaxeItemController.class;
   }
+
+  private static final BeanName<ItemRenderer> RENDERER = new BeanName<ItemRenderer>(ImageItemRenderer.class, "pickaxeRenderer");
+
+  @Override
+  public BeanName<? extends ItemRenderer> getItemRenderer() {
+    return RENDERER;
+  }
+
+  @Override
+  public void renderItem(Graphics g, int x, int y, int square_size) {  }
 
   @Override
   public Class<PickaxeItemController> getUpdateController() {
