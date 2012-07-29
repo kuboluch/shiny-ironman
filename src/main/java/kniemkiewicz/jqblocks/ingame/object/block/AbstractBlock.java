@@ -10,8 +10,11 @@ import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.List;
 
@@ -25,7 +28,6 @@ public abstract class AbstractBlock<T extends AbstractBlock> implements Renderab
   protected int width;
   protected int height;
   protected Rectangle shape;
-  // TODO: this will not load correctly :/
   transient protected NeighborAwareObject neighbors;
   protected int endurance = Sizes.DEFAULT_BLOCK_ENDURANCE;
 
@@ -163,5 +165,12 @@ public abstract class AbstractBlock<T extends AbstractBlock> implements Renderab
         ", width=" + width +
         ", height=" + height +
         '}';
+  }
+
+  private void readObject(ObjectInputStream inputStream) throws ClassNotFoundException, IOException {
+    //always perform the default de-serialization first
+    inputStream.defaultReadObject();
+    // Hope this enough. Without this we would get NPE.
+    neighbors = new NeighborAwareBlock();
   }
 }
