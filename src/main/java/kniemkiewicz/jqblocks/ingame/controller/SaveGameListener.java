@@ -24,9 +24,14 @@ public class SaveGameListener implements InputListener {
   @Autowired
   World world;
 
+  // Saving is so fast that we have to prevent it from happening in a loop on all frames while
+  // user is holding the button.
+  boolean readyToSave = true;
+
   @Override
   public void listen(Input input, int delta) {
     if (KeyboardUtils.isSaveKeyPressed(input)) {
+      if (!readyToSave) return;
       try {
         logger.info("Saving to file");
         FileOutputStream fileOutputStream = new FileOutputStream(FILENAME);
@@ -37,7 +42,9 @@ public class SaveGameListener implements InputListener {
       } catch (IOException e) {
         logger.error("Error saving to file", e);
       }
-
+      readyToSave = false;
+    } else {
+      readyToSave = true;
     }
   }
 }
