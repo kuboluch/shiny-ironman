@@ -21,6 +21,8 @@ import org.newdawn.slick.geom.Shape;
  */
 public class ResourceObject<T extends Resource> implements RenderableObject<ResourceObject>, PickableObject, MovingPhysicalObject {
 
+  private static final long serialVersionUID = 1;
+
   public static final int SIZE = Sizes.BLOCK;
 
   Rectangle rectangle;
@@ -46,7 +48,8 @@ public class ResourceObject<T extends Resource> implements RenderableObject<Reso
   @Override
   public void renderObject(Graphics g, PointOfView pov) {
     g.setColor(Color.cyan);
-    g.fill(rectangle);
+    float percentage = (float) resource.getAmount() * 1.0f / resource.getMaxPileSize() * 1.0f;
+    g.fill(new Rectangle(rectangle.getX(), rectangle.getY() + rectangle.getHeight() * (1.0f - percentage), rectangle.getWidth() * percentage, rectangle.getHeight() * percentage));
   }
 
   @Override
@@ -86,11 +89,9 @@ public class ResourceObject<T extends Resource> implements RenderableObject<Reso
     if (!isFull()) {
       int roomLeft = this.resource.getMaxPileSize() - this.resource.getAmount();
       if (roomLeft < resource.getAmount()) {
-        resource.removeAmount(roomLeft);
-        this.resource.addAmount(roomLeft);
+        resource.transferTo(this.resource, roomLeft);
       } else {
-        this.resource.add(resource);
-        resource.deplete();
+        resource.transferTo(this.resource);
       }
     }
     return resource;

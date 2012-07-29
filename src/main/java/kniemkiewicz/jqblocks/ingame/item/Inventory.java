@@ -5,6 +5,7 @@ import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Renderable;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.util.Assert;
+import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,11 +32,8 @@ public class Inventory implements Renderable {
   @Autowired
   PointOfView pointOfView;
 
-  @Resource(name = "pickaxeImage")
-  private Image pickaxeImage;
-
-  @Resource(name = "axeImage")
-  private Image axeImage;
+  @Autowired
+  SpringBeanProvider springBeanProvider;
 
   List<Item> items = new ArrayList<Item>();
   public static int SQUARE_SIZE = 25;
@@ -54,13 +54,14 @@ public class Inventory implements Renderable {
       items.add(emptyItem);
     }
     Assert.executeAndAssert(add(new DirtBlockItem()));
-    Assert.executeAndAssert(add(new PickaxeItem(pickaxeImage)));
-    Assert.executeAndAssert(add(new AxeItem(axeImage)));
+    Assert.executeAndAssert(add(new PickaxeItem()));
+    Assert.executeAndAssert(add(new AxeItem()));
     Assert.executeAndAssert(add(new BowItem()));
-    Assert.executeAndAssert(add(new PickaxeItem(1000000, pickaxeImage)));
+    Assert.executeAndAssert(add(new PickaxeItem(1000000)));
   }
 
   public boolean add(Item item) {
+    assert Assert.validateSerializable(item);
     int newIndex = -1;
     if (item.isLarge()) {
       if (items.get(0) != emptyItem) return false;
@@ -112,7 +113,12 @@ public class Inventory implements Renderable {
         g.setColor(Color.lightGray);
       }
       g.drawRoundRect(x, Y_MARGIN, square_size, square_size, SQUARE_ROUNDING);
-      item.renderItem(g, x + SQUARE_ROUNDING, Y_MARGIN + SQUARE_ROUNDING, square_size - 2 * SQUARE_ROUNDING);
+      if (item.getItemRenderer() != null) {
+        ItemRenderer<Item> renderer = springBeanProvider.getBean(item.getItemRenderer(), true);
+        renderer.renderItem(item, g, x + SQUARE_ROUNDING, Y_MARGIN + SQUARE_ROUNDING, square_size - 2 * SQUARE_ROUNDING);
+      } else {
+        item.renderItem(g, x + SQUARE_ROUNDING, Y_MARGIN + SQUARE_ROUNDING, square_size - 2 * SQUARE_ROUNDING);
+      }
       g.setColor(Color.black);
       g.drawString(ids[i], x - 5, Y_MARGIN - 4);
       x += SQUARE_DIST + square_size;
@@ -122,6 +128,17 @@ public class Inventory implements Renderable {
 
   public void removeSelectedItem() {
     items.set(selectedIndex, emptyItem);
+  }
+
+  public void serializeItems(ObjectOutputStream stream) throws IOException {
+    stream.write(selectedIndex);
+    for (Item item : items) {
+      if (item == emptyItem) {
+        stream.writeObject(null);
+      } else {
+        stream.writeObject(item);
+      }
+    }
   }
 }
 

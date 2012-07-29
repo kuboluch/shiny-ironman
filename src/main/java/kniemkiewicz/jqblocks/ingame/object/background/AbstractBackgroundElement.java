@@ -31,12 +31,10 @@ public abstract class AbstractBackgroundElement<T extends AbstractBackgroundElem
   }
 
   @Override
-  public Class<? extends ObjectRenderer<T>> getRenderer() {
-    return null;
-  }
+  abstract public Class<? extends ObjectRenderer<T>> getRenderer();
 
   @Override
-  public abstract void renderObject(Graphics g, PointOfView pov);
+  public void renderObject(Graphics g, PointOfView pov) { }
 
   @Override
   public Layer getLayer() {

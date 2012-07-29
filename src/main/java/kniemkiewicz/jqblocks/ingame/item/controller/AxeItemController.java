@@ -97,8 +97,8 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
     if (be != null && be.isResource()) {
       ResourceBackgroundElement<Wood> rbe = ((ResourceBackgroundElement) be);
       if (rbe.getMiningItemType().isAssignableFrom(AxeItem.class)) {
-        Wood resource = rbe.mine(delta);
-        wood.add(resource);
+        Wood mined = rbe.mine(delta);
+        mined.transferTo(wood);
         transformToPile(wood);
       }
     }
@@ -116,7 +116,10 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
         wood = woodPile.addResource(wood);
         completionEffect.setPercentage((woodPile.getResourceAmount() * 100) / woodPile.getResourceMaxPileSize());
       }
-      wood.deplete();
+      if (wood.getAmount() > 0) {
+        // Only if there is no more room for piles
+        wood.deplete();
+      }
     }
   }
 

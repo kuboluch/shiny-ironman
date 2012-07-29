@@ -1,12 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.object.resource;
 
-public interface Resource {
+import java.io.Serializable;
+
+public interface Resource extends Serializable {
 
   public int getAmount();
-
-  public void add(Resource resource);
-
-  public void remove(Resource resource);
 
   public void deplete();
 
@@ -17,6 +15,8 @@ public interface Resource {
   void addAmount(int amount);
 
   void removeAmount(int amount);
+
+  public void transferTo(Resource resource);
 
   public void transferTo(Resource resource, int amount);
 

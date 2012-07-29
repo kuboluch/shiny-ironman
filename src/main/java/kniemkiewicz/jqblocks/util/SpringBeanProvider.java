@@ -13,23 +13,31 @@ import java.util.Map;
  * Date: 14.07.12
  */
 @Component
-public class SpringBeanProvider implements BeanFactoryAware {
+public final class SpringBeanProvider implements BeanFactoryAware {
 
   BeanFactory beanFactory;
   public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
     this.beanFactory = beanFactory;
   }
 
-  Map<Class, Object>  cache = new HashMap<Class, Object>();
+  Map<BeanName, Object>  cache = new HashMap<BeanName, Object>();
 
   public <T> T getBean(Class<T> clazz, boolean doCache) {
+    return getBean(new BeanName<T>(clazz), doCache);
+  }
+
+  public <T> T getBean(BeanName<T> name, boolean doCache) {
     if (doCache) {
-      if (!cache.containsKey(clazz)) {
-        cache.put(clazz, getBean(clazz, false));
+      if (!cache.containsKey(name)) {
+        cache.put(name, getBean(name, false));
       }
-      return (T) cache.get(clazz);
+      return (T) cache.get(name);
     } else {
-      return beanFactory.getBean(clazz);
+      if (name.name == null) {
+        return beanFactory.getBean(name.clazz);
+      } else {
+        return beanFactory.getBean(name.name, name.clazz);
+      }
     }
   }
 }

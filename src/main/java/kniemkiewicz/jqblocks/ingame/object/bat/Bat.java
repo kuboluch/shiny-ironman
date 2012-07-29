@@ -1,17 +1,15 @@
 package kniemkiewicz.jqblocks.ingame.object.bat;
 
 import kniemkiewicz.jqblocks.ingame.*;
-import kniemkiewicz.jqblocks.ingame.object.ObjectKiller;
+import kniemkiewicz.jqblocks.ingame.World;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.object.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
-import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
 
 /**
  * User: knie
@@ -70,7 +68,7 @@ public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat>,H
   }
 
   @Override
-  public void killed(ObjectKiller killer) {
+  public void killed(World killer) {
     killer.killMovingObject(this);
   }
 }

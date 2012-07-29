@@ -13,17 +13,6 @@ public class ResourceBase implements Resource {
   }
 
   @Override
-  public void add(Resource resource) {
-    this.amount += resource.getAmount();
-  }
-
-  @Override
-  public void remove(Resource resource) {
-    Assert.assertTrue(this.amount >= resource.getAmount());
-    this.amount -= resource.getAmount();
-  }
-
-  @Override
   public void addAmount(int amount) {
     this.amount += amount;
   }
@@ -31,6 +20,12 @@ public class ResourceBase implements Resource {
   @Override
   public void removeAmount(int amount) {
     Assert.assertTrue(this.amount >= amount);
+    this.amount -= amount;
+  }
+
+  @Override
+  public void transferTo(Resource resource) {
+    resource.addAmount(amount);
     this.amount -= amount;
   }
 

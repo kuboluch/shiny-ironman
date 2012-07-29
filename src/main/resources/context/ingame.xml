@@ -12,4 +12,12 @@
   <import resource="images.xml"/>
 
   <bean id="springBeanProvider" class="kniemkiewicz.jqblocks.util.SpringBeanProvider"/>
+
+  <bean id="pickaxeRenderer" class="kniemkiewicz.jqblocks.ingame.item.ImageItemRenderer">
+      <constructor-arg ref="pickaxeImage"/>
+  </bean>
+
+  <bean id="axeRenderer" class="kniemkiewicz.jqblocks.ingame.item.ImageItemRenderer">
+      <constructor-arg ref="axeImage"/>
+  </bean>
 </beans>

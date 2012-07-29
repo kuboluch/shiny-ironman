@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.ingame.item;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.item.controller.DirtBlockItemController;
 import kniemkiewicz.jqblocks.ingame.object.block.DirtBlock;
+import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 
 /**
@@ -23,6 +24,11 @@ public class DirtBlockItem implements Item, UpdateQueue.ToBeUpdated<DirtBlockIte
 
   public Class<? extends DirtBlockItemController> getItemController() {
     return DirtBlockItemController.class;
+  }
+
+  @Override
+  public BeanName<? extends ItemRenderer> getItemRenderer() {
+    return null;
   }
 
   @Override

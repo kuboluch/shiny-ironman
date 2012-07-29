@@ -4,7 +4,7 @@ import kniemkiewicz.jqblocks.ingame.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
-import kniemkiewicz.jqblocks.ingame.object.ObjectKiller;
+import kniemkiewicz.jqblocks.ingame.World;
 import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.hp.HasHealthPoints;
@@ -35,7 +35,7 @@ public class ArrowController implements UpdateQueue.UpdateController<Arrow>{
   UpdateQueue updateQueue;
 
   @Autowired
-  ObjectKiller killer;
+  World killer;
 
   public void add(Arrow arrow) {
     updateQueue.add(arrow);

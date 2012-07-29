@@ -1,12 +1,16 @@
 package kniemkiewicz.jqblocks.ingame.object.hp;
 
-import kniemkiewicz.jqblocks.ingame.object.ObjectKiller;
+import kniemkiewicz.jqblocks.ingame.World;
+
+import java.io.Serializable;
 
 /**
  * User: knie
  * Date: 7/28/12
  */
-public class HealthPoints {
+public class HealthPoints implements Serializable {
+
+  private static final long serialVersionUID = 1;
 
   private int currentHp;
   private int maxHp;
@@ -22,7 +26,7 @@ public class HealthPoints {
     this.object = object;
   }
 
-  public void damage(int dmg, ObjectKiller killer) {
+  public void damage(int dmg, World killer) {
     currentHp -= dmg;
     if (currentHp <= 0) {
       currentHp = 0;

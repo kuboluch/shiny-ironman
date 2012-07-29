@@ -21,19 +21,23 @@ import javax.annotation.Resource;
  */
 public class Tree extends AbstractBackgroundElement<Tree> implements ResourceBackgroundElement<Wood> {
 
-  private Image image;
+  private static final long serialVersionUID = 1;
 
   public static int HEIGHT = Sizes.BLOCK * 8;
   public static int WIDTH = Sizes.BLOCK * 4;
 
-  Tree(int x, int y, Image image) {
+  Tree(int x, int y) {
     super(x, y, WIDTH, HEIGHT);
-    this.image = image;
   }
 
   @Override
   public boolean isResource() {
     return true;
+  }
+
+  @Override
+  public Class<? extends ObjectRenderer<Tree>> getRenderer() {
+    return TreeRenderer.class;
   }
 
   @Override
@@ -44,10 +48,5 @@ public class Tree extends AbstractBackgroundElement<Tree> implements ResourceBac
   @Override
   public Wood mine(int delta) {
     return new Wood(delta * Sizes.DEFAULT_RESOURCE_RICHNESS);
-  }
-
-  @Override
-  public void renderObject(Graphics g, PointOfView pov) {
-    image.draw(x, y, WIDTH, HEIGHT);
   }
 }

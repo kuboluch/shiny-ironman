@@ -15,6 +15,10 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Shape;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 /**
  * Rocks are mostly a test subject to check if picking up objects works.
  * User: knie
@@ -22,13 +26,15 @@ import org.newdawn.slick.geom.Shape;
  */
 public class Rock implements RenderableObject<Rock>, PickableObject, MovingPhysicalObject {
 
+  private static final long serialVersionUID = 1;
+
   static int SMALL_CIRCLE_RADIUS = Sizes.BLOCK / 4;
   static int LARGE_CIRCLE_RADIUS = Sizes.BLOCK / 2;
 
   static Color LARGE_COLOR = Color.gray;
   static Color SMALL_COLOR = Color.lightGray;
 
-  Circle circle;
+  transient Circle circle;
   boolean large;
 
   public Rock(int centerX, int maxY, boolean large) {
@@ -74,5 +80,24 @@ public class Rock implements RenderableObject<Rock>, PickableObject, MovingPhysi
   @Override
   public void setY(int y) {
     circle.setY(y);
+  }
+
+
+  // need to implement serialization as Circle is not Serializable
+  private void readObject(ObjectInputStream inputStream) throws ClassNotFoundException, IOException {
+    //always perform the default de-serialization first
+    inputStream.defaultReadObject();
+    float centerX = inputStream.readFloat();
+    float centerY = inputStream.readFloat();
+    float radius = inputStream.readFloat();
+    circle = new Circle(centerX, centerY, radius);
+  }
+
+  private void writeObject(ObjectOutputStream outputStream) throws IOException {
+    //perform the default serialization for all non-transient, non-static fields
+    outputStream.defaultWriteObject();
+    outputStream.writeFloat(circle.getCenterX());
+    outputStream.writeFloat(circle.getCenterY());
+    outputStream.writeFloat(circle.getRadius());
   }
 }

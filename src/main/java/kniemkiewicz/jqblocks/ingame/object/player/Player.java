@@ -4,28 +4,23 @@ import kniemkiewicz.jqblocks.ingame.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.object.ObjectKiller;
+import kniemkiewicz.jqblocks.ingame.World;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.object.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * User: krzysiek
  * Date: 08.07.12
  */
 public class Player implements RenderableObject<Player>,PhysicalObject,HasHealthPoints {
+
+  private static final long serialVersionUID = 1;
 
   private static int INITIAL_HP = 100;
 
@@ -108,7 +103,7 @@ public class Player implements RenderableObject<Player>,PhysicalObject,HasHealth
   }
 
   @Override
-  public void killed(ObjectKiller killer) {
+  public void killed(World killer) {
     // for now player cannot be killed.
   }
 }

@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.item;
 
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.item.controller.BowItemController;
+import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
@@ -33,6 +34,11 @@ public class BowItem implements Item {
   @Override
   public Class<? extends ItemController> getItemController() {
     return BowItemController.class;
+  }
+
+  @Override
+  public BeanName<? extends ItemRenderer> getItemRenderer() {
+    return null;
   }
 
   @Override

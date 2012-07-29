@@ -6,32 +6,23 @@ import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.item.controller.AxeItemController;
 import kniemkiewicz.jqblocks.ingame.item.controller.PickaxeItemController;
 import kniemkiewicz.jqblocks.ingame.item.feature.Strength;
+import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 public class AxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<AxeItem> {
 
-  private Image image;
-
   private int strength = Sizes.DEFAULT_AXE_STRENGTH;
 
-  public AxeItem(Image image) {
-    this.image = image;
-  }
+  public AxeItem() { }
 
-  public AxeItem(int strength, Image image) {
+  public AxeItem(int strength) {
     this.strength = strength;
-    this.image = image;
   }
 
   public int getStrength() {
     return strength;
   }
-
-  public void renderItem(Graphics g, int x, int y, int square_size) {
-    image.draw(x,y,square_size, square_size);
-  }
-
   @Override
   public Class<? extends ItemController> getItemController() {
     return AxeItemController.class;
@@ -46,4 +37,14 @@ public class AxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<AxeItem>
   public boolean isLarge() {
     return false;
   }
+
+  private static final BeanName<ItemRenderer> RENDERER = new BeanName<ItemRenderer>(ImageItemRenderer.class, "axeRenderer");
+
+  @Override
+  public BeanName<? extends ItemRenderer> getItemRenderer() {
+    return RENDERER;
+  }
+
+  @Override
+  public void renderItem(Graphics g, int x, int y, int square_size) {  }
 }

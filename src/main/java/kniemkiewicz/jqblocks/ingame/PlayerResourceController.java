@@ -18,13 +18,7 @@ public class PlayerResourceController {
       resources.put(newResource.getType(), newResource);
       return;
     }
-    resources.get(newResource.getType()).add(newResource);
-  }
-
-  public void removeResource(Resource resource) {
-    Assert.assertTrue(resources.containsKey(resource.getType()));
-    Assert.assertTrue(resources.get(resource.getType()).getAmount() >= resource.getAmount());
-    resources.get(resource.getType()).remove(resource);
+    newResource.transferTo(resources.get(newResource.getType()));
   }
 
   public boolean hasEnoughResource(Resource neededResource) {

@@ -10,6 +10,9 @@ import org.newdawn.slick.Graphics;
  * Date: 14.07.12
  */
 public class EndOfTheWorldWall extends AbstractBlock<EndOfTheWorldWall> {
+
+  private static final long serialVersionUID = 1;
+
   public EndOfTheWorldWall(int x, int y, int width, int height) {
     super(x, y, width, height);
   }

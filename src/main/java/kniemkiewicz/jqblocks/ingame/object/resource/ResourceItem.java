@@ -2,6 +2,8 @@ package kniemkiewicz.jqblocks.ingame.object.resource;
 
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.item.Item;
+import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
+import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
@@ -27,6 +29,11 @@ public class ResourceItem implements Item {
   @Override
   public Class<? extends ItemController> getItemController() {
     return ResourceItemController.class;
+  }
+
+  @Override
+  public BeanName<? extends ItemRenderer> getItemRenderer() {
+    return null;
   }
 
   @Override

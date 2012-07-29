@@ -5,7 +5,7 @@ import kniemkiewicz.jqblocks.ingame.controller.HitResolver;
 import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.item.Inventory;
 import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.object.ObjectKiller;
+import kniemkiewicz.jqblocks.ingame.World;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObject;
 import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
@@ -38,7 +38,7 @@ public class PlayerController implements InputListener {
   MovingObjects movingObjects;
 
   @Autowired
-  ObjectKiller objectKiller;
+  World objectKiller;
 
   @Autowired
   Inventory inventory;

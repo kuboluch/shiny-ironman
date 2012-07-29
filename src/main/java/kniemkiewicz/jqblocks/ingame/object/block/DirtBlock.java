@@ -17,6 +17,8 @@ import org.newdawn.slick.geom.Rectangle;
  */
 public class DirtBlock extends AbstractBlock<DirtBlock> {
 
+  private static final long serialVersionUID = 1;
+
   public static Color BROWN = new Color(150.0f/255, 75.0f/255, 0);
   public static Color DARK_GREEN = new Color(0, 0.75f, 0);
 
