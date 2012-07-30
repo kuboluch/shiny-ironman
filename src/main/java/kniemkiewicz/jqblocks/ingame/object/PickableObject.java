@@ -9,4 +9,7 @@ import kniemkiewicz.jqblocks.ingame.item.Item;
 public interface PickableObject extends PhysicalObject {
 
   Item getItem();
+
+  PickableObjectType getType();
+
 }

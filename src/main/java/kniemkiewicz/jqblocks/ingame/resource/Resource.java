@@ -1,4 +1,4 @@
-package kniemkiewicz.jqblocks.ingame.object.resource;
+package kniemkiewicz.jqblocks.ingame.resource;
 
 import java.io.Serializable;
 

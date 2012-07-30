@@ -1,9 +1,9 @@
-package kniemkiewicz.jqblocks.ingame.object.resource;
+package kniemkiewicz.jqblocks.ingame.resource;
 
 import kniemkiewicz.jqblocks.util.Assert;
 
 public class ResourceBase implements Resource {
-  private final static int PILE_SIZE = 10000;
+  private final static int PILE_SIZE = 1000;
 
   protected int amount = 0;
 

@@ -1,6 +1,11 @@
-package kniemkiewicz.jqblocks.ingame.controller;
+package kniemkiewicz.jqblocks.ingame.resource.inventory;
 
-import kniemkiewicz.jqblocks.ingame.*;
+import kniemkiewicz.jqblocks.ingame.InputListener;
+import kniemkiewicz.jqblocks.ingame.MovingObjects;
+import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.SolidBlocks;
+import kniemkiewicz.jqblocks.ingame.controller.ItemController;
+import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.EventListener;
 import kniemkiewicz.jqblocks.ingame.event.input.InputEvent;
@@ -8,14 +13,14 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseClickEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
-import kniemkiewicz.jqblocks.ingame.item.Inventory;
-import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController;
 import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
-import kniemkiewicz.jqblocks.util.Assert;
+import kniemkiewicz.jqblocks.ingame.resource.ResourceObject;
+import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
+import kniemkiewicz.jqblocks.util.IterableIterator;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,29 +38,29 @@ import java.util.List;
  * Date: 11.07.12
  */
 @Component
-public class InventoryController implements InputListener, EventListener {
+public class ResourceInventoryController implements InputListener, EventListener {
 
   private static int DROP_RANGE = 4 * Sizes.BLOCK;
 
   @Autowired
-  Inventory inventory;
+  ResourceInventory inventory;
   @Autowired
   SpringBeanProvider provider;
   @Autowired
   SolidBlocks solidBlocks;
   @Autowired
+  private MovingObjects movingObjects;
+  @Autowired
   PlayerController playerController;
   @Autowired
   InputContainer inputContainer;
 
-  public static Log logger = LogFactory.getLog(InventoryController.class);
+  public static Log logger = LogFactory.getLog(ResourceInventoryController.class);
 
   public void listen(Input input, int delta) {
-    int k = KeyboardUtils.getPressedNumericKey(input);
-    if (k == 0) {
-      inventory.setSelectedIndex(9);
-    } else if (k > 0 && k <= inventory.getSize()) {
-      inventory.setSelectedIndex(k - 1);
+    int f = KeyboardUtils.getPressedFunctionKey(input);
+    if (f > 0 && f <= inventory.getSize()) {
+      inventory.setSelectedIndex(f - 1);
     }
   }
 
@@ -73,21 +78,50 @@ public class InventoryController implements InputListener, EventListener {
     int minY = Sizes.MAX_Y;
     for (AbstractBlock block : solidBlocks.intersects(rect)) {
       if (block.getShape().getY() < minY) {
-        minY = (int)block.getShape().getY();
+        minY = (int) block.getShape().getY();
       }
     }
-    dropObject.setY((int)(minY - shape.getHeight() - 1));
+    dropObject.setY((int) (minY - shape.getHeight() - 1));
   }
 
   private boolean dropItem(int x, int y) {
     if (!AbstractActionItemController.isInRange(x, y, playerController.getPlayer(), DROP_RANGE)) return false;
+    if (conflictingObjectExists(x, y)) return false;
     Class<? extends ItemController> clazz = inventory.getSelectedItem().getItemController();
     if (clazz == null) return false;
     ItemController controller = provider.getBean(clazz, true);
     MovingPhysicalObject dropObject = controller.getDropObject(inventory.getSelectedItem(), x, y);
     if (dropObject == null) return false;
+    if (!isOnSolidGround(dropObject)) return false;
     dropObject(dropObject);
     inventory.removeSelectedItem();
+    return true;
+  }
+
+  private boolean conflictingObjectExists(int x, int y) {
+    Rectangle rect = new Rectangle(x, y, 1, 1);
+    List<ResourceObject> resourceObjects =
+        Collections3.collect(movingObjects.intersects(rect), ResourceObject.class);
+    if (!resourceObjects.isEmpty()) return true;
+    IterableIterator<AbstractBlock> iter = solidBlocks.intersects(rect);
+    if (iter.hasNext()) return true;
+    return false;
+  }
+
+  private boolean isOnSolidGround(MovingPhysicalObject dropObject) {
+    Shape shape = dropObject.getShape();
+    Rectangle rect = GeometryUtils.getNewBoundingRectangle(shape);
+    rect.setY(rect.getY() + 1);
+    rect.setHeight(1);
+    int blockCount = 0;
+    IterableIterator<AbstractBlock> iter = solidBlocks.intersects(rect);
+    while (iter.hasNext()) {
+      blockCount++;
+      iter.next();
+    }
+    if (blockCount != rect.getWidth() / Sizes.BLOCK) {
+      return false;
+    }
     return true;
   }
 
@@ -96,9 +130,9 @@ public class InventoryController implements InputListener, EventListener {
     if (events.size() == 0) return;
     for (Event e : events) {
       if (e instanceof MouseClickEvent) {
-        MouseClickEvent mce = (MouseClickEvent)e;
+        MouseClickEvent mce = (MouseClickEvent) e;
         if (!mce.isProcessed() && (mce.getButton() == Button.RIGHT)
-            && !KeyboardUtils.isResourceInventoryKeyPressed(inputContainer.getInput())) {
+            && KeyboardUtils.isResourceInventoryKeyPressed(inputContainer.getInput())) {
           if (dropItem(mce.getLevelX(), mce.getLevelY())) {
             return;
           }

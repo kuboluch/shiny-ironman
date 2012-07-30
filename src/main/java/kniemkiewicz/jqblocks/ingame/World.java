@@ -1,16 +1,13 @@
 package kniemkiewicz.jqblocks.ingame;
 
-import kniemkiewicz.jqblocks.ingame.MovingObjects;
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
-import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.item.Inventory;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
+import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventory;
 import kniemkiewicz.jqblocks.util.Collections3;
-import kniemkiewicz.jqblocks.util.IterableIterator;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -51,6 +48,9 @@ public final class World {
 
   @Autowired
   Inventory inventory;
+
+  @Autowired
+  ResourceInventory resourceInventory;
 
   @Autowired
   SpringBeanProvider springBeanProvider;
@@ -96,6 +96,7 @@ public final class World {
     stream.writeObject(markIndexes(indexes, solidBlocks.iterateAll()));
     stream.writeObject(markIndexes(indexes, updateQueue.iterateAll()));
     inventory.serializeItems(stream);
+    resourceInventory.serializeItems(stream);
     stream.close();
   }
 
@@ -144,6 +145,7 @@ public final class World {
       }
 
       inventory.loadSerializedItems(stream);
+      resourceInventory.loadSerializedItems(stream);
     } catch (Exception e) {
       throw new GameLoadException(e);
     }

@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.object.background;
 
-import kniemkiewicz.jqblocks.ingame.object.resource.Resource;
+import kniemkiewicz.jqblocks.ingame.resource.Resource;
 
 public interface ResourceBackgroundElement<T extends Resource> extends BackgroundElement {
 

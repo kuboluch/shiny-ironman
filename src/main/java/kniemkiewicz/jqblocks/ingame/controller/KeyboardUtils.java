@@ -11,7 +11,7 @@ public class KeyboardUtils {
   // All those keys below will be configurable at some point.
   // That's why it is better to keep them in one place.
 
-  static boolean isDownPressed(Input input) {
+  public static boolean isDownPressed(Input input) {
     return (input.isKeyDown(Input.KEY_S) || input.isKeyDown(Input.KEY_DOWN));
   }
   public static boolean isUpPressed(Input input) {
@@ -38,6 +38,10 @@ public class KeyboardUtils {
     return (input.isKeyDown(Input.KEY_F9));
   }
 
+  public static boolean isResourceInventoryKeyPressed(Input input) {
+    return (input.isKeyDown(Input.KEY_LSHIFT));
+  }
+
   /**
    * @return 0-9 for keys and -1 if none is selected
    */
@@ -49,6 +53,18 @@ public class KeyboardUtils {
     }
     if (input.isKeyPressed(Input.KEY_0)) {
       return 0;
+    }
+    return -1;
+  }
+
+  /**
+   * @return F1-F12 for keys and -1 if none is selected
+   */
+  public static int getPressedFunctionKey(Input input) {
+    for (int k = Input.KEY_F1; k < Input.KEY_F12; k++) {
+      if (input.isKeyDown(k)) {
+        return k - Input.KEY_F1 + 1;
+      }
     }
     return -1;
   }

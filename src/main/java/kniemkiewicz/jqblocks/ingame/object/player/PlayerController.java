@@ -8,7 +8,9 @@ import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.World;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObject;
+import kniemkiewicz.jqblocks.ingame.object.PickableObjectType;
 import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
+import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventory;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.newdawn.slick.Input;
@@ -42,6 +44,9 @@ public class PlayerController implements InputListener {
 
   @Autowired
   Inventory inventory;
+
+  @Autowired
+  ResourceInventory resourceInventory;
 
   @Autowired
   RenderQueue renderQueue;
@@ -107,9 +112,19 @@ public class PlayerController implements InputListener {
       PhysicalObject po = it.next();
       if (po instanceof PickableObject) {
         Item item = ((PickableObject)po).getItem();
-        if (inventory.add(item)) {
-          it.remove();
-          objectKiller.killMovingObject(po);
+        PickableObjectType poType = ((PickableObject) po).getType();
+        if (PickableObjectType.ACTION.equals(poType)) {
+          if (inventory.add(item)) {
+            it.remove();
+            objectKiller.killMovingObject(po);
+          }
+        } else if (PickableObjectType.RESOURCE.equals(poType)) {
+          if (KeyboardUtils.isDownPressed(input)) {
+            if (resourceInventory.add(item)) {
+              it.remove();
+              objectKiller.killMovingObject(po);
+            }
+          }
         }
       }
     }

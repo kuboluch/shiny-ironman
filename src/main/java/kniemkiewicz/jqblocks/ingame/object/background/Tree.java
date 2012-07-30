@@ -1,19 +1,9 @@
 package kniemkiewicz.jqblocks.ingame.object.background;
 
-import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.item.AxeItem;
-import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.item.PickaxeItem;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
-import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
-import kniemkiewicz.jqblocks.ingame.object.resource.Wood;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
-
-import javax.annotation.Resource;
+import kniemkiewicz.jqblocks.ingame.resource.Wood;
 
 /**
  * User: knie

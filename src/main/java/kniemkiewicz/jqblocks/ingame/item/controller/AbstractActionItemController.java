@@ -9,7 +9,7 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseDraggedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseReleasedEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
-import kniemkiewicz.jqblocks.ingame.input.MouseInput;
+import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
@@ -29,7 +29,7 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
   PlayerController playerController;
 
   @Autowired
-  MouseInput mouseInput;
+  InputContainer inputContainer;
 
   Rectangle affectedRectangle;
 
@@ -109,14 +109,14 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
   }
 
   public void handleScreenMovedEvent(T item, List<ScreenMovedEvent> screenMovedEvents) {
-    if (!mouseInput.isMouseButtonDown(0)) {
+    if (!inputContainer.getInput().isMouseButtonDown(0)) {
       return;
     }
     // TODO: there may be more than 1 event!
     assert screenMovedEvents.size() > 0;
     ScreenMovedEvent sme = screenMovedEvents.get(0);
-    int x = Sizes.roundToBlockSizeX(mouseInput.getMouseX() + sme.getNewShiftX());
-    int y = Sizes.roundToBlockSizeY(mouseInput.getMouseY() + sme.getNewShiftY());
+    int x = Sizes.roundToBlockSizeX(inputContainer.getInput().getMouseX() + sme.getNewShiftX());
+    int y = Sizes.roundToBlockSizeY(inputContainer.getInput().getMouseY() + sme.getNewShiftY());
     handleMouseCoordChange(item, x, y);
   }
 

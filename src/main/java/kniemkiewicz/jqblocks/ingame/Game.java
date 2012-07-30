@@ -3,11 +3,12 @@ package kniemkiewicz.jqblocks.ingame;
 import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.controller.InventoryController;
 import kniemkiewicz.jqblocks.ingame.controller.SaveGameListener;
-import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseInputEventBus;
-import kniemkiewicz.jqblocks.ingame.input.MouseInput;
+import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
+import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
+import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventoryController;
 import kniemkiewicz.jqblocks.ingame.ui.MouseInputInfo;
 import kniemkiewicz.jqblocks.ingame.ui.ResourceInfo;
 import kniemkiewicz.jqblocks.ingame.ui.TimingInfo;
@@ -27,7 +28,7 @@ import java.util.List;
  * Date: 08.07.12
  */
 @Component
-public class Game extends BasicGame{
+public class Game extends BasicGame {
 
   public static class Settings {
     // If not null, level will be generated using it. Otherwise some pseudorandom seed is chosen.
@@ -51,6 +52,9 @@ public class Game extends BasicGame{
 
   @Autowired
   InventoryController inventoryController;
+
+  @Autowired
+  ResourceInventoryController resourceInventoryController;
 
   @Autowired
   RenderQueue renderQueue;
@@ -77,7 +81,7 @@ public class Game extends BasicGame{
   ResourceInfo resourceInfo;
 
   @Autowired
-  MouseInput mouseInput;
+  InputContainer inputContainer;
 
   @Autowired
   World world;
@@ -96,15 +100,17 @@ public class Game extends BasicGame{
   public void init(GameContainer gameContainer) throws SlickException {
     // setSettings should be called first.
     assert settings != null;
-    mouseInput.setInput(gameContainer.getInput());
+    inputContainer.setInput(gameContainer.getInput());
     // TODO rewrite using event bus?
     inputListeners.add(playerController);
     inputListeners.add(endGameController);
     inputListeners.add(saveGameListener);
     inputListeners.add(inventoryController);
+    inputListeners.add(resourceInventoryController);
     gameContainer.getInput().addMouseListener(mouseInputEventBus);
     eventBus.addListener(mouseInputInfo);
     eventBus.addListener(inventoryController);
+    eventBus.addListener(resourceInventoryController);
     renderQueue.add(timingInfo);
     renderQueue.add(mouseInputInfo);
     renderQueue.add(resourceInfo);

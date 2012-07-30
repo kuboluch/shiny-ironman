@@ -4,7 +4,6 @@ import kniemkiewicz.jqblocks.ingame.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.PlayerResourceController;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.controller.InventoryController;
 import kniemkiewicz.jqblocks.ingame.item.AxeItem;
 import kniemkiewicz.jqblocks.ingame.object.CompletionEffect;
 import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
@@ -12,9 +11,9 @@ import kniemkiewicz.jqblocks.ingame.object.background.AbstractBackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.ResourceBackgroundElement;
-import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
-import kniemkiewicz.jqblocks.ingame.object.resource.ResourceObject;
-import kniemkiewicz.jqblocks.ingame.object.resource.Wood;
+import kniemkiewicz.jqblocks.ingame.resource.ResourceObject;
+import kniemkiewicz.jqblocks.ingame.resource.Wood;
+import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventoryController;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,7 +32,7 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   private Backgrounds backgrounds;
 
   @Autowired
-  private InventoryController inventoryController;
+  private ResourceInventoryController resourceInventoryController;
 
   @Autowired
   private PlayerResourceController playerResourceController;
@@ -126,8 +125,7 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   private ResourceObject<Wood> createAndDropWoodPile(int x, int y) {
     ResourceObject<Wood> woodObject = new ResourceObject<Wood>(new Wood(), x, y);
     woodObject.addTo(renderQueue, movingObjects);
-    // There is a high chance that this object will be immediately picked up.
-    inventoryController.dropObject(woodObject);
+    resourceInventoryController.dropObject(woodObject);
     return woodObject;
   }
 

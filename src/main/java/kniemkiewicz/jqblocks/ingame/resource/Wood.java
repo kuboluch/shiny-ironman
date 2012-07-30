@@ -1,4 +1,4 @@
-package kniemkiewicz.jqblocks.ingame.object.resource;
+package kniemkiewicz.jqblocks.ingame.resource;
 
 public class Wood extends ResourceBase implements Resource {
   private static final long serialVersionUID = 1;

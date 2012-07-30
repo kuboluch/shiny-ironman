@@ -1,8 +1,9 @@
-package kniemkiewicz.jqblocks.ingame.object.resource;
+package kniemkiewicz.jqblocks.ingame.resource.item;
 
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.resource.Resource;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;

@@ -1,14 +1,12 @@
-package kniemkiewicz.jqblocks.ingame.object.resource;
+package kniemkiewicz.jqblocks.ingame.resource;
 
 import kniemkiewicz.jqblocks.ingame.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
-import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
-import kniemkiewicz.jqblocks.ingame.object.PickableObject;
-import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.ingame.object.*;
+import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -65,6 +63,11 @@ public class ResourceObject<T extends Resource> implements RenderableObject<Reso
   @Override
   public Item getItem() {
     return new ResourceItem(resource);
+  }
+
+  @Override
+  public PickableObjectType getType() {
+    return PickableObjectType.RESOURCE;
   }
 
   @Override

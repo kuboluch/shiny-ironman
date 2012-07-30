@@ -5,10 +5,7 @@ import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
-import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
-import kniemkiewicz.jqblocks.ingame.object.PickableObject;
-import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.ingame.object.*;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.SerializationUtils2;
 import org.newdawn.slick.Color;
@@ -76,6 +73,11 @@ public class Rock implements RenderableObject<Rock>, PickableObject, MovingPhysi
   @Override
   public Item getItem() {
     return new RockItem(large);
+  }
+
+  @Override
+  public PickableObjectType getType() {
+    return PickableObjectType.ACTION;
   }
 
   @Override

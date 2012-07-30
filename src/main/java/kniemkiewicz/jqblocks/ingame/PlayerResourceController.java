@@ -1,7 +1,6 @@
 package kniemkiewicz.jqblocks.ingame;
 
-import kniemkiewicz.jqblocks.ingame.object.resource.Resource;
-import kniemkiewicz.jqblocks.util.Assert;
+import kniemkiewicz.jqblocks.ingame.resource.Resource;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;

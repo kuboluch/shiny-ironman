@@ -5,17 +5,29 @@ Krzysiek:
 - faster collision detection
 - fix assert error when hitting ceiling
 - decide what to do with arrows stuck in the walls
+- bug: it possible to put solid blocks on trees
+- bug: it possible to remove solid blocks from under a tree
 
 Kuba:
-- you made creating level take ages as you apparently compute a lot of stuff while I add blocks to the level.
-- pile of * after digging
-- pile process to resource
-- ladder
-- cutting tree
+- building functionality - sawmill
+- pile process to resource - wood in sawmill - global resource economy for now
+- building ladder
+- climbing ladder - just for fun
+- crafting functionality - torches from wood
+- viva la révolution (from global to regional economy) :)
+- create simple demo world with mining, building & crafting for player only
+    Resources: wood, stone, food
+    Structures: hearth (spawn point, source of fire), sawmill, stonecutter, farm
+    Items: hoe?, axe, hammer (with deassamble power), ladder (item or structure?), torch, arrows
+
 ...
-- darkness & light because it doesn't affect gameplay so much
+- darkness & light (so late because it doesn't affect gameplay so much)
 
 Unassigned:
-- item gathering
-- item combining/production
+- background blocks should be generated along with solid blocks
+- background blocks item
+- item gathering?
+- item combining
+- stone resource
+- fighting rules - maybe more skill demanding gameplay like block with shield
 ...
