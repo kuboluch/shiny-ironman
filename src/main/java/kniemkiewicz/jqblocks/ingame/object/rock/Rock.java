@@ -10,6 +10,7 @@ import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.PickableObject;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.util.Assert;
+import kniemkiewicz.jqblocks.util.SerializationUtils2;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
@@ -87,17 +88,12 @@ public class Rock implements RenderableObject<Rock>, PickableObject, MovingPhysi
   private void readObject(ObjectInputStream inputStream) throws ClassNotFoundException, IOException {
     //always perform the default de-serialization first
     inputStream.defaultReadObject();
-    float centerX = inputStream.readFloat();
-    float centerY = inputStream.readFloat();
-    float radius = inputStream.readFloat();
-    circle = new Circle(centerX, centerY, radius);
+    circle = SerializationUtils2.deserializeCircle(inputStream);
   }
 
   private void writeObject(ObjectOutputStream outputStream) throws IOException {
     //perform the default serialization for all non-transient, non-static fields
     outputStream.defaultWriteObject();
-    outputStream.writeFloat(circle.getCenterX());
-    outputStream.writeFloat(circle.getCenterY());
-    outputStream.writeFloat(circle.getRadius());
+    SerializationUtils2.serializeCircle(circle, outputStream);
   }
 }

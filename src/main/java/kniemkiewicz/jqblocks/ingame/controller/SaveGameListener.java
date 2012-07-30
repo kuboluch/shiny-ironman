@@ -38,6 +38,7 @@ public class SaveGameListener implements InputListener {
         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(bufferedOutputStream);
         world.serializeGameData(objectOutputStream);
+        fileOutputStream.close();
         logger.info("Done saving to file");
       } catch (IOException e) {
         logger.error("Error saving to file", e);

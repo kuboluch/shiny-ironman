@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -131,12 +132,24 @@ public class Inventory implements Renderable {
   }
 
   public void serializeItems(ObjectOutputStream stream) throws IOException {
-    stream.write(selectedIndex);
+    stream.writeObject(selectedIndex);
     for (Item item : items) {
       if (item == emptyItem) {
         stream.writeObject(null);
       } else {
         stream.writeObject(item);
+      }
+    }
+  }
+
+  public void loadSerializedItems(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+    selectedIndex = (Integer)stream.readObject();
+    for (int i = 0; i < SIZE; i++) {
+      Item item = (Item) stream.readObject();
+      if (item == null) {
+        items.set(i, emptyItem);
+      } else {
+        items.set(i, item);
       }
     }
   }

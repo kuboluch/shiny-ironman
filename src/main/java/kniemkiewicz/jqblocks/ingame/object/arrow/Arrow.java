@@ -7,9 +7,14 @@ import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.item.BowItem;
 import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
+import kniemkiewicz.jqblocks.util.SerializationUtils2;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Shape;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
  * User: knie
@@ -19,10 +24,11 @@ public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Ar
 
   private static final long serialVersionUID = 1;
 
-  Line line;
+  transient Line line;
   LimitedSpeed xMovement;
   LimitedSpeed yMovement;
-  Object source;
+  //TODO: fix this, we need global object ids or something like that.
+  transient Object source;
   private static int LENGTH = Sizes.BLOCK;
 
   public Arrow(float x, float y, Object source, float xSpeed, float ySpeed) {
@@ -84,5 +90,18 @@ public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Ar
   @Override
   public Class<ArrowController> getUpdateController() {
     return ArrowController.class;
+  }
+
+  // need to implement serialization as Circle is not Serializable
+  private void readObject(ObjectInputStream inputStream) throws ClassNotFoundException, IOException {
+    //always perform the default de-serialization first
+    inputStream.defaultReadObject();
+    line = SerializationUtils2.deserializeLine(inputStream);
+  }
+
+  private void writeObject(ObjectOutputStream outputStream) throws IOException {
+    //perform the default serialization for all non-transient, non-static fields
+    outputStream.defaultWriteObject();
+    SerializationUtils2.serializeLine(line, outputStream);
   }
 }

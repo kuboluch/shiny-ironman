@@ -11,6 +11,8 @@ import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.IterableIterator;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +27,14 @@ import java.util.*;
  */
 @Component
 public class World {
+
+  Log logger = LogFactory.getLog(World.class);
+
+  class GameLoadException extends RuntimeException {
+    GameLoadException(Exception e) {
+      super("Error while loading level:", e);
+    }
+  }
 
   @Autowired
   RenderQueue renderQueue;
@@ -85,14 +95,33 @@ public class World {
     stream.writeObject(markIndexes(indexes, solidBlocks.iterateAll()));
     stream.writeObject(markIndexes(indexes, updateQueue.iterateAll()));
     inventory.serializeItems(stream);
+    stream.close();
   }
 
   public void loadGameData(ObjectInputStream stream) {
-    postLoad(null);
+    Player player = null;
+    try {
+      List<Object> gameObjects = (List<Object>)stream.readObject();
+      for (Object ob : gameObjects) {
+        if (ob instanceof Player) {
+          player = (Player) ob;
+          break;
+        }
+      }
+      assert player != null;
+      BitSet renderableObjects = (BitSet)stream.readObject();
+      BitSet movingObjects = (BitSet)stream.readObject();
+      BitSet solidBlocks = (BitSet)stream.readObject();
+      BitSet toBeUpdated = (BitSet)stream.readObject();
+      inventory.loadSerializedItems(stream);
+    } catch (Exception e) {
+      throw new GameLoadException(e);
+    }
+    postLoad(player);
   }
 
   private void postLoad(Player player) {
-    player = new Player();
+    // Here we can put all small tweaks that are needed to make loaded level work correctly.
     playerController.setPlayer(player);
   }
 }
