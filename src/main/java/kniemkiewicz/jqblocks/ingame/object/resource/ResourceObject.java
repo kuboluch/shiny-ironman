@@ -36,7 +36,7 @@ public class ResourceObject<T extends Resource> implements RenderableObject<Reso
 
   public void addTo(RenderQueue renderQueue, MovingObjects movingObjects) {
     renderQueue.add(this);
-    Assert.executeAndAssert(movingObjects.addCollidingWithPlayer(this));
+    Assert.executeAndAssert(movingObjects.addPickable(this));
   }
 
   @Override

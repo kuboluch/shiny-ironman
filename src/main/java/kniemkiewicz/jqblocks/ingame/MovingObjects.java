@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.ingame;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.ingame.object.resource.ResourceObject;
 import kniemkiewicz.jqblocks.ingame.util.LinearIntersectionIterator;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.IterableIterator;
@@ -57,5 +58,11 @@ public class MovingObjects {
 
   public Iterator<PhysicalObject> iterateAll() {
     return objects.iterator();
+  }
+
+  public boolean addPickable(PhysicalObject object) {
+    assert Assert.validateSerializable(object);
+    objects.add(object);
+    return true;
   }
 }
