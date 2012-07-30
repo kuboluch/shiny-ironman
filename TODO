@@ -20,6 +20,8 @@ Kuba:
     Structures: hearth (spawn point, source of fire), sawmill, stonecutter, farm
     Items: hoe?, axe, hammer (with deassamble power), ladder (item or structure?), torch, arrows
 
+- pressing down should fill inventory even if currently selected slot is full
+- I still feel that we shouldn't auto pickup small items. It will be more consistent if pressing up picks up those as well and pressing down is fast. We can leave auto pickup as an option
 ...
 - darkness & light (so late because it doesn't affect gameplay so much)
 

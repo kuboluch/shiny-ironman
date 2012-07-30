@@ -10,7 +10,7 @@ import org.newdawn.slick.geom.Rectangle;
  * Date: 17.07.12
  */
 public class HitResolver {
-  static
+
   enum Decision {
     TOP,
     BOTTOM,
