@@ -8,7 +8,7 @@ import org.newdawn.slick.geom.Shape;
  * User: knie
  * Date: 7/21/12
  */
-public class GeometryUtils {
+public final class GeometryUtils {
   public static Rectangle getBoundingRectangle(Shape shape) {
     if (shape instanceof Rectangle) return (Rectangle)shape;
     return getNewBoundingRectangle(shape);

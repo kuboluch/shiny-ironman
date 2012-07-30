@@ -46,6 +46,8 @@ public class SpringGameAdaptor extends BasicGame implements ApplicationContextAw
     game = gameBeanFactory.getBean(Game.class);
     game.setSettings(gameSettings);
     endGameController = gameBeanFactory.getBean(EndGameController.class);
+    gameContainer.getInput().removeAllListeners();
+    System.gc();
     game.init(gameContainer);
   }
 

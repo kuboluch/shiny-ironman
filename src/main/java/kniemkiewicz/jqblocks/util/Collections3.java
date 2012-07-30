@@ -8,9 +8,9 @@ import java.util.*;
  */
 
 /**
- * Collections is a part of JDK, Collections2 are in apache commons. So...
+ * Collections are a part of JDK, Collections2 are in apache commons. So...
  */
-public class Collections3 {
+public final class Collections3 {
 
   public static <T> List<T> getList(Iterator<T> it) {
     List<T> li = new ArrayList<T>();

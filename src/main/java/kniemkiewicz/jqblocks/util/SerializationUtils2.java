@@ -11,7 +11,7 @@ import java.io.ObjectOutputStream;
  * User: knie
  * Date: 7/30/12
  */
-public class SerializationUtils2 {
+public final class SerializationUtils2 {
 
   // Note that this method can be used only inside serialization of other object, not directly
   // in serialization of Circle to OutputObjectStream.

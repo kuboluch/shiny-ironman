@@ -6,6 +6,7 @@ import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.item.Inventory;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.util.Collections3;
@@ -26,7 +27,7 @@ import java.util.*;
  * Date: 7/25/12
  */
 @Component
-public class World {
+public final class World {
 
   Log logger = LogFactory.getLog(World.class);
 
@@ -109,10 +110,39 @@ public class World {
         }
       }
       assert player != null;
-      BitSet renderableObjects = (BitSet)stream.readObject();
-      BitSet movingObjects = (BitSet)stream.readObject();
-      BitSet solidBlocks = (BitSet)stream.readObject();
-      BitSet toBeUpdated = (BitSet)stream.readObject();
+      {
+        BitSet renderableObjects = (BitSet)stream.readObject();
+        for (int i = 0; i < renderableObjects.size(); i++) {
+          if (renderableObjects.get(i)) {
+            renderQueue.add((RenderableObject) gameObjects.get(i));
+          }
+        }
+      }
+      {
+        BitSet movingObjectsSet = (BitSet)stream.readObject();
+        for (int i = 0; i < movingObjectsSet.size(); i++) {
+          if (movingObjectsSet.get(i)) {
+            movingObjects.add((PhysicalObject) gameObjects.get(i));
+          }
+        }
+      }
+      {
+        BitSet solidBlocksSet = (BitSet)stream.readObject();
+        for (int i = 0; i < solidBlocksSet.size(); i++) {
+          if (solidBlocksSet.get(i)) {
+            solidBlocks.add((AbstractBlock) gameObjects.get(i));
+          }
+        }
+      }
+      {
+        BitSet toBeUpdated = (BitSet)stream.readObject();
+        for (int i = 0; i < toBeUpdated.size(); i++) {
+          if (toBeUpdated.get(i)) {
+            updateQueue.add((UpdateQueue.ToBeUpdated) gameObjects.get(i));
+          }
+        }
+      }
+
       inventory.loadSerializedItems(stream);
     } catch (Exception e) {
       throw new GameLoadException(e);
