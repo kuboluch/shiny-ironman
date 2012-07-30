@@ -1,12 +1,12 @@
 Krzysiek:
-- caves in level generator
-- simple enemy that hides in caves (aka some classes for handling AI and stuff)
-- joining block horizontally
-- faster collision detection
-- fix assert error when hitting ceiling
-- decide what to do with arrows stuck in the walls
-- bug: it possible to put solid blocks on trees
-- bug: it possible to remove solid blocks from under a tree
+1 caves in level generator
+2 simple enemy that hides in caves (aka some classes for handling AI and stuff)
+4 faster collision detection
+5 Common collision pool with object types and collision rules, waiting for 4
+6 decide what to do with arrows stuck in the walls
+7 bug: it possible to put solid blocks on trees, waiting for 5
+8 bug: it possible to remove solid blocks from under a tree
+9 bug: arrows loose their source when loading
 
 Kuba:
 - building functionality - sawmill
