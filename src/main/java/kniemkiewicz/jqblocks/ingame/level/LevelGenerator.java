@@ -37,7 +37,7 @@ public class LevelGenerator {
     t.logTimeAndRestart("generate objects");
   }
 
-  public void setSeed(int seed) {
+  public void setSeed(long seed) {
     random.setSeed(seed);
   }
 }

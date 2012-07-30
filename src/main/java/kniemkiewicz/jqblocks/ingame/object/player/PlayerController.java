@@ -49,7 +49,7 @@ public class PlayerController implements InputListener {
   /**
    * This is manually invoked by Game to make sure that level is created before.
    */
-  public void init() {
+  public void initPlayer() {
     player = new Player();
     player.addTo(renderQueue, movingObjects);
     int x = (Sizes.MIN_X + Sizes.MAX_X) / 2;
@@ -122,5 +122,9 @@ public class PlayerController implements InputListener {
 
   public Player getPlayer() {
     return player;
+  }
+
+  public void setPlayer(Player player) {
+    this.player = player;
   }
 }

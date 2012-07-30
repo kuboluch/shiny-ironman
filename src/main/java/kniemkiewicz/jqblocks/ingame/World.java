@@ -6,6 +6,8 @@ import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.item.Inventory;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.ingame.object.player.Player;
+import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.IterableIterator;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.*;
 
@@ -40,6 +43,9 @@ public class World {
 
   @Autowired
   SpringBeanProvider springBeanProvider;
+
+  @Autowired
+  PlayerController playerController;
 
   public void killMovingObject(Object object) {
     if (object instanceof RenderableObject) {
@@ -79,5 +85,14 @@ public class World {
     stream.writeObject(markIndexes(indexes, solidBlocks.iterateAll()));
     stream.writeObject(markIndexes(indexes, updateQueue.iterateAll()));
     inventory.serializeItems(stream);
+  }
+
+  public void loadGameData(ObjectInputStream stream) {
+    postLoad(null);
+  }
+
+  private void postLoad(Player player) {
+    player = new Player();
+    playerController.setPlayer(player);
   }
 }

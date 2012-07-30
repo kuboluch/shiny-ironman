@@ -47,4 +47,8 @@ public class SaveGameListener implements InputListener {
       readyToSave = true;
     }
   }
+
+  public boolean savegameExists() {
+    return new File(FILENAME).exists();
+  }
 }

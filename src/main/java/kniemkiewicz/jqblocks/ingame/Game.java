@@ -18,6 +18,7 @@ import org.newdawn.slick.SlickException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,14 @@ import java.util.List;
  */
 @Component
 public class Game extends BasicGame{
+
+  public static class Settings {
+    // If not null, level will be generated using it. Otherwise some pseudorandom seed is chosen.
+    public Long seed = null;
+    // If not null, level will be loaded from this stream. Otherwise it will be generated randomly.
+    public ObjectInputStream savegame = null;
+  }
+
   public Game() {
     super("");
   }
@@ -70,10 +79,23 @@ public class Game extends BasicGame{
   @Autowired
   MouseInput mouseInput;
 
+  @Autowired
+  World world;
+
+  private Settings settings;
+
+  public void setSettings(Settings settings) {
+    // seed and savegame cannot be set at once.
+    assert (settings.savegame == null) || (settings.seed == null);
+    this.settings = settings;
+  }
+
   List<InputListener> inputListeners = new ArrayList<InputListener>();
 
   @Override
   public void init(GameContainer gameContainer) throws SlickException {
+    // setSettings should be called first.
+    assert settings != null;
     mouseInput.setInput(gameContainer.getInput());
     // TODO rewrite using event bus?
     inputListeners.add(playerController);
@@ -83,12 +105,18 @@ public class Game extends BasicGame{
     gameContainer.getInput().addMouseListener(mouseInputEventBus);
     eventBus.addListener(mouseInputInfo);
     eventBus.addListener(inventoryController);
-    levelGenerator.setSeed(1);
-    levelGenerator.generate();
-    playerController.init();
     renderQueue.add(timingInfo);
     renderQueue.add(mouseInputInfo);
     renderQueue.add(resourceInfo);
+    if (settings.savegame != null) {
+      world.loadGameData(settings.savegame);
+    } else {
+      if (settings.seed != null) {
+        levelGenerator.setSeed(settings.seed);
+      }
+      levelGenerator.generate();
+      playerController.initPlayer();
+    }
   }
 
   @Override

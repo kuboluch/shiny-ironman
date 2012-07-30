@@ -8,6 +8,9 @@ import org.newdawn.slick.Input;
  */
 public class KeyboardUtils {
 
+  // All those keys below will be configurable at some point.
+  // That's why it is better to keep them in one place.
+
   static boolean isDownPressed(Input input) {
     return (input.isKeyDown(Input.KEY_S) || input.isKeyDown(Input.KEY_DOWN));
   }
@@ -29,6 +32,10 @@ public class KeyboardUtils {
 
   public static boolean isSaveKeyPressed(Input input) {
     return (input.isKeyDown(Input.KEY_F6));
+  }
+
+  public static boolean isLoadKeyPressed(Input input) {
+    return (input.isKeyDown(Input.KEY_F9));
   }
 
   /**
