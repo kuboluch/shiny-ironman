@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.object;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
+import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Shape;
@@ -20,7 +21,7 @@ public class DebugRenderableShape implements RenderableObject<DebugRenderableSha
   }
 
   @Override
-  public Class<? extends ObjectRenderer<DebugRenderableShape>> getRenderer() {
+  public BeanName<? extends ObjectRenderer<DebugRenderableShape>> getRenderer() {
     return null;
   }
 

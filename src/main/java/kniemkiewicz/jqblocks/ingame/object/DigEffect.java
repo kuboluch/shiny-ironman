@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.object;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
+import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -25,7 +26,7 @@ public class DigEffect implements RenderableObject<DigEffect> {
   }
 
   @Override
-  public Class<? extends ObjectRenderer<DigEffect>> getRenderer() {
+  public BeanName<? extends ObjectRenderer<DigEffect>> getRenderer() {
     return null;
   }
 

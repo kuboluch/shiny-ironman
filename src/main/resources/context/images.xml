@@ -25,4 +25,7 @@
     <bean id="axeImage" class="org.newdawn.slick.Image">
         <constructor-arg value="images/axe.png"/>
     </bean>
+    <bean id="fireplaceImage" class="org.newdawn.slick.Image">
+        <constructor-arg value="images/fireplace.png"/>
+    </bean>
 </beans>

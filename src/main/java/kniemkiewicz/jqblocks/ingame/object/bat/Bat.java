@@ -8,6 +8,7 @@ import kniemkiewicz.jqblocks.ingame.object.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
+import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -39,9 +40,11 @@ public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat>,H
     return true;
   }
 
+  private static final BeanName<BatRenderer> RENDERER = new BeanName<BatRenderer>(BatRenderer.class);
+
   @Override
-  public Class<? extends ObjectRenderer<Bat>> getRenderer() {
-    return BatRenderer.class;
+  public BeanName<? extends ObjectRenderer<Bat>> getRenderer() {
+    return RENDERER;
   }
 
   @Override

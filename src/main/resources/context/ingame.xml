@@ -13,11 +13,14 @@
 
   <bean id="springBeanProvider" class="kniemkiewicz.jqblocks.util.SpringBeanProvider"/>
 
-  <bean id="pickaxeRenderer" class="kniemkiewicz.jqblocks.ingame.item.ImageItemRenderer">
+  <bean id="pickaxeRenderer" class="kniemkiewicz.jqblocks.ingame.ImageItemRenderer">
       <constructor-arg ref="pickaxeImage"/>
   </bean>
 
-  <bean id="axeRenderer" class="kniemkiewicz.jqblocks.ingame.item.ImageItemRenderer">
+  <bean id="axeRenderer" class="kniemkiewicz.jqblocks.ingame.ImageItemRenderer">
       <constructor-arg ref="axeImage"/>
+  </bean>
+  <bean id="fireplaceRenderer" class="kniemkiewicz.jqblocks.ingame.ImageItemRenderer">
+     <constructor-arg ref="fireplaceImage"/>
   </bean>
 </beans>

@@ -3,11 +3,9 @@ package kniemkiewicz.jqblocks.ingame.object.background;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
-import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
 
 /**
  * User: knie
@@ -25,7 +23,7 @@ public class NaturalDirtBackground extends AbstractBackgroundElement<NaturalDirt
   }
 
   @Override
-  public Class<? extends ObjectRenderer<NaturalDirtBackground>> getRenderer() {
+  public BeanName<? extends ObjectRenderer<NaturalDirtBackground>> getRenderer() {
     return null;
   }
 

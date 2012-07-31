@@ -4,13 +4,12 @@ import kniemkiewicz.jqblocks.ingame.object.NeighborAwareObject;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
-import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
 import kniemkiewicz.jqblocks.util.Assert;
+import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import java.io.IOException;
@@ -58,7 +57,7 @@ public abstract class AbstractBlock<T extends AbstractBlock> implements Renderab
   public abstract void renderObject(Graphics g, PointOfView pov);
 
   @Override
-  public Class<? extends ObjectRenderer<T>> getRenderer() {
+  public BeanName<? extends ObjectRenderer<T>> getRenderer() {
     return null;
   }
 

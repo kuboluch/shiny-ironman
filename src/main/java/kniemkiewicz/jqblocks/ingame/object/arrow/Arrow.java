@@ -7,6 +7,7 @@ import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.item.BowItem;
 import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
+import kniemkiewicz.jqblocks.util.BeanName;
 import kniemkiewicz.jqblocks.util.SerializationUtils2;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Line;
@@ -39,7 +40,7 @@ public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Ar
   }
 
   @Override
-  public Class<? extends ObjectRenderer<Arrow>> getRenderer() {
+  public BeanName<? extends ObjectRenderer<Arrow>> getRenderer() {
     return null;
   }
 

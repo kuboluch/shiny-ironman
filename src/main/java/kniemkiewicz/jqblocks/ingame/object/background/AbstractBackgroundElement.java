@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -31,7 +32,7 @@ public abstract class AbstractBackgroundElement<T extends AbstractBackgroundElem
   }
 
   @Override
-  abstract public Class<? extends ObjectRenderer<T>> getRenderer();
+  abstract public BeanName<? extends ObjectRenderer<? super T>> getRenderer();
 
   @Override
   public void renderObject(Graphics g, PointOfView pov) { }

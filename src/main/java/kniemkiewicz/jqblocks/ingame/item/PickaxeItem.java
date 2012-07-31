@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.item;
 
+import kniemkiewicz.jqblocks.ingame.ImageItemRenderer;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
@@ -7,7 +8,6 @@ import kniemkiewicz.jqblocks.ingame.item.controller.PickaxeItemController;
 import kniemkiewicz.jqblocks.ingame.item.feature.Strength;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 
 /**
  * User: krzysiek

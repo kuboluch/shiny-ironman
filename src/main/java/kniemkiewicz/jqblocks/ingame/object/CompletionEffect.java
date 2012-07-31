@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.object;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
+import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -16,7 +17,7 @@ public class CompletionEffect implements RenderableObject<CompletionEffect> {
   }
 
   @Override
-  public Class<? extends ObjectRenderer<CompletionEffect>> getRenderer() {
+  public BeanName<? extends ObjectRenderer<CompletionEffect>> getRenderer() {
     return null;
   }
 

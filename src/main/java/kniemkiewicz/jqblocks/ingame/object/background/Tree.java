@@ -3,7 +3,9 @@ package kniemkiewicz.jqblocks.ingame.object.background;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.item.AxeItem;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
+import kniemkiewicz.jqblocks.ingame.object.bat.BatRenderer;
 import kniemkiewicz.jqblocks.ingame.resource.Wood;
+import kniemkiewicz.jqblocks.util.BeanName;
 
 /**
  * User: knie
@@ -25,9 +27,11 @@ public class Tree extends AbstractBackgroundElement<Tree> implements ResourceBac
     return true;
   }
 
+  private static final BeanName<TreeRenderer> RENDERER = new BeanName<TreeRenderer>(TreeRenderer.class);
+
   @Override
-  public Class<? extends ObjectRenderer<Tree>> getRenderer() {
-    return TreeRenderer.class;
+  public BeanName<? extends ObjectRenderer<Tree>> getRenderer() {
+    return RENDERER;
   }
 
   @Override

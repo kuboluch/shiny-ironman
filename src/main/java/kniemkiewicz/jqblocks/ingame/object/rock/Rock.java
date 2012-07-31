@@ -6,7 +6,7 @@ import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.object.*;
-import kniemkiewicz.jqblocks.util.Assert;
+import kniemkiewicz.jqblocks.util.BeanName;
 import kniemkiewicz.jqblocks.util.SerializationUtils2;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -48,7 +48,7 @@ public class Rock implements RenderableObject<Rock>, PickableObject, MovingPhysi
   }
 
   @Override
-  public Class<? extends ObjectRenderer<Rock>> getRenderer() {
+  public BeanName<? extends ObjectRenderer<Rock>> getRenderer() {
     return null;
   }
 
@@ -62,7 +62,7 @@ public class Rock implements RenderableObject<Rock>, PickableObject, MovingPhysi
 
   @Override
   public Layer getLayer() {
-    return Layer.PASSIVE_OBJECTS;
+    return Layer.PICKABLE_OBJECTS;
   }
 
   @Override

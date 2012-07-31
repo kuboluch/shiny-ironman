@@ -8,6 +8,7 @@ import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.object.*;
 import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
 import kniemkiewicz.jqblocks.util.Assert;
+import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -38,7 +39,7 @@ public class ResourceObject<T extends Resource> implements RenderableObject<Reso
   }
 
   @Override
-  public Class<? extends ObjectRenderer<ResourceObject>> getRenderer() {
+  public BeanName<? extends ObjectRenderer<ResourceObject>> getRenderer() {
     // TODO: something more fancy here, with dynamic images based on which resource we have inside.
     return null;
   }
@@ -52,7 +53,7 @@ public class ResourceObject<T extends Resource> implements RenderableObject<Reso
 
   @Override
   public Layer getLayer() {
-    return Layer.OBJECTS;
+    return Layer.PICKABLE_OBJECTS;
   }
 
   @Override

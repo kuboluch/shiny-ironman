@@ -8,9 +8,11 @@ import kniemkiewicz.jqblocks.ingame.World;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.ingame.object.background.TreeRenderer;
 import kniemkiewicz.jqblocks.ingame.object.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
+import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -49,9 +51,11 @@ public class Player implements RenderableObject<Player>,PhysicalObject,HasHealth
     movingObjects.add(this);
   }
 
+  private static final BeanName<PlayerRenderer> RENDERER = new BeanName<PlayerRenderer>(PlayerRenderer.class);
+
   @Override
-  public Class<? extends ObjectRenderer<Player>> getRenderer() {
-    return PlayerRenderer.class;
+  public BeanName<? extends ObjectRenderer<Player>> getRenderer() {
+    return RENDERER;
   }
 
   public void renderObject(Graphics g, PointOfView pov) { }
