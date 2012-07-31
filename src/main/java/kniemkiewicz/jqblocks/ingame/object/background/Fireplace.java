@@ -11,10 +11,10 @@ import kniemkiewicz.jqblocks.util.BeanName;
  */
 public class Fireplace extends AbstractBackgroundElement<Fireplace>{
 
-  public static final int WIDTH = Sizes.BLOCK * 3;
-  public static final int HEIGHT = Sizes.BLOCK * 2;
+  public static final int WIDTH = Sizes.BLOCK * 4;
+  public static final int HEIGHT = Sizes.BLOCK * 3;
 
-  protected Fireplace(int x, int y) {
+  public Fireplace(int x, int y) {
     super(x, y, WIDTH, HEIGHT);
   }
 
@@ -23,5 +23,10 @@ public class Fireplace extends AbstractBackgroundElement<Fireplace>{
   @Override
   public BeanName<? extends ObjectRenderer<? super Fireplace>> getRenderer() {
     return RENDERER;
+  }
+
+  @Override
+  public Layer getLayer() {
+    return Layer.PASSIVE_OBJECTS;
   }
 }

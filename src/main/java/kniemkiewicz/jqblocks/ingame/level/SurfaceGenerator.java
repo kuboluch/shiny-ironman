@@ -4,7 +4,9 @@ import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.object.block.DirtBlock;
+import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.util.Assert;
+import kniemkiewicz.jqblocks.util.Out;
 import kniemkiewicz.jqblocks.util.TimeLog;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,7 @@ public class SurfaceGenerator {
 
   int[] heights = new int[(Sizes.MAX_X - Sizes.MIN_X) / Sizes.BLOCK];
 
-  int[] generate(Random random) {
+  int[] generate(Random random, Out<Integer> villageY) {
     this.random = random;
     TimeLog t = new TimeLog();
     generateFlat();
@@ -42,10 +44,25 @@ public class SurfaceGenerator {
     generateHills();
     t.logTimeAndRestart("generate hills");
     runSlidingWindow(heights);
+    flattenStartingPoint(villageY);
     t.logTimeAndRestart("sliding window");
     prepareBlocks(blocks);
     t.logTimeAndRestart("prepare blocks");
     return heights;
+  }
+
+  private void flattenStartingPoint(Out<Integer> startingPointY) {
+    int startingPoint = (VillageGenerator.STARTING_X - Sizes.MIN_X) / Sizes.BLOCK;
+    int minH = Integer.MAX_VALUE;
+    for (int i = startingPoint - VillageGenerator.VILLAGE_RADIUS; i < startingPoint + VillageGenerator.VILLAGE_RADIUS; i++) {
+      if (minH > heights[i]) {
+        minH = heights[i];
+      }
+    }
+    for (int i = startingPoint - VillageGenerator.VILLAGE_RADIUS; i < startingPoint + VillageGenerator.VILLAGE_RADIUS; i++) {
+      heights[i] = minH;
+    }
+    startingPointY.set(Sizes.MAX_Y - minH);
   }
 
   // This method translates heights[x] into actual blocks, trying to use as few blocks as possible and making sure

@@ -17,7 +17,7 @@ public class NaturalDirtBackground extends AbstractBackgroundElement<NaturalDirt
 
   public static Color BROWN = new Color(100.0f/255, 50.0f/255, 0);
 
-  NaturalDirtBackground(float x, float y, float width, float height) {
+  public NaturalDirtBackground(float x, float y, float width, float height) {
     super(Sizes.roundToBlockSizeX(x), Sizes.roundToBlockSizeY(y),
         Sizes.roundToBlockSize(width), Sizes.roundToBlockSize(height));
   }

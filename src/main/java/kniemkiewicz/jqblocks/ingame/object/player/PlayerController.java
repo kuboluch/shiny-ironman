@@ -6,6 +6,7 @@ import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.item.Inventory;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.World;
+import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObjectType;
@@ -51,15 +52,18 @@ public class PlayerController implements InputListener {
   @Autowired
   RenderQueue renderQueue;
 
+  @Autowired
+  VillageGenerator villageGenerator;
+
   /**
    * This is manually invoked by Game to make sure that level is created before.
    */
   public void initPlayer() {
     player = new Player();
     player.addTo(renderQueue, movingObjects);
-    int x = (Sizes.MIN_X + Sizes.MAX_X) / 2;
-    player.getXMovement().setPos(x);
-
+    player.getXMovement().setPos(VillageGenerator.STARTING_X);
+    player.getYMovement().setPos(villageGenerator.getStartingY() - Player.HEIGHT - 3);
+    /* This was used when we didn't generate village and were landing Player on plain ground.
     Rectangle rect = new Rectangle(player.getShape().getX(), Sizes.MIN_Y, player.getShape().getWidth(), Sizes.MAX_Y - Sizes.MIN_Y);
     // All blocks in the same column as player.
     Iterator<AbstractBlock> iter = blocks.intersects(rect);
@@ -70,7 +74,7 @@ public class PlayerController implements InputListener {
         minY = b.getShape().getMinY();
       }
     }
-    player.getYMovement().setPos(minY - Player.HEIGHT - 5);
+    player.getYMovement().setPos(minY - Player.HEIGHT - 5);*/
   }
 
   public void listen(Input input, int delta) {
