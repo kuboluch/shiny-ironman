@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.item;
 
-import kniemkiewicz.jqblocks.ingame.ImageItemRenderer;
+import kniemkiewicz.jqblocks.ingame.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
@@ -37,7 +37,7 @@ public class AxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<AxeItem>
     return false;
   }
 
-  private static final BeanName<ItemRenderer> RENDERER = new BeanName<ItemRenderer>(ImageItemRenderer.class, "axeRenderer");
+  private static final BeanName<ItemRenderer> RENDERER = new BeanName<ItemRenderer>(ImageRenderer.class, "axeRenderer");
 
   @Override
   public BeanName<? extends ItemRenderer> getItemRenderer() {

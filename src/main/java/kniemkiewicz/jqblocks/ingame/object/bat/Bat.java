@@ -40,10 +40,10 @@ public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat>,H
     return true;
   }
 
-  private static final BeanName<BatRenderer> RENDERER = new BeanName<BatRenderer>(BatRenderer.class);
+  private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(ImageRenderer.class, "batRenderer");
 
   @Override
-  public BeanName<? extends ObjectRenderer<Bat>> getRenderer() {
+  public BeanName<? extends ObjectRenderer<? super Bat>> getRenderer() {
     return RENDERER;
   }
 

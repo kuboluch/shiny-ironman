@@ -6,6 +6,7 @@ import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Shape;
 
 /**
@@ -14,11 +15,19 @@ import org.newdawn.slick.geom.Shape;
  */
 // This class has to be explicitly defined in xml per each item, to allow
 // setting different images.
-public class ImageItemRenderer implements ItemRenderer<Item>, ObjectRenderer<RenderableObject> {
+public class ImageRenderer implements ItemRenderer<Item>, ObjectRenderer<RenderableObject> {
 
   Image image;
 
-  public ImageItemRenderer(Image image) {
+  public ImageRenderer(String imagePath) {
+    try {
+      this.image = new Image(imagePath);
+    } catch (SlickException e) {
+      throw new RuntimeException("Failed to load image", e);
+    }
+  }
+
+  public ImageRenderer(Image image) {
     this.image = image;
   }
 

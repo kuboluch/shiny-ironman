@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.item;
 
-import kniemkiewicz.jqblocks.ingame.ImageItemRenderer;
+import kniemkiewicz.jqblocks.ingame.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
@@ -32,7 +32,7 @@ public class PickaxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<Pick
     return PickaxeItemController.class;
   }
 
-  private static final BeanName<ItemRenderer> RENDERER = new BeanName<ItemRenderer>(ImageItemRenderer.class, "pickaxeRenderer");
+  private static final BeanName<ItemRenderer> RENDERER = new BeanName<ItemRenderer>(ImageRenderer.class, "pickaxeRenderer");
 
   @Override
   public BeanName<? extends ItemRenderer> getItemRenderer() {

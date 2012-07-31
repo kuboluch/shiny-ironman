@@ -13,19 +13,21 @@
     <bean id="playerRightImage" class="org.newdawn.slick.Image">
         <constructor-arg value="images/supermanRight.png"/>
     </bean>
-    <bean id="pickaxeImage" class="org.newdawn.slick.Image">
+
+    <bean id="pickaxeRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
         <constructor-arg value="images/pickaxe.png"/>
     </bean>
-    <bean id="treeImage" class="org.newdawn.slick.Image">
-        <constructor-arg value="images/tree.png"/>
-    </bean>
-    <bean id="batImage" class="org.newdawn.slick.Image">
-        <constructor-arg value="images/bat.png"/>
-    </bean>
-    <bean id="axeImage" class="org.newdawn.slick.Image">
+    <bean id="axeRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
         <constructor-arg value="images/axe.png"/>
     </bean>
-    <bean id="fireplaceImage" class="org.newdawn.slick.Image">
+    <bean id="fireplaceRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
         <constructor-arg value="images/fireplace.png"/>
+    </bean>
+
+    <bean id="treeRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
+        <constructor-arg value="images/tree.png"/>
+    </bean>
+    <bean id="batRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
+        <constructor-arg value="images/bat.png"/>
     </bean>
 </beans>
