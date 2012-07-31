@@ -5,6 +5,7 @@ import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
+import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +26,12 @@ public class RockItemController implements ItemController<RockItem> {
 
   @Override
   public void listen(RockItem selectedItem, List<Event> events) { }
+
+  @Override
+  public Shape getDropObjectShape(RockItem item, int centerX, int centerY) {
+    int maxY = centerY - (item.isLarge() ? Rock.LARGE_CIRCLE_RADIUS : Rock.SMALL_CIRCLE_RADIUS);
+    return Rock.getShape(centerX, maxY, item.isLarge());
+  }
 
   @Override
   public MovingPhysicalObject getDropObject(RockItem item, int centerX, int centerY) {

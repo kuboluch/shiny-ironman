@@ -7,6 +7,7 @@ import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.block.DirtBlock;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -71,6 +72,11 @@ public class DirtBlockItemController extends AbstractActionItemController<DirtBl
     }
     assert !it.hasNext();
     return block;
+  }
+
+  @Override
+  public Shape getDropObjectShape(DirtBlockItem item, int centerX, int centerY) {
+    return null;
   }
 
   @Override

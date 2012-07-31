@@ -18,6 +18,7 @@ import kniemkiewicz.jqblocks.util.Collections3;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -162,6 +163,11 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
     }
     assert !it.hasNext();
     return backgroundElement;
+  }
+
+  @Override
+  public Shape getDropObjectShape(AxeItem item, int centerX, int centerY) {
+    return null;
   }
 
   @Override

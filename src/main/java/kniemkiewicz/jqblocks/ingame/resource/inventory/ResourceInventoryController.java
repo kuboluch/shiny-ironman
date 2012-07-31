@@ -75,6 +75,7 @@ public class ResourceInventoryController implements InputListener, EventListener
     // there is no applicable free fall implementation yet.
     Rectangle rect = GeometryUtils.getNewBoundingRectangle(shape);
     rect.setHeight(Sizes.MAX_Y - Sizes.MIN_Y);
+    rect.setWidth(rect.getWidth() - 1);
     int minY = Sizes.MAX_Y;
     for (AbstractBlock block : solidBlocks.intersects(rect)) {
       if (block.getShape().getY() < minY) {
@@ -90,9 +91,10 @@ public class ResourceInventoryController implements InputListener, EventListener
     Class<? extends ItemController> clazz = inventory.getSelectedItem().getItemController();
     if (clazz == null) return false;
     ItemController controller = provider.getBean(clazz, true);
+    Shape dropObjectShape = controller.getDropObjectShape(inventory.getSelectedItem(), x, y);
+    if (dropObjectShape == null) return false;
+    if (!isOnSolidGround(dropObjectShape)) return false;
     MovingPhysicalObject dropObject = controller.getDropObject(inventory.getSelectedItem(), x, y);
-    if (dropObject == null) return false;
-    if (!isOnSolidGround(dropObject)) return false;
     dropObject(dropObject);
     inventory.removeSelectedItem();
     return true;
@@ -108,10 +110,10 @@ public class ResourceInventoryController implements InputListener, EventListener
     return false;
   }
 
-  private boolean isOnSolidGround(MovingPhysicalObject dropObject) {
-    Shape shape = dropObject.getShape();
+  private boolean isOnSolidGround(Shape shape) {
     Rectangle rect = GeometryUtils.getNewBoundingRectangle(shape);
-    rect.setY(rect.getY() + 1);
+    rect.setY(rect.getMaxY() + 1);
+    rect.setWidth(rect.getWidth() - 1);
     rect.setHeight(1);
     int blockCount = 0;
     IterableIterator<AbstractBlock> iter = solidBlocks.intersects(rect);
@@ -119,7 +121,7 @@ public class ResourceInventoryController implements InputListener, EventListener
       blockCount++;
       iter.next();
     }
-    if (blockCount != rect.getWidth() / Sizes.BLOCK) {
+    if (blockCount != (rect.getWidth() + 1) / Sizes.BLOCK) {
       return false;
     }
     return true;

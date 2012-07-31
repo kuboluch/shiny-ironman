@@ -29,8 +29,12 @@ public class ResourceObject<T extends Resource> implements RenderableObject<Reso
   T resource;
 
   public ResourceObject(T resource, int x, int y) {
-    this.rectangle = new Rectangle(x, y, SIZE, SIZE);
+    this.rectangle = ResourceObject.getShape(x, y);
     this.resource = resource;
+  }
+
+  public static Rectangle getShape(int x, int y) {
+    return new Rectangle(x, y, SIZE, SIZE);
   }
 
   public void addTo(RenderQueue renderQueue, MovingObjects movingObjects) {

@@ -11,6 +11,7 @@ import kniemkiewicz.jqblocks.ingame.object.arrow.Arrow;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.util.Collections3;
+import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +38,11 @@ public class BowItemController implements ItemController<BowItem> {
     if (!clickEvents.isEmpty()) {
       handleClickEvent(clickEvents);
     }
+  }
+
+  @Override
+  public Shape getDropObjectShape(BowItem item, int centerX, int centerY) {
+    return null;
   }
 
   @Override
