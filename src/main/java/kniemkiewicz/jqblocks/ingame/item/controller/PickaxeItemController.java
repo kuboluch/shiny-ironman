@@ -11,6 +11,7 @@ import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -99,6 +100,11 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
     backgrounds.add(backgroundFactory.getNaturalDirtBackground(
         affectedRectangle.getX(), affectedRectangle.getY(), affectedRectangle.getWidth(), affectedRectangle.getHeight()));
     assert !blocks.intersects(affectedRectangle).hasNext();
+  }
+
+  @Override
+  public Shape getDropObjectShape(PickaxeItem item, int centerX, int centerY) {
+    return null;
   }
 
   @Override

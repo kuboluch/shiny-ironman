@@ -37,8 +37,12 @@ public class Rock implements RenderableObject<Rock>, PickableObject, MovingPhysi
 
   public Rock(int centerX, int maxY, boolean large) {
     this.large = large;
+    circle = Rock.getShape(centerX, maxY, large);
+  }
+
+  public static Circle getShape(int centerX, int maxY, boolean large) {
     int radius = large ? LARGE_CIRCLE_RADIUS : SMALL_CIRCLE_RADIUS;
-    circle = new Circle(centerX, maxY - radius, radius);
+    return new Circle(centerX, maxY - radius, radius);
   }
 
   public boolean addTo(RenderQueue renderQueue, MovingObjects movingObjects) {
