@@ -42,6 +42,10 @@ public class KeyboardUtils {
     return (input.isKeyDown(Input.KEY_LSHIFT));
   }
 
+  public static boolean isDebugDisplayKeyPressed(Input input) {
+    return (input.isKeyDown(Input.KEY_P));
+  }
+
   /**
    * @return 0-9 for keys and -1 if none is selected
    */

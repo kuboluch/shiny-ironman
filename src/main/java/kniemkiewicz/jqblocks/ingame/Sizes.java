@@ -13,10 +13,11 @@ public class Sizes {
   public static int DEFAULT_WINDOW_WIDTH = 1000;
   public static int DEFAULT_WINDOW_HEIGHT = 800;
 
-  public static int MIN_X = -3 * DEFAULT_WINDOW_WIDTH / BLOCK * BLOCK;
-  public static int MAX_X = 3 * DEFAULT_WINDOW_WIDTH / BLOCK * BLOCK;
+  // This should be 2^x * BLOCK
+  public static int MIN_X = -512 * BLOCK;
+  public static int MAX_X = 512 * BLOCK;
   public static int MIN_Y = 0;
-  public static int MAX_Y = 10 * DEFAULT_WINDOW_HEIGHT / BLOCK * BLOCK;
+  public static int MAX_Y = 512 * BLOCK;
 
   public static int DEFAULT_BLOCK_ENDURANCE = 250;
   public static int DEFAULT_PICKAXE_STRENGTH = 1;

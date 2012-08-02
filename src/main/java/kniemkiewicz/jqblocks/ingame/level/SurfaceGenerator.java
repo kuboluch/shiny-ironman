@@ -82,19 +82,21 @@ public class SurfaceGenerator {
       if (heights[i] < h) {
         // Some blocks may end completely.
         int new_y = Sizes.MAX_Y - heights[i];
+        // This assert failing means that level is not tall enough to contain mountains we generated.
+        assert new_y > Sizes.MIN_Y;
         while(new_y >= proposals.get(proposals.size() - 1).getMaxY()) {
           Rectangle r = proposals.get(proposals.size() - 1);
           proposals.remove(proposals.size() - 1);
-          float width = Sizes.MIN_X + i * Sizes.BLOCK - r.getMinX();
-          Assert.executeAndAssert(blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), width, r.getHeight())));
+          float width = Sizes.MIN_X + i * Sizes.BLOCK - r.getX();
+          Assert.executeAndAssert(blocks.add(new DirtBlock(r.getX(), r.getY(), width, r.getHeight())));
         }
         // We should never reach bottom of the level so there is always at least the last block that we can cut into
         // smaller one if new height is lowest ever seen.
-        if (new_y > proposals.get(proposals.size() - 1).getMinY()) {
+        if (new_y > proposals.get(proposals.size() - 1).getY()) {
           Rectangle r = proposals.get(proposals.size() - 1);
-          int diff = (int)(new_y - r.getMinY());
-          float width = Sizes.MIN_X + i * Sizes.BLOCK - r.getMinX();
-          Assert.executeAndAssert(blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), width, diff)));
+          int diff = (int)(new_y - r.getY());
+          float width = Sizes.MIN_X + i * Sizes.BLOCK - r.getX();
+          Assert.executeAndAssert(blocks.add(new DirtBlock(r.getX(), r.getY(), width, diff)));
           r.setY(r.getY() + diff);
           r.setHeight(r.getHeight() - diff);
         }
@@ -102,7 +104,7 @@ public class SurfaceGenerator {
       h = heights[i];
     }
     for (Rectangle r : proposals) {
-      Assert.executeAndAssert(blocks.add(new DirtBlock(r.getMinX(), r.getMinY(), Sizes.MAX_X - r.getMinX(), r.getHeight())));
+      Assert.executeAndAssert(blocks.add(new DirtBlock(r.getX(), r.getY(), Sizes.MAX_X - r.getX(), r.getHeight())));
     }
   }
 

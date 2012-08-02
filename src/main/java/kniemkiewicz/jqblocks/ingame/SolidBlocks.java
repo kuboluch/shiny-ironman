@@ -27,6 +27,9 @@ public class SolidBlocks {
   @Autowired
   MovingObjects movingObjects;
 
+  @Autowired
+  CollisionController collisionController;
+
   Set<AbstractBlock> blocks = new HashSet<AbstractBlock>();
 
   @PostConstruct
@@ -54,6 +57,7 @@ public class SolidBlocks {
   public boolean add(AbstractBlock block) {
     if (intersects(block.getShape()).hasNext()) return false;
     if (movingObjects.intersects(block.getShape()).hasNext()) return false;
+    collisionController.add(block);
     updateNeighbors(block);
     blocks.add(block);
     renderQueue.add(block);

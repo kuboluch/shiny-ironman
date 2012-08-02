@@ -12,6 +12,8 @@ import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventoryControll
 import kniemkiewicz.jqblocks.ingame.ui.MouseInputInfo;
 import kniemkiewicz.jqblocks.ingame.ui.ResourceInfo;
 import kniemkiewicz.jqblocks.ingame.ui.TimingInfo;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -29,6 +31,8 @@ import java.util.List;
  */
 @Component
 public class Game extends BasicGame {
+
+  private static final Log logger = LogFactory.getLog(Game.class);
 
   public static class Settings {
     // If not null, level will be generated using it. Otherwise some pseudorandom seed is chosen.
@@ -84,6 +88,9 @@ public class Game extends BasicGame {
   InputContainer inputContainer;
 
   @Autowired
+  CollisionController collisionController;
+
+  @Autowired
   World world;
 
   private Settings settings;
@@ -107,6 +114,7 @@ public class Game extends BasicGame {
     inputListeners.add(saveGameListener);
     inputListeners.add(inventoryController);
     inputListeners.add(resourceInventoryController);
+    inputListeners.add(collisionController);
     gameContainer.getInput().addMouseListener(mouseInputEventBus);
     eventBus.addListener(mouseInputInfo);
     eventBus.addListener(inventoryController);
