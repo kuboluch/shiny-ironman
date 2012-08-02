@@ -39,7 +39,7 @@ public class DirtBlock extends AbstractBlock<DirtBlock> {
 
   @Override
   public void renderObject(Graphics g, PointOfView pov) {
-    renderDirt(g, x, y, height, width);
+    renderDirt(g, x, y, width, height);
     renderGrass(g, pov, this);
   }
 
@@ -48,7 +48,7 @@ public class DirtBlock extends AbstractBlock<DirtBlock> {
     return Layer.WALL;
   }
 
-  public static void renderDirt(Graphics g, int x, int y, int height, int width) {
+  public static void renderDirt(Graphics g, int x, int y, int width, int height) {
     g.setColor(BROWN);
     g.fillRect(x, y, width, height);
     //logger.debug("block fillRect [x="+x+", y="+y+", width="+width+", height="+height+"]");

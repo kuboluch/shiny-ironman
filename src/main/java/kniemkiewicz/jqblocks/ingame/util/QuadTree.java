@@ -22,6 +22,8 @@ public class QuadTree<T extends QuadTree.HasShape> {
   public interface HasShape {
     Shape getShape();
   }
+
+  // This generally a private struct. Recursive methods implemented only for things that can be slow.
   private static class Leaf<T extends HasShape> {
     List<T> objects = new ArrayList<T>();
     Leaf<T> topLeft = null;
@@ -47,12 +49,13 @@ public class QuadTree<T extends QuadTree.HasShape> {
     }
   }
 
+  // This will be a iterator returning objects from tree colliding with given rect.
   private static class SearchIterator<T extends HasShape> extends IterableIterator<T> {
 
     float cx; // center of current Leaf.
     float cy; // center of current Leaf.
-    float w; // half width of current Leaf.
-    float h; // half height of current Leaf.
+    float w; // 1/4 width of current Leaf.
+    float h; // 1/4 height of current Leaf.
 
     @Override
     public boolean hasNext() {
