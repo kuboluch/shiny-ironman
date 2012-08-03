@@ -79,6 +79,24 @@ public class QuadTree<T extends QuadTree.HasShape> {
         }
       }
     }
+
+    public void listAll(List<T> objects) {
+      objects.addAll(this.objects);
+      if (hasSubLeafs) {
+        if (topLeft != null) {
+          topLeft.listAll(objects);
+        }
+        if (bottomLeft != null) {
+          bottomLeft.listAll(objects);
+        }
+        if (topRight != null) {
+          topRight.listAll(objects);
+        }
+        if (bottomRight != null) {
+          bottomRight.listAll(objects);
+        }
+      }
+    }
   }
 
   Leaf<T> root = new Leaf<T>();
@@ -371,6 +389,10 @@ public class QuadTree<T extends QuadTree.HasShape> {
         assert false;
       }
     }
+  }
+
+  public void listAll(List<T> objects) {
+    root.listAll(objects);
   }
 
   // This is only for debug.

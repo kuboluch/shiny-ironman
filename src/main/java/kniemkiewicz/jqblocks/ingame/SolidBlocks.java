@@ -32,12 +32,11 @@ public class SolidBlocks {
   @Autowired
   TimingInfo timingInfo;
 
-  Set<AbstractBlock> blocks = new HashSet<AbstractBlock>();
-
   static final EnumSet<CollisionController.ObjectType> BLOCK_OBJECT_TYPE = EnumSet.of(CollisionController.ObjectType.WALL);
 
   @PostConstruct
   void init() {
+    List<AbstractBlock> blocks = new ArrayList<AbstractBlock>();
     blocks.add(new EndOfTheWorldWall(Sizes.MIN_X - 1000, Sizes.MIN_Y - 1000, Sizes.MAX_X - Sizes.MIN_X + 2000, 1000));
     blocks.add(new EndOfTheWorldWall(Sizes.MIN_X - 1000, Sizes.MAX_Y, Sizes.MAX_X - Sizes.MIN_X + 2000, 1000));
     blocks.add(new EndOfTheWorldWall(Sizes.MIN_X - 1000, Sizes.MIN_Y - 1000, 1000, Sizes.MAX_Y - Sizes.MIN_Y + 2000));
@@ -46,13 +45,6 @@ public class SolidBlocks {
       renderQueue.add(b);
       Assert.executeAndAssert(collisionController.add(BLOCK_OBJECT_TYPE, b, true));
     }
-    /*int x = (Sizes.MIN_X + Sizes.MAX_X) / 2;
-    int y = Sizes.MAX_Y / 6 + 150;
-    add(new DirtBlock(x, y, 2 * Sizes.BLOCK, 2 * Sizes.BLOCK));*/
-  }
-
-  public Set<AbstractBlock> getBlocks() {
-    return Collections.unmodifiableSet(blocks);
   }
 
   public IterableIterator<AbstractBlock> intersects(Rectangle rect) {
@@ -67,7 +59,6 @@ public class SolidBlocks {
     if (movingObjects.intersects(block.getShape()).hasNext()) return false;
     updateNeighbors(block);
     Assert.executeAndAssert(collisionController.add(BLOCK_OBJECT_TYPE, block, true));
-    blocks.add(block);
     renderQueue.add(block);
     return true;
   }
@@ -128,7 +119,6 @@ public class SolidBlocks {
   }
 
   public void remove(AbstractBlock block) {
-    blocks.remove(block);
     collisionController.remove(BLOCK_OBJECT_TYPE, block);
     removeFromNeighbors(block);
     renderQueue.remove(block);
@@ -150,6 +140,6 @@ public class SolidBlocks {
   }
 
   public Iterator<AbstractBlock> iterateAll() {
-    return blocks.iterator();
+    return collisionController.<AbstractBlock>getAll(BLOCK_OBJECT_TYPE).iterator();
   }
 }

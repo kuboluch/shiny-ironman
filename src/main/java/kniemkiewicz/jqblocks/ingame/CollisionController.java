@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame;
 
+import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.geom.Shape;
@@ -16,6 +17,14 @@ import java.util.List;
  */
 @Component
 public class CollisionController {
+
+  public <T extends QuadTree.HasShape> List<T> getAll(EnumSet<ObjectType> types) {
+    List<T> objects = new ArrayList<T>();
+    for (ObjectType type : types) {
+      quadTrees.get(type).listAll((List<QuadTree.HasShape>) objects);
+    }
+    return objects;
+  }
 
   enum ObjectType {
     WALL
