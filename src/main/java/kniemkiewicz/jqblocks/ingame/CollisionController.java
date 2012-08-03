@@ -2,12 +2,16 @@ package kniemkiewicz.jqblocks.ingame;
 
 import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.object.DebugRenderableShape;
+import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * User: knie
@@ -23,8 +27,12 @@ public class CollisionController implements InputListener{
 
   QuadTree<QuadTree.HasShape> quadTree = new QuadTree<QuadTree.HasShape>();
 
-  void add(QuadTree.HasShape object) {
-    quadTree.add(object);
+  boolean add(QuadTree.HasShape object) {
+    return quadTree.add(object);
+  }
+
+  <T extends QuadTree.HasShape> List<T> fullSearch(Shape shape) {
+    return (List<T>) quadTree.fullSearch(shape);
   }
 
   @Override
@@ -35,5 +43,9 @@ public class CollisionController implements InputListener{
         renderQueue.add(new DebugRenderableShape(rect, Color.red));
       }
     }
+  }
+
+  public void remove(QuadTree.HasShape object) {
+    quadTree.remove(object);
   }
 }

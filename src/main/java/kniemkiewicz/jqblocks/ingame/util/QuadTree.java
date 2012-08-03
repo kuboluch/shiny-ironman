@@ -23,7 +23,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
     Shape getShape();
   }
 
-  // This generally a private struct. Recursive methods implemented only for things that can be slow.
+  // This generally a private struct.
   private static class Leaf<T extends HasShape> {
     List<T> objects = new ArrayList<T>();
     Leaf<T> topLeft = null;
@@ -32,7 +32,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
     Leaf<T> bottomRight = null;
     boolean hasSubLeafs = false;
 
-    public void fillRectangles(List<Rectangle> rectangles, float cx, float cy, float dx, float dy) {
+    void fillRectangles(List<Rectangle> rectangles, float cx, float cy, float dx, float dy) {
       rectangles.add(new Rectangle(cx - dx * 2, cy - dy * 2, 4 * dx, 4 * dy));
       if (topLeft != null) {
         topLeft.fillRectangles(rectangles, cx - dx, cy - dy, dx / 2, dy / 2);
@@ -47,6 +47,36 @@ public class QuadTree<T extends QuadTree.HasShape> {
         bottomRight.fillRectangles(rectangles, cx + dx, cy + dy, dx / 2, dy / 2);
       }
     }
+
+    void fullSearch(float cx, float cy, float dx, float dy, Shape shape, List<T> results) {
+      for (T object : objects) {
+        if (GeometryUtils.intersects(object.getShape(), shape)) {
+          results.add(object);
+        }
+      }
+      if (!hasSubLeafs) return;
+      if ((shape.getMinX() < cx) || (shape.getMinY() < cy)) {
+        if (topLeft != null) {
+          topLeft.fullSearch(cx - dx, cy - dy, dx / 2, dy / 2, shape, results);
+        }
+      }
+      if ((shape.getMaxX() > cx) || (shape.getMinY() < cy)) {
+        if (topRight != null) {
+          topRight.fullSearch(cx + dx, cy - dy, dx / 2, dy / 2, shape, results);
+        }
+      }
+      if ((shape.getMinX() < cx) || (shape.getMaxY() > cy)) {
+        if (bottomLeft != null) {
+          bottomLeft.fullSearch(cx - dx, cy + dy, dx / 2, dy / 2, shape, results);
+        }
+      }
+      if ((shape.getMaxX() > cx) || (shape.getMaxY() > cy)) {
+        if (bottomRight != null) {
+          bottomRight.fullSearch(cx + dx, cy + dy, dx / 2, dy / 2, shape, results);
+        }
+      }
+    }
+
   }
 
   // This will be a iterator returning objects from tree colliding with given rect.
@@ -120,7 +150,13 @@ public class QuadTree<T extends QuadTree.HasShape> {
     leaf.hasSubLeafs = true;
   }
 
-  public void add(T object) {
+  public List<T> fullSearch(Shape shape) {
+    List<T> results = new ArrayList<T>();
+    root.fullSearch(CENTER_X, CENTER_Y, DIFF_X, DIFF_Y, shape, results);
+    return results;
+  }
+
+  public boolean add(T object) {
     Leaf<T> leaf = root;
     float cx = CENTER_X;
     float cy = CENTER_Y;
@@ -128,7 +164,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
     float dy = DIFF_Y;
     Rectangle rect = GeometryUtils.getBoundingRectangle(object.getShape());
     while (true) {
-      if (leaf.objects.contains(object)) return;
+      if (leaf.objects.contains(object)) return false;
       if ((leaf.objects.size() + 1 > ITEMS_PER_LEAF) && !leaf.hasSubLeafs) {
         // We didn't split leaf yet, time to do so.
         splitLeaf(leaf, cx, cy);
@@ -140,7 +176,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
         // Leaf is still small.
         if (!leaf.hasSubLeafs) {
           leaf.objects.add(object);
-          return;
+          return true;
         }
         if ((rect.getMaxX() <= cx) && (rect.getMaxY() <= cy)) {
           if (leaf.topLeft == null) {
@@ -191,7 +227,67 @@ public class QuadTree<T extends QuadTree.HasShape> {
     }
   }
 
-  // This is only for debug, this is why it is based on recursion, can be slow.
+  public boolean remove(T object) {
+    Leaf<T> leaf = root;
+    float cx = CENTER_X;
+    float cy = CENTER_Y;
+    float dx = DIFF_X;
+    float dy = DIFF_Y;
+    Rectangle rect = GeometryUtils.getBoundingRectangle(object.getShape());
+    while (true) {
+      if (leaf.objects.remove(object)) return true;
+      boolean spansSubLeafs = ((rect.getX() < cx) && (cx < rect.getMaxX())) || ((rect.getY() < cy) && (cy < rect.getMaxY()));
+      if (!spansSubLeafs) {
+        if ((rect.getMaxX() <= cx) && (rect.getMaxY() <= cy)) {
+          if (leaf.topLeft == null) {
+            return false;
+          }
+          leaf = leaf.topLeft;
+          cx -= dx;
+          cy -= dy;
+          dx /= 2;
+          dy /= 2;
+          continue;
+        }
+        if ((rect.getX() >= cx) && (rect.getMaxY() <= cy)) {
+          if (leaf.topRight == null) {
+            return false;
+          }
+          leaf = leaf.topRight;
+          cx += dx;
+          cy -= dy;
+          dx /= 2;
+          dy /= 2;
+          continue;
+        }
+        if ((rect.getMaxX() <= cx) && (rect.getY() >= cy)) {
+          if (leaf.bottomLeft == null) {
+            return false;
+          }
+          leaf = leaf.bottomLeft;
+          cx -= dx;
+          cy += dy;
+          dx /= 2;
+          dy /= 2;
+          continue;
+        }
+        if ((rect.getX() >= cx) && (rect.getY() >= cy)) {
+          if (leaf.bottomRight == null) {
+            return false;
+          }
+          leaf = leaf.bottomRight;
+          cx += dx;
+          cy += dy;
+          dx /= 2;
+          dy /= 2;
+          continue;
+        }
+        assert false;
+      }
+    }
+  }
+
+  // This is only for debug.
   public List<Rectangle> getRects() {
     List<Rectangle> rectangles = new ArrayList<Rectangle>();
     root.fillRectangles(rectangles, CENTER_X, CENTER_Y, DIFF_X, DIFF_Y);

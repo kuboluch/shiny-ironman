@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  * User: krzysiek
@@ -40,6 +37,7 @@ public class SolidBlocks {
     blocks.add(new EndOfTheWorldWall(Sizes.MAX_X, Sizes.MIN_Y - 1000, 1000, Sizes.MAX_Y - Sizes.MIN_Y + 2000));
     for (AbstractBlock b : blocks) {
       renderQueue.add(b);
+      collisionController.add(b);
     }
     /*int x = (Sizes.MIN_X + Sizes.MAX_X) / 2;
     int y = Sizes.MAX_Y / 6 + 150;
@@ -51,14 +49,21 @@ public class SolidBlocks {
   }
 
   public IterableIterator<AbstractBlock> intersects(Rectangle rect) {
-    return new LinearIntersectionIterator(blocks.iterator(), rect);
+    IterableIterator<AbstractBlock> it = new LinearIntersectionIterator(blocks.iterator(), rect);
+    try {
+      assert it.hasNext() == (collisionController.fullSearch(rect).size() > 0);
+    }catch (AssertionError e) {
+      AbstractBlock b = it.next();
+      List<AbstractBlock> blocks = collisionController.fullSearch(rect);
+    }
+    return it;
   }
 
   public boolean add(AbstractBlock block) {
     if (intersects(block.getShape()).hasNext()) return false;
     if (movingObjects.intersects(block.getShape()).hasNext()) return false;
-    collisionController.add(block);
     updateNeighbors(block);
+    collisionController.add(block);
     blocks.add(block);
     renderQueue.add(block);
     return true;
@@ -121,6 +126,7 @@ public class SolidBlocks {
 
   public void remove(AbstractBlock block) {
     blocks.remove(block);
+    collisionController.remove(block);
     removeFromNeighbors(block);
     renderQueue.remove(block);
   }
