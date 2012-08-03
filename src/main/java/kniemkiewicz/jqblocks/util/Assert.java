@@ -11,6 +11,17 @@ import java.io.Serializable;
  */
 public class Assert {
 
+  static public boolean ASSERT_ENABLED = false;
+
+  private static boolean setAssertEnabled() {
+    ASSERT_ENABLED = true;
+    return true;
+  }
+
+  static {
+    assert setAssertEnabled();
+  }
+
   public static void executeAndAssert(boolean expression) {
     assert expression;
   }

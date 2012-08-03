@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.util;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import kniemkiewicz.jqblocks.util.IterableIterator;
@@ -9,13 +10,15 @@ import org.newdawn.slick.geom.Shape;
 import org.springframework.expression.spel.ast.Literal;
 import sun.net.www.protocol.gopher.GopherClient;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: knie
  * Date: 7/31/12
+ *
+ * I've checked that using intersects or intersectsUnique is slower than fullSearch, even for
+ * taking the first element. It may not be the case only if there are many results. This
+ * will be investigated further and intersect methods might get optimized more.
  */
 public class QuadTree<T extends QuadTree.HasShape> {
   // Leafs containing more than this number of objects will get split into sub leafs. Note that
@@ -52,7 +55,9 @@ public class QuadTree<T extends QuadTree.HasShape> {
     }
 
     void fillInterestingLeafs(float cx, float cy, float dx, float dy, Shape shape, List<Leaf<T>> results) {
-      results.add(this);
+      if (objects.size() > 0) {
+        results.add(this);
+      }
       if (!hasSubLeafs) return;
       float ddx = dx / 2;
       float ddy = dy / 2;
@@ -209,6 +214,106 @@ public class QuadTree<T extends QuadTree.HasShape> {
       }
     }
     return objects;
+  }
+
+  public IterableIterator<T> intersects(final Shape shape) {
+    final List<Leaf<T>> leafs = new ArrayList<Leaf<T>>();
+    root.fillInterestingLeafs(CENTER_X, CENTER_Y, DIFF_X, DIFF_Y, shape, leafs);
+    if (leafs.size() == 0) return Collections3.getIterable(Collections.<T>emptyList().iterator());
+    return new IterableIterator<T>() {
+      Iterator<Leaf<T>> leafIterator = leafs.iterator();
+      Iterator<T> objectIterator = leafs.iterator().next().objects.iterator();
+      T object = null;
+      boolean finished = false;
+
+      void update() {
+        if (finished || (object != null)) return;
+        while (true) {
+          while (objectIterator.hasNext()) {
+            object = objectIterator.next();
+            if (GeometryUtils.intersects(object.getShape(), shape)) {
+              return;
+            }
+          }
+          if (leafIterator.hasNext()) {
+            objectIterator = leafIterator.next().objects.iterator();
+          } else {
+            object = null;
+            finished = true;
+            return;
+          }
+        }
+      }
+      @Override
+      public boolean hasNext() {
+        update();
+        return !finished;
+      }
+
+      @Override
+      public T next() {
+        update();
+        T ob = object;
+        object = null;
+        return ob;
+      }
+
+      @Override
+      public void remove() {
+        objectIterator.remove();
+      }
+    };
+  }
+
+  public IterableIterator<T> intersectsUnique(final Shape shape) {
+    final List<Leaf<T>> leafs = new ArrayList<Leaf<T>>();
+    root.fillInterestingLeafs(CENTER_X, CENTER_Y, DIFF_X, DIFF_Y, shape, leafs);
+    if (leafs.size() == 0) return Collections3.getIterable(Collections.<T>emptyList().iterator());
+    final Set<T> returnedObjects = new HashSet<T>();
+    return new IterableIterator<T>() {
+      Iterator<Leaf<T>> leafIterator = leafs.iterator();
+      Iterator<T> objectIterator = leafs.iterator().next().objects.iterator();
+      T object = null;
+      boolean finished = false;
+
+      void update() {
+        if (finished || (object != null)) return;
+        while (true) {
+          while (objectIterator.hasNext()) {
+            object = objectIterator.next();
+            if (!returnedObjects.contains(object) && GeometryUtils.intersects(object.getShape(), shape)) {
+              return;
+            }
+          }
+          if (leafIterator.hasNext()) {
+            objectIterator = leafIterator.next().objects.iterator();
+          } else {
+            object = null;
+            finished = true;
+            return;
+          }
+        }
+      }
+      @Override
+      public boolean hasNext() {
+        update();
+        return !finished;
+      }
+
+      @Override
+      public T next() {
+        update();
+        T ob = object;
+        returnedObjects.add(ob);
+        object = null;
+        return ob;
+      }
+
+      @Override
+      public void remove() {
+        objectIterator.remove();
+      }
+    };
   }
 
 

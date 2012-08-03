@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.object.DebugRenderableShape;
 import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
+import kniemkiewicz.jqblocks.util.IterableIterator;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
@@ -34,6 +35,10 @@ public class CollisionController implements InputListener{
 
   <T extends QuadTree.HasShape> List<T> fullSearch(Shape shape) {
     return (List<T>) quadTree.fullSearch(shape);
+  }
+
+  <T extends QuadTree.HasShape> IterableIterator<T> intersectsUnique(Shape shape) {
+    return (IterableIterator<T>) quadTree.intersectsUnique(shape);
   }
 
   @Override
