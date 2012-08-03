@@ -148,7 +148,7 @@ public class Game extends BasicGame {
   }
 
   public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-    TimingInfo.Timer t = timingInfo.getTimer("render");
+    TimingInfo.Timer t = timingInfo.getTimer(TimingInfo.RENDER_TIMER);
     renderQueue.render(graphics);
     t.record();
   }

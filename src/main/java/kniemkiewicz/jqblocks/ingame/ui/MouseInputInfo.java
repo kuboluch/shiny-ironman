@@ -46,7 +46,7 @@ public class MouseInputInfo implements EventListener, Renderable {
   @Override
   public void render(Graphics g) {
     g.setColor(Color.white);
-    g.drawString("mouseX : " + x, 150, 25);
-    g.drawString("mouseY : " + y, 150, 38);
+    g.drawString("mouseX : " + x, 4, 25);
+    g.drawString("mouseY : " + y, 4, 38);
   }
 }

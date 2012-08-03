@@ -2,7 +2,9 @@ package kniemkiewicz.jqblocks.ingame;
 
 import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.block.EndOfTheWorldWall;
+import kniemkiewicz.jqblocks.ingame.ui.TimingInfo;
 import kniemkiewicz.jqblocks.ingame.util.LinearIntersectionIterator;
+import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.IterableIterator;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class SolidBlocks {
   @Autowired
   CollisionController collisionController;
 
+  @Autowired
+  TimingInfo timingInfo;
+
   Set<AbstractBlock> blocks = new HashSet<AbstractBlock>();
 
   @PostConstruct
@@ -49,13 +54,9 @@ public class SolidBlocks {
   }
 
   public IterableIterator<AbstractBlock> intersects(Rectangle rect) {
-    IterableIterator<AbstractBlock> it = new LinearIntersectionIterator(blocks.iterator(), rect);
-    try {
-      assert it.hasNext() == (collisionController.fullSearch(rect).size() > 0);
-    }catch (AssertionError e) {
-      AbstractBlock b = it.next();
-      List<AbstractBlock> blocks = collisionController.fullSearch(rect);
-    }
+    TimingInfo.Timer t = timingInfo.getTimer("SolidBlocks.intersects");
+    IterableIterator<AbstractBlock> it = Collections3.getIterable(collisionController.<AbstractBlock>fullSearch(rect).iterator());
+    t.record();
     return it;
   }
 

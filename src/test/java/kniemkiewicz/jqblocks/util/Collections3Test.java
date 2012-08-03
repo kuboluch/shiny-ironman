@@ -16,7 +16,7 @@ public class Collections3Test {
   @Test
   public void iterateOverAllTestEmpty() {
     List<List<Integer>> lists = new ArrayList<List<Integer>>();
-    IterableIterator<Integer> it = Collections3.iterateOverAll(lists);
+    IterableIterator<Integer> it = Collections3.iterateOverAll(lists.iterator());
     Assert.assertTrue(!it.hasNext());
   }
   @Test
@@ -26,7 +26,7 @@ public class Collections3Test {
     lists.add(Arrays.<Integer>asList());
     lists.add(Arrays.<Integer>asList(3));
     lists.add(Arrays.<Integer>asList(4, 5));
-    IterableIterator<Integer> it = Collections3.iterateOverAll(lists);
+    IterableIterator<Integer> it = Collections3.iterateOverAll(lists.iterator());
     Assert.assertTrue(it.hasNext());
     Assert.assertEquals(it.next(), (Integer)1);
     Assert.assertTrue(it.hasNext());
@@ -46,7 +46,7 @@ public class Collections3Test {
     lists.add(Arrays.<Integer>asList());
     lists.add(Arrays.<Integer>asList(3));
     lists.add(Arrays.<Integer>asList(4, 5));
-    IterableIterator<Integer> it = Collections3.iterateOverAll(lists);
+    IterableIterator<Integer> it = Collections3.iterateOverAll(lists.iterator());
     Assert.assertEquals(it.next(), (Integer)1);
     Assert.assertEquals(it.next(), (Integer)2);
     Assert.assertEquals(it.next(), (Integer)3);

@@ -1,13 +1,16 @@
 package kniemkiewicz.jqblocks.ingame.util;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import kniemkiewicz.jqblocks.util.IterableIterator;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
+import org.springframework.expression.spel.ast.Literal;
 import sun.net.www.protocol.gopher.GopherClient;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -48,58 +51,31 @@ public class QuadTree<T extends QuadTree.HasShape> {
       }
     }
 
-    void fullSearch(float cx, float cy, float dx, float dy, Shape shape, List<T> results) {
-      for (T object : objects) {
-        if (GeometryUtils.intersects(object.getShape(), shape)) {
-          results.add(object);
-        }
-      }
+    void fillInterestingLeafs(float cx, float cy, float dx, float dy, Shape shape, List<Leaf<T>> results) {
+      results.add(this);
       if (!hasSubLeafs) return;
+      float ddx = dx / 2;
+      float ddy = dy / 2;
       if ((shape.getMinX() < cx) || (shape.getMinY() < cy)) {
         if (topLeft != null) {
-          topLeft.fullSearch(cx - dx, cy - dy, dx / 2, dy / 2, shape, results);
+          topLeft.fillInterestingLeafs(cx - dx, cy - dy, ddx, ddy, shape, results);
         }
       }
       if ((shape.getMaxX() > cx) || (shape.getMinY() < cy)) {
         if (topRight != null) {
-          topRight.fullSearch(cx + dx, cy - dy, dx / 2, dy / 2, shape, results);
+          topRight.fillInterestingLeafs(cx + dx, cy - dy, ddx, ddy, shape, results);
         }
       }
       if ((shape.getMinX() < cx) || (shape.getMaxY() > cy)) {
         if (bottomLeft != null) {
-          bottomLeft.fullSearch(cx - dx, cy + dy, dx / 2, dy / 2, shape, results);
+          bottomLeft.fillInterestingLeafs(cx - dx, cy + dy, ddx, ddy, shape, results);
         }
       }
       if ((shape.getMaxX() > cx) || (shape.getMaxY() > cy)) {
         if (bottomRight != null) {
-          bottomRight.fullSearch(cx + dx, cy + dy, dx / 2, dy / 2, shape, results);
+          bottomRight.fillInterestingLeafs(cx + dx, cy + dy, ddx, ddy, shape, results);
         }
       }
-    }
-
-  }
-
-  // This will be a iterator returning objects from tree colliding with given rect.
-  private static class SearchIterator<T extends HasShape> extends IterableIterator<T> {
-
-    float cx; // center of current Leaf.
-    float cy; // center of current Leaf.
-    float w; // 1/4 width of current Leaf.
-    float h; // 1/4 height of current Leaf.
-
-    @Override
-    public boolean hasNext() {
-      return false;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public T next() {
-      return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void remove() {
-      //To change body of implemented methods use File | Settings | File Templates.
     }
   }
 
@@ -148,12 +124,6 @@ public class QuadTree<T extends QuadTree.HasShape> {
       leaf.objects.add(ob);
     }
     leaf.hasSubLeafs = true;
-  }
-
-  public List<T> fullSearch(Shape shape) {
-    List<T> results = new ArrayList<T>();
-    root.fullSearch(CENTER_X, CENTER_Y, DIFF_X, DIFF_Y, shape, results);
-    return results;
   }
 
   public boolean add(T object) {
@@ -226,6 +196,21 @@ public class QuadTree<T extends QuadTree.HasShape> {
       }
     }
   }
+
+  public List<T> fullSearch(Shape shape) {
+    List<Leaf<T>> leafs = new ArrayList<Leaf<T>>();
+    root.fillInterestingLeafs(CENTER_X, CENTER_Y, DIFF_X, DIFF_Y, shape, leafs);
+    List<T> objects = new ArrayList<T>();
+    for (Leaf<T> leaf : leafs) {
+      for (T ob : leaf.objects) {
+        if (GeometryUtils.intersects(ob.getShape(), shape)) {
+          objects.add(ob);
+        }
+      }
+    }
+    return objects;
+  }
+
 
   public boolean remove(T object) {
     Leaf<T> leaf = root;

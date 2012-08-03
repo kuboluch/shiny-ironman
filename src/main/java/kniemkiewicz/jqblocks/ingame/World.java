@@ -86,7 +86,7 @@ public final class World {
     iters.add(movingObjects.iterateAll());
     iters.add(solidBlocks.iterateAll());
     iters.add(updateQueue.iterateAll());
-    for (Object ob : Collections3.iterateOverAllIterators(iters)) {
+    for (Object ob : Collections3.iterateOverAllIterators(iters.iterator())) {
       indexes.put(ob, gameObjects.size());
       gameObjects.add(ob);
     }
