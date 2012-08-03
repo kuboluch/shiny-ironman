@@ -3,7 +3,7 @@ package kniemkiewicz.jqblocks.ingame;
 import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.block.EndOfTheWorldWall;
 import kniemkiewicz.jqblocks.ingame.ui.TimingInfo;
-import kniemkiewicz.jqblocks.ingame.util.LinearIntersectionIterator;
+import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.IterableIterator;
 import org.newdawn.slick.geom.Rectangle;
@@ -34,6 +34,8 @@ public class SolidBlocks {
 
   Set<AbstractBlock> blocks = new HashSet<AbstractBlock>();
 
+  static final EnumSet<CollisionController.ObjectType> BLOCK_OBJECT_TYPE = EnumSet.of(CollisionController.ObjectType.WALL);
+
   @PostConstruct
   void init() {
     blocks.add(new EndOfTheWorldWall(Sizes.MIN_X - 1000, Sizes.MIN_Y - 1000, Sizes.MAX_X - Sizes.MIN_X + 2000, 1000));
@@ -42,7 +44,7 @@ public class SolidBlocks {
     blocks.add(new EndOfTheWorldWall(Sizes.MAX_X, Sizes.MIN_Y - 1000, 1000, Sizes.MAX_Y - Sizes.MIN_Y + 2000));
     for (AbstractBlock b : blocks) {
       renderQueue.add(b);
-      collisionController.add(b);
+      Assert.executeAndAssert(collisionController.add(BLOCK_OBJECT_TYPE, b, true));
     }
     /*int x = (Sizes.MIN_X + Sizes.MAX_X) / 2;
     int y = Sizes.MAX_Y / 6 + 150;
@@ -55,7 +57,7 @@ public class SolidBlocks {
 
   public IterableIterator<AbstractBlock> intersects(Rectangle rect) {
     TimingInfo.Timer t = timingInfo.getTimer("SolidBlocks.intersects");
-    IterableIterator<AbstractBlock> it = Collections3.getIterable(collisionController.<AbstractBlock>fullSearch(rect).iterator());
+    IterableIterator<AbstractBlock> it = Collections3.getIterable(collisionController.<AbstractBlock>fullSearch(BLOCK_OBJECT_TYPE, rect).iterator());
     t.record();
     return it;
   }
@@ -64,7 +66,7 @@ public class SolidBlocks {
     if (intersects(block.getShape()).hasNext()) return false;
     if (movingObjects.intersects(block.getShape()).hasNext()) return false;
     updateNeighbors(block);
-    collisionController.add(block);
+    Assert.executeAndAssert(collisionController.add(BLOCK_OBJECT_TYPE, block, true));
     blocks.add(block);
     renderQueue.add(block);
     return true;
@@ -127,7 +129,7 @@ public class SolidBlocks {
 
   public void remove(AbstractBlock block) {
     blocks.remove(block);
-    collisionController.remove(block);
+    collisionController.remove(BLOCK_OBJECT_TYPE, block);
     removeFromNeighbors(block);
     renderQueue.remove(block);
   }

@@ -1,18 +1,14 @@
 package kniemkiewicz.jqblocks.ingame.object.background;
 
-import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
-import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
-import kniemkiewicz.jqblocks.ingame.object.background.NaturalDirtBackground;
-import kniemkiewicz.jqblocks.ingame.object.background.Tree;
 import kniemkiewicz.jqblocks.ingame.util.LinearIntersectionIterator;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * User: knie

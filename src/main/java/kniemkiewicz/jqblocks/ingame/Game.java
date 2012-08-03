@@ -114,7 +114,6 @@ public class Game extends BasicGame {
     inputListeners.add(saveGameListener);
     inputListeners.add(inventoryController);
     inputListeners.add(resourceInventoryController);
-    inputListeners.add(collisionController);
     gameContainer.getInput().addMouseListener(mouseInputEventBus);
     eventBus.addListener(mouseInputInfo);
     eventBus.addListener(inventoryController);

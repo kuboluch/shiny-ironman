@@ -1,7 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.controller;
 
 import kniemkiewicz.jqblocks.ingame.InputListener;
-import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.Input;

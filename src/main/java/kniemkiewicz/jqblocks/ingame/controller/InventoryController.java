@@ -1,6 +1,8 @@
 package kniemkiewicz.jqblocks.ingame.controller;
 
-import kniemkiewicz.jqblocks.ingame.*;
+import kniemkiewicz.jqblocks.ingame.InputListener;
+import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.EventListener;
 import kniemkiewicz.jqblocks.ingame.event.input.InputEvent;
@@ -9,12 +11,10 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseClickEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.item.Inventory;
-import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController;
 import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
-import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.apache.commons.logging.Log;

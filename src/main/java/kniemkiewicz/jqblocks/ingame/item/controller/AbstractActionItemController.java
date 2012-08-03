@@ -11,12 +11,10 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseReleasedEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;

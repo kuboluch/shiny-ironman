@@ -1,14 +1,11 @@
 package kniemkiewicz.jqblocks.ingame.util;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import kniemkiewicz.jqblocks.util.IterableIterator;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
-import org.springframework.expression.spel.ast.Literal;
-import sun.net.www.protocol.gopher.GopherClient;
 
 import java.util.*;
 
@@ -202,10 +199,9 @@ public class QuadTree<T extends QuadTree.HasShape> {
     }
   }
 
-  public List<T> fullSearch(Shape shape) {
+  public List<T> fullSearch(Shape shape, List<T> objects) {
     List<Leaf<T>> leafs = new ArrayList<Leaf<T>>();
     root.fillInterestingLeafs(CENTER_X, CENTER_Y, DIFF_X, DIFF_Y, shape, leafs);
-    List<T> objects = new ArrayList<T>();
     for (Leaf<T> leaf : leafs) {
       for (T ob : leaf.objects) {
         if (GeometryUtils.intersects(ob.getShape(), shape)) {
@@ -383,4 +379,6 @@ public class QuadTree<T extends QuadTree.HasShape> {
     root.fillRectangles(rectangles, CENTER_X, CENTER_Y, DIFF_X, DIFF_Y);
     return rectangles;
   }
+
+
 }

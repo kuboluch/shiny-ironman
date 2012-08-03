@@ -1,6 +1,5 @@
 package kniemkiewicz.jqblocks.ingame.level;
 
-import kniemkiewicz.jqblocks.ingame.SolidBlocks;
 import kniemkiewicz.jqblocks.util.Out;
 import kniemkiewicz.jqblocks.util.TimeLog;
 import org.apache.commons.logging.Log;
