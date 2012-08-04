@@ -2,17 +2,16 @@ package kniemkiewicz.jqblocks.ingame;
 
 import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.block.EndOfTheWorldWall;
-import kniemkiewicz.jqblocks.ingame.util.LinearIntersectionIterator;
+import kniemkiewicz.jqblocks.ingame.ui.TimingInfo;
+import kniemkiewicz.jqblocks.util.Assert;
+import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.IterableIterator;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  * User: krzysiek
@@ -30,36 +29,36 @@ public class SolidBlocks {
   @Autowired
   CollisionController collisionController;
 
-  Set<AbstractBlock> blocks = new HashSet<AbstractBlock>();
+  @Autowired
+  TimingInfo timingInfo;
+
+  static final EnumSet<CollisionController.ObjectType> BLOCK_OBJECT_TYPE = EnumSet.of(CollisionController.ObjectType.WALL);
 
   @PostConstruct
   void init() {
+    List<AbstractBlock> blocks = new ArrayList<AbstractBlock>();
     blocks.add(new EndOfTheWorldWall(Sizes.MIN_X - 1000, Sizes.MIN_Y - 1000, Sizes.MAX_X - Sizes.MIN_X + 2000, 1000));
     blocks.add(new EndOfTheWorldWall(Sizes.MIN_X - 1000, Sizes.MAX_Y, Sizes.MAX_X - Sizes.MIN_X + 2000, 1000));
     blocks.add(new EndOfTheWorldWall(Sizes.MIN_X - 1000, Sizes.MIN_Y - 1000, 1000, Sizes.MAX_Y - Sizes.MIN_Y + 2000));
     blocks.add(new EndOfTheWorldWall(Sizes.MAX_X, Sizes.MIN_Y - 1000, 1000, Sizes.MAX_Y - Sizes.MIN_Y + 2000));
     for (AbstractBlock b : blocks) {
       renderQueue.add(b);
+      Assert.executeAndAssert(collisionController.add(BLOCK_OBJECT_TYPE, b, true));
     }
-    /*int x = (Sizes.MIN_X + Sizes.MAX_X) / 2;
-    int y = Sizes.MAX_Y / 6 + 150;
-    add(new DirtBlock(x, y, 2 * Sizes.BLOCK, 2 * Sizes.BLOCK));*/
-  }
-
-  public Set<AbstractBlock> getBlocks() {
-    return Collections.unmodifiableSet(blocks);
   }
 
   public IterableIterator<AbstractBlock> intersects(Rectangle rect) {
-    return new LinearIntersectionIterator(blocks.iterator(), rect);
+    TimingInfo.Timer t = timingInfo.getTimer("SolidBlocks.intersects");
+    IterableIterator<AbstractBlock> it = Collections3.getIterable(collisionController.<AbstractBlock>fullSearch(BLOCK_OBJECT_TYPE, rect).iterator());
+    t.record();
+    return it;
   }
 
   public boolean add(AbstractBlock block) {
     if (intersects(block.getShape()).hasNext()) return false;
     if (movingObjects.intersects(block.getShape()).hasNext()) return false;
-    collisionController.add(block);
     updateNeighbors(block);
-    blocks.add(block);
+    Assert.executeAndAssert(collisionController.add(BLOCK_OBJECT_TYPE, block, true));
     renderQueue.add(block);
     return true;
   }
@@ -120,7 +119,7 @@ public class SolidBlocks {
   }
 
   public void remove(AbstractBlock block) {
-    blocks.remove(block);
+    collisionController.remove(BLOCK_OBJECT_TYPE, block);
     removeFromNeighbors(block);
     renderQueue.remove(block);
   }
@@ -141,6 +140,6 @@ public class SolidBlocks {
   }
 
   public Iterator<AbstractBlock> iterateAll() {
-    return blocks.iterator();
+    return collisionController.<AbstractBlock>getAll(BLOCK_OBJECT_TYPE).iterator();
   }
 }

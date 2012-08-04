@@ -79,6 +79,6 @@ public class RenderQueue implements Renderable {
   public IterableIterator<?> iterateAllObjects() {
     List<Set<RenderableObject>> sets = new ArrayList<Set<RenderableObject>>();
     sets.addAll(renderableObjects.values());
-    return Collections3.iterateOverAll(sets);
+    return Collections3.iterateOverAll(sets.iterator());
   }
 }

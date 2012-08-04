@@ -108,7 +108,6 @@ public class MainGameState extends BasicGameState {
     inputListeners.add(saveGameListener);
     inputListeners.add(inventoryController);
     inputListeners.add(resourceInventoryController);
-    inputListeners.add(collisionController);
     gameContainer.getInput().addMouseListener(mouseInputEventBus);
     eventBus.addListener(mouseInputInfo);
     eventBus.addListener(inventoryController);
@@ -129,7 +128,7 @@ public class MainGameState extends BasicGameState {
 
   @Override
   public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-    TimingInfo.Timer t = timingInfo.getTimer("render");
+    TimingInfo.Timer t = timingInfo.getTimer(TimingInfo.RENDER_TIMER);
     renderQueue.render(graphics);
     t.record();
   }

@@ -1,10 +1,8 @@
 package kniemkiewicz.jqblocks;
 
 import kniemkiewicz.jqblocks.ingame.controller.SaveGameListener;
-import org.newdawn.slick.SlickException;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 

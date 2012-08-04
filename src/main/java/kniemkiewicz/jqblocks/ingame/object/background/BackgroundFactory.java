@@ -1,9 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.object.background;
 
-import org.newdawn.slick.Image;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 // TODO: Drop?
 @Component

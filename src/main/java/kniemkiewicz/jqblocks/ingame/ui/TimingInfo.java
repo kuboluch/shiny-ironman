@@ -15,9 +15,13 @@ import java.util.Map;
  */
 @Component
 public class TimingInfo implements Renderable {
+
+  public static String RENDER_TIMER = "render";
+
   public static class Timer {
     long startTime = 0;
     long displayTime = 0;
+    long displayCount = 0;
     long lastUpdate = 0;
     long currentSum = 0;
     long currentCount = 0;
@@ -44,6 +48,7 @@ public class TimingInfo implements Renderable {
       currentCount++;
       if (current - lastUpdate > 1000000) {
         displayTime = currentSum / currentCount;
+        displayCount = currentCount;
         currentSum = 0;
         currentCount = 0;
         lastUpdate = current;
@@ -67,11 +72,14 @@ public class TimingInfo implements Renderable {
 
   @Override
   public void render(Graphics g) {
-    int y = 25;
+    int y = 65;
     g.setColor(Color.white);
+    if (!timers.containsKey(RENDER_TIMER)) return;
+    float frameCount = (float)timers.get(RENDER_TIMER).displayCount;
+    if (frameCount == 0) return;
     for (String name : timers.keySet()) {
-      g.drawString(name + " : " + timers.get(name).displayTime, 4, y);
-      y += 13;
+      g.drawString(name + " : " + Math.round(timers.get(name).displayCount  / frameCount) + "x" + timers.get(name).displayTime, 4, y);
+      y += 14;
     }
   }
 }

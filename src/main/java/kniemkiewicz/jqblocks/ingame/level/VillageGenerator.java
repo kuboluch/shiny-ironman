@@ -6,7 +6,6 @@ import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.Fireplace;
 import kniemkiewicz.jqblocks.ingame.object.background.NaturalDirtBackground;
 import kniemkiewicz.jqblocks.ingame.object.block.DirtBlock;
-import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

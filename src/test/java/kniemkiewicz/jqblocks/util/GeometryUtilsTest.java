@@ -1,10 +1,9 @@
 package kniemkiewicz.jqblocks.util;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
-import org.junit.Assert;
 
 /**
  * User: knie

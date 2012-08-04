@@ -1,18 +1,9 @@
 package kniemkiewicz.jqblocks;
 
-import kniemkiewicz.jqblocks.ingame.MainGameState;
 import kniemkiewicz.jqblocks.twl.TWLStateBasedGame;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.StateBasedGame;
-import org.springframework.beans.factory.BeanDefinitionStoreException;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.net.URL;
 

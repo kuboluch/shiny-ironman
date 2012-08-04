@@ -81,36 +81,38 @@ public final class Collections3 {
     return result;
   }
 
-  public static <T> IterableIterator<T> iterateOverAll(final List<? extends Iterable<T>> iterables) {
-    // Assuming list of iterables is small. Otherwise reimplement using only iterator.
-    List<Iterator<T>> iterators = new ArrayList<Iterator<T>>();
-    for (Iterable<T> it : iterables) {
-      iterators.add(it.iterator());
-    }
-    return iterateOverAllIterators(iterators);
+  public static <T> IterableIterator<T> iterateOverAll(final Iterator<? extends Iterable<T>> iterables) {
+    return iterateOverAllIterators(new Iterator<Iterator<T>>() {
+      @Override
+      public boolean hasNext() {
+        return iterables.hasNext();
+      }
+      @Override
+      public Iterator<T> next() {
+        return iterables.next().iterator();
+      }
+      @Override
+      public void remove() {  }
+    });
   }
 
-  // Add "?" as long as all compiles...
-  public static <T> IterableIterator<T> iterateOverAllIterators(final List<? extends Iterator<? extends T>> iterables) {
-    if (iterables.size() == 0) {
+  // Add "?" until all compiles...
+  public static <T> IterableIterator<T> iterateOverAllIterators(final Iterator<? extends Iterator<? extends T>> iterables) {
+    if (!iterables.hasNext()) {
       return getIterable(Collections.<T>emptyList().iterator());
     }
     return new IterableIterator<T>() {
-      int currentIterable = 0;
-      Iterator<? extends T> currentIterator = iterables.get(0);
+      Iterator<? extends T> currentIterator = iterables.next();
 
       void update() {
-        while (currentIterable < iterables.size() && !currentIterator.hasNext()) {
-          currentIterable++;
-          if (currentIterable < iterables.size()) {
-            currentIterator = iterables.get(currentIterable);
-          }
+        while (iterables.hasNext() && !currentIterator.hasNext()) {
+          currentIterator = iterables.next();
         }
       }
       @Override
       public boolean hasNext() {
         update();
-        return currentIterable < iterables.size();
+        return currentIterator.hasNext();
       }
 
       @Override

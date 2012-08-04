@@ -17,7 +17,9 @@ public final class GeometryUtils {
     return new Rectangle(shape.getMinX(), shape.getMinY(), shape.getWidth(), shape.getHeight());
   }
   public static boolean intersects(Shape shape1, Shape shape2) {
-    if (shape1.intersects(shape2)) return true;
+    boolean intersect = shape1.intersects(shape2);
+    assert intersect == shape2.intersects(shape1);
+    if (intersect) return true;
 
     if (shape2 instanceof Line) {
       return shape1.contains(shape2);

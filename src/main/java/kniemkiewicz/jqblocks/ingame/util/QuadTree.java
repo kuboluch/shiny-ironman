@@ -1,18 +1,21 @@
 package kniemkiewicz.jqblocks.ingame.util;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import kniemkiewicz.jqblocks.util.IterableIterator;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
-import sun.net.www.protocol.gopher.GopherClient;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: knie
  * Date: 7/31/12
+ *
+ * I've checked that using intersects or intersectsUnique is slower than fullSearch, even for
+ * taking the first element. It may not be the case only if there are many results. This
+ * will be investigated further and intersect methods might get optimized more.
  */
 public class QuadTree<T extends QuadTree.HasShape> {
   // Leafs containing more than this number of objects will get split into sub leafs. Note that
@@ -23,7 +26,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
     Shape getShape();
   }
 
-  // This generally a private struct. Recursive methods implemented only for things that can be slow.
+  // This generally a private struct.
   private static class Leaf<T extends HasShape> {
     List<T> objects = new ArrayList<T>();
     Leaf<T> topLeft = null;
@@ -32,7 +35,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
     Leaf<T> bottomRight = null;
     boolean hasSubLeafs = false;
 
-    public void fillRectangles(List<Rectangle> rectangles, float cx, float cy, float dx, float dy) {
+    void fillRectangles(List<Rectangle> rectangles, float cx, float cy, float dx, float dy) {
       rectangles.add(new Rectangle(cx - dx * 2, cy - dy * 2, 4 * dx, 4 * dy));
       if (topLeft != null) {
         topLeft.fillRectangles(rectangles, cx - dx, cy - dy, dx / 2, dy / 2);
@@ -47,29 +50,52 @@ public class QuadTree<T extends QuadTree.HasShape> {
         bottomRight.fillRectangles(rectangles, cx + dx, cy + dy, dx / 2, dy / 2);
       }
     }
-  }
 
-  // This will be a iterator returning objects from tree colliding with given rect.
-  private static class SearchIterator<T extends HasShape> extends IterableIterator<T> {
-
-    float cx; // center of current Leaf.
-    float cy; // center of current Leaf.
-    float w; // 1/4 width of current Leaf.
-    float h; // 1/4 height of current Leaf.
-
-    @Override
-    public boolean hasNext() {
-      return false;  //To change body of implemented methods use File | Settings | File Templates.
+    void fillInterestingLeafs(float cx, float cy, float dx, float dy, Shape shape, List<Leaf<T>> results) {
+      if (objects.size() > 0) {
+        results.add(this);
+      }
+      if (!hasSubLeafs) return;
+      float ddx = dx / 2;
+      float ddy = dy / 2;
+      if ((shape.getMinX() < cx) || (shape.getMinY() < cy)) {
+        if (topLeft != null) {
+          topLeft.fillInterestingLeafs(cx - dx, cy - dy, ddx, ddy, shape, results);
+        }
+      }
+      if ((shape.getMaxX() > cx) || (shape.getMinY() < cy)) {
+        if (topRight != null) {
+          topRight.fillInterestingLeafs(cx + dx, cy - dy, ddx, ddy, shape, results);
+        }
+      }
+      if ((shape.getMinX() < cx) || (shape.getMaxY() > cy)) {
+        if (bottomLeft != null) {
+          bottomLeft.fillInterestingLeafs(cx - dx, cy + dy, ddx, ddy, shape, results);
+        }
+      }
+      if ((shape.getMaxX() > cx) || (shape.getMaxY() > cy)) {
+        if (bottomRight != null) {
+          bottomRight.fillInterestingLeafs(cx + dx, cy + dy, ddx, ddy, shape, results);
+        }
+      }
     }
 
-    @Override
-    public T next() {
-      return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void remove() {
-      //To change body of implemented methods use File | Settings | File Templates.
+    public void listAll(List<T> objects) {
+      objects.addAll(this.objects);
+      if (hasSubLeafs) {
+        if (topLeft != null) {
+          topLeft.listAll(objects);
+        }
+        if (bottomLeft != null) {
+          bottomLeft.listAll(objects);
+        }
+        if (topRight != null) {
+          topRight.listAll(objects);
+        }
+        if (bottomRight != null) {
+          bottomRight.listAll(objects);
+        }
+      }
     }
   }
 
@@ -120,7 +146,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
     leaf.hasSubLeafs = true;
   }
 
-  public void add(T object) {
+  public boolean add(T object) {
     Leaf<T> leaf = root;
     float cx = CENTER_X;
     float cy = CENTER_Y;
@@ -128,7 +154,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
     float dy = DIFF_Y;
     Rectangle rect = GeometryUtils.getBoundingRectangle(object.getShape());
     while (true) {
-      if (leaf.objects.contains(object)) return;
+      if (leaf.objects.contains(object)) return false;
       if ((leaf.objects.size() + 1 > ITEMS_PER_LEAF) && !leaf.hasSubLeafs) {
         // We didn't split leaf yet, time to do so.
         splitLeaf(leaf, cx, cy);
@@ -140,7 +166,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
         // Leaf is still small.
         if (!leaf.hasSubLeafs) {
           leaf.objects.add(object);
-          return;
+          return true;
         }
         if ((rect.getMaxX() <= cx) && (rect.getMaxY() <= cy)) {
           if (leaf.topLeft == null) {
@@ -191,10 +217,190 @@ public class QuadTree<T extends QuadTree.HasShape> {
     }
   }
 
-  // This is only for debug, this is why it is based on recursion, can be slow.
+  public List<T> fullSearch(Shape shape, List<T> objects) {
+    List<Leaf<T>> leafs = new ArrayList<Leaf<T>>();
+    root.fillInterestingLeafs(CENTER_X, CENTER_Y, DIFF_X, DIFF_Y, shape, leafs);
+    for (Leaf<T> leaf : leafs) {
+      for (T ob : leaf.objects) {
+        if (GeometryUtils.intersects(ob.getShape(), shape)) {
+          objects.add(ob);
+        }
+      }
+    }
+    return objects;
+  }
+
+  public IterableIterator<T> intersects(final Shape shape) {
+    final List<Leaf<T>> leafs = new ArrayList<Leaf<T>>();
+    root.fillInterestingLeafs(CENTER_X, CENTER_Y, DIFF_X, DIFF_Y, shape, leafs);
+    if (leafs.size() == 0) return Collections3.getIterable(Collections.<T>emptyList().iterator());
+    return new IterableIterator<T>() {
+      Iterator<Leaf<T>> leafIterator = leafs.iterator();
+      Iterator<T> objectIterator = leafs.iterator().next().objects.iterator();
+      T object = null;
+      boolean finished = false;
+
+      void update() {
+        if (finished || (object != null)) return;
+        while (true) {
+          while (objectIterator.hasNext()) {
+            object = objectIterator.next();
+            if (GeometryUtils.intersects(object.getShape(), shape)) {
+              return;
+            }
+          }
+          if (leafIterator.hasNext()) {
+            objectIterator = leafIterator.next().objects.iterator();
+          } else {
+            object = null;
+            finished = true;
+            return;
+          }
+        }
+      }
+      @Override
+      public boolean hasNext() {
+        update();
+        return !finished;
+      }
+
+      @Override
+      public T next() {
+        update();
+        T ob = object;
+        object = null;
+        return ob;
+      }
+
+      @Override
+      public void remove() {
+        objectIterator.remove();
+      }
+    };
+  }
+
+  public IterableIterator<T> intersectsUnique(final Shape shape) {
+    final List<Leaf<T>> leafs = new ArrayList<Leaf<T>>();
+    root.fillInterestingLeafs(CENTER_X, CENTER_Y, DIFF_X, DIFF_Y, shape, leafs);
+    if (leafs.size() == 0) return Collections3.getIterable(Collections.<T>emptyList().iterator());
+    final Set<T> returnedObjects = new HashSet<T>();
+    return new IterableIterator<T>() {
+      Iterator<Leaf<T>> leafIterator = leafs.iterator();
+      Iterator<T> objectIterator = leafs.iterator().next().objects.iterator();
+      T object = null;
+      boolean finished = false;
+
+      void update() {
+        if (finished || (object != null)) return;
+        while (true) {
+          while (objectIterator.hasNext()) {
+            object = objectIterator.next();
+            if (!returnedObjects.contains(object) && GeometryUtils.intersects(object.getShape(), shape)) {
+              return;
+            }
+          }
+          if (leafIterator.hasNext()) {
+            objectIterator = leafIterator.next().objects.iterator();
+          } else {
+            object = null;
+            finished = true;
+            return;
+          }
+        }
+      }
+      @Override
+      public boolean hasNext() {
+        update();
+        return !finished;
+      }
+
+      @Override
+      public T next() {
+        update();
+        T ob = object;
+        returnedObjects.add(ob);
+        object = null;
+        return ob;
+      }
+
+      @Override
+      public void remove() {
+        objectIterator.remove();
+      }
+    };
+  }
+
+
+  public boolean remove(T object) {
+    Leaf<T> leaf = root;
+    float cx = CENTER_X;
+    float cy = CENTER_Y;
+    float dx = DIFF_X;
+    float dy = DIFF_Y;
+    Rectangle rect = GeometryUtils.getBoundingRectangle(object.getShape());
+    while (true) {
+      if (leaf.objects.remove(object)) return true;
+      boolean spansSubLeafs = ((rect.getX() < cx) && (cx < rect.getMaxX())) || ((rect.getY() < cy) && (cy < rect.getMaxY()));
+      if (!spansSubLeafs) {
+        if ((rect.getMaxX() <= cx) && (rect.getMaxY() <= cy)) {
+          if (leaf.topLeft == null) {
+            return false;
+          }
+          leaf = leaf.topLeft;
+          cx -= dx;
+          cy -= dy;
+          dx /= 2;
+          dy /= 2;
+          continue;
+        }
+        if ((rect.getX() >= cx) && (rect.getMaxY() <= cy)) {
+          if (leaf.topRight == null) {
+            return false;
+          }
+          leaf = leaf.topRight;
+          cx += dx;
+          cy -= dy;
+          dx /= 2;
+          dy /= 2;
+          continue;
+        }
+        if ((rect.getMaxX() <= cx) && (rect.getY() >= cy)) {
+          if (leaf.bottomLeft == null) {
+            return false;
+          }
+          leaf = leaf.bottomLeft;
+          cx -= dx;
+          cy += dy;
+          dx /= 2;
+          dy /= 2;
+          continue;
+        }
+        if ((rect.getX() >= cx) && (rect.getY() >= cy)) {
+          if (leaf.bottomRight == null) {
+            return false;
+          }
+          leaf = leaf.bottomRight;
+          cx += dx;
+          cy += dy;
+          dx /= 2;
+          dy /= 2;
+          continue;
+        }
+        assert false;
+      }
+    }
+  }
+
+  public void listAll(List<T> objects) {
+    root.listAll(objects);
+  }
+
+  // This is only for debug.
   public List<Rectangle> getRects() {
     List<Rectangle> rectangles = new ArrayList<Rectangle>();
     root.fillRectangles(rectangles, CENTER_X, CENTER_Y, DIFF_X, DIFF_Y);
     return rectangles;
   }
+
+
 }

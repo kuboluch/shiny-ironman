@@ -1,7 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.object.block;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
-import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
