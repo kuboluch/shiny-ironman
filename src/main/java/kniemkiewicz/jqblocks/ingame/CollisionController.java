@@ -27,7 +27,8 @@ public class CollisionController {
   }
 
   enum ObjectType {
-    WALL
+    WALL,
+    MOVING_OBJECT
   }
 
   EnumMap<ObjectType, QuadTree<QuadTree.HasShape>> quadTrees = new EnumMap<ObjectType, QuadTree<QuadTree.HasShape>>(ObjectType.class);
@@ -42,10 +43,15 @@ public class CollisionController {
    * Unless forced, this will add object to all requested types or to none.
    */
   boolean add(EnumSet<ObjectType> types, QuadTree.HasShape object, boolean force) {
+    assert Assert.validateSerializable(object);
     ObjectType failedType = null;
+    boolean result = true;
     for (ObjectType type : types) {
-      if (!quadTrees.get(type).add(object) && !force) {
-        failedType = type;
+      if (!quadTrees.get(type).add(object)) {
+        result = false;
+        if (!force) {
+          failedType = type;
+        }
       }
     }
     // Reverting the change.
@@ -56,7 +62,7 @@ public class CollisionController {
       }
       return false;
     }
-    return true;
+    return result;
   }
 
   public <T extends QuadTree.HasShape> List<T> fullSearch(EnumSet<ObjectType> types, Shape shape) {
@@ -81,6 +87,16 @@ public class CollisionController {
     boolean result = true;
     for (ObjectType type : types) {
       if (!quadTrees.get(type).remove(object)) {
+        result = false;
+      }
+    }
+    return result;
+  }
+
+  public boolean update(EnumSet<ObjectType> types, QuadTree.HasShape object) {
+    boolean result = true;
+    for (ObjectType type : types) {
+      if (!quadTrees.get(type).update(object)) {
         result = false;
       }
     }

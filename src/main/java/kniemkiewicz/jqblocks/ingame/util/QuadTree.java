@@ -1,12 +1,14 @@
 package kniemkiewicz.jqblocks.ingame.util;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import kniemkiewicz.jqblocks.util.IterableIterator;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -22,7 +24,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
   // leaf may still have more than this number of objects if all them would span multiple sub leafs.
   static final int ITEMS_PER_LEAF = 5;
 
-  public interface HasShape {
+  public interface HasShape extends Serializable {
     Shape getShape();
   }
 
@@ -154,7 +156,9 @@ public class QuadTree<T extends QuadTree.HasShape> {
     float dy = DIFF_Y;
     Rectangle rect = GeometryUtils.getBoundingRectangle(object.getShape());
     while (true) {
-      if (leaf.objects.contains(object)) return false;
+      if (leaf.objects.contains(object)) {
+        return false;
+      }
       if ((leaf.objects.size() + 1 > ITEMS_PER_LEAF) && !leaf.hasSubLeafs) {
         // We didn't split leaf yet, time to do so.
         splitLeaf(leaf, cx, cy);
@@ -162,6 +166,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
       boolean spansSubLeafs = ((rect.getX() < cx) && (cx < rect.getMaxX())) || ((rect.getY() < cy) && (cy < rect.getMaxY()));
       if (spansSubLeafs) {
         leaf.objects.add(object);
+        return true;
       } else {
         // Leaf is still small.
         if (!leaf.hasSubLeafs) {
@@ -388,11 +393,22 @@ public class QuadTree<T extends QuadTree.HasShape> {
         }
         assert false;
       }
+      return false;
     }
   }
 
   public void listAll(List<T> objects) {
     root.listAll(objects);
+  }
+
+  public boolean update(T object) {
+    // TODO: do this faster.
+    if (!remove(object)) {
+      remove(object);
+      return false;
+    }
+    Assert.executeAndAssert(add(object));
+    return true;
   }
 
   // This is only for debug.
