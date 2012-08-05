@@ -27,49 +27,37 @@ public class MovingObjects {
 
   static final EnumSet<CollisionController.ObjectType> OBJECT_TYPE = EnumSet.of(CollisionController.ObjectType.MOVING_OBJECT);
 
-  HashSet<PhysicalObject> objects = new HashSet<PhysicalObject>();
-
   // TODO: It should be known which object can collide with which.
   public boolean addCollidingWithPlayer(PhysicalObject object) {
     Iterator<PhysicalObject> it = this.intersects(object.getShape());
     if (it.hasNext()) {
       if (!(it.next() instanceof Player)) return false;
     }
-    objects.add(object);
     Assert.executeAndAssert(collisionController.add(OBJECT_TYPE, object, true));
     return true;
   }
 
   public boolean add(PhysicalObject object) {
     if (this.intersects(object.getShape()).hasNext()) return false;
-    objects.add(object);
     Assert.executeAndAssert(collisionController.add(OBJECT_TYPE, object, true));
     return true;
   }
 
   public boolean addPickable(PhysicalObject object) {
-    objects.add(object);
     Assert.executeAndAssert(collisionController.add(OBJECT_TYPE, object, true));
     return true;
   }
 
   public IterableIterator<PhysicalObject> intersects(Shape shape) {
-    List<PhysicalObject> treeResult = collisionController.fullSearch(OBJECT_TYPE, shape);
-    List<PhysicalObject> linearResult = new ArrayList<PhysicalObject>();
-    for (PhysicalObject o : new LinearIntersectionIterator<PhysicalObject>(objects.iterator(), shape)) {
-      linearResult.add(o);
-    }
-    assert treeResult.equals(linearResult);
-    return Collections3.getIterable(linearResult.iterator());
+    return Collections3.getIterable(collisionController.<PhysicalObject>fullSearch(OBJECT_TYPE, shape).iterator());
   }
 
   public void remove(PhysicalObject po) {
     Assert.executeAndAssert(collisionController.remove(OBJECT_TYPE, po));
-    objects.remove(po);
   }
 
   public Iterator<PhysicalObject> iterateAll() {
-    return objects.iterator();
+    return collisionController.<PhysicalObject>getAll(OBJECT_TYPE).iterator();
   }
 
   public boolean update(PhysicalObject po) {

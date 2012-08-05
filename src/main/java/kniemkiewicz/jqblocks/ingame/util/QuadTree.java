@@ -7,6 +7,7 @@ import kniemkiewicz.jqblocks.util.GeometryUtils;
 import kniemkiewicz.jqblocks.util.IterableIterator;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.util.OperationNotSupportedException;
 
 import java.io.Serializable;
 import java.util.*;
@@ -37,7 +38,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
     Leaf<T> bottomRight = null;
     boolean hasSubLeafs = false;
 
-    void fillRectangles(List<Rectangle> rectangles, float cx, float cy, float dx, float dy) {
+    final void fillRectangles(List<Rectangle> rectangles, float cx, float cy, float dx, float dy) {
       rectangles.add(new Rectangle(cx - dx * 2, cy - dy * 2, 4 * dx, 4 * dy));
       if (topLeft != null) {
         topLeft.fillRectangles(rectangles, cx - dx, cy - dy, dx / 2, dy / 2);
@@ -53,7 +54,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
       }
     }
 
-    void fillInterestingLeafs(float cx, float cy, float dx, float dy, Shape shape, List<Leaf<T>> results) {
+    final void fillInterestingLeafs(float cx, float cy, float dx, float dy, Shape shape, List<Leaf<T>> results) {
       if (objects.size() > 0) {
         results.add(this);
       }
@@ -81,27 +82,10 @@ public class QuadTree<T extends QuadTree.HasShape> {
         }
       }
     }
-
-    public void listAll(List<T> objects) {
-      objects.addAll(this.objects);
-      if (hasSubLeafs) {
-        if (topLeft != null) {
-          topLeft.listAll(objects);
-        }
-        if (bottomLeft != null) {
-          bottomLeft.listAll(objects);
-        }
-        if (topRight != null) {
-          topRight.listAll(objects);
-        }
-        if (bottomRight != null) {
-          bottomRight.listAll(objects);
-        }
-      }
-    }
   }
 
   Leaf<T> root = new Leaf<T>();
+  Map<T, Leaf<T>> objectLeafMap = new HashMap<T, Leaf<T>>();
 
 
   private static int CENTER_X = (Sizes.MAX_X + Sizes.MIN_X) / 2;
@@ -109,7 +93,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
   private static int DIFF_X = (Sizes.MAX_X - Sizes.MIN_X) / 4;
   private static int DIFF_Y = (Sizes.MAX_Y - Sizes.MIN_Y) / 4;
 
-  void splitLeaf(Leaf<T> leaf, float cx, float cy) {
+  final void splitLeaf(Leaf<T> leaf, float cx, float cy) {
     List<T> oldObjects = leaf.objects;
     leaf.objects = new ArrayList<T>();
     for (T ob : oldObjects) {
@@ -118,28 +102,28 @@ public class QuadTree<T extends QuadTree.HasShape> {
         if (leaf.topLeft == null) {
           leaf.topLeft = new Leaf<T>();
         }
-        leaf.topLeft.objects.add(ob);
+        addToLeafExisting(ob, leaf.topLeft);
         continue;
       }
       if ((rect.getX() >= cx) && (rect.getMaxY() <= cy)) {
         if (leaf.topRight == null) {
           leaf.topRight = new Leaf<T>();
         }
-        leaf.topRight.objects.add(ob);
+        addToLeafExisting(ob, leaf.topRight);
         continue;
       }
       if ((rect.getMaxX() <= cx) && (rect.getY() >= cy)) {
         if (leaf.bottomLeft == null) {
           leaf.bottomLeft = new Leaf<T>();
         }
-        leaf.bottomLeft.objects.add(ob);
+        addToLeafExisting(ob, leaf.bottomLeft);
         continue;
       }
       if ((rect.getX() >= cx) && (rect.getY() >= cy)) {
         if (leaf.bottomRight == null) {
           leaf.bottomRight = new Leaf<T>();
         }
-        leaf.bottomRight.objects.add(ob);
+        addToLeafExisting(ob, leaf.bottomRight);
         continue;
       }
       // It has to span subleafs.
@@ -148,7 +132,19 @@ public class QuadTree<T extends QuadTree.HasShape> {
     leaf.hasSubLeafs = true;
   }
 
-  public boolean add(T object) {
+  public final void addToLeaf(T object, Leaf<T> leaf) {
+    leaf.objects.add(object);
+    assert !objectLeafMap.containsKey(object);
+    objectLeafMap.put(object, leaf);
+  }
+
+  public final void addToLeafExisting(T object, Leaf<T> leaf) {
+    leaf.objects.add(object);
+    assert objectLeafMap.containsKey(object);
+    objectLeafMap.put(object, leaf);
+  }
+
+  public final boolean add(T object) {
     Leaf<T> leaf = root;
     float cx = CENTER_X;
     float cy = CENTER_Y;
@@ -165,12 +161,12 @@ public class QuadTree<T extends QuadTree.HasShape> {
       }
       boolean spansSubLeafs = ((rect.getX() < cx) && (cx < rect.getMaxX())) || ((rect.getY() < cy) && (cy < rect.getMaxY()));
       if (spansSubLeafs) {
-        leaf.objects.add(object);
+        addToLeaf(object, leaf);
         return true;
       } else {
         // Leaf is still small.
         if (!leaf.hasSubLeafs) {
-          leaf.objects.add(object);
+          addToLeaf(object, leaf);
           return true;
         }
         if ((rect.getMaxX() <= cx) && (rect.getMaxY() <= cy)) {
@@ -222,7 +218,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
     }
   }
 
-  public List<T> fullSearch(Shape shape, List<T> objects) {
+  public final List<T> fullSearch(Shape shape, List<T> objects) {
     List<Leaf<T>> leafs = new ArrayList<Leaf<T>>();
     root.fillInterestingLeafs(CENTER_X, CENTER_Y, DIFF_X, DIFF_Y, shape, leafs);
     for (Leaf<T> leaf : leafs) {
@@ -235,7 +231,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
     return objects;
   }
 
-  public IterableIterator<T> intersects(final Shape shape) {
+  public final IterableIterator<T> intersects(final Shape shape) {
     final List<Leaf<T>> leafs = new ArrayList<Leaf<T>>();
     root.fillInterestingLeafs(CENTER_X, CENTER_Y, DIFF_X, DIFF_Y, shape, leafs);
     if (leafs.size() == 0) return Collections3.getIterable(Collections.<T>emptyList().iterator());
@@ -279,12 +275,12 @@ public class QuadTree<T extends QuadTree.HasShape> {
 
       @Override
       public void remove() {
-        objectIterator.remove();
+        assert false;
       }
     };
   }
 
-  public IterableIterator<T> intersectsUnique(final Shape shape) {
+  public final IterableIterator<T> intersectsUnique(final Shape shape) {
     final List<Leaf<T>> leafs = new ArrayList<Leaf<T>>();
     root.fillInterestingLeafs(CENTER_X, CENTER_Y, DIFF_X, DIFF_Y, shape, leafs);
     if (leafs.size() == 0) return Collections3.getIterable(Collections.<T>emptyList().iterator());
@@ -314,13 +310,13 @@ public class QuadTree<T extends QuadTree.HasShape> {
         }
       }
       @Override
-      public boolean hasNext() {
+      public final boolean hasNext() {
         update();
         return !finished;
       }
 
       @Override
-      public T next() {
+      public final T next() {
         update();
         T ob = object;
         returnedObjects.add(ob);
@@ -329,82 +325,28 @@ public class QuadTree<T extends QuadTree.HasShape> {
       }
 
       @Override
-      public void remove() {
-        objectIterator.remove();
+      public final void remove() {
+        assert false;
       }
     };
   }
 
 
-  public boolean remove(T object) {
-    Leaf<T> leaf = root;
-    float cx = CENTER_X;
-    float cy = CENTER_Y;
-    float dx = DIFF_X;
-    float dy = DIFF_Y;
-    Rectangle rect = GeometryUtils.getBoundingRectangle(object.getShape());
-    while (true) {
-      if (leaf.objects.remove(object)) return true;
-      boolean spansSubLeafs = ((rect.getX() < cx) && (cx < rect.getMaxX())) || ((rect.getY() < cy) && (cy < rect.getMaxY()));
-      if (!spansSubLeafs) {
-        if ((rect.getMaxX() <= cx) && (rect.getMaxY() <= cy)) {
-          if (leaf.topLeft == null) {
-            return false;
-          }
-          leaf = leaf.topLeft;
-          cx -= dx;
-          cy -= dy;
-          dx /= 2;
-          dy /= 2;
-          continue;
-        }
-        if ((rect.getX() >= cx) && (rect.getMaxY() <= cy)) {
-          if (leaf.topRight == null) {
-            return false;
-          }
-          leaf = leaf.topRight;
-          cx += dx;
-          cy -= dy;
-          dx /= 2;
-          dy /= 2;
-          continue;
-        }
-        if ((rect.getMaxX() <= cx) && (rect.getY() >= cy)) {
-          if (leaf.bottomLeft == null) {
-            return false;
-          }
-          leaf = leaf.bottomLeft;
-          cx -= dx;
-          cy += dy;
-          dx /= 2;
-          dy /= 2;
-          continue;
-        }
-        if ((rect.getX() >= cx) && (rect.getY() >= cy)) {
-          if (leaf.bottomRight == null) {
-            return false;
-          }
-          leaf = leaf.bottomRight;
-          cx += dx;
-          cy += dy;
-          dx /= 2;
-          dy /= 2;
-          continue;
-        }
-        assert false;
-      }
+  public final boolean remove(T object) {
+    if (!objectLeafMap.containsKey(object)) {
       return false;
     }
+    assert objectLeafMap.get(object).objects.remove(object);
+    objectLeafMap.remove(object);
+    return true;
   }
 
-  public void listAll(List<T> objects) {
-    root.listAll(objects);
+  public final void listAll(List<T> objects) {
+    objects.addAll(objectLeafMap.keySet());
   }
 
-  public boolean update(T object) {
-    // TODO: do this faster.
+  public final boolean update(T object) {
     if (!remove(object)) {
-      remove(object);
       return false;
     }
     Assert.executeAndAssert(add(object));
@@ -412,7 +354,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
   }
 
   // This is only for debug.
-  public List<Rectangle> getRects() {
+  public final List<Rectangle> getRects() {
     List<Rectangle> rectangles = new ArrayList<Rectangle>();
     root.fillRectangles(rectangles, CENTER_X, CENTER_Y, DIFF_X, DIFF_Y);
     return rectangles;
