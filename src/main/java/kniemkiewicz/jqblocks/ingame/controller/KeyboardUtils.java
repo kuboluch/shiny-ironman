@@ -42,6 +42,14 @@ public class KeyboardUtils {
     return (input.isKeyDown(Input.KEY_LSHIFT));
   }
 
+  public static boolean isConstructMenuKeyPressed(Input input) {
+    return (input.isKeyDown(Input.KEY_C));
+  }
+
+  public static boolean isConstructMenuKeyReleased(Input input) {
+    return (input.isKeyPressed(Input.KEY_C));
+  }
+
   public static boolean isDebugDisplayKeyPressed(Input input) {
     return (input.isKeyDown(Input.KEY_P));
   }

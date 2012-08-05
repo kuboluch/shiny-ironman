@@ -2,7 +2,7 @@ package kniemkiewicz.jqblocks.ingame;
 
 import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.block.EndOfTheWorldWall;
-import kniemkiewicz.jqblocks.ingame.ui.TimingInfo;
+import kniemkiewicz.jqblocks.ingame.ui.info.TimingInfo;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.IterableIterator;
