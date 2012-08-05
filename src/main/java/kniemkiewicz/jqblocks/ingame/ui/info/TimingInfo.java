@@ -5,6 +5,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +18,14 @@ import java.util.Map;
 public class TimingInfo implements Renderable {
 
   public static String RENDER_TIMER = "render";
+  public static TimingInfo CURRENT_TIMING_INFO = null;
 
+  @PostConstruct
+  void init() {
+    CURRENT_TIMING_INFO = this;
+  }
+
+  //TODO: fix both classes to check time only on render.
   public static class Timer {
     long startTime = 0;
     long displayTime = 0;
@@ -30,11 +38,11 @@ public class TimingInfo implements Renderable {
       reset();
     }
 
-    public void reset() {
+    public final void reset() {
       startTime = nanoToMicro(System.nanoTime());
     }
 
-    public long nanoToMicro(long nano) {
+    public final long nanoToMicro(long nano) {
       if (nano < 0) {
         return nano / 1000 - 1;
       } else {
@@ -42,7 +50,7 @@ public class TimingInfo implements Renderable {
       }
     }
 
-    public void record() {
+    public final void record() {
       long current = nanoToMicro(System.nanoTime());
       currentSum += current - startTime;
       currentCount++;
@@ -56,22 +64,49 @@ public class TimingInfo implements Renderable {
     }
   }
 
-  Map<String, Timer> timers = new HashMap<String, Timer>();
+  public static class IntCounter {
+    long displayCount = 0;
+    long displayValue = 0;
+    long lastUpdate = 0;
+    long currentSum = 0;
+    long currentCount = 0;
 
-  public Timer getTimer(String name) {
-    Timer t;
-    if (!timers.containsKey(name))  {
-       t = new Timer();
-       timers.put(name, t);
-    } else {
-      t = timers.get(name);
-      t.reset();
+    public final void record(int value) {
+      currentSum += value;
+      currentCount++;
+      long current = System.currentTimeMillis();
+      if (current - lastUpdate > 1000) {
+        displayCount = currentSum;
+        displayValue = currentCount / displayCount;
+        currentSum = 0;
+        currentCount = 0;
+        lastUpdate = current;
+      }
     }
+  }
+
+
+  Map<String, Timer> timers = new HashMap<String, Timer>();
+  Map<String, IntCounter> counters = new HashMap<String, IntCounter>();
+
+  public final Timer getTimer(String name) {
+    if (!timers.containsKey(name))  {
+       timers.put(name, new Timer());
+    }
+    Timer t = timers.get(name);
+    t.reset();
     return t;
   }
 
+  public final IntCounter getCounter(String name) {
+    if (!counters.containsKey(name)) {
+      counters.put(name, new IntCounter());
+    }
+    return counters.get(name);
+  }
+
   @Override
-  public void render(Graphics g) {
+  public final void render(Graphics g) {
     int y = 65;
     g.setColor(Color.white);
     if (!timers.containsKey(RENDER_TIMER)) return;
@@ -79,6 +114,10 @@ public class TimingInfo implements Renderable {
     if (frameCount == 0) return;
     for (String name : timers.keySet()) {
       g.drawString(name + " : " + Math.round(timers.get(name).displayCount  / frameCount) + "x" + timers.get(name).displayTime, 4, y);
+      y += 14;
+    }
+    for (String name : counters.keySet()) {
+      g.drawString(name + " : " + Math.round(counters.get(name).displayCount  / frameCount) + "x" + counters.get(name).displayValue, 4, y);
       y += 14;
     }
   }
