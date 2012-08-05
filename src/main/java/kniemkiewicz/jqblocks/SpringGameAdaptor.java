@@ -27,6 +27,6 @@ public class SpringGameAdaptor extends TWLStateBasedGame {
 
   @Override
   protected URL getThemeURL() {
-    return SpringGameAdaptor.class.getResource("/ui/theme.xml");
+    return SpringGameAdaptor.class.getResource("/ui/default/simple.xml");
   }
 }

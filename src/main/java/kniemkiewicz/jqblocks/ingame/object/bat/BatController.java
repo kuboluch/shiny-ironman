@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
+import kniemkiewicz.jqblocks.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,7 @@ public class BatController implements UpdateQueue.UpdateController<Bat>{
       bat.xMovement.setSpeed(- bat.xMovement.getSpeed());
       bat.rectangle.setX(bat.xMovement.getPos());
     }
+    Assert.executeAndAssert(movingObjects.update(bat));
   }
 
   public boolean hits(Bat bat) {

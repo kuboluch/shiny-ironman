@@ -1,4 +1,4 @@
-package kniemkiewicz.jqblocks.ingame.ui;
+package kniemkiewicz.jqblocks.ingame.ui.info;
 
 import kniemkiewicz.jqblocks.ingame.PlayerResourceController;
 import kniemkiewicz.jqblocks.ingame.Renderable;

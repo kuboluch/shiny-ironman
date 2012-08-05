@@ -1,5 +1,7 @@
 package kniemkiewicz.jqblocks;
 
+import de.matthiasmann.twl.Button;
+import de.matthiasmann.twl.ResizableFrame;
 import kniemkiewicz.jqblocks.ingame.MainGameState;
 import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.controller.SaveGameListener;
@@ -51,7 +53,7 @@ public class SpringGameStateAdaptor extends BasicTWLGameState implements Applica
     BeanFactory gameBeanFactory = null;
     // This a fix for some stupid idea-spring conflict on Linux
     while (gameBeanFactory == null) {
-      try{
+      try {
         gameBeanFactory = new ClassPathXmlApplicationContext(new String[]{gameContextPath}, true, mainBeanFactory);
       } catch (BeanDefinitionStoreException e) {
         logger.error("???", e);
@@ -93,5 +95,11 @@ public class SpringGameStateAdaptor extends BasicTWLGameState implements Applica
   @Override
   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
     this.mainBeanFactory = applicationContext;
+  }
+
+  @Override
+  protected void createRootPane() {
+    gameState.createRootPane();
+    rootPane = gameState.getRootPane();
   }
 }
