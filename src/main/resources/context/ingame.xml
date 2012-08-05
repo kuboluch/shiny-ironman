@@ -10,6 +10,7 @@
   <context:annotation-config />
   <context:component-scan base-package="kniemkiewicz.jqblocks.ingame"/>
   <import resource="images.xml"/>
+  <import resource="workplace.xml"/>
 
   <bean id="springBeanProvider" class="kniemkiewicz.jqblocks.util.SpringBeanProvider"/>
 </beans>

@@ -9,7 +9,7 @@ import kniemkiewicz.jqblocks.util.BeanName;
  * User: knie
  * Date: 7/30/12
  */
-public class Fireplace extends AbstractBackgroundElement<Fireplace>{
+public class Fireplace extends AbstractBackgroundElement<Fireplace> {
 
   public static final int WIDTH = Sizes.BLOCK * 4;
   public static final int HEIGHT = Sizes.BLOCK * 3;

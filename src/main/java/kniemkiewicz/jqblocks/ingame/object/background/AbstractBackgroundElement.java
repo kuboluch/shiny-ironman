@@ -16,8 +16,8 @@ public abstract class AbstractBackgroundElement<T extends AbstractBackgroundElem
   int height;
   protected Rectangle shape;
 
-  protected AbstractBackgroundElement(int x, int y, int width, int height) {
-   this.x =  Sizes.roundToBlockSizeX(x);
+  public AbstractBackgroundElement(int x, int y, int width, int height) {
+    this.x =  Sizes.roundToBlockSizeX(x);
     this.y = Sizes.roundToBlockSizeY(y);
     this.width =  Sizes.roundToBlockSize(width);
     this.height = Sizes.roundToBlockSize(height);

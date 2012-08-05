@@ -1,10 +1,14 @@
 package kniemkiewicz.jqblocks.util;
 
+import java.io.Serializable;
+
 /**
 * User: knie
 * Date: 7/29/12
 */
-public final class BeanName<T> {
+public final class BeanName<T> implements Serializable {
+
+
   Class<? extends T> clazz;
   String name;
 
@@ -17,6 +21,14 @@ public final class BeanName<T> {
     assert clazz != null;
     this.clazz = clazz;
     this.name = name;
+  }
+
+  public Class<? extends T> getClazz() {
+    return clazz;
+  }
+
+  public String getName() {
+    return name;
   }
 
   @Override
@@ -38,4 +50,6 @@ public final class BeanName<T> {
     result = 31 * result + (name != null ? name.hashCode() : 0);
     return result;
   }
+
+
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+                        http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                        http://www.springframework.org/schema/util
+                        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+    <bean id="structureConstroller" class="kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController">
+        <constructor-arg>
+            <list>
+                <ref bean="fireplace"/>
+                <ref bean="fireplace2"/>
+                <ref bean="fireplace3"/>
+                <!--<ref bean="fireplace4"/>
+                <ref bean="fireplace5"/>-->
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="fireplace" class="kniemkiewicz.jqblocks.ingame.workplace.Workplace">
+        <constructor-arg index="0" value="fireplace"/>
+        <constructor-arg index="1" ref="fireplaceRenderer"/>
+        <constructor-arg index="2" value="4"/>
+        <constructor-arg index="3" value="3"/>
+    </bean>
+
+    <bean id="fireplace2" parent="fireplace"/>
+    <bean id="fireplace3" parent="fireplace"/>
+    <bean id="fireplace4" parent="fireplace"/>
+    <bean id="fireplace5" parent="fireplace"/>
+
+</beans>

@@ -913,6 +913,17 @@
         <param name="hasResizeHandle"><bool>true</bool></param>
     </theme>
 
+    <theme name="workplacepanel-title" ref="resizableframe-title" allowWildcard="true"/>
+    <theme name="workplacepanel" ref="resizableframe" allowWildcard="true"/>
+
+    <theme name="workplaceitem" ref="-defaults" allowWildcard="true">
+        <param name="background"><image>-borderA</image></param>
+        <param name="border"><border>background.border</border></param>
+        <param name="icons"><map>
+            <param name=""><image>icon.*</image></param>
+        </map></param>
+    </theme>
+
     <fontDef name="popupmenu-button" filename="font.fnt" color="black">
         <fontParam if="hover | armed" color="white"/>
     </fontDef>
