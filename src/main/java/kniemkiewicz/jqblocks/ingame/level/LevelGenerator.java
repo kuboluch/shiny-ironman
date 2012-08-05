@@ -27,6 +27,9 @@ public class LevelGenerator {
   @Autowired
   VillageGenerator villageGenerator;
 
+  @Autowired
+  UndergroundGenerator undergroundGenerator;
+
   Random random = new Random();
 
   public void generate() {
@@ -35,6 +38,8 @@ public class LevelGenerator {
     Out<Integer> villageY = new Out<Integer>();
     int[] heights = surfaceGenerator.generate(random, villageY);
     t.logTimeAndRestart("surface generation");
+    undergroundGenerator.generateRock(random);
+    t.logTimeAndRestart("underground generation");
     villageGenerator.generateVillage(villageY.get());
     t.logTimeAndRestart("village generation");
     objectGenerator.generateTrees(random, heights);

@@ -9,6 +9,7 @@ import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundFactory;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
+import kniemkiewicz.jqblocks.ingame.object.block.RockBlock;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.geom.Rectangle;
@@ -51,6 +52,7 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
   @Override
   void startAction(PickaxeItem item) {
     AbstractBlock block = getAffectedBlock();
+    if (block instanceof RockBlock) return;
     blockEndurance = block.getEndurance();
     digEffect = new DigEffect(blockEndurance, affectedRectangle);
     renderQueue.add(digEffect);

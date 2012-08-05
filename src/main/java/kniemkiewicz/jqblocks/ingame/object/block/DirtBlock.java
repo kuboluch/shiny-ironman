@@ -151,8 +151,4 @@ public class DirtBlock extends AbstractBlock<DirtBlock> {
       }
     }
   }
-
-  public void removeRect(Rectangle rect, SolidBlocks blocks) {
-    super.removeRect(rect, blocks);
-  }
 }

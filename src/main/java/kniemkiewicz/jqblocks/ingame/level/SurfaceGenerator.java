@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.object.block.DirtBlock;
+import kniemkiewicz.jqblocks.ingame.object.block.RockBlock;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.Out;
 import kniemkiewicz.jqblocks.util.TimeLog;

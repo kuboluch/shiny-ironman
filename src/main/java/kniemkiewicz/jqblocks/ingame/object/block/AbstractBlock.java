@@ -65,14 +65,16 @@ public abstract class AbstractBlock<T extends AbstractBlock> implements Renderab
     return shape;
   }
 
-  public void removeRect(Rectangle rect, SolidBlocks blocks) {
+  // Returns a rectangle that was actually removed or null if block remains unchanged.
+  public Rectangle removeRect(Rectangle rect, SolidBlocks blocks) {
+    int rectMinY = Math.max(Sizes.roundToBlockSizeY(rect.getMinY()), y);
+    int rectMaxY = Math.min(Sizes.roundToBlockSizeY(rect.getMaxY()), y + height);
+    int rectMinX = Math.max(Sizes.roundToBlockSizeX(rect.getMinX()), x);
+    int rectMaxX = Math.min(Sizes.roundToBlockSizeX(rect.getMaxX()), x + width);
+    if ((rectMinY == rectMaxY) || (rectMinX == rectMaxX)) return null;
     blocks.remove(this);
     // We have to check this after removing the block itself.
     assert !blocks.intersects(this.getShape()).hasNext();
-    int rectMinY = Sizes.roundToBlockSizeY(rect.getMinY());
-    int rectMaxY = Sizes.roundToBlockSizeY(rect.getMaxY());
-    int rectMinX = Sizes.roundToBlockSizeX(rect.getMinX());
-    int rectMaxX = Sizes.roundToBlockSizeX(rect.getMaxX());
     if (y < rectMinY) {
       Assert.executeAndAssert(blocks.add(getSubBlock(this, x, y, width, rectMinY - y)));
     }
@@ -85,6 +87,7 @@ public abstract class AbstractBlock<T extends AbstractBlock> implements Renderab
     if (y + height > rectMaxY) {
       Assert.executeAndAssert(blocks.add(getSubBlock(this, x, rectMaxY, width, y + height - rectMaxY)));
     }
+    return new Rectangle(rectMinX, rectMinY, rectMaxX - rectMinX, rectMaxY - rectMinY);
   }
 
 
