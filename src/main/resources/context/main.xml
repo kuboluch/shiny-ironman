@@ -9,5 +9,6 @@
 
   <context:annotation-config />
   <bean id="springGameAdaptor" class="kniemkiewicz.jqblocks.SpringGameAdaptor"/>
+  <bean id="mainGameState" class="kniemkiewicz.jqblocks.SpringGameStateAdaptor"/>
   <bean id="configuration" class="kniemkiewicz.jqblocks.Configuration"/>
 </beans>

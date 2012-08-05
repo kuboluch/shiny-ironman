@@ -12,6 +12,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.test.skip>true</maven.test.skip>
         <spring.version>3.0.3.RELEASE</spring.version>
+        <lwjgl.version>2.8.4</lwjgl.version>
+        <slick.version>274</slick.version>
+        <natives.version>0.0.6</natives.version>
     </properties>
     <build>
         <finalName>JQBlocks</finalName>
@@ -69,6 +72,21 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>com.googlecode.mavennatives</groupId>
+                <artifactId>maven-nativedependencies-plugin</artifactId>
+                <version>${natives.version}</version>
+                <executions>
+                    <execution>
+                        <id>unpacknatives</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <!--suppress MavenModelInspection (this line is for IDEA)-->
+                            <goal>copy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <dependencies>
@@ -96,12 +114,13 @@
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.1</version>
-        </dependency>            <!--
-        <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-utils</artifactId>
-            <version>1.1</version>
-        </dependency>                -->
+        </dependency>
+        <!--
+<dependency>
+<groupId>org.codehaus.plexus</groupId>
+<artifactId>plexus-utils</artifactId>
+<version>1.1</version>
+</dependency>                -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -127,9 +146,30 @@
         </dependency>
 
         <dependency>
+            <groupId>org.lwjgl.lwjgl</groupId>
+            <artifactId>lwjgl</artifactId>
+            <version>${lwjgl.version}</version>
+        </dependency>
+        <dependency>
             <groupId>slick</groupId>
             <artifactId>slick</artifactId>
-            <version>274</version>
+            <version>${slick.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>twl</groupId>
+            <artifactId>twl</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>twl</groupId>
+            <artifactId>twl-effects</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>xpp3</groupId>
+            <artifactId>xpp3</artifactId>
+            <version>1.1.4c</version>
         </dependency>
     </dependencies>
     <repositories>
@@ -143,6 +183,11 @@
         <pluginRepository>
             <id>onejar-maven-plugin.googlecode.com</id>
             <url>http://onejar-maven-plugin.googlecode.com/svn/mavenrepo</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>mavenNatives</id>
+            <name>Maven Natives Repository</name>
+            <url>http://mavennatives.googlecode.com/svn/repo</url>
         </pluginRepository>
     </pluginRepositories>
 </project>

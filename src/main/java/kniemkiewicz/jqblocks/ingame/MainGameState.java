@@ -3,21 +3,23 @@ package kniemkiewicz.jqblocks.ingame;
 import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.controller.InventoryController;
 import kniemkiewicz.jqblocks.ingame.controller.SaveGameListener;
+import kniemkiewicz.jqblocks.ingame.controller.UIController;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseInputEventBus;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
 import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventoryController;
-import kniemkiewicz.jqblocks.ingame.ui.MouseInputInfo;
-import kniemkiewicz.jqblocks.ingame.ui.ResourceInfo;
-import kniemkiewicz.jqblocks.ingame.ui.TimingInfo;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.newdawn.slick.BasicGame;
+import kniemkiewicz.jqblocks.ingame.ui.MainGameUI;
+import kniemkiewicz.jqblocks.ingame.ui.info.MouseInputInfo;
+import kniemkiewicz.jqblocks.ingame.ui.info.ResourceInfo;
+import kniemkiewicz.jqblocks.ingame.ui.info.TimingInfo;
+import kniemkiewicz.jqblocks.twl.BasicTWLGameState;
+import kniemkiewicz.jqblocks.twl.RootPane;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,24 +27,14 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * User: krzysiek
- * Date: 08.07.12
- */
 @Component
-public class Game extends BasicGame {
-
-  private static final Log logger = LogFactory.getLog(Game.class);
+public class MainGameState extends BasicTWLGameState {
 
   public static class Settings {
     // If not null, level will be generated using it. Otherwise some pseudorandom seed is chosen.
     public Long seed = null;
     // If not null, level will be loaded from this stream. Otherwise it will be generated randomly.
     public ObjectInputStream savegame = null;
-  }
-
-  public Game() {
-    super("");
   }
 
   @Autowired
@@ -91,6 +83,9 @@ public class Game extends BasicGame {
   CollisionController collisionController;
 
   @Autowired
+  UIController uiController;
+
+  @Autowired
   World world;
 
   private Settings settings;
@@ -104,7 +99,12 @@ public class Game extends BasicGame {
   List<InputListener> inputListeners = new ArrayList<InputListener>();
 
   @Override
-  public void init(GameContainer gameContainer) throws SlickException {
+  public int getID() {
+    return 0;
+  }
+
+  @Override
+  public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
     // setSettings should be called first.
     assert settings != null;
     inputContainer.setInput(gameContainer.getInput());
@@ -114,7 +114,7 @@ public class Game extends BasicGame {
     inputListeners.add(saveGameListener);
     inputListeners.add(inventoryController);
     inputListeners.add(resourceInventoryController);
-    gameContainer.getInput().addMouseListener(mouseInputEventBus);
+    inputListeners.add(uiController);
     eventBus.addListener(mouseInputInfo);
     eventBus.addListener(inventoryController);
     eventBus.addListener(resourceInventoryController);
@@ -133,7 +133,14 @@ public class Game extends BasicGame {
   }
 
   @Override
-  public void update(GameContainer gameContainer, int delta) throws SlickException {
+  public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
+    TimingInfo.Timer t = timingInfo.getTimer(TimingInfo.RENDER_TIMER);
+    renderQueue.render(graphics);
+    t.record();
+  }
+
+  @Override
+  public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
     // This happens mostly with breakpoints and generally breaks physics.
     if (delta > 100) return;
     TimingInfo.Timer t = timingInfo.getTimer("update");
@@ -146,9 +153,55 @@ public class Game extends BasicGame {
     t.record();
   }
 
-  public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-    TimingInfo.Timer t = timingInfo.getTimer(TimingInfo.RENDER_TIMER);
-    renderQueue.render(graphics);
-    t.record();
+  /* Event handling */
+
+  @Override
+  public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+    mouseInputEventBus.mouseMoved(oldx, oldy, newx, newy);
+  }
+
+  @Override
+  public void mouseWheelMoved(int newValue) {
+    mouseInputEventBus.mouseWheelMoved(newValue);
+  }
+
+  @Override
+  public void mouseDragged(int oldx, int oldy, int newx, int newy) {
+    mouseInputEventBus.mouseDragged(oldx, oldy, newx, newy);
+  }
+
+  @Override
+  public void mouseClicked(int button, int x, int y, int clickCount) {
+    mouseInputEventBus.mouseClicked(button, x, y, clickCount);
+  }
+
+  @Override
+  public void mousePressed(int button, int x, int y) {
+    mouseInputEventBus.mousePressed(button, x, y);
+  }
+
+  @Override
+  public void mouseReleased(int button, int x, int y) {
+    mouseInputEventBus.mouseReleased(button, x, y);
+  }
+
+  /* UI */
+
+  @Autowired
+  MainGameUI ui;
+
+  @Override
+  public void createRootPane() {
+    super.createRootPane();
+    ui.createUI(rootPane);
+  }
+
+  public RootPane getRootPane() {
+    return rootPane;
+  }
+
+  @Override
+  protected void layoutRootPane() {
+    ui.layoutUI();
   }
 }
