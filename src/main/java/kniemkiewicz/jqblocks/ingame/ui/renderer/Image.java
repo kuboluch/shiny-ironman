@@ -14,6 +14,7 @@ import javax.annotation.PostConstruct;
  */
 public class Image implements de.matthiasmann.twl.renderer.Image {
 
+  @SuppressWarnings({"SpringJavaAutowiringInspection"})
   @Autowired
   GUI gui;
 
