@@ -11,22 +11,22 @@ import java.net.URL;
  * User: krzysiek
  * Date: 07.07.12
  */
-public class SpringGameAdaptor extends TWLStateBasedGame {
+public class Game extends TWLStateBasedGame {
 
   @Autowired
-  SpringGameStateAdaptor mainGameState;
+  SpringMainGameStateAdaptor gameState;
 
-  public SpringGameAdaptor() {
+  public Game() {
     super("JPioneer");
   }
 
   @Override
   public void initStatesList(GameContainer gameContainer) throws SlickException {
-    addState(mainGameState);
+    addState(gameState);
   }
 
   @Override
   protected URL getThemeURL() {
-    return SpringGameAdaptor.class.getResource("/ui/default/simple.xml");
+    return Game.class.getResource("/ui/default/simple.xml");
   }
 }

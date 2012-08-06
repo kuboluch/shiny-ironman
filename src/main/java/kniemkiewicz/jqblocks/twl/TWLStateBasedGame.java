@@ -47,13 +47,13 @@ import org.newdawn.slick.state.transition.Transition;
 
 /**
  * A StateBaseGame subclass with support for a TWL Ui per state.
- * 
+ *
  * @author Matthias Mann
  */
 public abstract class TWLStateBasedGame extends StateBasedGame {
 
     private final Widget emptyRootWidget;
-    
+
     private GUI gui;
     private boolean guiInitialized;
 
@@ -67,9 +67,14 @@ public abstract class TWLStateBasedGame extends StateBasedGame {
     /**
      * Adds a new game state
      * @param state the game state
-     * @see StateBasedGame#addState(org.newdawn.slick.state.GameState) 
+     * @see StateBasedGame#addState(org.newdawn.slick.state.GameState)
      */
-    public void addState(BasicTWLGameState state) {
+    public void addState(BasicTWLGameState state) throws SlickException {
+        if(!guiInitialized) {
+            guiInitialized = true;
+            initGUI();
+        }
+        state.setGui(gui);
         super.addState(state);
     }
 
@@ -77,9 +82,9 @@ public abstract class TWLStateBasedGame extends StateBasedGame {
      * Adds a new game state.
      *
      * This method is overriden to ensure that only instances of BasicTWLGameState are added.
-     * 
+     *
      * @param state the game state. Must be an instance of BasicTWLGameState
-     * @see StateBasedGame#addState(org.newdawn.slick.state.GameState) 
+     * @see StateBasedGame#addState(org.newdawn.slick.state.GameState)
      */
     @Override
     public void addState(GameState state) {
@@ -91,7 +96,7 @@ public abstract class TWLStateBasedGame extends StateBasedGame {
 
     /**
      * Implement this method and return the URL for the TWL theme.
-     * 
+     *
      * @return the URL for the TWL theme. Must not be null.
      */
     protected abstract URL getThemeURL();
@@ -120,10 +125,6 @@ public abstract class TWLStateBasedGame extends StateBasedGame {
     }
 
     protected void setRootPane(RootPane rootPane) throws SlickException {
-        if(!guiInitialized) {
-            guiInitialized = true;
-            initGUI();
-        }
         if(gui != null) {
             gui.setRootPane(rootPane);
         }

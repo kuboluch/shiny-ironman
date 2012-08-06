@@ -8,7 +8,7 @@
                         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
   <context:annotation-config />
-  <bean id="springGameAdaptor" class="kniemkiewicz.jqblocks.SpringGameAdaptor"/>
-  <bean id="mainGameState" class="kniemkiewicz.jqblocks.SpringGameStateAdaptor"/>
+  <bean id="game" class="kniemkiewicz.jqblocks.Game"/>
+  <bean id="gameState" class="kniemkiewicz.jqblocks.SpringMainGameStateAdaptor"/>
   <bean id="configuration" class="kniemkiewicz.jqblocks.Configuration"/>
 </beans>

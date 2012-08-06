@@ -3,8 +3,8 @@ package kniemkiewicz.jqblocks.ingame.workplace;
 import kniemkiewicz.jqblocks.ingame.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
+import kniemkiewicz.jqblocks.ingame.ui.renderer.Image;
 import kniemkiewicz.jqblocks.util.BeanName;
-import org.newdawn.slick.*;
 
 /**
  * User: qba
@@ -15,20 +15,22 @@ public class Workplace {
   private int blockWidth;
   private int blockHeight;
   private ImageRenderer renderer;
+  private Image uiImage;
 
-  public Workplace(String name, ImageRenderer renderer, int blockWidth, int blockHeight) {
+  public Workplace(String name, int blockWidth, int blockHeight, ImageRenderer renderer, Image uiImage) {
     this.name = name;
-    this.renderer = renderer;
     this.blockWidth = blockWidth;
     this.blockHeight = blockHeight;
+    this.renderer = renderer;
+    this.uiImage = uiImage;
   }
 
   public String getName() {
     return name;
   }
 
-  public Image getIcon() {
-    return renderer.getImage();
+  public Image getUIImage() {
+    return uiImage;
   }
 
   public WorkplaceBackgroundElement getPlaceableObject(int x, int y) {

@@ -1,4 +1,4 @@
-package kniemkiewicz.jqblocks.ingame.ui.structure;
+package kniemkiewicz.jqblocks.ingame.ui.workplace;
 
 import de.matthiasmann.twl.ResizableFrame;
 import kniemkiewicz.jqblocks.ingame.workplace.Workplace;
@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorkplacePanel extends ResizableFrame {
-  private static final int numItemsY = 5;
-  private static final int margin = 1;
+  private static final int margin = 2;
 
   WorkplaceController workplaceController;
   List<WorkplaceItem> workplaceItems = new ArrayList<WorkplaceItem>();
@@ -40,9 +39,9 @@ public class WorkplacePanel extends ResizableFrame {
   protected void layout() {
     int itemHeight = workplaceItems.get(0).getPreferredHeight();
 
-    for (int row = 0, y = getInnerY(), i = 0; row < numItemsY; row++) {
-      //workplaceItems.get(i).adjustSize();
-      workplaceItems.get(i).setPosition(getInnerX(), y);
+    for (int row = 0, y = getInnerY(); row < workplaceItems.size(); row++) {
+      workplaceItems.get(row).adjustSize();
+      workplaceItems.get(row).setPosition(getInnerX(), y);
       y += itemHeight + margin;
     }
   }

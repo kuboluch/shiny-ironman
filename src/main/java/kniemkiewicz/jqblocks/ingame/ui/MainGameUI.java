@@ -1,7 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.ui;
 
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
-import kniemkiewicz.jqblocks.ingame.ui.structure.WorkplacePanel;
+import kniemkiewicz.jqblocks.ingame.ui.workplace.WorkplacePanel;
 import kniemkiewicz.jqblocks.twl.RootPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

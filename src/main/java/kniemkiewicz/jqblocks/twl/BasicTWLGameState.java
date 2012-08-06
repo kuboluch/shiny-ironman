@@ -30,6 +30,7 @@
 package kniemkiewicz.jqblocks.twl;
 
 import de.matthiasmann.twl.ActionMap;
+import de.matthiasmann.twl.GUI;
 import de.matthiasmann.twl.Widget;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -43,7 +44,13 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public abstract class BasicTWLGameState extends BasicGameState {
 
+    protected GUI gui;
+
     protected RootPane rootPane;
+
+    public void setGui(GUI gui) {
+      this.gui = gui;
+    }
 
     /**
      * Installs the rootPane of this state as the active root pane.

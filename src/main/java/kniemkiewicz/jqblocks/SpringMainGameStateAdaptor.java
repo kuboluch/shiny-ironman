@@ -1,7 +1,5 @@
 package kniemkiewicz.jqblocks;
 
-import de.matthiasmann.twl.Button;
-import de.matthiasmann.twl.ResizableFrame;
 import kniemkiewicz.jqblocks.ingame.MainGameState;
 import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.controller.SaveGameListener;
@@ -11,7 +9,6 @@ import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
@@ -19,15 +16,16 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.StaticApplicationContext;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-public class SpringGameStateAdaptor extends BasicTWLGameState implements ApplicationContextAware {
+public class SpringMainGameStateAdaptor extends BasicTWLGameState implements ApplicationContextAware {
 
-  private static final Log logger = LogFactory.getLog(SpringGameStateAdaptor.class);
+  private static final Log logger = LogFactory.getLog(SpringMainGameStateAdaptor.class);
 
   public static final String gameContextPath = "context/ingame.xml";
 
@@ -54,7 +52,7 @@ public class SpringGameStateAdaptor extends BasicTWLGameState implements Applica
     // This a fix for some stupid idea-spring conflict on Linux
     while (gameBeanFactory == null) {
       try {
-        gameBeanFactory = new ClassPathXmlApplicationContext(new String[]{gameContextPath}, true, mainBeanFactory);
+        gameBeanFactory = getContext(mainBeanFactory, new String[]{gameContextPath}, new Object[]{gui});
       } catch (BeanDefinitionStoreException e) {
         logger.error("???", e);
       }
@@ -65,6 +63,15 @@ public class SpringGameStateAdaptor extends BasicTWLGameState implements Applica
     gameContainer.getInput().removeAllListeners();
     System.gc();
     gameState.init(gameContainer, stateBasedGame);
+  }
+
+  public static ApplicationContext getContext(ApplicationContext parent, String[] contextPath, Object[] staticBeans) {
+    StaticApplicationContext staticContext = new StaticApplicationContext(parent);
+    for (Object bean : staticBeans) {
+      staticContext.getDefaultListableBeanFactory().registerSingleton(bean.getClass().getName(), bean);
+    }
+    staticContext.refresh();
+    return new ClassPathXmlApplicationContext(contextPath, true, staticContext);
   }
 
   @Override

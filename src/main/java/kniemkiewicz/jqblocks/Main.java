@@ -21,8 +21,8 @@ public class Main {
   public static void main(String[] args) throws SlickException {
     ApplicationContext ctx = new ClassPathXmlApplicationContext(contextPath);
     Configuration configuration = ctx.getBean(Configuration.class);
-    SpringGameAdaptor springGameAdaptor = ctx.getBean(SpringGameAdaptor.class);
-    AppGameContainer app = new AppGameContainer(springGameAdaptor);
+    Game game = ctx.getBean(Game.class);
+    AppGameContainer app = new AppGameContainer(game);
     int windowWidth = configuration.getInt(WINDOW_WIDTH_NAME, Sizes.DEFAULT_WINDOW_WIDTH);
     int windowHeight = configuration.getInt(WINDOW_HEIGHT_NAME, Sizes.DEFAULT_WINDOW_HEIGHT);
     app.setDisplayMode(windowWidth, windowHeight, false);
