@@ -66,17 +66,7 @@ public class InventoryController implements InputListener, EventListener {
 
   public void dropObject(MovingPhysicalObject dropObject) {
     Shape shape = dropObject.getShape();
-    // We will use this infinite vertical rectangle too look where item should drop, as
-    // there is no applicable free fall implementation yet.
-    Rectangle rect = GeometryUtils.getNewBoundingRectangle(shape);
-    rect.setHeight(Sizes.MAX_Y - Sizes.MIN_Y);
-    int minY = Sizes.MAX_Y;
-    for (AbstractBlock block : solidBlocks.intersects(rect)) {
-      if (block.getShape().getY() < minY) {
-        minY = (int)block.getShape().getY();
-      }
-    }
-    dropObject.setY((int)(minY - shape.getHeight() - 1));
+    dropObject.setY((int)(solidBlocks.getBlocks().getUnscaledDropHeight(shape) - shape.getHeight() - 1));
   }
 
   private boolean dropItem(int x, int y) {
@@ -97,9 +87,10 @@ public class InventoryController implements InputListener, EventListener {
     for (Event e : events) {
       if (e instanceof MouseClickEvent) {
         MouseClickEvent mce = (MouseClickEvent)e;
-        if (!mce.isProcessed() && (mce.getButton() == Button.RIGHT)
-            && !KeyboardUtils.isResourceInventoryKeyPressed(inputContainer.getInput())) {
+        if (!mce.isProcessed() && ((mce.getButton() == Button.RIGHT)
+            && !KeyboardUtils.isResourceInventoryKeyPressed(inputContainer.getInput()))) {
           if (dropItem(mce.getLevelX(), mce.getLevelY())) {
+            mce.markProcessed(true);
             return;
           }
         }

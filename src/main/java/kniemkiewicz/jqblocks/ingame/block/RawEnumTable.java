@@ -168,7 +168,35 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
     }
   }
 
+  private int toXIndex(int unscaledX) {
+    return (unscaledX - Sizes.MIN_X) / Sizes.BLOCK;
+  }
+
+  private int toYIndex(int unscaledY) {
+    return (unscaledY - Sizes.MIN_Y) / Sizes.BLOCK;
+  }
+
   public T getValueForUnscaledPoint(int x, int y) {
-    return (T) data[(x - Sizes.MIN_X) / Sizes.BLOCK][(y - Sizes.MIN_Y) / Sizes.BLOCK];
+    return (T) data[toXIndex(x)][toYIndex(y)];
+  }
+
+  // For given shape which does not collide with any blocks, find height at which it would stop by free falling down.
+  // Gives bottom border. Takes into account only blocks as obstacles.
+  public int getUnscaledDropHeight(Shape unscaledShape) {
+    int x1 = toXIndex((int)unscaledShape.getMinX() + 1);
+    int x2 = toXIndex((int)unscaledShape.getMaxX()) + 1;
+    int y1 = toYIndex((int)unscaledShape.getMaxY() - 1);
+    boolean emptyRow = true;
+    int y;
+    for (y = y1; y < data[0].length;y++) {
+      for (int i = x1; i < x2; i++) {
+        if (data[i][y] != emptyType) {
+          emptyRow = false;
+          break;
+        }
+      }
+      if (!emptyRow) break;
+    }
+    return Sizes.MIN_Y + y * Sizes.BLOCK - 1;
   }
 }
