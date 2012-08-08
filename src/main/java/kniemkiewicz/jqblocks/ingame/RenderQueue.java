@@ -36,7 +36,6 @@ public class RenderQueue implements Renderable {
   }
 
   public void add(RenderableObject renderable) {
-    assert Assert.validateSerializable(renderable);
     assert renderable.getRenderer() == null || beanProvider.getBean(renderable.getRenderer(), true) != null;
     renderableObjects.get(renderable.getLayer()).add(renderable);
   }

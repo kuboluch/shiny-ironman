@@ -26,7 +26,7 @@ public class CollisionController {
     return objects;
   }
 
-  enum ObjectType {
+  public enum ObjectType {
     WALL,
     MOVING_OBJECT
   }
@@ -42,7 +42,7 @@ public class CollisionController {
   /**
    * Unless forced, this will add object to all requested types or to none.
    */
-  boolean add(EnumSet<ObjectType> types, QuadTree.HasShape object, boolean force) {
+  public boolean add(EnumSet<ObjectType> types, QuadTree.HasShape object, boolean force) {
     assert Assert.validateSerializable(object);
     ObjectType failedType = null;
     boolean result = true;

@@ -2,7 +2,8 @@ package kniemkiewicz.jqblocks.ingame.item.controller;
 
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.SolidBlocks;
+import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
+import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
 import kniemkiewicz.jqblocks.ingame.item.PickaxeItem;
 import kniemkiewicz.jqblocks.ingame.object.DigEffect;
 import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
@@ -40,7 +41,11 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
 
   @Override
   boolean canPerformAction(int x, int y) {
-    return getBlock(new Rectangle(x, y, 1, 1)) != null;
+    return blocks.getBlocks().getValueForUnscaledPoint(x, y) == WallBlockType.DIRT;
+  }
+
+  WallBlockType getAffectedBlock(int x, int y) {
+    return blocks.getBlocks().getValueForUnscaledPoint(x, y);
   }
 
   @Override
@@ -50,7 +55,7 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
 
   @Override
   void startAction(PickaxeItem item) {
-    AbstractBlock block = getAffectedBlock();
+    WallBlockType block = getAffectedBlock();
     blockEndurance = block.getEndurance();
     digEffect = new DigEffect(blockEndurance, affectedRectangle);
     renderQueue.add(digEffect);
@@ -76,31 +81,19 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
 
   @Override
   void onAction() {
-    AbstractBlock block = getAffectedBlock();
-    if (block != null) {
-      removeBlock(block);
+    if (affectedRectangle != null) {
+      removeBlock();
     }
   }
 
-  private AbstractBlock getAffectedBlock() {
-    return getBlock(affectedRectangle);
+  private WallBlockType getAffectedBlock() {
+    return getAffectedBlock((int)affectedRectangle.getX(), (int)affectedRectangle.getY());
   }
 
-  private AbstractBlock getBlock(Rectangle rect) {
-    AbstractBlock block = null;
-    Iterator<AbstractBlock> it = blocks.intersects(rect);
-    if (it.hasNext()) {
-      block = it.next();
-    }
-    assert !it.hasNext();
-    return block;
-  }
-
-  private void removeBlock(AbstractBlock block) {
-    block.removeRect(affectedRectangle, blocks);
+  private void removeBlock() {
+    blocks.getBlocks().setRectUnscaled(affectedRectangle, WallBlockType.EMPTY);
     backgrounds.add(backgroundFactory.getNaturalDirtBackground(
         affectedRectangle.getX(), affectedRectangle.getY(), affectedRectangle.getWidth(), affectedRectangle.getHeight()));
-    assert !blocks.intersects(affectedRectangle).hasNext();
   }
 
   @Override

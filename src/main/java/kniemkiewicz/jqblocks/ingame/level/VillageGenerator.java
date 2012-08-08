@@ -1,7 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.level;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.SolidBlocks;
+import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.Fireplace;
 import kniemkiewicz.jqblocks.ingame.object.background.NaturalDirtBackground;
