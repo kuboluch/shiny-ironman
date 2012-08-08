@@ -58,7 +58,7 @@ class TWLInputForwarder extends InputAdapter {
 
     @Override
     public void mouseWheelMoved(int change) {
-        gui.handleMouseWheel(change);
+        gui.handleMouseWheel(change / 120);
         input.consumeEvent();
     }
 

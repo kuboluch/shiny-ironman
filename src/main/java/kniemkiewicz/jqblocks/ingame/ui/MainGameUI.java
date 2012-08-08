@@ -1,5 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.ui;
 
+import de.matthiasmann.twl.ResizableFrame;
+import de.matthiasmann.twl.ScrollPane;
+import de.matthiasmann.twl.TextArea;
+import de.matthiasmann.twl.textarea.SimpleTextAreaModel;
+import de.matthiasmann.twl.textarea.TextAreaModel;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
 import kniemkiewicz.jqblocks.ingame.ui.workplace.WorkplacePanel;
 import kniemkiewicz.jqblocks.twl.RootPane;
@@ -14,21 +19,26 @@ public class MainGameUI {
   @Autowired
   WorkplaceController workplaceController;
 
+  private ScrollPane scrollPane;
   private WorkplacePanel workplacePanel;
 
   public void createUI(RootPane rootPane) {
     this.rootPane = rootPane;
 
     workplacePanel = new WorkplacePanel(workplaceController);
-    rootPane.add(workplacePanel);
+    scrollPane = new ScrollPane(workplacePanel);
+    scrollPane.setVisible(true);
+    scrollPane.setFixed(ScrollPane.Fixed.HORIZONTAL);
+    scrollPane.setExpandContentSize(true);
+    scrollPane.setTheme("scrollPane-noscrollbar");
+    rootPane.add(scrollPane);
   }
 
   public void layoutUI() {
     workplacePanel.adjustSize();
-    workplacePanel.setPosition(5, rootPane.getHeight() - 200 - 5);
-    workplacePanel.setSize(150, 200);
-    workplacePanel.setInnerSize(150, 200);
-    workplacePanel.setVisible(false);
+    scrollPane.setPosition(5, rootPane.getHeight() - 200 - 5);
+    scrollPane.setSize(workplacePanel.getPreferredWidth(), 200);
+    scrollPane.setVisible(true);
   }
 
   public boolean isStructureWidgetVisible() {

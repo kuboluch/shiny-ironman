@@ -12,13 +12,15 @@ import kniemkiewicz.jqblocks.util.BeanName;
  */
 public class Workplace {
   private String name;
+  private String description;
   private int blockWidth;
   private int blockHeight;
   private ImageRenderer renderer;
   private Image uiImage;
 
-  public Workplace(String name, int blockWidth, int blockHeight, ImageRenderer renderer, Image uiImage) {
+  public Workplace(String name, String description, int blockWidth, int blockHeight, ImageRenderer renderer, Image uiImage) {
     this.name = name;
+    this.description = description;
     this.blockWidth = blockWidth;
     this.blockHeight = blockHeight;
     this.renderer = renderer;
@@ -27,6 +29,10 @@ public class Workplace {
 
   public String getName() {
     return name;
+  }
+
+  public String getDescription() {
+    return description;
   }
 
   public Image getUIImage() {

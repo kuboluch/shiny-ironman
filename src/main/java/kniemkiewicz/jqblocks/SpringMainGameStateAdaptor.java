@@ -1,8 +1,10 @@
 package kniemkiewicz.jqblocks;
 
+import de.matthiasmann.twl.GUI;
 import kniemkiewicz.jqblocks.ingame.MainGameState;
 import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.controller.SaveGameListener;
+import kniemkiewicz.jqblocks.ingame.ui.renderer.Image;
 import kniemkiewicz.jqblocks.twl.BasicTWLGameState;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,7 +14,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -22,6 +23,7 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.Map;
 
 public class SpringMainGameStateAdaptor extends BasicTWLGameState implements ApplicationContextAware {
 
@@ -29,7 +31,9 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
 
   public static final String gameContextPath = "context/ingame.xml";
 
-  ApplicationContext mainBeanFactory;
+  ApplicationContext mainApplicationContext;
+
+  ApplicationContext stateApplicationContext;
 
   EndGameController endGameController;
 
@@ -48,18 +52,17 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
   }
 
   void initInternal(GameContainer gameContainer, StateBasedGame stateBasedGame, MainGameState.Settings gameSettings) throws SlickException {
-    BeanFactory gameBeanFactory = null;
     // This a fix for some stupid idea-spring conflict on Linux
-    while (gameBeanFactory == null) {
+    while (stateApplicationContext == null) {
       try {
-        gameBeanFactory = getContext(mainBeanFactory, new String[]{gameContextPath}, new Object[]{gui});
+        stateApplicationContext = getContext(mainApplicationContext, new String[]{gameContextPath}, new Object[]{});
       } catch (BeanDefinitionStoreException e) {
         logger.error("???", e);
       }
     }
-    gameState = gameBeanFactory.getBean(MainGameState.class);
+    gameState = stateApplicationContext.getBean(MainGameState.class);
     gameState.setSettings(gameSettings);
-    endGameController = gameBeanFactory.getBean(EndGameController.class);
+    endGameController = stateApplicationContext.getBean(EndGameController.class);
     gameContainer.getInput().removeAllListeners();
     System.gc();
     gameState.init(gameContainer, stateBasedGame);
@@ -72,6 +75,14 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
     }
     staticContext.refresh();
     return new ClassPathXmlApplicationContext(contextPath, true, staticContext);
+  }
+
+  @Override
+  public void onGuiInit(GUI gui) {
+    Map<String, Image> imageMap = stateApplicationContext.getBeansOfType(Image.class);
+    for (Image image : imageMap.values()) {
+      image.init(gui);
+    }
   }
 
   @Override
@@ -101,7 +112,7 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
 
   @Override
   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-    this.mainBeanFactory = applicationContext;
+    this.mainApplicationContext = applicationContext;
   }
 
   @Override

@@ -1,41 +1,70 @@
 package kniemkiewicz.jqblocks.ingame.ui.workplace;
 
-import de.matthiasmann.twl.GUI;
-import de.matthiasmann.twl.Widget;
-import de.matthiasmann.twl.renderer.Image;
-import kniemkiewicz.jqblocks.ingame.ui.ImageUtils;
+import de.matthiasmann.twl.Event;
+import de.matthiasmann.twl.ResizableFrame;
+import de.matthiasmann.twl.renderer.AnimationState;
 import kniemkiewicz.jqblocks.ingame.workplace.Workplace;
 
 /**
  * User: qba
  * Date: 05.08.12
  */
-public class WorkplaceItem extends Widget {
+public class WorkplaceItem extends ResizableFrame {
+  public static final AnimationState.StateKey STATE_HOVER = AnimationState.StateKey.get("hover");
+
   Workplace workplace;
 
-//  private final TextArea textArea;
+  WorkplaceIcon icon;
 
   public WorkplaceItem(Workplace workplace) {
+    assert workplace != null;
     this.workplace = workplace;
-    /*this.textArea = new TextArea(new SimpleTextAreaModel(workplace.getName()));
-    add(textArea);*/
+    this.setResizableAxis(ResizableAxis.NONE);
+    this.icon = new WorkplaceIcon(workplace.getUIImage());
+    add(icon);
+    setTooltipContent(workplace.getName() + ": " + workplace.getDescription());
   }
 
   @Override
   public int getPreferredInnerWidth() {
-    assert workplace != null;
-    return workplace.getUIImage().getWidth();
+    return icon.getPreferredInnerWidth();
   }
 
   @Override
   public int getPreferredInnerHeight() {
-    assert workplace != null;
-    return workplace.getUIImage().getHeight();
+    return icon.getPreferredInnerHeight();
+  }
+
+
+  @Override
+  protected void layout() {
+    icon.adjustSize();
   }
 
   @Override
-  protected void paintWidget(GUI gui) {
-    assert workplace != null;
-    workplace.getUIImage().draw(getAnimationState(), getInnerX(), getInnerY(), getInnerWidth(), getInnerHeight());
+  protected boolean handleEvent(Event evt) {
+    if (evt.isMouseEvent()) {
+      final Event.Type eventType = evt.getType();
+
+      if (eventType == Event.Type.MOUSE_WHEEL) {
+        return false;
+      }
+
+      if (eventType == Event.Type.MOUSE_ENTERED) {
+        de.matthiasmann.twl.AnimationState as = getAnimationState();
+        as.setAnimationState(STATE_HOVER, true);
+      }
+
+      if (eventType == Event.Type.MOUSE_EXITED) {
+        de.matthiasmann.twl.AnimationState as = getAnimationState();
+        as.setAnimationState(STATE_HOVER, false);
+      }
+    }
+
+    if (super.handleEvent(evt)) {
+      return true;
+    }
+
+    return false;
   }
 }

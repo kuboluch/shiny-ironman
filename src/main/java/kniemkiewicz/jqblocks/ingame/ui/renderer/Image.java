@@ -14,46 +14,62 @@ import javax.annotation.PostConstruct;
  */
 public class Image implements de.matthiasmann.twl.renderer.Image {
 
-  @SuppressWarnings({"SpringJavaAutowiringInspection"})
-  @Autowired
-  GUI gui;
+  private boolean initialized = false;
 
   private String imagePath;
 
   private de.matthiasmann.twl.renderer.Image image;
 
+  private int imageWidth = -1;
+  private int imageHeight = -1;
+
   public Image(String imagePath) {
     this.imagePath = imagePath;
   }
 
-  @PostConstruct
-  void init() {
+  public void init(GUI gui) {
     image = ImageUtils.loadImage(gui, imagePath);
+    initialized = true;
   }
 
   @Override
   public int getWidth() {
+    if (!initialized) {
+      if (imageWidth < 0) {
+        imageWidth = ImageUtils.getImageWidth(imagePath);
+      }
+      return imageWidth;
+    }
     return image.getWidth();
   }
 
   @Override
   public int getHeight() {
+    if (!initialized) {
+      if (imageHeight < 0) {
+        imageHeight = ImageUtils.getImageHeight(imagePath);
+      }
+      return imageHeight;
+    }
     return image.getHeight();
   }
 
   @Override
   public void draw(AnimationState as, int x, int y) {
+    assert initialized;
     image.draw(as, x, y);
 
   }
 
   @Override
   public void draw(AnimationState as, int x, int y, int width, int height) {
+    assert initialized;
     image.draw(as, x, y, width, height);
   }
 
   @Override
   public de.matthiasmann.twl.renderer.Image createTintedVersion(Color color) {
+    assert initialized;
     return createTintedVersion(color);
   }
 }

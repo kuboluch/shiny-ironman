@@ -39,4 +39,31 @@ public class ImageUtils {
     }
   }
 
+  public static int getImageWidth(String imagePath) {
+    try {
+    InputStream in = ImageUtils.class.getResourceAsStream(imagePath);
+      try {
+        PNGDecoder decoder = new PNGDecoder(in);
+        return decoder.getWidth();
+      } finally {
+        in.close();
+      }
+    } catch (IOException e) {
+      throw new RuntimeException("Failed to load ui image", e);
+    }
+  }
+
+  public static int getImageHeight(String imagePath) {
+    try {
+    InputStream in = ImageUtils.class.getResourceAsStream(imagePath);
+      try {
+        PNGDecoder decoder = new PNGDecoder(in);
+        return decoder.getHeight();
+      } finally {
+        in.close();
+      }
+    } catch (IOException e) {
+      throw new RuntimeException("Failed to load ui image", e);
+    }
+  }
 }

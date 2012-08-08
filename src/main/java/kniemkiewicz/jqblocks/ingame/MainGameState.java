@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame;
 
+import de.matthiasmann.twl.GUI;
 import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.controller.InventoryController;
 import kniemkiewicz.jqblocks.ingame.controller.SaveGameListener;
@@ -189,6 +190,9 @@ public class MainGameState extends BasicTWLGameState {
 
   @Autowired
   MainGameUI ui;
+
+  @Override
+  public void onGuiInit(GUI gui) {}
 
   @Override
   public void createRootPane() {

@@ -16,23 +16,26 @@
                 <ref bean="fireplace"/>
                 <ref bean="fireplace2"/>
                 <ref bean="fireplace3"/>
-                <!--<ref bean="fireplace4"/>
-                <ref bean="fireplace5"/>-->
+                <ref bean="fireplace4"/>
+                <ref bean="fireplace5"/>
+                <ref bean="fireplace6"/>
             </list>
         </constructor-arg>
     </bean>
 
     <bean id="fireplace" class="kniemkiewicz.jqblocks.ingame.workplace.Workplace">
-        <constructor-arg index="0" value="fireplace"/>
-        <constructor-arg index="1" value="4"/>
-        <constructor-arg index="2" value="3"/>
-        <constructor-arg index="3" ref="fireplaceRenderer"/>
-        <constructor-arg index="4" ref="fireplaceUIRenderer"/>
+        <constructor-arg value="fireplace"/>
+        <constructor-arg value="Place with fire?"/>
+        <constructor-arg value="4"/>
+        <constructor-arg value="3"/>
+        <constructor-arg ref="fireplaceRenderer"/>
+        <constructor-arg ref="fireplaceUIRenderer"/>
     </bean>
 
     <bean id="fireplace2" parent="fireplace"/>
     <bean id="fireplace3" parent="fireplace"/>
     <bean id="fireplace4" parent="fireplace"/>
     <bean id="fireplace5" parent="fireplace"/>
+    <bean id="fireplace6" parent="fireplace"/>
 
 </beans>

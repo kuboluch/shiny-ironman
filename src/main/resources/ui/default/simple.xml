@@ -341,6 +341,15 @@
         </composed>
 
         <alias name="colorselector.cursor" ref="-selH"/>
+
+        <alias name="noscrollbar.thumb.background" ref="none"/>
+        <alias name="nohscrollbar.upbutton.background" ref="none"/>
+        <alias name="novscrollbar.upbutton.background" ref="none"/>
+
+        <composed name="workplaceitem.background" border="5">
+            <alias ref="none"/>
+            <alias ref="white" if="hover" tint="#80FFFFFF"/>
+        </composed>
     </images>
 
     <include filename="cursors.xml"/>
@@ -524,7 +533,7 @@
         <param name="hasDragButton"><bool>false</bool></param>
         <param name="autoScrollArea"><int>5</int></param>
         <param name="autoScrollSpeed"><int>10</int></param>
-        <param name="scrollbarsAlwaysVisible"><bool>false</bool></param>
+        <param name="scrollbarsAlwaysVisible"><bool>true</bool></param>
     </theme>
 
     <theme name="splitpane" ref="-defaults" allowWildcard="true">
@@ -913,17 +922,6 @@
         <param name="hasResizeHandle"><bool>true</bool></param>
     </theme>
 
-    <theme name="workplacepanel-title" ref="resizableframe-title" allowWildcard="true"/>
-    <theme name="workplacepanel" ref="resizableframe" allowWildcard="true"/>
-
-    <theme name="workplaceitem" ref="-defaults" allowWildcard="true">
-        <param name="background"><image>-borderA</image></param>
-        <param name="border"><border>background.border</border></param>
-        <param name="icons"><map>
-            <param name=""><image>icon.*</image></param>
-        </map></param>
-    </theme>
-
     <fontDef name="popupmenu-button" filename="font.fnt" color="black">
         <fontParam if="hover | armed" color="white"/>
     </fontDef>
@@ -958,5 +956,97 @@
             <action name="nextTab">CTRL TAB</action>
             <action name="prevTab">CTRL SHIFT TAB</action>
         </inputMapDef></param>
+    </theme>
+
+    <!--<theme name="workplacepanel-title" ref="resizableframe-title" allowWildcard="true"/>-->
+    <!--<theme name="workplacepanel" ref="resizableframe" allowWildcard="true"/>-->
+
+    <!--<theme name="workplaceitem" ref="resizableframe" allowWildcard="true"/>-->
+
+    <theme name="noframe-title" ref="-defaults" allowWildcard="true">
+        <param name="background"><image>none</image></param>
+        <param name="border"><border>background.border</border></param>
+        <param name="titleAreaTop"><int>0</int></param>
+        <param name="titleAreaLeft"><int>0</int></param>
+        <param name="titleAreaRight"><int>0</int></param>
+        <param name="titleAreaBottom"><int>0</int></param>
+        <param name="hasCloseButton"><bool>false</bool></param>
+        <param name="closeButtonX"><int>0</int></param>
+        <param name="closeButtonY"><int>0</int></param>
+        <param name="hasResizeHandle"><bool>false</bool></param>
+        <param name="resizeHandleX"><int>0</int></param>
+        <param name="resizeHandleY"><int>0</int></param>
+        <param name="fadeColorInactive"><color>white</color></param>
+        <param name="fadeDurationActivate"><int>80</int></param>
+        <param name="fadeDurationDeactivate"><int>80</int></param>
+        <param name="fadeDurationShow"><int>80</int></param>
+        <param name="fadeDurationHide"><int>80</int></param>
+        <param name="mouseCursor"><cursor>arrow.*</cursor></param>
+        <theme name="resizeHandle" ref="-defaults">
+            <param name="background"><image>frame.resizeIcon</image></param>
+        </theme>
+    </theme>
+
+    <theme name="noframe" ref="noframe-title" allowWildcard="true">
+        <param name="background"><image>none</image></param>
+        <param name="border"><border>background.border</border></param>
+        <param name="hasCloseButton"><bool>false</bool></param>
+        <param name="titleAreaBottom"><int>0</int></param>
+    </theme>
+
+    <theme name="workplacepanel-title" ref="noframe-title" allowWildcard="true"/>
+    <theme name="workplacepanel" ref="noframe" allowWildcard="true"/>
+    <theme name="workplaceitem" ref="resizableframe" allowWildcard="true">
+        <param name="background"><image>workplaceitem.background</image></param>
+    </theme>
+
+    <theme name="workplaceicon" ref="-defaults" allowWildcard="true">
+        <!--<param name="background"><image>-borderA</image></param>-->
+        <!--<param name="border"><border>background.border</border></param>-->
+        <param name="icons"><map>
+            <param name=""><image>icon.*</image></param>
+        </map></param>
+    </theme>
+
+    <theme name="nohscrollbar" ref="-defaults" allowWildcard="true">
+        <param name="background"><image>none</image></param>
+        <theme name="leftbutton" ref="-defaults">
+            <param name=""><image>nohscrollbar.leftbutton.*</image></param>
+            <param name="minWidth"><int>0</int></param>
+        </theme>
+        <theme name="rightbutton" ref="-defaults">
+            <param name=""><image>nohscrollbar.rightbutton.*</image></param>
+            <param name="minWidth"><int>0</int></param>
+        </theme>
+        <theme name="thumb" ref="-defaults">
+            <param name=""><image>noscrollbar.thumb.*</image></param>
+        </theme>
+        <param name="scaleThumb"><bool>true</bool></param>
+        <param name="minWidth"><int>0</int></param>
+        <param name="minHeight"><int>0</int></param>
+    </theme>
+
+    <theme name="novscrollbar" ref="-defaults" allowWildcard="true">
+        <param name="background"><image>none</image></param>
+        <theme name="upbutton" ref="-defaults">
+            <param name=""><image>novscrollbar.upbutton.*</image></param>
+            <param name="minHeight"><int>0</int></param>
+        </theme>
+        <theme name="downbutton" ref="-defaults">
+            <param name=""><image>novscrollbar.downbutton.*</image></param>
+            <param name="minHeight"><int>0</int></param>
+        </theme>
+        <theme name="thumb" ref="-defaults">
+            <param name=""><image>noscrollbar.thumb.*</image></param>
+        </theme>
+        <param name="scaleThumb"><bool>true</bool></param>
+        <param name="minWidth"><int>0</int></param>
+        <param name="minHeight"><int>0</int></param>
+    </theme>
+
+    <theme name="scrollPane-noscrollbar" ref="scrollpane" allowWildcard="true">
+        <theme name="hscrollbar" ref="nohscrollbar"/>
+        <theme name="vscrollbar" ref="novscrollbar"/>
+        <param name="scrollbarsAlwaysVisible"><bool>false</bool></param>
     </theme>
 </themes>

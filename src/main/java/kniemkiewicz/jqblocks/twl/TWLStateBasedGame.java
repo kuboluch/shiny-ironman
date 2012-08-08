@@ -70,11 +70,6 @@ public abstract class TWLStateBasedGame extends StateBasedGame {
      * @see StateBasedGame#addState(org.newdawn.slick.state.GameState)
      */
     public void addState(BasicTWLGameState state) throws SlickException {
-        if(!guiInitialized) {
-            guiInitialized = true;
-            initGUI();
-        }
-        state.setGui(gui);
         super.addState(state);
     }
 
@@ -124,10 +119,15 @@ public abstract class TWLStateBasedGame extends StateBasedGame {
         return ThemeManager.createThemeManager(url, renderer);
     }
 
-    protected void setRootPane(RootPane rootPane) throws SlickException {
+    protected GUI setRootPane(RootPane rootPane) throws SlickException {
+        if(!guiInitialized) {
+            guiInitialized = true;
+            initGUI();
+        }
         if(gui != null) {
             gui.setRootPane(rootPane);
         }
+        return gui;
     }
 
     protected void initGUI() throws SlickException {
