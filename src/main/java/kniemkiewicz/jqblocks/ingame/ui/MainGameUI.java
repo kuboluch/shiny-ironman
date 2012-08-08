@@ -19,6 +19,7 @@ public class MainGameUI {
   @Autowired
   WorkplaceController workplaceController;
 
+  private ResizableFrame workplaceFrame;
   private ScrollPane scrollPane;
   private WorkplacePanel workplacePanel;
 
@@ -31,25 +32,32 @@ public class MainGameUI {
     scrollPane.setFixed(ScrollPane.Fixed.HORIZONTAL);
     scrollPane.setExpandContentSize(true);
     scrollPane.setTheme("scrollPane-noscrollbar");
-    rootPane.add(scrollPane);
+    workplaceFrame = new ResizableFrame();
+    workplaceFrame.setVisible(false);
+    workplaceFrame.setResizableAxis(ResizableFrame.ResizableAxis.NONE);
+    workplaceFrame.setTheme("noframe");
+    workplaceFrame.add(scrollPane);
+    rootPane.add(workplaceFrame);
   }
 
   public void layoutUI() {
     workplacePanel.adjustSize();
-    scrollPane.setPosition(5, rootPane.getHeight() - 200 - 5);
     scrollPane.setSize(workplacePanel.getPreferredWidth(), 200);
-    scrollPane.setVisible(true);
+    workplaceFrame.adjustSize();
+    workplaceFrame.setSize(workplaceFrame.getWidth(), 200);
+    workplaceFrame.setPosition(5, rootPane.getHeight() - 200 - 5);
+
   }
 
-  public boolean isStructureWidgetVisible() {
-    return workplacePanel.isVisible();
+  public boolean isWorkplaceWidgetVisible() {
+    return workplaceFrame.isVisible();
   }
 
-  public void showStructureWidget() {
-    workplacePanel.setVisible(true);
+  public void showWorkplaceWidget() {
+    workplaceFrame.setVisible(true);
   }
 
-  public void hideStructureWidget() {
-    workplacePanel.setVisible(false);
+  public void hideWorkplaceWidget() {
+    workplaceFrame.setVisible(false);
   }
 }

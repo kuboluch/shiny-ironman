@@ -1047,6 +1047,8 @@
     <theme name="scrollPane-noscrollbar" ref="scrollpane" allowWildcard="true">
         <theme name="hscrollbar" ref="nohscrollbar"/>
         <theme name="vscrollbar" ref="novscrollbar"/>
+        <param name="minWidth"><int>10</int></param>
+        <param name="minHeight"><int>10</int></param>
         <param name="scrollbarsAlwaysVisible"><bool>false</bool></param>
     </theme>
 </themes>

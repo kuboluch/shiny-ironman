@@ -21,10 +21,10 @@ public class UIController implements InputListener {
     }
 
     if (KeyboardUtils.isConstructMenuKeyPressed(input) && !contructKeyProcessed) {
-      if (mainGameUI.isStructureWidgetVisible()) {
-        mainGameUI.hideStructureWidget();
+      if (mainGameUI.isWorkplaceWidgetVisible()) {
+        mainGameUI.hideWorkplaceWidget();
       } else {
-        mainGameUI.showStructureWidget();
+        mainGameUI.showWorkplaceWidget();
       }
       contructKeyProcessed = true;
     }

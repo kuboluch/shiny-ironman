@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorkplacePanel extends ResizableFrame {
-  private static final int margin = 10;
+  private static final int margin = 5;
 
   WorkplaceController workplaceController;
   List<WorkplaceItem> workplaceItems = new ArrayList<WorkplaceItem>();
