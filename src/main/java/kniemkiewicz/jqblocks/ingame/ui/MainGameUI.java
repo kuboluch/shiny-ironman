@@ -60,4 +60,8 @@ public class MainGameUI {
   public void hideWorkplaceWidget() {
     workplaceFrame.setVisible(false);
   }
+
+  public void resetWorkplaceWidget() {
+    workplacePanel.deselectAll();
+  }
 }

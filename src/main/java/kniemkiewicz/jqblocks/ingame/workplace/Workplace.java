@@ -2,7 +2,6 @@ package kniemkiewicz.jqblocks.ingame.workplace;
 
 import kniemkiewicz.jqblocks.ingame.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
 import kniemkiewicz.jqblocks.ingame.ui.renderer.Image;
 import kniemkiewicz.jqblocks.util.BeanName;
 
@@ -39,8 +38,20 @@ public class Workplace {
     return uiImage;
   }
 
-  public WorkplaceBackgroundElement getPlaceableObject(int x, int y) {
+  public int getBlockWidth() {
+    return blockWidth;
+  }
+
+  public int getBlockHeight() {
+    return blockHeight;
+  }
+
+  public ImageRenderer getRenderer() {
+    return renderer;
+  }
+
+  public PlacableWorkplaceObject getPlaceableObject(int x, int y) {
     BeanName rendererBeanName = new BeanName(renderer.getClass(), renderer.getBeanName());
-    return new WorkplaceBackgroundElement(x, y, blockWidth * Sizes.BLOCK, blockHeight * Sizes.BLOCK, rendererBeanName);
+    return new PlacableWorkplaceObject(x, y, blockWidth * Sizes.BLOCK, blockHeight * Sizes.BLOCK, rendererBeanName);
   }
 }

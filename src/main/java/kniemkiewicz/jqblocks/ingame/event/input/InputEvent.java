@@ -1,14 +1,13 @@
 package kniemkiewicz.jqblocks.ingame.event.input;
 
 import kniemkiewicz.jqblocks.ingame.event.Event;
+import kniemkiewicz.jqblocks.ingame.event.EventBase;
 
 import java.util.Comparator;
 
-public class InputEvent implements Event {
+public class InputEvent extends EventBase {
 
   private long time;
-
-  private boolean processed = false;
 
   public InputEvent() {
     this.time = System.nanoTime();
@@ -16,14 +15,6 @@ public class InputEvent implements Event {
 
   public long getTime() {
     return time;
-  }
-
-  public boolean isProcessed() {
-    return processed;
-  }
-
-  public void markProcessed(boolean processed) {
-    this.processed = true;
   }
 
   private long nanoToMicro(long nano) {

@@ -11,6 +11,7 @@ import kniemkiewicz.jqblocks.ingame.workplace.Workplace;
  */
 public class WorkplaceItem extends ResizableFrame {
   public static final AnimationState.StateKey STATE_HOVER = AnimationState.StateKey.get("hover");
+  public static final AnimationState.StateKey STATE_SELECTED = AnimationState.StateKey.get("selected");
 
   Workplace workplace;
 
@@ -25,6 +26,10 @@ public class WorkplaceItem extends ResizableFrame {
     setTooltipContent(workplace.getName() + ": " + workplace.getDescription());
   }
 
+  public Workplace getWorkplace() {
+    return workplace;
+  }
+
   @Override
   public int getPreferredInnerWidth() {
     return icon.getPreferredInnerWidth();
@@ -35,10 +40,14 @@ public class WorkplaceItem extends ResizableFrame {
     return icon.getPreferredInnerHeight();
   }
 
-
   @Override
   protected void layout() {
     icon.adjustSize();
+  }
+
+  public void deselect() {
+    de.matthiasmann.twl.AnimationState as = getAnimationState();
+    as.setAnimationState(STATE_SELECTED, false);
   }
 
   @Override
@@ -48,6 +57,13 @@ public class WorkplaceItem extends ResizableFrame {
 
       if (eventType == Event.Type.MOUSE_WHEEL) {
         return false;
+      }
+
+      if (eventType == Event.Type.MOUSE_CLICKED) {
+        if (getParent() instanceof WorkplacePanel) {
+          WorkplacePanel panel = ((WorkplacePanel) getParent());
+          panel.select(this);
+        }
       }
 
       if (eventType == Event.Type.MOUSE_ENTERED) {
@@ -66,5 +82,10 @@ public class WorkplaceItem extends ResizableFrame {
     }
 
     return false;
+  }
+
+  public void select() {
+    de.matthiasmann.twl.AnimationState as = getAnimationState();
+    as.setAnimationState(STATE_SELECTED, true);
   }
 }

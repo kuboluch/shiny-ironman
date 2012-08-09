@@ -16,6 +16,8 @@ import java.util.List;
 @Component
 public class MouseInputEventBus implements MouseListener {
 
+  private static final int INPUT_DELAY = 100;
+
   @Autowired
   EventBus eventBus;
 
@@ -29,6 +31,12 @@ public class MouseInputEventBus implements MouseListener {
   EnumSet<Button> pressedButtons = EnumSet.noneOf(Button.class);
 
   final List<MouseInputListener> listeners = new ArrayList<MouseInputListener>();
+
+  private boolean blockMousePressedEvent;
+
+  private long mousePressedTimestamp = 0;
+  private long mouseClickedTimestamp = 0;
+  private long mouseReleasedTimestamp = 0;
 
   public void add(MouseInputListener mouseInputListener) {
     listeners.add(mouseInputListener);
@@ -45,7 +53,10 @@ public class MouseInputEventBus implements MouseListener {
   }
 
   public void mousePressed(int button, int x, int y) {
+    if (blockMousePressedEvent) return;
+    if (mousePressedTimestamp + INPUT_DELAY > System.currentTimeMillis()) return;
     synchronized (lock) {
+      mousePressedTimestamp = System.currentTimeMillis();
       Button b = Button.parseInt(button);
       events.add(new MousePressedEvent(b, x + pointOfView.getShiftX(), y + pointOfView.getShiftY(), x, y));
       pressedButtons.add(b);
@@ -55,13 +66,17 @@ public class MouseInputEventBus implements MouseListener {
   public void mouseWheelMoved(int change) { }
 
   public void mouseClicked(int button, int x, int y, int clickCount) {
+    if (mouseClickedTimestamp + INPUT_DELAY > System.currentTimeMillis()) return;
     synchronized (lock) {
+      mouseClickedTimestamp = System.currentTimeMillis();
       events.add(new MouseClickEvent(Button.parseInt(button), x + pointOfView.getShiftX(), y + pointOfView.getShiftY(), x, y, clickCount));
     }
   }
 
   public void mouseReleased(int button, int x, int y) {
+    if (mouseReleasedTimestamp + INPUT_DELAY > System.currentTimeMillis()) return;
     synchronized (lock) {
+      mouseReleasedTimestamp = System.currentTimeMillis();
       Button b = Button.parseInt(button);
       events.add(new MouseReleasedEvent(b, x + pointOfView.getShiftX(), y + pointOfView.getShiftY(), x, y));
       pressedButtons.remove(b);
@@ -82,6 +97,14 @@ public class MouseInputEventBus implements MouseListener {
             newx + pointOfView.getShiftX(), newy + pointOfView.getShiftY(), newx, newy, b));
       }
     }
+  }
+
+  public void blockMousePressedEvent() {
+    blockMousePressedEvent = true;
+  }
+
+  public void unblockMousePressedEvent() {
+    blockMousePressedEvent = false;
   }
 
   public void setInput(Input input) { }

@@ -10,10 +10,10 @@ import org.newdawn.slick.geom.Rectangle;
 
 public abstract class AbstractBackgroundElement<T extends AbstractBackgroundElement>
     implements BackgroundElement, RenderableObject<T> {
-  int x;
-  int y;
-  int width;
-  int height;
+  protected int x;
+  protected int y;
+  protected int width;
+  protected int height;
   protected Rectangle shape;
 
   public AbstractBackgroundElement(int x, int y, int width, int height) {
