@@ -35,7 +35,7 @@ public class BatController implements UpdateQueue.UpdateController<Bat>{
   }
 
   public boolean hits(Bat bat) {
-    if (solidBlocks.intersects(bat.getShape()).hasNext()) return true;
+    if (solidBlocks.getBlocks().collidesWithNonEmpty(bat.getShape())) return true;
     for (PhysicalObject p : movingObjects.intersects(bat.getShape())) {
       if (p != bat) return true;
     }

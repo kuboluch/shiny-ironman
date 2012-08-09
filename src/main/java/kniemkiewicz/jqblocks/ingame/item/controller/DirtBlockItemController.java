@@ -24,7 +24,7 @@ public class DirtBlockItemController extends AbstractActionItemController<DirtBl
 
   @Override
   boolean canPerformAction(int x, int y) {
-    return getBlock(new Rectangle(x, y, 1, 1)) == null;
+    return blocks.getBlocks().collidesWithNonEmpty(new Rectangle(x, y, 1, 1));
   }
 
   @Override
@@ -57,21 +57,10 @@ public class DirtBlockItemController extends AbstractActionItemController<DirtBl
 
   private void addBlock(int x, int y) {
     Rectangle rect = new Rectangle(x, y, Sizes.BLOCK - 1, Sizes.BLOCK - 1);
-    AbstractBlock block = getBlock(rect);
-    if (block == null) {
+    if (!blocks.getBlocks().collidesWithNonEmpty(rect)) {
       DirtBlock newBlock = new DirtBlock(x, y, Sizes.BLOCK, Sizes.BLOCK);
       blocks.add(newBlock);
     }
-  }
-
-  private AbstractBlock getBlock(Rectangle rect) {
-    AbstractBlock block = null;
-    Iterator<AbstractBlock> it = blocks.intersects(rect);
-    if (it.hasNext()) {
-      block = it.next();
-    }
-    assert !it.hasNext();
-    return block;
   }
 
   @Override

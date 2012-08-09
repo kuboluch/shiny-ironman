@@ -41,12 +41,8 @@ public class ArrowController implements UpdateQueue.UpdateController<Arrow>{
 
 
   private boolean checkArrowHit(Arrow arrow, Out<PhysicalObject> physicalObject) {
-    for (AbstractBlock b : blocks.intersects(GeometryUtils.getBoundingRectangle(arrow.getShape()))) {
-      if (GeometryUtils.intersects(b.getShape(), arrow.getShape())) {
-        if (b != arrow.getSource()) {
-          return true;
-        }
-      }
+    if (blocks.getBlocks().collidesWithNonEmpty(GeometryUtils.getBoundingRectangle(arrow.getShape()))) {
+      return true;
     }
     for (PhysicalObject b : movingObjects.intersects(arrow.getShape())) {
       if (GeometryUtils.intersects(b.getShape(), arrow.getShape())) {

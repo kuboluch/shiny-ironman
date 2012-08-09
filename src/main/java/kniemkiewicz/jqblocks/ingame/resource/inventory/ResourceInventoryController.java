@@ -3,7 +3,9 @@ package kniemkiewicz.jqblocks.ingame.resource.inventory;
 import kniemkiewicz.jqblocks.ingame.InputListener;
 import kniemkiewicz.jqblocks.ingame.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.block.RawEnumTable;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
+import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.event.Event;
@@ -71,18 +73,7 @@ public class ResourceInventoryController implements InputListener, EventListener
 
   public void dropObject(MovingPhysicalObject dropObject) {
     Shape shape = dropObject.getShape();
-    // We will use this infinite vertical rectangle too look where item should drop, as
-    // there is no applicable free fall implementation yet.
-    Rectangle rect = GeometryUtils.getNewBoundingRectangle(shape);
-    rect.setHeight(Sizes.MAX_Y - Sizes.MIN_Y);
-    rect.setWidth(rect.getWidth() - 1);
-    int minY = Sizes.MAX_Y;
-    for (AbstractBlock block : solidBlocks.intersects(rect)) {
-      if (block.getShape().getY() < minY) {
-        minY = (int) block.getShape().getY();
-      }
-    }
-    dropObject.setY((int) (minY - shape.getHeight() - 1));
+    dropObject.setY((int)(solidBlocks.getBlocks().getUnscaledDropHeight(shape) - shape.getHeight() - 1));
   }
 
   private boolean dropItem(int x, int y) {
@@ -105,24 +96,19 @@ public class ResourceInventoryController implements InputListener, EventListener
     List<ResourceObject> resourceObjects =
         Collections3.collect(movingObjects.intersects(rect), ResourceObject.class);
     if (!resourceObjects.isEmpty()) return true;
-    IterableIterator<AbstractBlock> iter = solidBlocks.intersects(rect);
-    if (iter.hasNext()) return true;
-    return false;
+    return solidBlocks.getBlocks().collidesWithNonEmpty(rect);
   }
 
   private boolean isOnSolidGround(Shape shape) {
     Rectangle rect = GeometryUtils.getNewBoundingRectangle(shape);
-    rect.setY(rect.getMaxY() + 1);
-    rect.setWidth(rect.getWidth() - 1);
-    rect.setHeight(1);
-    int blockCount = 0;
-    IterableIterator<AbstractBlock> iter = solidBlocks.intersects(rect);
-    while (iter.hasNext()) {
-      blockCount++;
-      iter.next();
-    }
-    if (blockCount != (rect.getWidth() + 1) / Sizes.BLOCK) {
-      return false;
+    RawEnumTable<WallBlockType> table = solidBlocks.getBlocks();
+    int y = table.toYIndex((int) rect.getMaxY() + 1);
+    int x1 = table.toXIndex((int) rect.getX());
+    int x2 = table.toXIndex((int) rect.getMaxX() - 1);
+    for (int x = x1; x < x2; x++) {
+      if (table.getValueForUnscaledPoint(x, y) == WallBlockType.EMPTY) {
+        return false;
+      }
     }
     return true;
   }

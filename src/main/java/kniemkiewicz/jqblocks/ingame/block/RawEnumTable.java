@@ -168,11 +168,11 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
     }
   }
 
-  private int toXIndex(int unscaledX) {
+  final public int toXIndex(int unscaledX) {
     return (unscaledX - Sizes.MIN_X) / Sizes.BLOCK;
   }
 
-  private int toYIndex(int unscaledY) {
+  final public int toYIndex(int unscaledY) {
     return (unscaledY - Sizes.MIN_Y) / Sizes.BLOCK;
   }
 
@@ -198,5 +198,21 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
       if (!emptyRow) break;
     }
     return Sizes.MIN_Y + y * Sizes.BLOCK - 1;
+  }
+
+  public boolean collidesWithNonEmpty(Rectangle unscaledRect) {
+    int x1 = toXIndex((int)unscaledRect.getX());
+    int x2 = toXIndex((int)unscaledRect.getMaxX());
+    int y1 = toYIndex((int)unscaledRect.getY());
+    int y2 = toYIndex((int)unscaledRect.getMaxY());
+    if ((x1 < 0) || (x2 >= data.length) || (y1 < 0) || (y2 >= data[0].length)) {
+      return true;
+    }
+    for (int i = x1; i <= x2; i++) {
+      for (int j = y1; j <= y2; j++) {
+        if (data[i][j] != emptyType) return true;
+      }
+    }
+    return false;
   }
 }

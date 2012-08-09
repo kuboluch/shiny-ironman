@@ -28,7 +28,7 @@ public class UpdateQueue {
 
   Set<ToBeUpdated> objects = new HashSet<ToBeUpdated>();
 
-  List<ToBeUpdated> toBeRemoved = new ArrayList<ToBeUpdated>();
+  Set<ToBeUpdated> toBeRemoved = new HashSet<ToBeUpdated>();
 
   void update(int delta) {
     for (ToBeUpdated o : toBeRemoved) {
@@ -36,6 +36,12 @@ public class UpdateQueue {
     }
     toBeRemoved.clear();
     for (ToBeUpdated o : objects) {
+      if (toBeRemoved.size() > 0) {
+        // Given object may have been already deleted.
+        if (toBeRemoved.contains(o)) {
+          continue;
+        }
+      }
       UpdateController controller = (UpdateController) springBeanProvider.getBean(o.getUpdateController(), true);
       controller.update(o, delta);
     }

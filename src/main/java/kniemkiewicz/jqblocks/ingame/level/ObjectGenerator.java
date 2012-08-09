@@ -67,7 +67,7 @@ public class ObjectGenerator {
     for (int i = 0; i < heights.length; i++) {
       if (random.nextFloat() < DENSITY) {
         Bat bat = new Bat(Sizes.MIN_X + Sizes.BLOCK * i, Sizes.MAX_Y - heights[i] - ALTITUDE * Sizes.BLOCK);
-        if (solidBlocks.intersects(bat.getShape()).hasNext()) continue;
+        if (solidBlocks.getBlocks().collidesWithNonEmpty(bat.getShape())) continue;
         bat.addTo(movingObjects, renderQueue, updateQueue);
       }
     }

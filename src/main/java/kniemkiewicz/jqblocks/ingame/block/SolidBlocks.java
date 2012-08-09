@@ -74,7 +74,7 @@ public class SolidBlocks{
   }
 
   public boolean add(AbstractBlock block) {
-    if (intersects(block.getShape()).hasNext()) return false;
+    if (blocks.collidesWithNonEmpty(block.getShape())) return false;
     if (movingObjects.intersects(block.getShape()).hasNext()) return false;
     Assert.executeAndAssert(collisionController.add(BLOCK_OBJECT_TYPE, block, true));
     blocks.setRectUnscaled(block.getShape(), WallBlockType.DIRT);
