@@ -8,6 +8,7 @@ import kniemkiewicz.jqblocks.ingame.event.EventListener;
 import kniemkiewicz.jqblocks.ingame.event.input.InputEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseClickEvent;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.item.Inventory;
@@ -85,12 +86,12 @@ public class InventoryController implements InputListener, EventListener {
   public void listen(List<Event> events) {
     if (events.size() == 0) return;
     for (Event e : events) {
-      if (e instanceof MouseClickEvent) {
-        MouseClickEvent mce = (MouseClickEvent)e;
-        if (!mce.isProcessed() && ((mce.getButton() == Button.RIGHT)
+      if (e instanceof MousePressedEvent) {
+        MousePressedEvent mpe = (MousePressedEvent)e;
+        if (!mpe.isConsumed() && ((mpe.getButton() == Button.RIGHT)
             && !KeyboardUtils.isResourceInventoryKeyPressed(inputContainer.getInput()))) {
-          if (dropItem(mce.getLevelX(), mce.getLevelY())) {
-            mce.markProcessed(true);
+          if (dropItem(mpe.getLevelX(), mpe.getLevelY())) {
+            mpe.consume();
             return;
           }
         }

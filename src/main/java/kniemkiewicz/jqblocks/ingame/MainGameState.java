@@ -15,6 +15,8 @@ import kniemkiewicz.jqblocks.ingame.ui.MainGameUI;
 import kniemkiewicz.jqblocks.ingame.ui.info.MouseInputInfo;
 import kniemkiewicz.jqblocks.ingame.ui.info.ResourceInfo;
 import kniemkiewicz.jqblocks.ingame.ui.info.TimingInfo;
+import kniemkiewicz.jqblocks.ingame.workplace.Workplace;
+import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
 import kniemkiewicz.jqblocks.twl.BasicTWLGameState;
 import kniemkiewicz.jqblocks.twl.RootPane;
 import org.newdawn.slick.GameContainer;
@@ -84,6 +86,9 @@ public class MainGameState extends BasicTWLGameState {
   CollisionController collisionController;
 
   @Autowired
+  WorkplaceController workplaceController;
+
+  @Autowired
   UIController uiController;
 
   @Autowired
@@ -117,6 +122,7 @@ public class MainGameState extends BasicTWLGameState {
     inputListeners.add(resourceInventoryController);
     inputListeners.add(uiController);
     eventBus.addListener(mouseInputInfo);
+    eventBus.addListener(workplaceController);
     eventBus.addListener(inventoryController);
     eventBus.addListener(resourceInventoryController);
     renderQueue.add(timingInfo);
@@ -179,11 +185,13 @@ public class MainGameState extends BasicTWLGameState {
   @Override
   public void mousePressed(int button, int x, int y) {
     mouseInputEventBus.mousePressed(button, x, y);
+    mouseInputEventBus.blockMousePressedEvent();
   }
 
   @Override
   public void mouseReleased(int button, int x, int y) {
     mouseInputEventBus.mouseReleased(button, x, y);
+    mouseInputEventBus.unblockMousePressedEvent();
   }
 
   /* UI */

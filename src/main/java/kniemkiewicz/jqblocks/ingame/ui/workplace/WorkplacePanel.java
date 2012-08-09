@@ -65,4 +65,16 @@ public class WorkplacePanel extends ResizableFrame {
 
     return false;
   }
+
+  public void select(WorkplaceItem item) {
+    deselectAll();
+    item.select();
+    workplaceController.changeSelected(item.getWorkplace());
+  }
+
+  public void deselectAll() {
+    for (WorkplaceItem item : workplaceItems) {
+      item.deselect();
+    }
+  }
 }

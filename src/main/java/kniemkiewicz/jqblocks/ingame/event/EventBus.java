@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.util.Collections3;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Component
@@ -42,6 +43,12 @@ public class EventBus {
       List<Class> eventTypes = listener.getEventTypesOfInterest();
       for (Class eventType : eventTypes) {
         eventsOfIntrest.addAll(Collections3.collectSubclasses(eventsForListeners, eventType));
+      }
+      Iterator<Event> iter = eventsOfIntrest.iterator();
+      while (iter.hasNext()) {
+        if (iter.next().isConsumed()) {
+          iter.remove();
+        }
       }
       listener.listen(eventsOfIntrest);
     }
