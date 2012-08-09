@@ -55,13 +55,6 @@ public class SolidBlocks{
   @PostConstruct
   void init() {
     List<AbstractBlock> blocks = new ArrayList<AbstractBlock>();
-    blocks.add(new EndOfTheWorldWall(Sizes.MIN_X - 1000, Sizes.MIN_Y - 1000, Sizes.MAX_X - Sizes.MIN_X + 2000, 1000));
-    blocks.add(new EndOfTheWorldWall(Sizes.MIN_X - 1000, Sizes.MAX_Y, Sizes.MAX_X - Sizes.MIN_X + 2000, 1000));
-    blocks.add(new EndOfTheWorldWall(Sizes.MIN_X - 1000, Sizes.MIN_Y - 1000, 1000, Sizes.MAX_Y - Sizes.MIN_Y + 2000));
-    blocks.add(new EndOfTheWorldWall(Sizes.MAX_X, Sizes.MIN_Y - 1000, 1000, Sizes.MAX_Y - Sizes.MIN_Y + 2000));
-    for (AbstractBlock b : blocks) {
-      Assert.executeAndAssert(collisionController.add(BLOCK_OBJECT_TYPE, b, true));
-    }
     this.blocks.fillRendererCache(springBeanProvider);
     renderQueue.add(this.blocks);
   }

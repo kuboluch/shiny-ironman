@@ -63,18 +63,6 @@ public class PlayerController implements InputListener {
     player.addTo(renderQueue, movingObjects);
     player.getXMovement().setPos(VillageGenerator.STARTING_X);
     player.getYMovement().setPos(villageGenerator.getStartingY() - Player.HEIGHT - 3);
-    /* This was used when we didn't generate village and were landing Player on plain ground.
-    Rectangle rect = new Rectangle(player.getShape().getX(), Sizes.MIN_Y, player.getShape().getWidth(), Sizes.MAX_Y - Sizes.MIN_Y);
-    // All blocks in the same column as player.
-    Iterator<AbstractBlock> iter = blocks.intersects(rect);
-    float minY = Sizes.MAX_Y;
-    while (iter.hasNext()) {
-      AbstractBlock b = iter.next();
-      if (b.getShape().getMinY() < minY) {
-        minY = b.getShape().getMinY();
-      }
-    }
-    player.getYMovement().setPos(minY - Player.HEIGHT - 5);*/
   }
 
   public void listen(Input input, int delta) {
@@ -102,15 +90,13 @@ public class PlayerController implements InputListener {
     float x = player.getXMovement().getPos();
     float y = player.getYMovement().getPos();
     player.update(delta);
-    List<AbstractBlock> colliding_blocks = Collections3.getList(blocks.intersects(player.getShape()));
+    List<Rectangle> collidingRectangles = blocks.getBlocks().getIntersectingRectangles(player.getShape());
 
-    for (AbstractBlock b : colliding_blocks) {
-      HitResolver.resolve(player, player.getXMovement().getPos() - x, player.getYMovement().getPos() - y, b.getShape());
+    for (Rectangle r : collidingRectangles) {
+      HitResolver.resolve(player, player.getXMovement().getPos() - x, player.getYMovement().getPos() - y, r);
       player.updateShape();
     }
-    for (AbstractBlock b : colliding_blocks) {
-      assert !GeometryUtils.intersects(player.getShape(), b.getShape());
-    }
+    assert blocks.getBlocks().getIntersectingRectangles(player.getShape()).size() == 0;
     Iterator<PhysicalObject> it  = movingObjects.intersects(player.getShape());
     while (it.hasNext()) {
       PhysicalObject po = it.next();
