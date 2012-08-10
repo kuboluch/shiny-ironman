@@ -11,6 +11,7 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseMovedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
+import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.ui.MainGameUI;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +35,14 @@ public class WorkplaceController implements EventListener {
   @Autowired
   RenderQueue renderQueue;
 
+  @Autowired
+  Backgrounds backgrounds;
+
   List<Workplace> workplaces = new ArrayList<Workplace>();
 
   private Workplace selectedWorkplace;
 
-  private PlacableWorkplaceObject placableWorkplaceObject;
+  private PlaceableWorkplaceObject placableWorkplaceObject;
 
   public WorkplaceController(List<Workplace> workplaces) {
     this.workplaces = workplaces;
@@ -78,17 +82,37 @@ public class WorkplaceController implements EventListener {
           handleMouseRightClickEvent(e);
           break;
         }
+        if (e.getButton() == Button.LEFT) {
+          handleMouseLeftClickEvent(e);
+          break;
+        }
       }
     }
   }
 
   private void handleMouseRightClickEvent(Event evt) {
     assert evt != null;
+    stopPlacing();
+    evt.consume();
+  }
+
+  private void handleMouseLeftClickEvent(Event evt) {
+    assert evt != null;
+    place();
+    stopPlacing();
+    evt.consume();
+  }
+
+  private void stopPlacing() {
     selectedWorkplace = null;
     renderQueue.remove(placableWorkplaceObject);
     placableWorkplaceObject = null;
-    evt.consume();
     mainGameUI.resetWorkplaceWidget();
+  }
+
+  private void place() {
+    renderQueue.remove(placableWorkplaceObject);
+    backgrounds.add(placableWorkplaceObject.getBackgroundElement());
   }
 
   public void handleMouseMovedEvent(List<MouseMovedEvent> mouseMovedEvents) {

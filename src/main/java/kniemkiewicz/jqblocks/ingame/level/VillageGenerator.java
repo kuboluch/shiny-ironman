@@ -42,7 +42,7 @@ public class VillageGenerator {
   void generateVillage(int villageY) {
     startingY = villageY;
     backgrounds.add(new NaturalDirtBackground(STARTING_X - Sizes.BLOCK * 3, villageY  - Sizes.BLOCK * 4, Sizes.BLOCK * 6, Sizes.BLOCK * 4));
-    backgrounds.add(fireplace.getPlaceableObject(STARTING_X - Fireplace.WIDTH / 2, villageY - Fireplace.HEIGHT));
+    backgrounds.add(fireplace.getPlaceableObject(STARTING_X - Fireplace.WIDTH / 2, villageY - Fireplace.HEIGHT).getBackgroundElement());
     solidBlocks.add(new DirtBlock(STARTING_X - Sizes.BLOCK * 3, villageY  - Sizes.BLOCK * 5, Sizes.BLOCK * 6, Sizes.BLOCK));
   }
 }

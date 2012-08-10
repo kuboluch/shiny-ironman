@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -40,7 +41,7 @@ public class ImageRenderer implements ItemRenderer<Item>, ObjectRenderer<Rendera
 
   @Override
   public void renderItem(Item item, Graphics g, int x, int y, int square_size) {
-    image.draw(x,y,square_size, square_size);
+    image.draw(x, y, square_size, square_size);
   }
 
   @Override

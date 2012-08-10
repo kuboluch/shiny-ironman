@@ -157,7 +157,7 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
 
   private BackgroundElement getBackgroundElement(Rectangle rect) {
     BackgroundElement backgroundElement = null;
-    Iterator<AbstractBackgroundElement> it = backgrounds.intersects(rect);
+    Iterator<BackgroundElement> it = backgrounds.intersects(rect);
     if (it.hasNext()) {
       backgroundElement = it.next();
     }
