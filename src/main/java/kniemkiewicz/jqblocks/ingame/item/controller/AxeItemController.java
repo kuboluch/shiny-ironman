@@ -44,6 +44,9 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   @Autowired
   private MovingObjects movingObjects;
 
+  @Autowired
+  private CollisionController collisionController;
+
   private CompletionEffect completionEffect;
 
   Wood wood = new Wood();
@@ -133,7 +136,7 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   private ResourceObject<Wood> getWoodPile(int x, int y) {
     ResourceObject<Wood> woodObject = null;
     List<ResourceObject> resourceObjects =
-        Collections3.collect(movingObjects.intersects(new Rectangle(x ,y, 1, 1)), ResourceObject.class);
+        Collections3.collect(collisionController.fullSearch(MovingObjects.PICKABLE, new Rectangle(x ,y, 1, 1)), ResourceObject.class);
     for (ResourceObject ro : resourceObjects) {
       if (ro.isSameType(new Wood())) {
         woodObject = (ResourceObject<Wood>) ro;

@@ -1,6 +1,5 @@
 package kniemkiewicz.jqblocks.ingame;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.geom.Shape;
@@ -27,8 +26,8 @@ public class CollisionController {
   }
 
   public enum ObjectType {
-    WALL,
-    MOVING_OBJECT
+    MOVING_OBJECT,
+    PICKABLE
   }
 
   EnumMap<ObjectType, QuadTree<QuadTree.HasShape>> quadTrees = new EnumMap<ObjectType, QuadTree<QuadTree.HasShape>>(ObjectType.class);

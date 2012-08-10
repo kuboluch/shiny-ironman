@@ -2,10 +2,9 @@ package kniemkiewicz.jqblocks.ingame.item.controller;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
+import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
 import kniemkiewicz.jqblocks.ingame.item.DirtBlockItem;
 import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
-import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
-import kniemkiewicz.jqblocks.ingame.object.block.DirtBlock;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class DirtBlockItemController extends AbstractActionItemController<DirtBl
 
   @Override
   boolean canPerformAction(int x, int y) {
-    return blocks.getBlocks().collidesWithNonEmpty(new Rectangle(x, y, 1, 1));
+    return !blocks.getBlocks().collidesWithNonEmpty(new Rectangle(x, y, 1, 1));
   }
 
   @Override
@@ -58,8 +57,7 @@ public class DirtBlockItemController extends AbstractActionItemController<DirtBl
   private void addBlock(int x, int y) {
     Rectangle rect = new Rectangle(x, y, Sizes.BLOCK - 1, Sizes.BLOCK - 1);
     if (!blocks.getBlocks().collidesWithNonEmpty(rect)) {
-      DirtBlock newBlock = new DirtBlock(x, y, Sizes.BLOCK, Sizes.BLOCK);
-      blocks.add(newBlock);
+      blocks.add(new Rectangle(x, y, Sizes.BLOCK, Sizes.BLOCK), WallBlockType.DIRT);
     }
   }
 

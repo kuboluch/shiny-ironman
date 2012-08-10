@@ -11,7 +11,9 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.List;
 
 /**
  * User: krzysiek
@@ -203,7 +205,7 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
   public boolean collidesWithNonEmpty(Rectangle unscaledRect) {
     int x1 = toXIndex((int)unscaledRect.getX());
     int x2 = toXIndex((int)unscaledRect.getMaxX());
-    int y1 = toYIndex((int)unscaledRect.getY());
+    int y1 = toYIndex((int) unscaledRect.getY());
     int y2 = toYIndex((int)unscaledRect.getMaxY());
     if ((x1 < 0) || (x2 >= data.length) || (y1 < 0) || (y2 >= data[0].length)) {
       return true;
@@ -214,5 +216,111 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
       }
     }
     return false;
+  }
+
+  // Rectangles returned by this method are meant to be used with HitResolver, they are not smallest possible ones,
+  // some points may be in more than one and so on.
+  public List<Rectangle> getIntersectingRectangles(Rectangle unscaledRect) {
+    int x1 = toXIndex((int)unscaledRect.getX() + 1);
+    int x2 = toXIndex((int) unscaledRect.getMaxX() + 1);
+    int y1 = toYIndex((int) unscaledRect.getY() + 1);
+    int y2 = toYIndex((int)unscaledRect.getMaxY() + 1);
+    List<Rectangle> rectangles = new ArrayList<Rectangle>();
+    if (x1 < 0) {
+      rectangles.add(new Rectangle(Sizes.MIN_X - 1000, Sizes.MIN_Y - 1000, 1000, Sizes.MAX_Y - Sizes.MIN_Y + 2000));
+      x1 = 0;
+    }
+    if (x2 >= data.length) {
+      rectangles.add(new Rectangle(Sizes.MAX_X, Sizes.MIN_Y - 1000, 1000, Sizes.MAX_Y - Sizes.MIN_Y + 2000));
+      x2 = data.length - 1;
+    }
+    if (y1 < 0) {
+      rectangles.add(new Rectangle(Sizes.MIN_X - 1000, Sizes.MIN_Y - 1000, Sizes.MAX_X - Sizes.MIN_X + 2000, 1000));
+      y1 = 0;
+    }
+    if (y2 >= data[0].length) {
+      rectangles.add(new Rectangle(Sizes.MIN_X - 1000, Sizes.MAX_Y, Sizes.MAX_X - Sizes.MIN_X + 2000, 1000));
+      y2 = data[0].length - 1;
+    }
+    boolean[][] nonEmpty = new boolean[x2 - x1 + 1][y2 - y1 + 1];
+    boolean[][] used = new boolean[x2 - x1 + 1][y2 - y1 + 1];
+    for (int x = x1; x <= x2; x++) {
+      for (int y = y1; y <= y2; y++) {
+        nonEmpty[x - x1][y - y1] = (data[x][y] != emptyType);
+      }
+    }
+    // First lets try to find all long rectangles. This could be even more complicated to cover more corner cases.
+    for (int i = 0; i < nonEmpty.length; i++) {
+      int firstNonEmpty = -1;
+      int j;
+      for (j = 0; j < nonEmpty[i].length; j++) {
+        if (nonEmpty[i][j]) {
+          if (firstNonEmpty < 0) {
+            firstNonEmpty = j;
+          }
+        } else {
+          if (firstNonEmpty >= 0) {
+            if (j - firstNonEmpty >= 2) {
+              for (int z = firstNonEmpty; z < j; z++) {
+                used[i][z] = true;
+              }
+              rectangles.add(new Rectangle(Sizes.MIN_X + (x1 + i) * Sizes.BLOCK, Sizes.MIN_Y + (y1 + firstNonEmpty) * Sizes.BLOCK,
+                  Sizes.BLOCK, (j - firstNonEmpty) * Sizes.BLOCK));
+            }
+            firstNonEmpty = -1;
+          }
+        }
+      }
+      if (firstNonEmpty >= 0) {
+        if (j - firstNonEmpty >= 2) {
+          for (int z = firstNonEmpty; z < j; z++) {
+            used[i][z] = true;
+          }
+          rectangles.add(new Rectangle(Sizes.MIN_X + (x1 + i) * Sizes.BLOCK, Sizes.MIN_Y + (y1 + firstNonEmpty) * Sizes.BLOCK,
+              Sizes.BLOCK, (j - firstNonEmpty) * Sizes.BLOCK));
+        }
+      }
+    }
+    // Here we do that same bt horizontally. Code is almost the same except for replacing i <-> j in few places.
+    for (int i = 0; i < nonEmpty[0].length; i++) {
+      int firstNonEmpty = -1;
+      int j;
+      for (j = 0; j < nonEmpty.length; j++) {
+        if (nonEmpty[j][i]) {
+          if (firstNonEmpty < 0) {
+            firstNonEmpty = j;
+          }
+        } else {
+          if (firstNonEmpty >= 0) {
+            if (j - firstNonEmpty >= 2) {
+              for (int z = firstNonEmpty; z < j; z++) {
+                used[z][i] = true;
+              }
+              rectangles.add(new Rectangle(Sizes.MIN_X + (x1 + firstNonEmpty) * Sizes.BLOCK, Sizes.MIN_Y + (y1 + i) * Sizes.BLOCK,
+                  (j - firstNonEmpty) * Sizes.BLOCK, Sizes.BLOCK));
+            }
+            firstNonEmpty = -1;
+          }
+        }
+      }
+      if (firstNonEmpty >= 0) {
+        if (j - firstNonEmpty >= 2) {
+          for (int z = firstNonEmpty; z < j; z++) {
+            used[z][i] = true;
+          }
+          rectangles.add(new Rectangle(Sizes.MIN_X + (x1 + firstNonEmpty) * Sizes.BLOCK, Sizes.MIN_Y + (y1 + i) * Sizes.BLOCK,
+              (j - firstNonEmpty) * Sizes.BLOCK, Sizes.BLOCK));
+        }
+      }
+    }
+    // Now we add remaining small ones.
+    for (int x = x1; x <= x2; x++) {
+      for (int y = y1; y <= y2; y++) {
+        if (nonEmpty[x - x1][y - y1] && ! used[x - x1][y - y1]) {
+          rectangles.add(new Rectangle(Sizes.MIN_X + x * Sizes.BLOCK, Sizes.MIN_Y + y * Sizes.BLOCK, Sizes.BLOCK, Sizes.BLOCK));
+        }
+      }
+    }
+    return rectangles;
   }
 }

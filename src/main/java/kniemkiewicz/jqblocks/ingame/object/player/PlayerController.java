@@ -10,7 +10,6 @@ import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObjectType;
-import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventory;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
@@ -55,6 +54,9 @@ public class PlayerController implements InputListener {
   @Autowired
   VillageGenerator villageGenerator;
 
+  @Autowired
+  CollisionController collisionController;
+
   /**
    * This is manually invoked by Game to make sure that level is created before.
    */
@@ -63,18 +65,6 @@ public class PlayerController implements InputListener {
     player.addTo(renderQueue, movingObjects);
     player.getXMovement().setPos(VillageGenerator.STARTING_X);
     player.getYMovement().setPos(villageGenerator.getStartingY() - Player.HEIGHT - 3);
-    /* This was used when we didn't generate village and were landing Player on plain ground.
-    Rectangle rect = new Rectangle(player.getShape().getX(), Sizes.MIN_Y, player.getShape().getWidth(), Sizes.MAX_Y - Sizes.MIN_Y);
-    // All blocks in the same column as player.
-    Iterator<AbstractBlock> iter = blocks.intersects(rect);
-    float minY = Sizes.MAX_Y;
-    while (iter.hasNext()) {
-      AbstractBlock b = iter.next();
-      if (b.getShape().getMinY() < minY) {
-        minY = b.getShape().getMinY();
-      }
-    }
-    player.getYMovement().setPos(minY - Player.HEIGHT - 5);*/
   }
 
   public void listen(Input input, int delta) {
@@ -85,8 +75,7 @@ public class PlayerController implements InputListener {
     */
     Rectangle belowPlayer = new Rectangle(player.getShape().getMinX(),player.getShape().getMaxY() + 2,
         player.getShape().getWidth(), 0);
-    Iterator<AbstractBlock> sb = blocks.intersects(belowPlayer);
-    boolean flying = !sb.hasNext();
+    boolean flying = !blocks.getBlocks().collidesWithNonEmpty(belowPlayer);
     if (KeyboardUtils.isUpPressed(input) && !flying) {
       player.getYMovement().setSpeed(-Player.JUMP_SPEED);
     } else {
@@ -102,32 +91,23 @@ public class PlayerController implements InputListener {
     float x = player.getXMovement().getPos();
     float y = player.getYMovement().getPos();
     player.update(delta);
-    List<AbstractBlock> colliding_blocks = Collections3.getList(blocks.intersects(player.getShape()));
+    List<Rectangle> collidingRectangles = blocks.getBlocks().getIntersectingRectangles(player.getShape());
 
-    for (AbstractBlock b : colliding_blocks) {
-      HitResolver.resolve(player, player.getXMovement().getPos() - x, player.getYMovement().getPos() - y, b.getShape());
+    for (Rectangle r : collidingRectangles) {
+      HitResolver.resolve(player, player.getXMovement().getPos() - x, player.getYMovement().getPos() - y, r);
       player.updateShape();
     }
-    for (AbstractBlock b : colliding_blocks) {
-      assert !GeometryUtils.intersects(player.getShape(), b.getShape());
-    }
-    Iterator<PhysicalObject> it  = movingObjects.intersects(player.getShape());
-    while (it.hasNext()) {
-      PhysicalObject po = it.next();
-      if (po instanceof PickableObject) {
-        Item item = ((PickableObject)po).getItem();
-        PickableObjectType poType = ((PickableObject) po).getType();
-        if (PickableObjectType.ACTION.equals(poType)) {
-          if (inventory.add(item)) {
-            it.remove();
-            objectKiller.killMovingObject(po);
-          }
-        } else if (PickableObjectType.RESOURCE.equals(poType)) {
-          if (KeyboardUtils.isDownPressed(input)) {
-            if (resourceInventory.add(item)) {
-              it.remove();
-              objectKiller.killMovingObject(po);
-            }
+    for (PickableObject pickableObject : collisionController.<PickableObject>fullSearch(MovingObjects.PICKABLE, player.getShape())) {
+      Item item = pickableObject.getItem();
+      PickableObjectType poType = pickableObject.getType();
+      if (PickableObjectType.ACTION.equals(poType)) {
+        if (inventory.add(item)) {
+          objectKiller.killMovingObject(pickableObject);
+        }
+      } else if (PickableObjectType.RESOURCE.equals(poType)) {
+        if (KeyboardUtils.isDownPressed(input)) {
+          if (resourceInventory.add(item)) {
+            objectKiller.killMovingObject(pickableObject);
           }
         }
       }
