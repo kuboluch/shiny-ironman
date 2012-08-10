@@ -50,7 +50,7 @@ public class Workplace {
     return renderer;
   }
 
-  public PlaceableWorkplaceObject getPlaceableObject(int x, int y) {
-    return new PlaceableWorkplaceObject(x, y, blockWidth * Sizes.BLOCK, blockHeight * Sizes.BLOCK, renderer);
+  public PlaceableWorkplaceObject getPlaceableObject(int x, int y, WorkplaceController controller) {
+    return new PlaceableWorkplaceObject(x, y, blockWidth * Sizes.BLOCK, blockHeight * Sizes.BLOCK, renderer, controller);
   }
 }

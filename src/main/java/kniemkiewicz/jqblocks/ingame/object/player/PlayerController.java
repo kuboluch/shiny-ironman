@@ -73,7 +73,7 @@ public class PlayerController implements InputListener {
       player.setY(player.getY() + delta);
     }
     */
-    Rectangle belowPlayer = new Rectangle(player.getShape().getMinX(),player.getShape().getMaxY() + 2,
+    Rectangle belowPlayer = new Rectangle(player.getShape().getMinX(), player.getShape().getMaxY() + 2,
         player.getShape().getWidth(), 0);
     boolean flying = !blocks.getBlocks().collidesWithNonEmpty(belowPlayer);
     if (KeyboardUtils.isUpPressed(input) && !flying) {

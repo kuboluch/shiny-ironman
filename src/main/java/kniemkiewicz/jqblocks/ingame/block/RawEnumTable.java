@@ -5,6 +5,7 @@ import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.util.BeanName;
+import kniemkiewicz.jqblocks.util.GeometryUtils;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -202,11 +203,16 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
     return Sizes.MIN_Y + y * Sizes.BLOCK - 1;
   }
 
+  public boolean collidesWithNonEmpty(Shape shape) {
+    Rectangle rect = GeometryUtils.getBoundingRectangle(shape);
+    return collidesWithNonEmpty(rect);
+  }
+
   public boolean collidesWithNonEmpty(Rectangle unscaledRect) {
     int x1 = toXIndex((int)unscaledRect.getX());
-    int x2 = toXIndex((int)unscaledRect.getMaxX());
+    int x2 = toXIndex((int)unscaledRect.getMaxX() - 1);
     int y1 = toYIndex((int) unscaledRect.getY());
-    int y2 = toYIndex((int)unscaledRect.getMaxY());
+    int y2 = toYIndex((int)unscaledRect.getMaxY() - 1);
     if ((x1 < 0) || (x2 >= data.length) || (y1 < 0) || (y2 >= data[0].length)) {
       return true;
     }
@@ -222,9 +228,9 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
   // some points may be in more than one and so on.
   public List<Rectangle> getIntersectingRectangles(Rectangle unscaledRect) {
     int x1 = toXIndex((int)unscaledRect.getX() + 1);
-    int x2 = toXIndex((int) unscaledRect.getMaxX() + 1);
+    int x2 = toXIndex((int) unscaledRect.getMaxX());
     int y1 = toYIndex((int) unscaledRect.getY() + 1);
-    int y2 = toYIndex((int)unscaledRect.getMaxY() + 1);
+    int y2 = toYIndex((int)unscaledRect.getMaxY());
     List<Rectangle> rectangles = new ArrayList<Rectangle>();
     if (x1 < 0) {
       rectangles.add(new Rectangle(Sizes.MIN_X - 1000, Sizes.MIN_Y - 1000, 1000, Sizes.MAX_Y - Sizes.MIN_Y + 2000));

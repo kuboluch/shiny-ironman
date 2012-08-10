@@ -1,9 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.item.controller;
 
-import kniemkiewicz.jqblocks.ingame.MovingObjects;
-import kniemkiewicz.jqblocks.ingame.PlayerResourceController;
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
-import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.item.AxeItem;
 import kniemkiewicz.jqblocks.ingame.object.CompletionEffect;
 import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
@@ -136,7 +133,7 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   private ResourceObject<Wood> getWoodPile(int x, int y) {
     ResourceObject<Wood> woodObject = null;
     List<ResourceObject> resourceObjects =
-        Collections3.collect(collisionController.fullSearch(MovingObjects.PICKABLE, new Rectangle(x ,y, 1, 1)), ResourceObject.class);
+        Collections3.collect(collisionController.fullSearch(MovingObjects.PICKABLE, new Rectangle(x, y, 1, 1)), ResourceObject.class);
     for (ResourceObject ro : resourceObjects) {
       if (ro.isSameType(new Wood())) {
         woodObject = (ResourceObject<Wood>) ro;

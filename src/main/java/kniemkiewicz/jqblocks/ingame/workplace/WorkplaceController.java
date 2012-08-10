@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.workplace;
 
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.EventListener;
 import kniemkiewicz.jqblocks.ingame.event.input.InputEvent;
@@ -28,15 +29,14 @@ public class WorkplaceController implements EventListener {
 
   @Autowired
   MainGameUI mainGameUI;
-
   @Autowired
   InputContainer inputContainer;
-
   @Autowired
   RenderQueue renderQueue;
-
   @Autowired
   Backgrounds backgrounds;
+  @Autowired
+  SolidBlocks solidBlocks;
 
   List<Workplace> workplaces = new ArrayList<Workplace>();
 
@@ -98,8 +98,10 @@ public class WorkplaceController implements EventListener {
 
   private void handleMouseLeftClickEvent(Event evt) {
     assert evt != null;
-    place();
-    stopPlacing();
+    if (canBePlaced()) {
+      place();
+      stopPlacing();
+    }
     evt.consume();
   }
 
@@ -145,7 +147,7 @@ public class WorkplaceController implements EventListener {
 
   private void handleMouseCoordChange(int x, int y) {
     if (placableWorkplaceObject == null) {
-      placableWorkplaceObject = selectedWorkplace.getPlaceableObject(x, y);
+      placableWorkplaceObject = selectedWorkplace.getPlaceableObject(x, y, this);
       renderQueue.add(placableWorkplaceObject);
     } else {
     placableWorkplaceObject.changeX(x);
@@ -156,5 +158,11 @@ public class WorkplaceController implements EventListener {
   @Override
   public List<Class> getEventTypesOfInterest() {
     return Arrays.asList((Class) InputEvent.class, (Class) ScreenMovedEvent.class);
+  }
+
+  public boolean canBePlaced() {
+    if (solidBlocks.getBlocks().collidesWithNonEmpty(placableWorkplaceObject.getShape())) return false;
+    if (!solidBlocks.isOnSolidGround(placableWorkplaceObject.getShape())) return false;
+    return true;
   }
 }

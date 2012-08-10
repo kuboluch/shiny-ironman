@@ -6,8 +6,8 @@ import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.Fireplace;
 import kniemkiewicz.jqblocks.ingame.object.background.NaturalDirtBackground;
-import kniemkiewicz.jqblocks.ingame.object.block.DirtBlock;
 import kniemkiewicz.jqblocks.ingame.workplace.Workplace;
+import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,6 +27,9 @@ public class VillageGenerator {
   @Autowired
   Backgrounds backgrounds;
 
+  @Autowired
+  WorkplaceController workplaceController;
+
   @Resource(name = "fireplace")
   Workplace fireplace;
 
@@ -44,7 +47,7 @@ public class VillageGenerator {
   void generateVillage(int villageY) {
     startingY = villageY;
     backgrounds.add(new NaturalDirtBackground(STARTING_X - Sizes.BLOCK * 3, villageY  - Sizes.BLOCK * 4, Sizes.BLOCK * 6, Sizes.BLOCK * 4));
-    backgrounds.add(fireplace.getPlaceableObject(STARTING_X - Fireplace.WIDTH / 2, villageY - Fireplace.HEIGHT).getBackgroundElement());
+    backgrounds.add(fireplace.getPlaceableObject(STARTING_X - Fireplace.WIDTH / 2, villageY - Fireplace.HEIGHT, workplaceController).getBackgroundElement());
     solidBlocks.add(new Rectangle(STARTING_X - Sizes.BLOCK * 3, villageY  - Sizes.BLOCK * 5, Sizes.BLOCK * 6, Sizes.BLOCK), WallBlockType.DIRT);
   }
 }

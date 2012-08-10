@@ -79,39 +79,25 @@ public class ResourceInventoryController implements InputListener, EventListener
 
   private boolean dropItem(int x, int y) {
     if (!AbstractActionItemController.isInRange(x, y, playerController.getPlayer(), DROP_RANGE)) return false;
-    if (conflictingObjectExists(x, y)) return false;
     Class<? extends ItemController> clazz = inventory.getSelectedItem().getItemController();
     if (clazz == null) return false;
     ItemController controller = provider.getBean(clazz, true);
     Shape dropObjectShape = controller.getDropObjectShape(inventory.getSelectedItem(), x, y);
     if (dropObjectShape == null) return false;
-    if (!isOnSolidGround(dropObjectShape)) return false;
+    if (conflictingObjectExists(dropObjectShape)) return false;
+    if (solidBlocks.getBlocks().collidesWithNonEmpty(dropObjectShape)) return false;
+    if (!solidBlocks.isOnSolidGround(dropObjectShape)) return false;
     MovingPhysicalObject dropObject = controller.getDropObject(inventory.getSelectedItem(), x, y);
     dropObject(dropObject);
     inventory.removeSelectedItem();
     return true;
   }
 
-  private boolean conflictingObjectExists(int x, int y) {
-    Rectangle rect = new Rectangle(x, y, 1, 1);
+  private boolean conflictingObjectExists(Shape shape) {
+    Rectangle rect = new Rectangle(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
     List<ResourceObject> resourceObjects =
         Collections3.collect(collisionController.fullSearch(MovingObjects.OBJECT_TYPES, rect), ResourceObject.class);
-    if (!resourceObjects.isEmpty()) return true;
-    return solidBlocks.getBlocks().collidesWithNonEmpty(rect);
-  }
-
-  private boolean isOnSolidGround(Shape shape) {
-    Rectangle rect = GeometryUtils.getNewBoundingRectangle(shape);
-    RawEnumTable<WallBlockType> table = solidBlocks.getBlocks();
-    int y = table.toYIndex((int) rect.getMaxY() + 1);
-    int x1 = table.toXIndex((int) rect.getX());
-    int x2 = table.toXIndex((int) rect.getMaxX() - 1);
-    for (int x = x1; x < x2; x++) {
-      if (table.getValueForUnscaledPoint(x, y) == WallBlockType.EMPTY) {
-        return false;
-      }
-    }
-    return true;
+    return !resourceObjects.isEmpty();
   }
 
   @Override
