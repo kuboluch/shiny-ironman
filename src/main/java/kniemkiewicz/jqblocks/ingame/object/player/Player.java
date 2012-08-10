@@ -19,7 +19,7 @@ public class Player implements RenderableObject<Player>,PhysicalObject,HasHealth
 
   private static final long serialVersionUID = 1;
 
-  private static int INITIAL_HP = 100;
+  private static int INITIAL_HP = 1000;
 
   boolean leftFaced;
   LimitedSpeed xMovement;
