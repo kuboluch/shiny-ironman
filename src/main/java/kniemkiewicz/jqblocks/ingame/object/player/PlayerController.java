@@ -10,7 +10,6 @@ import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObjectType;
-import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventory;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
@@ -73,8 +72,7 @@ public class PlayerController implements InputListener {
     */
     Rectangle belowPlayer = new Rectangle(player.getShape().getMinX(),player.getShape().getMaxY() + 2,
         player.getShape().getWidth(), 0);
-    Iterator<AbstractBlock> sb = blocks.intersects(belowPlayer);
-    boolean flying = !sb.hasNext();
+    boolean flying = !blocks.getBlocks().collidesWithNonEmpty(belowPlayer);
     if (KeyboardUtils.isUpPressed(input) && !flying) {
       player.getYMovement().setSpeed(-Player.JUMP_SPEED);
     } else {
@@ -96,7 +94,6 @@ public class PlayerController implements InputListener {
       HitResolver.resolve(player, player.getXMovement().getPos() - x, player.getYMovement().getPos() - y, r);
       player.updateShape();
     }
-    assert blocks.getBlocks().getIntersectingRectangles(player.getShape()).size() == 0;
     Iterator<PhysicalObject> it  = movingObjects.intersects(player.getShape());
     while (it.hasNext()) {
       PhysicalObject po = it.next();

@@ -2,8 +2,9 @@ package kniemkiewicz.jqblocks.ingame.level;
 
 import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.block.RawEnumTable;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
-import kniemkiewicz.jqblocks.ingame.object.block.DirtBlock;
+import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.Out;
 import kniemkiewicz.jqblocks.util.TimeLog;
@@ -67,43 +68,9 @@ public class SurfaceGenerator {
   // This method translates heights[x] into actual blocks, trying to use as few blocks as possible and making sure
   // that we use mostly horizontal blocks.
   private void prepareBlocks(SolidBlocks blocks) {
-    //TODO: Use something else than Rectangle, it is too expensive here.
-    //TODO: Consider using Stack
-    List<Rectangle> proposals = new ArrayList<Rectangle>();
-    int h = heights[0];
-    // width is zero as it is unknown yet.
-    proposals.add(new Rectangle(Sizes.MIN_X, Sizes.MAX_Y - heights[0], 0, heights[0]));
-    for (int i = 1; i < heights.length; i++) {
-      if (heights[i] > h) {
-        // we have to add some more blocks, above the existing proposals.
-        proposals.add(new Rectangle(Sizes.MIN_X + i * Sizes.BLOCK, Sizes.MAX_Y - heights[i], 0, heights[i] - h));
-      }
-      if (heights[i] < h) {
-        // Some blocks may end completely.
-        int new_y = Sizes.MAX_Y - heights[i];
-        // This assert failing means that level is not tall enough to contain mountains we generated.
-        assert new_y > Sizes.MIN_Y;
-        while(new_y >= proposals.get(proposals.size() - 1).getMaxY()) {
-          Rectangle r = proposals.get(proposals.size() - 1);
-          proposals.remove(proposals.size() - 1);
-          float width = Sizes.MIN_X + i * Sizes.BLOCK - r.getX();
-          Assert.executeAndAssert(blocks.add(new DirtBlock(r.getX(), r.getY(), width, r.getHeight())));
-        }
-        // We should never reach bottom of the level so there is always at least the last block that we can cut into
-        // smaller one if new height is lowest ever seen.
-        if (new_y > proposals.get(proposals.size() - 1).getY()) {
-          Rectangle r = proposals.get(proposals.size() - 1);
-          int diff = (int)(new_y - r.getY());
-          float width = Sizes.MIN_X + i * Sizes.BLOCK - r.getX();
-          Assert.executeAndAssert(blocks.add(new DirtBlock(r.getX(), r.getY(), width, diff)));
-          r.setY(r.getY() + diff);
-          r.setHeight(r.getHeight() - diff);
-        }
-      }
-      h = heights[i];
-    }
-    for (Rectangle r : proposals) {
-      Assert.executeAndAssert(blocks.add(new DirtBlock(r.getX(), r.getY(), Sizes.MAX_X - r.getX(), r.getHeight())));
+    RawEnumTable<WallBlockType> table = blocks.getBlocks();
+    for (int i = 0; i < heights.length; i++) {
+      table.setRectUnscaled(new Rectangle(Sizes.MIN_X + i * Sizes.BLOCK, Sizes.MAX_Y - heights[i], Sizes.BLOCK, heights[i]), WallBlockType.DIRT);
     }
   }
 

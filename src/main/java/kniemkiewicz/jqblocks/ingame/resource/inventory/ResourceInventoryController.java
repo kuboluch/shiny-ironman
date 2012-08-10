@@ -18,7 +18,6 @@ import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController;
 import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
-import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.resource.ResourceObject;
 import kniemkiewicz.jqblocks.util.Collections3;

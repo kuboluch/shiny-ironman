@@ -3,8 +3,6 @@ package kniemkiewicz.jqblocks.ingame.block;
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
-import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
-import kniemkiewicz.jqblocks.ingame.object.block.EndOfTheWorldWall;
 import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.ui.info.TimingInfo;
 import kniemkiewicz.jqblocks.util.*;
@@ -50,32 +48,17 @@ public class SolidBlocks{
     blocks = new RawEnumTable<WallBlockType>(WallBlockType.EMPTY, width, length);
   }
 
-  static final EnumSet<CollisionController.ObjectType> BLOCK_OBJECT_TYPE = EnumSet.of(CollisionController.ObjectType.WALL);
-
   @PostConstruct
   void init() {
-    List<AbstractBlock> blocks = new ArrayList<AbstractBlock>();
     this.blocks.fillRendererCache(springBeanProvider);
     renderQueue.add(this.blocks);
   }
 
-  public IterableIterator<AbstractBlock> intersects(Rectangle rect) {
-    TimingInfo.Timer t = timingInfo.getTimer("SolidBlocks.intersects");
-    IterableIterator<AbstractBlock> it = Collections3.getIterable(collisionController.<AbstractBlock>fullSearch(BLOCK_OBJECT_TYPE, rect).iterator());
-    t.record();
-    return it;
-  }
-
-  public boolean add(AbstractBlock block) {
-    if (blocks.collidesWithNonEmpty(block.getShape())) return false;
-    if (movingObjects.intersects(block.getShape()).hasNext()) return false;
-    Assert.executeAndAssert(collisionController.add(BLOCK_OBJECT_TYPE, block, true));
-    blocks.setRectUnscaled(block.getShape(), WallBlockType.DIRT);
+  public boolean add(Rectangle block, WallBlockType type) {
+    if (blocks.collidesWithNonEmpty(block)) return false;
+    if (movingObjects.intersects(block).hasNext()) return false;
+    blocks.setRectUnscaled(block, type);
     return true;
-  }
-
-  public void remove(AbstractBlock block) {
-    collisionController.remove(BLOCK_OBJECT_TYPE, block);
   }
 
   public void serializeData(ObjectOutputStream stream) throws IOException {

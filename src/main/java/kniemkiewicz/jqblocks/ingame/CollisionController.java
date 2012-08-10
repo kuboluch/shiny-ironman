@@ -27,7 +27,6 @@ public class CollisionController {
   }
 
   public enum ObjectType {
-    WALL,
     MOVING_OBJECT
   }
 

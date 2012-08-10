@@ -14,7 +14,6 @@ import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.item.Inventory;
 import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController;
 import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
-import kniemkiewicz.jqblocks.ingame.object.block.AbstractBlock;
 import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
