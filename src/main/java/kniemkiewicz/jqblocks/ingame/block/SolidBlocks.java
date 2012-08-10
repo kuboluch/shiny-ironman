@@ -56,7 +56,7 @@ public class SolidBlocks{
 
   public boolean add(Rectangle block, WallBlockType type) {
     if (blocks.collidesWithNonEmpty(block)) return false;
-    if (movingObjects.intersects(block).hasNext()) return false;
+    if (collisionController.intersects(MovingObjects.OBJECT_TYPES, block)) return false;
     blocks.setRectUnscaled(block, type);
     return true;
   }

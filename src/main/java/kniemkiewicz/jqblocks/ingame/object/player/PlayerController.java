@@ -54,6 +54,9 @@ public class PlayerController implements InputListener {
   @Autowired
   VillageGenerator villageGenerator;
 
+  @Autowired
+  CollisionController collisionController;
+
   /**
    * This is manually invoked by Game to make sure that level is created before.
    */
@@ -94,23 +97,17 @@ public class PlayerController implements InputListener {
       HitResolver.resolve(player, player.getXMovement().getPos() - x, player.getYMovement().getPos() - y, r);
       player.updateShape();
     }
-    Iterator<PhysicalObject> it  = movingObjects.intersects(player.getShape());
-    while (it.hasNext()) {
-      PhysicalObject po = it.next();
-      if (po instanceof PickableObject) {
-        Item item = ((PickableObject)po).getItem();
-        PickableObjectType poType = ((PickableObject) po).getType();
-        if (PickableObjectType.ACTION.equals(poType)) {
-          if (inventory.add(item)) {
-            it.remove();
-            objectKiller.killMovingObject(po);
-          }
-        } else if (PickableObjectType.RESOURCE.equals(poType)) {
-          if (KeyboardUtils.isDownPressed(input)) {
-            if (resourceInventory.add(item)) {
-              it.remove();
-              objectKiller.killMovingObject(po);
-            }
+    for (PickableObject pickableObject : collisionController.<PickableObject>fullSearch(MovingObjects.PICKABLE, player.getShape())) {
+      Item item = pickableObject.getItem();
+      PickableObjectType poType = pickableObject.getType();
+      if (PickableObjectType.ACTION.equals(poType)) {
+        if (inventory.add(item)) {
+          objectKiller.killMovingObject(pickableObject);
+        }
+      } else if (PickableObjectType.RESOURCE.equals(poType)) {
+        if (KeyboardUtils.isDownPressed(input)) {
+          if (resourceInventory.add(item)) {
+            objectKiller.killMovingObject(pickableObject);
           }
         }
       }

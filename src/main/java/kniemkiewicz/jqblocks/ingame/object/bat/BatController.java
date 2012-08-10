@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.object.bat;
 
+import kniemkiewicz.jqblocks.ingame.CollisionController;
 import kniemkiewicz.jqblocks.ingame.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
@@ -21,6 +22,9 @@ public class BatController implements UpdateQueue.UpdateController<Bat>{
   @Autowired
   MovingObjects movingObjects;
 
+  @Autowired
+  CollisionController collisionController;
+
   @Override
   public void update(Bat bat, int delta) {
     float prevX = bat.xMovement.getPos();
@@ -36,7 +40,7 @@ public class BatController implements UpdateQueue.UpdateController<Bat>{
 
   public boolean hits(Bat bat) {
     if (solidBlocks.getBlocks().collidesWithNonEmpty(bat.getShape())) return true;
-    for (PhysicalObject p : movingObjects.intersects(bat.getShape())) {
+    for (PhysicalObject p : collisionController.<PhysicalObject>fullSearch(MovingObjects.MOVING, bat.getShape())) {
       if (p != bat) return true;
     }
     return false;

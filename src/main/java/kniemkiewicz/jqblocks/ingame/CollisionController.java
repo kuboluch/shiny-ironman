@@ -27,7 +27,8 @@ public class CollisionController {
   }
 
   public enum ObjectType {
-    MOVING_OBJECT
+    MOVING_OBJECT,
+    PICKABLE
   }
 
   EnumMap<ObjectType, QuadTree<QuadTree.HasShape>> quadTrees = new EnumMap<ObjectType, QuadTree<QuadTree.HasShape>>(ObjectType.class);

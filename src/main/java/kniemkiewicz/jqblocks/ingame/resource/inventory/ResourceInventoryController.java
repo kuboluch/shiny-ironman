@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.resource.inventory;
 
+import kniemkiewicz.jqblocks.ingame.CollisionController;
 import kniemkiewicz.jqblocks.ingame.InputListener;
 import kniemkiewicz.jqblocks.ingame.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.Sizes;
@@ -51,11 +52,11 @@ public class ResourceInventoryController implements InputListener, EventListener
   @Autowired
   SolidBlocks solidBlocks;
   @Autowired
-  private MovingObjects movingObjects;
-  @Autowired
   PlayerController playerController;
   @Autowired
   InputContainer inputContainer;
+  @Autowired
+  CollisionController collisionController;
 
   public static Log logger = LogFactory.getLog(ResourceInventoryController.class);
 
@@ -94,7 +95,7 @@ public class ResourceInventoryController implements InputListener, EventListener
   private boolean conflictingObjectExists(int x, int y) {
     Rectangle rect = new Rectangle(x, y, 1, 1);
     List<ResourceObject> resourceObjects =
-        Collections3.collect(movingObjects.intersects(rect), ResourceObject.class);
+        Collections3.collect(collisionController.fullSearch(MovingObjects.OBJECT_TYPES, rect), ResourceObject.class);
     if (!resourceObjects.isEmpty()) return true;
     return solidBlocks.getBlocks().collidesWithNonEmpty(rect);
   }

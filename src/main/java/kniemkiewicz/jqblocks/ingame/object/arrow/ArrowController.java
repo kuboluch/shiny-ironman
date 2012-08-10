@@ -1,9 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.object.arrow;
 
-import kniemkiewicz.jqblocks.ingame.MovingObjects;
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
-import kniemkiewicz.jqblocks.ingame.UpdateQueue;
-import kniemkiewicz.jqblocks.ingame.World;
+import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.hp.HasHealthPoints;
@@ -34,6 +31,9 @@ public class ArrowController implements UpdateQueue.UpdateController<Arrow>{
   UpdateQueue updateQueue;
 
   @Autowired
+  CollisionController collisionController;
+
+  @Autowired
   World killer;
 
   public void add(Arrow arrow) {
@@ -46,7 +46,7 @@ public class ArrowController implements UpdateQueue.UpdateController<Arrow>{
     if (blocks.getBlocks().collidesWithNonEmpty(GeometryUtils.getBoundingRectangle(arrow.getShape()))) {
       return true;
     }
-    for (PhysicalObject b : movingObjects.intersects(arrow.getShape())) {
+    for (PhysicalObject b : collisionController.<PhysicalObject>fullSearch(MovingObjects.MOVING, arrow.getShape())) {
       if (GeometryUtils.intersects(b.getShape(), arrow.getShape())) {
         if (b != arrow.getSource()) {
           physicalObject.set(b);
