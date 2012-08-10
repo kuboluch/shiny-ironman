@@ -1,6 +1,5 @@
 package kniemkiewicz.jqblocks.ingame;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.geom.Shape;

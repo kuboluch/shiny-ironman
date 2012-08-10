@@ -23,7 +23,7 @@ public class DirtBlockItemController extends AbstractActionItemController<DirtBl
 
   @Override
   boolean canPerformAction(int x, int y) {
-    return blocks.getBlocks().collidesWithNonEmpty(new Rectangle(x, y, 1, 1));
+    return !blocks.getBlocks().collidesWithNonEmpty(new Rectangle(x, y, 1, 1));
   }
 
   @Override
