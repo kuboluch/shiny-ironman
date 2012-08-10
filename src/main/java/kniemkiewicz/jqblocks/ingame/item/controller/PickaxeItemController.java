@@ -49,7 +49,7 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
 
   @Override
   Rectangle getAffectedRectangle(int x, int y) {
-    return new Rectangle(x, y, Sizes.BLOCK - 1, Sizes.BLOCK - 1);
+    return new Rectangle(x, y, Sizes.BLOCK, Sizes.BLOCK);
   }
 
   @Override

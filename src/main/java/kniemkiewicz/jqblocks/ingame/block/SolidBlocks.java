@@ -73,4 +73,18 @@ public class SolidBlocks{
   public RawEnumTable<WallBlockType> getBlocks() {
     return blocks;
   }
+
+  public boolean isOnSolidGround(Shape shape) {
+    Rectangle rect = GeometryUtils.getNewBoundingRectangle(shape);
+    RawEnumTable<WallBlockType> table = blocks;
+    int y = table.toYIndex((int) rect.getMaxY() + 1);
+    int x1 = table.toXIndex((int) rect.getX());
+    int x2 = table.toXIndex((int) rect.getMaxX() - 1);
+    for (int x = x1; x < x2; x++) {
+      if (table.getValueForUnscaledPoint(x, y) == WallBlockType.EMPTY) {
+        return false;
+      }
+    }
+    return true;
+  }
 }

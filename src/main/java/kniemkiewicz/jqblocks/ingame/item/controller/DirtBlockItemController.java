@@ -28,7 +28,7 @@ public class DirtBlockItemController extends AbstractActionItemController<DirtBl
 
   @Override
   Rectangle getAffectedRectangle(int x, int y) {
-    return new Rectangle(x, y, Sizes.BLOCK - 1, Sizes.BLOCK - 1);
+    return new Rectangle(x, y, Sizes.BLOCK, Sizes.BLOCK);
   }
 
   @Override
@@ -55,7 +55,7 @@ public class DirtBlockItemController extends AbstractActionItemController<DirtBl
   }
 
   private void addBlock(int x, int y) {
-    Rectangle rect = new Rectangle(x, y, Sizes.BLOCK - 1, Sizes.BLOCK - 1);
+    Rectangle rect = new Rectangle(x, y, Sizes.BLOCK, Sizes.BLOCK);
     if (!blocks.getBlocks().collidesWithNonEmpty(rect)) {
       blocks.add(new Rectangle(x, y, Sizes.BLOCK, Sizes.BLOCK), WallBlockType.DIRT);
     }

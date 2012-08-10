@@ -9,7 +9,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
 public abstract class AbstractBackgroundElement<T extends AbstractBackgroundElement>
-    implements BackgroundElement, RenderableObject<T> {
+    implements BackgroundElement {
   protected int x;
   protected int y;
   protected int width;
@@ -21,7 +21,7 @@ public abstract class AbstractBackgroundElement<T extends AbstractBackgroundElem
     this.y = Sizes.roundToBlockSizeY(y);
     this.width =  Sizes.roundToBlockSize(width);
     this.height = Sizes.roundToBlockSize(height);
-    shape = new Rectangle(this.x, this.y, this.width - 1, this.height - 1);
+    shape = new Rectangle(this.x, this.y, this.width, this.height);
     assert this.width > 0;
     assert this.height > 0;
   }

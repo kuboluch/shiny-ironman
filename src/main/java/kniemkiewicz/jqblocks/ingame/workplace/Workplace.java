@@ -50,8 +50,7 @@ public class Workplace {
     return renderer;
   }
 
-  public PlacableWorkplaceObject getPlaceableObject(int x, int y) {
-    BeanName rendererBeanName = new BeanName(renderer.getClass(), renderer.getBeanName());
-    return new PlacableWorkplaceObject(x, y, blockWidth * Sizes.BLOCK, blockHeight * Sizes.BLOCK, rendererBeanName);
+  public PlaceableWorkplaceObject getPlaceableObject(int x, int y, WorkplaceController controller) {
+    return new PlaceableWorkplaceObject(x, y, blockWidth * Sizes.BLOCK, blockHeight * Sizes.BLOCK, renderer, controller);
   }
 }

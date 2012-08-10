@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.object.background;
 
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.util.LinearIntersectionIterator;
+import kniemkiewicz.jqblocks.ingame.workplace.PlaceableWorkplaceObject;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,19 +25,19 @@ public class Backgrounds {
   @Autowired
   RenderQueue queue;
 
-  Set<AbstractBackgroundElement> backgrounds = new HashSet<AbstractBackgroundElement>();
+  Set<BackgroundElement> backgrounds = new HashSet<BackgroundElement>();
 
-  public void add(AbstractBackgroundElement background) {
+  public void add(BackgroundElement background) {
     queue.add(background);
     backgrounds.add(background);
   }
 
-  public void remove(AbstractBackgroundElement background) {
+  public void remove(BackgroundElement background) {
     backgrounds.remove(background);
     queue.remove(background);
   }
 
-  public Iterator<AbstractBackgroundElement> intersects(Rectangle rect) {
-    return new LinearIntersectionIterator<AbstractBackgroundElement>(backgrounds.iterator(), rect);
+  public Iterator<BackgroundElement> intersects(Rectangle rect) {
+    return new LinearIntersectionIterator<BackgroundElement>(backgrounds.iterator(), rect);
   }
 }
