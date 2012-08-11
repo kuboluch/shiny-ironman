@@ -59,6 +59,16 @@ public final class World {
   @Autowired
   PlayerController playerController;
 
+  long timestamp = 0;
+
+  public void advanceTime(long delta) {
+    timestamp += delta;
+  }
+
+  public long getTimestamp() {
+    return timestamp;
+  }
+
   public void killMovingObject(Object object) {
     if (object instanceof RenderableObject) {
       renderQueue.remove((RenderableObject) object);
@@ -74,7 +84,10 @@ public final class World {
   BitSet markIndexes(Map<Object, Integer> indexes, Iterator<?> objects) {
     BitSet bitSet = new BitSet(indexes.size());
     for (Object o : Collections3.getIterable(objects)) {
-      bitSet.set(indexes.get(o));
+      // TODO: make this nicer, somehow.
+      if (!(o instanceof RawEnumTable)) {
+        bitSet.set(indexes.get(o));
+      }
     }
     return bitSet;
   }
@@ -101,6 +114,7 @@ public final class World {
     inventory.serializeItems(stream);
     resourceInventory.serializeItems(stream);
     solidBlocks.serializeData(stream);
+    stream.writeObject(new Long(timestamp));
     stream.close();
   }
 
@@ -143,6 +157,7 @@ public final class World {
       inventory.loadSerializedItems(stream);
       resourceInventory.loadSerializedItems(stream);
       solidBlocks.deserializeData(stream);
+      timestamp = (Long)stream.readObject();
     } catch (Exception e) {
       throw new GameLoadException(e);
     }

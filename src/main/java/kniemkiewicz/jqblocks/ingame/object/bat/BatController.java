@@ -54,7 +54,7 @@ public class BatController implements UpdateQueue.UpdateController<Bat>{
         collided = true;
       }
       if (p instanceof Player) {
-        ((HasHealthPoints) p).getHp().damage(BITE_DMG, world);
+        ((HasHealthPoints) p).getHp().damageRateLimited(bat, BITE_DMG, 300, world);
       }
     }
     return collided;

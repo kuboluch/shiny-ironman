@@ -153,6 +153,7 @@ public class MainGameState extends BasicTWLGameState {
 
   @Override
   public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
+    world.advanceTime(delta);
     // This happens mostly with breakpoints and generally breaks physics.
     if (delta > 100) return;
     TimingInfo.Timer t = timingInfo.getTimer("update");
