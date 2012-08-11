@@ -4,10 +4,7 @@ import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.event.Event;
-import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
-import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseDraggedEvent;
-import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
-import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseReleasedEvent;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.*;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
@@ -62,17 +59,23 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
 
     List<MouseDraggedEvent> mouseDraggedEvents = Collections3.collect(events, MouseDraggedEvent.class);
     if (!mouseDraggedEvents.isEmpty()) {
-      handleMouseDraggedEvent(item, mouseDraggedEvents);
+      for (MouseDraggedEvent e : mouseDraggedEvents) {
+        handleMouseDraggedEvent(item, e);
+      }
     }
 
     List<MouseReleasedEvent> mouseReleasedEvents = Collections3.collect(events, MouseReleasedEvent.class);
     if (!mouseReleasedEvents.isEmpty()) {
-      handleMouseReleasedEvent(item, mouseReleasedEvents);
+      for (MouseReleasedEvent e : mouseReleasedEvents) {
+        handleMouseReleasedEvent(item, e);
+      }
     }
 
     List<ScreenMovedEvent> screenMovedEvents = Collections3.collect(events, ScreenMovedEvent.class);
     if (!screenMovedEvents.isEmpty()) {
-      handleScreenMovedEvent(item, screenMovedEvents);
+      for (ScreenMovedEvent e : screenMovedEvents) {
+        handleScreenMovedEvent(item, e);
+      }
     }
   }
 
@@ -98,25 +101,19 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
     }
   }
 
-  public void handleMouseDraggedEvent(T item, List<MouseDraggedEvent> mouseDraggedEvents) {
-    assert mouseDraggedEvents.size() > 0;
-    // TODO: there may be more than 1 event!
-    MouseDraggedEvent mde = mouseDraggedEvents.get(0);
-    if (mde.getButton() != Button.LEFT) return;
-    int x = Sizes.roundToBlockSizeX(mde.getNewLevelX());
-    int y = Sizes.roundToBlockSizeY(mde.getNewLevelY());
+  public void handleMouseDraggedEvent(T item, MouseDraggedEvent event) {
+    if (event.getButton() != Button.LEFT) return;
+    int x = Sizes.roundToBlockSizeX(event.getNewLevelX());
+    int y = Sizes.roundToBlockSizeY(event.getNewLevelY());
     handleMouseCoordChange(item, x, y);
   }
 
-  public void handleScreenMovedEvent(T item, List<ScreenMovedEvent> screenMovedEvents) {
+  public void handleScreenMovedEvent(T item, ScreenMovedEvent event) {
     if (!inputContainer.getInput().isMouseButtonDown(0)) {
       return;
     }
-    // TODO: there may be more than 1 event!
-    assert screenMovedEvents.size() > 0;
-    ScreenMovedEvent sme = screenMovedEvents.get(0);
-    int x = Sizes.roundToBlockSizeX(inputContainer.getInput().getMouseX() + sme.getNewShiftX());
-    int y = Sizes.roundToBlockSizeY(inputContainer.getInput().getMouseY() + sme.getNewShiftY());
+    int x = Sizes.roundToBlockSizeX(inputContainer.getInput().getMouseX() + event.getNewShiftX());
+    int y = Sizes.roundToBlockSizeY(inputContainer.getInput().getMouseY() + event.getNewShiftY());
     handleMouseCoordChange(item, x, y);
   }
 
@@ -138,16 +135,13 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
     }
   }
 
-  public void handleMouseReleasedEvent(T item, List<MouseReleasedEvent> mouseReleasedEvents) {
+  public void handleMouseReleasedEvent(T item, MouseReleasedEvent event) {
     if (affectedRectangle == null) {
       return;
     }
-    // TODO: there may be more than 1 event!
-    assert mouseReleasedEvents.size() > 0;
-    MouseReleasedEvent mre = mouseReleasedEvents.get(0);
-    if (mre.getButton() != Button.LEFT) return;
-    int x = Sizes.roundToBlockSizeX(mre.getLevelX());
-    int y = Sizes.roundToBlockSizeY(mre.getLevelY());
+    if (event.getButton() != Button.LEFT) return;
+    int x = Sizes.roundToBlockSizeX(event.getLevelX());
+    int y = Sizes.roundToBlockSizeY(event.getLevelY());
     if (!isInRange(x, y)) {
       return;
     }

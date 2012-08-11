@@ -62,17 +62,23 @@ public class WorkplaceController implements EventListener {
 
     List<MouseMovedEvent> mouseMovedEvents = Collections3.collect(events, MouseMovedEvent.class);
     if (!mouseMovedEvents.isEmpty()) {
-      handleMouseMovedEvent(mouseMovedEvents);
+      for (MouseMovedEvent e : mouseMovedEvents) {
+        handleMouseMovedEvent(e);
+      }
     }
 
     List<MouseDraggedEvent> mouseDraggedEvents = Collections3.collect(events, MouseDraggedEvent.class);
     if (!mouseDraggedEvents.isEmpty()) {
-      handleMouseDraggedEvent(mouseDraggedEvents);
+      for (MouseDraggedEvent e : mouseDraggedEvents) {
+        handleMouseDraggedEvent(e);
+      }
     }
 
     List<ScreenMovedEvent> screenMovedEvents = Collections3.collect(events, ScreenMovedEvent.class);
     if (!screenMovedEvents.isEmpty()) {
-      handleScreenMovedEvent(screenMovedEvents);
+      for (ScreenMovedEvent e : screenMovedEvents) {
+        handleScreenMovedEvent(e);
+      }
     }
 
     List<MousePressedEvent> mousePressedEvents = Collections3.collect(events, MousePressedEvent.class);
@@ -117,42 +123,35 @@ public class WorkplaceController implements EventListener {
     backgrounds.add(placableWorkplaceObject.getBackgroundElement());
   }
 
-  public void handleMouseMovedEvent(List<MouseMovedEvent> mouseMovedEvents) {
-    assert mouseMovedEvents.size() > 0;
-    // TODO: there may be more than 1 event!
-    MouseMovedEvent mde = mouseMovedEvents.get(0);
-    int x = Sizes.roundToBlockSizeX(mde.getNewLevelX());
-    int y = Sizes.roundToBlockSizeY(mde.getNewLevelY());
+  public void handleMouseMovedEvent(MouseMovedEvent event) {
+    int x = Sizes.roundToBlockSizeX(event.getNewLevelX());
+    int y = Sizes.roundToBlockSizeY(event.getNewLevelY());
     handleMouseCoordChange(x, y);
+    event.consume();
   }
 
-  public void handleMouseDraggedEvent(List<MouseDraggedEvent> mouseDraggedEvents) {
-    assert mouseDraggedEvents.size() > 0;
-    // TODO: there may be more than 1 event!
-    MouseDraggedEvent mde = mouseDraggedEvents.get(0);
-    if (mde.getButton() != Button.LEFT) return;
-    int x = Sizes.roundToBlockSizeX(mde.getNewLevelX());
-    int y = Sizes.roundToBlockSizeY(mde.getNewLevelY());
+  public void handleMouseDraggedEvent(MouseDraggedEvent event) {
+    if (event.getButton() != Button.LEFT) return;
+    int x = Sizes.roundToBlockSizeX(event.getNewLevelX());
+    int y = Sizes.roundToBlockSizeY(event.getNewLevelY());
     handleMouseCoordChange(x, y);
+    event.consume();
   }
 
-  public void handleScreenMovedEvent(List<ScreenMovedEvent> screenMovedEvents) {
-    // TODO: there may be more than 1 event!
-    assert screenMovedEvents.size() > 0;
-    ScreenMovedEvent sme = screenMovedEvents.get(0);
-    int x = Sizes.roundToBlockSizeX(inputContainer.getInput().getMouseX() + sme.getNewShiftX());
-    int y = Sizes.roundToBlockSizeY(inputContainer.getInput().getMouseY() + sme.getNewShiftY());
+  public void handleScreenMovedEvent(ScreenMovedEvent event) {
+    int x = Sizes.roundToBlockSizeX(inputContainer.getInput().getMouseX() + event.getNewShiftX());
+    int y = Sizes.roundToBlockSizeY(inputContainer.getInput().getMouseY() + event.getNewShiftY());
     handleMouseCoordChange(x, y);
+    event.consume();
   }
 
   private void handleMouseCoordChange(int x, int y) {
     if (placableWorkplaceObject == null) {
       placableWorkplaceObject = selectedWorkplace.getPlaceableObject(x, y, this);
       renderQueue.add(placableWorkplaceObject);
-    } else {
+    }
     placableWorkplaceObject.changeX(x);
     placableWorkplaceObject.changeY(y);
-    }
   }
 
   @Override
