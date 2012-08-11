@@ -40,8 +40,6 @@ public class LinearIntersectionIterator<T extends PhysicalObject> extends Iterab
     return b;
   }
 
-
-
   public void remove() {
     it.remove();
   }

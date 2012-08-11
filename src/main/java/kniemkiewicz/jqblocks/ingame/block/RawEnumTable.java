@@ -210,9 +210,9 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
 
   public boolean collidesWithNonEmpty(Rectangle unscaledRect) {
     int x1 = toXIndex((int)unscaledRect.getX());
-    int x2 = toXIndex((int)unscaledRect.getMaxX() - 1);
+    int x2 = toXIndex((int)unscaledRect.getMaxX());
     int y1 = toYIndex((int) unscaledRect.getY());
-    int y2 = toYIndex((int)unscaledRect.getMaxY() - 1);
+    int y2 = toYIndex((int)unscaledRect.getMaxY());
     if ((x1 < 0) || (x2 >= data.length) || (y1 < 0) || (y2 >= data[0].length)) {
       return true;
     }

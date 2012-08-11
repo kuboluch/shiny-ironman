@@ -41,4 +41,21 @@ public class GeometryUtilsTest {
     Assert.assertFalse(GeometryUtils.intersects(l1, l3));
     Assert.assertTrue(GeometryUtils.intersects(l2, l3));
   }
+
+  @Test
+  public void testBoundaryCaseForRectangles() {
+    // Side by side
+    Rectangle r1 = new Rectangle(0f, 0f, 100f, 100f);
+    Rectangle r2 = new Rectangle(0f, 100f, 100f, 100f);
+    // TODO should rects intersect in this case?
+    Assert.assertTrue(GeometryUtils.intersects(r1, r2));
+
+    Rectangle r3 = new Rectangle(0f, 0f, 100f, 100f);
+    Rectangle r4 = new Rectangle(0f, 100.5f, 100f, 100f);
+    Assert.assertFalse(GeometryUtils.intersects(r3, r4));
+
+    Rectangle r5 = new Rectangle(0f, 0f, 100f, 100f);
+    Rectangle r6 = new Rectangle(0f, 99.5f, 100f, 100f);
+    Assert.assertTrue(GeometryUtils.intersects(r5, r6));
+  }
 }
