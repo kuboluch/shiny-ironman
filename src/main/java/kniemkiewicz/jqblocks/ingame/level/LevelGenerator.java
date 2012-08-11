@@ -30,7 +30,6 @@ public class LevelGenerator {
   Random random = new Random();
 
   public void generate() {
-    // TODO: This takes way too long on my laptop.
     TimeLog t = new TimeLog();
     Out<Integer> villageY = new Out<Integer>();
     int[] heights = surfaceGenerator.generate(random, villageY);

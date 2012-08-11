@@ -38,11 +38,11 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
     this.emptyType = emptyType;
   }
 
-  final T get(int x, int y) {
+  final public T get(int x, int y) {
     return (T) data[x][y];
   }
 
-  final void set(int x, int y, T type) {
+  final public void set(int x, int y, T type) {
     data[x][y] = type;
   }
 
@@ -328,5 +328,9 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
       }
     }
     return rectangles;
+  }
+
+  public int getHeight() {
+    return data[0].length;
   }
 }

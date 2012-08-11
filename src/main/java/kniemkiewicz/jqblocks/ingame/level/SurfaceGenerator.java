@@ -70,7 +70,10 @@ public class SurfaceGenerator {
   private void prepareBlocks(SolidBlocks blocks) {
     RawEnumTable<WallBlockType> table = blocks.getBlocks();
     for (int i = 0; i < heights.length; i++) {
-      table.setRectUnscaled(new Rectangle(Sizes.MIN_X + i * Sizes.BLOCK, Sizes.MAX_Y - heights[i], Sizes.BLOCK, heights[i]), WallBlockType.DIRT);
+      int j0 = (Sizes.MAX_Y - Sizes.MIN_Y- heights[i]) / Sizes.BLOCK;
+      for (int j = j0; j < table.getHeight(); j++) {
+        table.set(i, j, WallBlockType.DIRT);
+      }
     }
   }
 
