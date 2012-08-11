@@ -19,7 +19,7 @@ public class Player implements RenderableObject<Player>,PhysicalObject,HasHealth
 
   private static final long serialVersionUID = 1;
 
-  private static int INITIAL_HP = 100;
+  private static int INITIAL_HP = 1000;
 
   boolean leftFaced;
   LimitedSpeed xMovement;
@@ -37,7 +37,7 @@ public class Player implements RenderableObject<Player>,PhysicalObject,HasHealth
   public Player() {
     xMovement = new LimitedSpeed(MAX_X_SPEED, 0, 0, DEFAULT_X_DECELERATION);
     yMovement = new LimitedSpeed(Sizes.MAX_FALL_SPEED, 0, 0, 0);
-    shape = new Rectangle(xMovement.getPos(), yMovement.getPos(), WIDTH, HEIGHT);
+    shape = new Rectangle(xMovement.getPos(), yMovement.getPos(), WIDTH - 1, HEIGHT - 1);
     healthPoints = new HealthPoints(INITIAL_HP, this);
   }
 

@@ -3,6 +3,8 @@ package kniemkiewicz.jqblocks.ingame.object.hp;
 import kniemkiewicz.jqblocks.ingame.World;
 
 import java.io.Serializable;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * User: knie
@@ -40,5 +42,26 @@ public class HealthPoints implements Serializable {
 
   public int getMaxHp() {
     return maxHp;
+  }
+
+  transient WeakHashMap<Object, Long> attackers;
+
+  public void damageRateLimited(Object attacker, int biteDmg, long delta, World world) {
+    if (attackers == null) {
+      attackers = new WeakHashMap<Object, Long>();
+    }
+    long currentTime = world.getTimestamp();
+    boolean doDmg = false;
+    if (attackers.containsKey(attacker)) {
+      if (currentTime - attackers.get(attacker) > delta) {
+        doDmg = true;
+      }
+    } else {
+      doDmg = true;
+    }
+    if (doDmg) {
+      this.damage(biteDmg, world);
+      attackers.put(attacker, currentTime);
+    }
   }
 }

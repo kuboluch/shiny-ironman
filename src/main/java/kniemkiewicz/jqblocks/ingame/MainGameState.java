@@ -11,6 +11,7 @@ import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
 import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventoryController;
+import kniemkiewicz.jqblocks.ingame.ui.HealthBar;
 import kniemkiewicz.jqblocks.ingame.ui.MainGameUI;
 import kniemkiewicz.jqblocks.ingame.ui.info.MouseInputInfo;
 import kniemkiewicz.jqblocks.ingame.ui.info.ResourceInfo;
@@ -92,6 +93,9 @@ public class MainGameState extends BasicTWLGameState {
   UIController uiController;
 
   @Autowired
+  HealthBar healthBar;
+
+  @Autowired
   World world;
 
   private Settings settings;
@@ -128,6 +132,7 @@ public class MainGameState extends BasicTWLGameState {
     renderQueue.add(timingInfo);
     renderQueue.add(mouseInputInfo);
     renderQueue.add(resourceInfo);
+    renderQueue.add(healthBar);
     if (settings.savegame != null) {
       world.loadGameData(settings.savegame);
     } else {
@@ -148,6 +153,7 @@ public class MainGameState extends BasicTWLGameState {
 
   @Override
   public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
+    world.advanceTime(delta);
     // This happens mostly with breakpoints and generally breaks physics.
     if (delta > 100) return;
     TimingInfo.Timer t = timingInfo.getTimer("update");
