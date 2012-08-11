@@ -41,4 +41,10 @@ public final class GeometryUtils {
     }
     return false;
   }
+
+  public static int toInt(float f) {
+    if (f > 0) return (int)f;
+    if ((int)f == f) return (int)f;
+    return (int)f - 1;
+  }
 }

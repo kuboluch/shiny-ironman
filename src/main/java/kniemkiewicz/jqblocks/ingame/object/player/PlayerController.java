@@ -112,7 +112,7 @@ public class PlayerController implements InputListener {
         }
       }
     }
-
+    assert blocks.getBlocks().getIntersectingRectangles(player.getShape()).size() == 0;
     // Do not change this without a good reason. May lead to screen flickering in rare conditions.
     int centerX = (int)player.getXMovement().getPos() + Player.WIDTH / 2;
     int centerY = (int)player.getYMovement().getPos() + Player.HEIGHT / 2;
