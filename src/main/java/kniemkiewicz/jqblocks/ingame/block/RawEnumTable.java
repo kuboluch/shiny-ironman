@@ -227,10 +227,10 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
   // Rectangles returned by this method are meant to be used with HitResolver, they are not smallest possible ones,
   // some points may be in more than one and so on.
   public List<Rectangle> getIntersectingRectangles(Rectangle unscaledRect) {
-    int x1 = toXIndex((int)unscaledRect.getX() + 1);
-    int x2 = toXIndex((int) unscaledRect.getMaxX());
-    int y1 = toYIndex((int) unscaledRect.getY() + 1);
-    int y2 = toYIndex((int)unscaledRect.getMaxY());
+    int x1 = toXIndex((int)unscaledRect.getX());
+    int x2 = toXIndex((int) unscaledRect.getMaxX() - 1);
+    int y1 = toYIndex((int) unscaledRect.getY());
+    int y2 = toYIndex((int)unscaledRect.getMaxY() - 1);
     List<Rectangle> rectangles = new ArrayList<Rectangle>();
     if (x1 < 0) {
       rectangles.add(new Rectangle(Sizes.MIN_X - 1000, Sizes.MIN_Y - 1000, 1000, Sizes.MAX_Y - Sizes.MIN_Y + 2000));
