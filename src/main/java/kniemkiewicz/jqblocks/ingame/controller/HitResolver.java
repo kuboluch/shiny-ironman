@@ -24,7 +24,8 @@ public class HitResolver {
    * Player.getShape has to be partially inside rect. dx and dy give the direction of recent player movement.
    */
   public static void resolve(Player player, float dx, float dy, Rectangle rect) {
-    Rectangle shape = GeometryUtils.getOpenBoundingRectangle(player.getShape());
+    //Rectangle shape = GeometryUtils.getOpenBoundingRectangle(player.getShape());
+    Rectangle shape = player.getShape();
     if (!GeometryUtils.intersects(rect, shape)) return;
     Decision decision = decide(shape, dx, dy, rect);
     switch (decision) {
