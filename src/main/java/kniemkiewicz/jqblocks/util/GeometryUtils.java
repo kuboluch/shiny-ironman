@@ -22,7 +22,7 @@ public final class GeometryUtils {
     Rectangle rect = GeometryUtils.getNewBoundingRectangle(shape);
     rect.setX(rect.getX() + 1);
     rect.setY(rect.getY() + 1);
-    rect.setHeight(rect.getWidth() - 2);
+    rect.setWidth(rect.getWidth() - 2);
     rect.setHeight(rect.getHeight() - 2);
     return rect;
   }

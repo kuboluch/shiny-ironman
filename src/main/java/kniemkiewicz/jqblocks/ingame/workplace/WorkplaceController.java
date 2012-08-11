@@ -1,7 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.workplace;
 
 import kniemkiewicz.jqblocks.ingame.CollisionController;
-import kniemkiewicz.jqblocks.ingame.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
@@ -16,11 +15,10 @@ import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
-import kniemkiewicz.jqblocks.ingame.resource.ResourceObject;
+import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
 import kniemkiewicz.jqblocks.ingame.ui.MainGameUI;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -52,7 +50,7 @@ public class WorkplaceController implements EventListener {
 
   private Workplace selectedWorkplace;
 
-  private PlaceableWorkplaceObject placableWorkplaceObject;
+  private PlaceableWorkplaceObject placeableWorkplaceObject;
 
   public WorkplaceController(List<Workplace> workplaces) {
     this.workplaces = workplaces;
@@ -114,7 +112,7 @@ public class WorkplaceController implements EventListener {
 
   private void handleMouseLeftClickEvent(Event evt) {
     assert evt != null;
-    if (canBePlaced(placableWorkplaceObject.getShape())) {
+    if (canBePlaced(placeableWorkplaceObject.getShape())) {
       place();
       stopPlacing();
     }
@@ -123,14 +121,14 @@ public class WorkplaceController implements EventListener {
 
   private void stopPlacing() {
     selectedWorkplace = null;
-    renderQueue.remove(placableWorkplaceObject);
-    placableWorkplaceObject = null;
+    renderQueue.remove(placeableWorkplaceObject);
+    placeableWorkplaceObject = null;
     mainGameUI.resetWorkplaceWidget();
   }
 
   private void place() {
-    renderQueue.remove(placableWorkplaceObject);
-    backgrounds.add(placableWorkplaceObject.getBackgroundElement());
+    renderQueue.remove(placeableWorkplaceObject);
+    backgrounds.add(placeableWorkplaceObject.getBackgroundElement());
   }
 
   public void handleMouseMovedEvent(MouseMovedEvent event) {
@@ -156,12 +154,12 @@ public class WorkplaceController implements EventListener {
   }
 
   private void handleMouseCoordChange(int x, int y) {
-    if (placableWorkplaceObject == null) {
-      placableWorkplaceObject = selectedWorkplace.getPlaceableObject(x, y, this);
-      renderQueue.add(placableWorkplaceObject);
+    if (placeableWorkplaceObject == null) {
+      placeableWorkplaceObject = selectedWorkplace.getPlaceableObject(x, y, this);
+      renderQueue.add(placeableWorkplaceObject);
     }
-    placableWorkplaceObject.changeX(x);
-    placableWorkplaceObject.changeY(y);
+    placeableWorkplaceObject.changeX(x);
+    placeableWorkplaceObject.changeY(y);
   }
 
   @Override
@@ -178,6 +176,9 @@ public class WorkplaceController implements EventListener {
     Iterator<BackgroundElement> it = backgrounds.intersects(GeometryUtils.getNewBoundingRectangle(shape));
     while (it.hasNext()) {
       BackgroundElement be = it.next();
+      if (be instanceof WorkplaceBackgroundElement) {
+        return true;
+      }
     }
     return false;
   }
