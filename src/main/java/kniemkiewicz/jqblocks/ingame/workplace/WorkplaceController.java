@@ -1,5 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.workplace;
 
+import kniemkiewicz.jqblocks.ingame.CollisionController;
+import kniemkiewicz.jqblocks.ingame.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
@@ -12,13 +14,19 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseMovedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
+import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
+import kniemkiewicz.jqblocks.ingame.resource.ResourceObject;
 import kniemkiewicz.jqblocks.ingame.ui.MainGameUI;
 import kniemkiewicz.jqblocks.util.Collections3;
+import kniemkiewicz.jqblocks.util.GeometryUtils;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -37,6 +45,8 @@ public class WorkplaceController implements EventListener {
   Backgrounds backgrounds;
   @Autowired
   SolidBlocks solidBlocks;
+  @Autowired
+  CollisionController collisionController;
 
   List<Workplace> workplaces = new ArrayList<Workplace>();
 
@@ -104,7 +114,7 @@ public class WorkplaceController implements EventListener {
 
   private void handleMouseLeftClickEvent(Event evt) {
     assert evt != null;
-    if (canBePlaced()) {
+    if (canBePlaced(placableWorkplaceObject.getShape())) {
       place();
       stopPlacing();
     }
@@ -159,9 +169,16 @@ public class WorkplaceController implements EventListener {
     return Arrays.asList((Class) InputEvent.class, (Class) ScreenMovedEvent.class);
   }
 
-  public boolean canBePlaced() {
-    if (solidBlocks.getBlocks().collidesWithNonEmpty(placableWorkplaceObject.getShape())) return false;
-    if (!solidBlocks.isOnSolidGround(placableWorkplaceObject.getShape())) return false;
-    return true;
+  public boolean canBePlaced(Shape shape) {
+    if (conflictingObjectExists(shape)) return false;
+    return solidBlocks.isOnSolidGround(shape);
+  }
+
+  private boolean conflictingObjectExists(Shape shape) {
+    Iterator<BackgroundElement> it = backgrounds.intersects(GeometryUtils.getNewBoundingRectangle(shape));
+    while (it.hasNext()) {
+      BackgroundElement be = it.next();
+    }
+    return false;
   }
 }
