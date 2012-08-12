@@ -20,6 +20,10 @@ public class TimingInfo implements Renderable {
   public static String RENDER_TIMER = "render";
   public static TimingInfo CURRENT_TIMING_INFO = null;
 
+  static {
+    CURRENT_TIMING_INFO = new TimingInfo();
+  }
+
   @PostConstruct
   void init() {
     CURRENT_TIMING_INFO = this;

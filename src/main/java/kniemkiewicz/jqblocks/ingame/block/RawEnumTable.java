@@ -225,9 +225,9 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
 
   public boolean collidesWithNonEmpty(Rectangle unscaledRect) {
     int x1 = toXIndex(GeometryUtils.toInt(unscaledRect.getX()));
-    int x2 = toXIndex(GeometryUtils.toInt(unscaledRect.getMaxX()));
+    int x2 = toXIndex(GeometryUtils.toInt(unscaledRect.getX() + unscaledRect.getWidth() - 1));
     int y1 = toYIndex(GeometryUtils.toInt(unscaledRect.getY()));
-    int y2 = toYIndex(GeometryUtils.toInt(unscaledRect.getMaxY()));
+    int y2 = toYIndex(GeometryUtils.toInt(unscaledRect.getY() + unscaledRect.getHeight() - 1));
     if ((x1 < 0) || (x2 >= data.length) || (y1 < 0) || (y2 >= data[0].length)) {
       return true;
     }
@@ -270,67 +270,41 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
         nonEmpty[x - x1][y - y1] = (data[x][y] != emptyType);
       }
     }
-    // First lets try to find all long rectangles. This could be even more complicated to cover more corner cases.
     for (int i = 0; i < nonEmpty.length; i++) {
       int firstNonEmpty = -1;
-      int j;
-      for (j = 0; j < nonEmpty[i].length; j++) {
+      int lastNonEmpty = -1;
+      for (int j = 0; j < nonEmpty[i].length; j++) {
         if (nonEmpty[i][j]) {
           if (firstNonEmpty < 0) {
             firstNonEmpty = j;
           }
-        } else {
-          if (firstNonEmpty >= 0) {
-            if (j - firstNonEmpty >= 2) {
-              for (int z = firstNonEmpty; z < j; z++) {
-                used[i][z] = true;
-              }
-              rectangles.add(new Rectangle(Sizes.MIN_X + (x1 + i) * Sizes.BLOCK, Sizes.MIN_Y + (y1 + firstNonEmpty) * Sizes.BLOCK,
-                  Sizes.BLOCK, (j - firstNonEmpty) * Sizes.BLOCK));
-            }
-            firstNonEmpty = -1;
-          }
+          lastNonEmpty = j;
         }
       }
-      if (firstNonEmpty >= 0) {
-        if (j - firstNonEmpty >= 2) {
-          for (int z = firstNonEmpty; z < j; z++) {
-            used[i][z] = true;
-          }
-          rectangles.add(new Rectangle(Sizes.MIN_X + (x1 + i) * Sizes.BLOCK, Sizes.MIN_Y + (y1 + firstNonEmpty) * Sizes.BLOCK,
-              Sizes.BLOCK, (j - firstNonEmpty) * Sizes.BLOCK));
+      if (firstNonEmpty != lastNonEmpty) {
+        rectangles.add(new Rectangle(Sizes.MIN_X + (x1 + i) * Sizes.BLOCK, Sizes.MIN_Y + (y1 + firstNonEmpty) * Sizes.BLOCK,
+            Sizes.BLOCK, (lastNonEmpty - firstNonEmpty) * Sizes.BLOCK));
+        for (int j = firstNonEmpty; j <= lastNonEmpty; j++) {
+          used[i][j] = true;
         }
       }
     }
-    // Here we do that same bt horizontally. Code is almost the same except for replacing i <-> j in few places.
     for (int i = 0; i < nonEmpty[0].length; i++) {
       int firstNonEmpty = -1;
-      int j;
-      for (j = 0; j < nonEmpty.length; j++) {
+      int lastNonEmpty = -1;
+      for (int j = 0; j < nonEmpty.length; j++) {
         if (nonEmpty[j][i]) {
           if (firstNonEmpty < 0) {
             firstNonEmpty = j;
           }
-        } else {
-          if (firstNonEmpty >= 0) {
-            if (j - firstNonEmpty >= 2) {
-              for (int z = firstNonEmpty; z < j; z++) {
-                used[z][i] = true;
-              }
-              rectangles.add(new Rectangle(Sizes.MIN_X + (x1 + firstNonEmpty) * Sizes.BLOCK, Sizes.MIN_Y + (y1 + i) * Sizes.BLOCK,
-                  (j - firstNonEmpty) * Sizes.BLOCK, Sizes.BLOCK));
-            }
-            firstNonEmpty = -1;
-          }
+          lastNonEmpty = j;
         }
       }
-      if (firstNonEmpty >= 0) {
-        if (j - firstNonEmpty >= 2) {
-          for (int z = firstNonEmpty; z < j; z++) {
-            used[z][i] = true;
-          }
-          rectangles.add(new Rectangle(Sizes.MIN_X + (x1 + firstNonEmpty) * Sizes.BLOCK, Sizes.MIN_Y + (y1 + i) * Sizes.BLOCK,
-              (j - firstNonEmpty) * Sizes.BLOCK, Sizes.BLOCK));
+      if (firstNonEmpty != lastNonEmpty) {
+        rectangles.add(new Rectangle(Sizes.MIN_X + (x1 + firstNonEmpty) * Sizes.BLOCK, Sizes.MIN_Y + (y1 + i) * Sizes.BLOCK,
+            (lastNonEmpty - firstNonEmpty) * Sizes.BLOCK, Sizes.BLOCK));
+        for (int j = firstNonEmpty; j <= lastNonEmpty; j++) {
+          used[j][i] = true;
         }
       }
     }
@@ -347,5 +321,9 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
 
   public int getHeight() {
     return data[0].length;
+  }
+
+  public int getWidth() {
+    return data.length;
   }
 }

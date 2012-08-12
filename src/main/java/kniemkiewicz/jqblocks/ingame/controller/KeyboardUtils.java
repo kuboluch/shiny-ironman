@@ -80,4 +80,8 @@ public class KeyboardUtils {
     }
     return -1;
   }
+
+  public static boolean isMapViewPressed(Input input) {
+    return (input.isKeyDown(Input.KEY_M));
+  }
 }
