@@ -7,4 +7,6 @@ public interface BackgroundElement extends PhysicalObject, RenderableObject {
 
   public boolean isResource();
 
+  public boolean isWorkplace();
+
 }

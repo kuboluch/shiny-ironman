@@ -4,21 +4,18 @@ import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.controller.HitResolver;
 import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
-import kniemkiewicz.jqblocks.ingame.item.Inventory;
+import kniemkiewicz.jqblocks.ingame.item.ItemInventory;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
-import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObjectType;
 import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventory;
-import kniemkiewicz.jqblocks.util.Collections3;
-import kniemkiewicz.jqblocks.util.GeometryUtils;
+import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -43,7 +40,7 @@ public class PlayerController implements InputListener {
   World objectKiller;
 
   @Autowired
-  Inventory inventory;
+  ItemInventory inventory;
 
   @Autowired
   ResourceInventory resourceInventory;
@@ -106,7 +103,7 @@ public class PlayerController implements InputListener {
         }
       } else if (PickableObjectType.RESOURCE.equals(poType)) {
         if (KeyboardUtils.isDownPressed(input)) {
-          if (resourceInventory.add(item)) {
+          if (resourceInventory.add((ResourceItem) item)) {
             objectKiller.killMovingObject(pickableObject);
           }
         }

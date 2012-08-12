@@ -58,8 +58,6 @@ public class ResourceInventoryController implements InputListener, EventListener
   @Autowired
   CollisionController collisionController;
 
-  public static Log logger = LogFactory.getLog(ResourceInventoryController.class);
-
   public void listen(Input input, int delta) {
     int f = KeyboardUtils.getPressedFunctionKey(input);
     if (f > 0 && f <= inventory.getSize()) {
@@ -113,10 +111,12 @@ public class ResourceInventoryController implements InputListener, EventListener
         }
       }
     }
-    Class<? extends ItemController> clazz = inventory.getSelectedItem().getItemController();
-    if (clazz != null) {
-      ItemController controller = provider.getBean(clazz, true);
-      controller.listen(inventory.getSelectedItem(), events);
+    if (inventory.getSelectedItem() != null) {
+      Class<? extends ItemController> clazz = inventory.getSelectedItem().getItemController();
+      if (clazz != null) {
+        ItemController controller = provider.getBean(clazz, true);
+        controller.listen(inventory.getSelectedItem(), events);
+      }
     }
   }
 }

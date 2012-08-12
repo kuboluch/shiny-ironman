@@ -32,6 +32,11 @@ public abstract class AbstractBackgroundElement<T extends AbstractBackgroundElem
   }
 
   @Override
+  public boolean isWorkplace() {
+    return false;
+  }
+
+  @Override
   abstract public BeanName<? extends ObjectRenderer<? super T>> getRenderer();
 
   @Override

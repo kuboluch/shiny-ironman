@@ -41,4 +41,8 @@ public class ResourceItem implements Item {
   public boolean isLarge() {
     return true;
   }
+
+  public Resource getResource() {
+    return resource;
+  }
 }

@@ -62,6 +62,8 @@ public class PointOfView {
     int oldShiftY = shiftY;
     shiftX = x - windowWidth / 2;
     shiftY = y - windowHeight / 2;
-    eventBus.broadcast(new ScreenMovedEvent(oldShiftX, oldShiftY, shiftX, shiftY));
+    if (oldShiftX != shiftX || oldShiftY != shiftY) {
+      eventBus.broadcast(new ScreenMovedEvent(oldShiftX, oldShiftY, shiftX, shiftY));
+    }
   }
 }

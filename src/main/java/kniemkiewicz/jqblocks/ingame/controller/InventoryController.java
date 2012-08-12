@@ -7,20 +7,17 @@ import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.EventListener;
 import kniemkiewicz.jqblocks.ingame.event.input.InputEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
-import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseClickEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
-import kniemkiewicz.jqblocks.ingame.item.Inventory;
+import kniemkiewicz.jqblocks.ingame.item.ItemInventory;
 import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController;
 import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
-import kniemkiewicz.jqblocks.util.GeometryUtils;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -38,7 +35,7 @@ public class InventoryController implements InputListener, EventListener {
   private static int DROP_RANGE = 4 * Sizes.BLOCK;
 
   @Autowired
-  Inventory inventory;
+  ItemInventory inventory;
   @Autowired
   SpringBeanProvider provider;
   @Autowired

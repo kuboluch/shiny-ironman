@@ -1,17 +1,11 @@
-package kniemkiewicz.jqblocks.ingame.resource.inventory;
+package kniemkiewicz.jqblocks.ingame.item;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Renderable;
-import kniemkiewicz.jqblocks.ingame.inventory.Inventory;
 import kniemkiewicz.jqblocks.ingame.inventory.InventoryBase;
-import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.item.ItemInventory;
-import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
-import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
-import org.apache.log4j.lf5.util.Resource;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +13,12 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
+/**
+ * User: krzysiek
+ * Date: 10.07.12
+ */
 @Component
-public class ResourceInventory extends InventoryBase<ResourceItem> implements Inventory<ResourceItem>, Renderable {
+public class ItemInventory extends InventoryBase<Item> implements Renderable {
 
   @Autowired
   RenderQueue renderQueue;
@@ -31,6 +29,7 @@ public class ResourceInventory extends InventoryBase<ResourceItem> implements In
   @Autowired
   SpringBeanProvider springBeanProvider;
 
+  public static int SQUARE_SIZE = 25;
   public static int LARGE_SQUARE_SIZE = 40;
   public static int SQUARE_DIST = 10;
   public static int SQUARE_ROUNDING = 3;
@@ -39,54 +38,48 @@ public class ResourceInventory extends InventoryBase<ResourceItem> implements In
 
   @PostConstruct
   void init() {
-    size = 2;
     renderQueue.add(this);
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < getSize(); i++) {
       items.add(emptyItem);
     }
+    Assert.executeAndAssert(add(new DirtBlockItem()));
+    Assert.executeAndAssert(add(new PickaxeItem()));
+    Assert.executeAndAssert(add(new AxeItem()));
+    Assert.executeAndAssert(add(new BowItem()));
+    Assert.executeAndAssert(add(new PickaxeItem(1000000)));
   }
 
-  public boolean add(ResourceItem item) {
-    assert Assert.validateSerializable(item);
-    Assert.assertTrue(selectedIndex >= 0);
-    Assert.assertTrue(selectedIndex < size);
-    if (items.get(selectedIndex) == emptyItem) {
-      items.set(selectedIndex, item);
-      return true;
-    }
-    return false;
-  }
-
-  final static private String[] ids = {"F1", "F2", "F3"};
+  final static private String[] ids = {"1", "2","3","4","5","6","7","8","9","0"};
 
   public void render(Graphics g) {
-    int x = pointOfView.getWindowWidth() - items.size() * LARGE_SQUARE_SIZE - (items.size() - 1) * SQUARE_DIST - X_MARGIN;
-    int y = ItemInventory.SQUARE_SIZE + 3 * Y_MARGIN;
+
+    int x = pointOfView.getWindowWidth() - items.size() * SQUARE_SIZE - (items.size() - 1) * SQUARE_DIST - X_MARGIN;
     int i = 0;
     for (Item item : items) {
-      int square_size = LARGE_SQUARE_SIZE;
+      int square_size = SQUARE_SIZE;
       if (i == selectedIndex) {
         g.setColor(Color.lightGray);
       } else {
         g.setColor(Color.gray);
       }
-      g.fillRoundRect(x, y, square_size, square_size, SQUARE_ROUNDING);
+      g.fillRoundRect(x, Y_MARGIN, square_size, square_size, SQUARE_ROUNDING);
       if (i == selectedIndex) {
         g.setColor(Color.black);
       } else {
         g.setColor(Color.lightGray);
       }
-      g.drawRoundRect(x, y, square_size, square_size, SQUARE_ROUNDING);
+      g.drawRoundRect(x, Y_MARGIN, square_size, square_size, SQUARE_ROUNDING);
       if (item.getItemRenderer() != null) {
         ItemRenderer<Item> renderer = springBeanProvider.getBean(item.getItemRenderer(), true);
-        renderer.renderItem(item, g, x + SQUARE_ROUNDING, y + SQUARE_ROUNDING, square_size - 2 * SQUARE_ROUNDING);
+        renderer.renderItem(item, g, x + SQUARE_ROUNDING, Y_MARGIN + SQUARE_ROUNDING, square_size - 2 * SQUARE_ROUNDING);
       } else {
-        item.renderItem(g, x + SQUARE_ROUNDING, y + SQUARE_ROUNDING, square_size - 2 * SQUARE_ROUNDING);
+        item.renderItem(g, x + SQUARE_ROUNDING, Y_MARGIN + SQUARE_ROUNDING, square_size - 2 * SQUARE_ROUNDING);
       }
       g.setColor(Color.black);
-      g.drawString(ids[i], x - 5, y - 4);
+      g.drawString(ids[i], x - 5, Y_MARGIN - 4);
       x += SQUARE_DIST + square_size;
       i += 1;
     }
   }
 }
+

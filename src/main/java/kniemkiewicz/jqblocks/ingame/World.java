@@ -2,7 +2,7 @@ package kniemkiewicz.jqblocks.ingame;
 
 import kniemkiewicz.jqblocks.ingame.block.RawEnumTable;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
-import kniemkiewicz.jqblocks.ingame.item.Inventory;
+import kniemkiewicz.jqblocks.ingame.item.ItemInventory;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
@@ -48,7 +48,7 @@ public final class World {
   SolidBlocks solidBlocks;
 
   @Autowired
-  Inventory inventory;
+  ItemInventory inventory;
 
   @Autowired
   ResourceInventory resourceInventory;
