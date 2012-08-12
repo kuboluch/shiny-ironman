@@ -3,11 +3,15 @@ package kniemkiewicz.jqblocks.ingame.resource.inventory;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Renderable;
+import kniemkiewicz.jqblocks.ingame.inventory.Inventory;
 import kniemkiewicz.jqblocks.ingame.inventory.InventoryBase;
 import kniemkiewicz.jqblocks.ingame.item.Item;
+import kniemkiewicz.jqblocks.ingame.item.ItemInventory;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
+import org.apache.log4j.lf5.util.Resource;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +20,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 
 @Component
-public class ResourceInventory extends InventoryBase implements Renderable {
+public class ResourceInventory extends InventoryBase<ResourceItem> implements Inventory<ResourceItem>, Renderable {
 
   @Autowired
   RenderQueue renderQueue;
@@ -42,7 +46,7 @@ public class ResourceInventory extends InventoryBase implements Renderable {
     }
   }
 
-  public boolean add(Item item) {
+  public boolean add(ResourceItem item) {
     assert Assert.validateSerializable(item);
     Assert.assertTrue(selectedIndex >= 0);
     Assert.assertTrue(selectedIndex < size);
@@ -56,9 +60,8 @@ public class ResourceInventory extends InventoryBase implements Renderable {
   final static private String[] ids = {"F1", "F2", "F3"};
 
   public void render(Graphics g) {
-
     int x = pointOfView.getWindowWidth() - items.size() * LARGE_SQUARE_SIZE - (items.size() - 1) * SQUARE_DIST - X_MARGIN;
-    int y = pointOfView.getWindowHeight() - LARGE_SQUARE_SIZE - Y_MARGIN;
+    int y = ItemInventory.SQUARE_SIZE + 3 * Y_MARGIN;
     int i = 0;
     for (Item item : items) {
       int square_size = LARGE_SQUARE_SIZE;

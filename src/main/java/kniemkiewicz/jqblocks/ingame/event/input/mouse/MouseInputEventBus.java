@@ -14,7 +14,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 @Component
-public class MouseInputEventBus implements MouseListener {
+public class MouseInputEventBus {
 
   private static final int INPUT_DELAY = 100;
 
@@ -30,17 +30,11 @@ public class MouseInputEventBus implements MouseListener {
 
   EnumSet<Button> pressedButtons = EnumSet.noneOf(Button.class);
 
-  final List<MouseInputListener> listeners = new ArrayList<MouseInputListener>();
-
   private boolean blockMousePressedEvent;
 
   private long mousePressedTimestamp = 0;
   private long mouseClickedTimestamp = 0;
   private long mouseReleasedTimestamp = 0;
-
-  public void add(MouseInputListener mouseInputListener) {
-    listeners.add(mouseInputListener);
-  }
 
   public void update() {
     List<InputEvent> eventsToBroadcast;
@@ -106,15 +100,4 @@ public class MouseInputEventBus implements MouseListener {
   public void unblockMousePressedEvent() {
     blockMousePressedEvent = false;
   }
-
-  public void setInput(Input input) { }
-
-  public boolean isAcceptingInput() {
-    return true;
-  }
-
-  public void inputEnded() {  }
-
-  public void inputStarted() {  }
-
 }

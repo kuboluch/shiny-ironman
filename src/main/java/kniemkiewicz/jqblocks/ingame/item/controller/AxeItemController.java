@@ -4,7 +4,6 @@ import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.item.AxeItem;
 import kniemkiewicz.jqblocks.ingame.object.CompletionEffect;
 import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
-import kniemkiewicz.jqblocks.ingame.object.background.AbstractBackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.ResourceBackgroundElement;
@@ -12,8 +11,6 @@ import kniemkiewicz.jqblocks.ingame.resource.ResourceObject;
 import kniemkiewicz.jqblocks.ingame.resource.Wood;
 import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventoryController;
 import kniemkiewicz.jqblocks.util.Collections3;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +21,6 @@ import java.util.List;
 
 @Component
 public class AxeItemController extends AbstractActionItemController<AxeItem> {
-  public static Log logger = LogFactory.getLog(AxeItemController.class);
 
   @Autowired
   private Backgrounds backgrounds;

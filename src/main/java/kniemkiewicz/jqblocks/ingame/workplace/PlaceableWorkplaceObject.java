@@ -25,11 +25,11 @@ public class PlaceableWorkplaceObject implements RenderableObject<WorkplaceBackg
 
   WorkplaceController controller;
 
-  public PlaceableWorkplaceObject(int x, int y, int width, int height, ImageRenderer renderer, WorkplaceController controller) {
+  public PlaceableWorkplaceObject(Workplace workplace, int x, int y, ImageRenderer renderer, WorkplaceController controller) {
     this.renderer = new PlaceableObjectImageRenderer(renderer);
     this.controller = controller;
     BeanName rendererBeanName = new BeanName(renderer.getClass(), renderer.getBeanName());
-    backgroundElement = new WorkplaceBackgroundElement(x, y, width, height, rendererBeanName);
+    backgroundElement = new WorkplaceBackgroundElement(workplace, x, y, rendererBeanName);
 
   }
 

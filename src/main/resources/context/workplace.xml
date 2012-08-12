@@ -14,7 +14,7 @@
         <constructor-arg>
             <list>
                 <ref bean="fireplace"/>
-                <ref bean="fireplace2"/>
+                <ref bean="sawmill"/>
                 <ref bean="fireplace3"/>
                 <ref bean="fireplace4"/>
                 <ref bean="fireplace5"/>
@@ -30,12 +30,27 @@
         <constructor-arg value="3"/>
         <constructor-arg ref="fireplaceRenderer"/>
         <constructor-arg ref="fireplaceUIRenderer"/>
+        <constructor-arg ref="nullActionController"/>
     </bean>
 
-    <bean id="fireplace2" parent="fireplace"/>
+    <bean id="sawmill" class="kniemkiewicz.jqblocks.ingame.workplace.Workplace">
+        <constructor-arg value="sawmill"/>
+        <constructor-arg value="You can cut log into wood"/>
+        <constructor-arg value="4"/>
+        <constructor-arg value="3"/>
+        <constructor-arg ref="fireplaceRenderer"/>
+        <constructor-arg ref="fireplaceUIRenderer"/>
+        <constructor-arg ref="woodProcessController"/>
+    </bean>
+
     <bean id="fireplace3" parent="fireplace"/>
     <bean id="fireplace4" parent="fireplace"/>
     <bean id="fireplace5" parent="fireplace"/>
     <bean id="fireplace6" parent="fireplace"/>
+
+    <bean id="nullActionController" class="kniemkiewicz.jqblocks.ingame.action.NullActionController"/>
+    <bean id="woodProcessController" class="kniemkiewicz.jqblocks.ingame.workplace.action.ProcessResourceActionController">
+        <constructor-arg value="WOOD"/>
+    </bean>
 
 </beans>

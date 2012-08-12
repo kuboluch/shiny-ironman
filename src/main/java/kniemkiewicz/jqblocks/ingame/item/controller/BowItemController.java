@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseClickEvent;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.item.BowItem;
 import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.arrow.Arrow;
@@ -34,9 +35,9 @@ public class BowItemController implements ItemController<BowItem> {
 
   @Override
   public void listen(BowItem bowItem, List<Event> events) {
-    List<MouseClickEvent> clickEvents = Collections3.collect(events, MouseClickEvent.class);
-    if (!clickEvents.isEmpty()) {
-      handleClickEvent(clickEvents);
+    List<MousePressedEvent> pressedEvents = Collections3.collect(events, MousePressedEvent.class);
+    if (!pressedEvents.isEmpty()) {
+      handlePressedEvent(pressedEvents);
     }
   }
 
@@ -50,12 +51,16 @@ public class BowItemController implements ItemController<BowItem> {
     return null;
   }
 
-  private void handleClickEvent(List<MouseClickEvent> clickEvents) {
-    assert clickEvents.size() > 0;
-    MouseClickEvent ce = clickEvents.get(0);
+  private void handlePressedEvent(List<MousePressedEvent> pressedEvents) {
+    assert pressedEvents.size() > 0;
+    MousePressedEvent pe = pressedEvents.get(0);
+    shotArrow(pe.getLevelX(), pe.getLevelY());
+  }
+
+  private void shotArrow(int levelX, int levelY) {
     Player player = playerController.getPlayer();
-    int dx = (int)(ce.getLevelX() - player.getXMovement().getPos());
-    int dy = (int)(ce.getLevelY() - player.getYMovement().getPos());
+    int dx = (int)(levelX - player.getXMovement().getPos());
+    int dy = (int)(levelY - player.getYMovement().getPos());
     if ((dx == 0) && (dy == 0)) return;
     float dd = (float)Math.sqrt(dx * dx + dy * dy);
     float vx = dx / dd * SPEED;

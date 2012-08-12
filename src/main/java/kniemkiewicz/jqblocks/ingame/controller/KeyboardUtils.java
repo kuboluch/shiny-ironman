@@ -54,6 +54,10 @@ public class KeyboardUtils {
     return (input.isKeyDown(Input.KEY_P));
   }
 
+  public static boolean isInteractKeyPressed(int key) {
+    return (key == Input.KEY_X);
+  }
+
   /**
    * @return 0-9 for keys and -1 if none is selected
    */

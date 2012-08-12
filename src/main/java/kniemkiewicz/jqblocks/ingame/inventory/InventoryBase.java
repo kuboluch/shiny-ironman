@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InventoryBase {
+public class InventoryBase<T extends Item> implements Inventory<T> {
   public static final int SIZE = 10;
 
   protected List<Item> items = new ArrayList<Item>();
@@ -21,7 +21,7 @@ public class InventoryBase {
 
   protected int size = SIZE;
 
-  public boolean add(Item item) {
+  public boolean add(T item) {
     assert Assert.validateSerializable(item);
     int newIndex = -1;
     for (int i = 0; i < size; i++) {
@@ -45,8 +45,11 @@ public class InventoryBase {
     selectedIndex = x;
   }
 
-  public Item getSelectedItem() {
-    return items.get(selectedIndex);
+  public T getSelectedItem() {
+    if (items.get(selectedIndex) == emptyItem) {
+      return null;
+    }
+    return (T) items.get(selectedIndex);
   }
 
   public int getSize() {
@@ -75,7 +78,7 @@ public class InventoryBase {
   public void loadSerializedItems(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     selectedIndex = (Integer)stream.readObject();
     for (int i = 0; i < getSize(); i++) {
-      Item item = (Item) stream.readObject();
+      T item = (T) stream.readObject();
       if (item == null) {
         items.set(i, emptyItem);
       } else {

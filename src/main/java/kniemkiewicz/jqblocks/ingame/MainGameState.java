@@ -6,6 +6,7 @@ import kniemkiewicz.jqblocks.ingame.controller.InventoryController;
 import kniemkiewicz.jqblocks.ingame.controller.SaveGameListener;
 import kniemkiewicz.jqblocks.ingame.controller.UIController;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.event.input.keyboard.KeyboardInputEventBus;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseInputEventBus;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
@@ -16,7 +17,6 @@ import kniemkiewicz.jqblocks.ingame.ui.MainGameUI;
 import kniemkiewicz.jqblocks.ingame.ui.info.MouseInputInfo;
 import kniemkiewicz.jqblocks.ingame.ui.info.ResourceInfo;
 import kniemkiewicz.jqblocks.ingame.ui.info.TimingInfo;
-import kniemkiewicz.jqblocks.ingame.workplace.Workplace;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
 import kniemkiewicz.jqblocks.twl.BasicTWLGameState;
 import kniemkiewicz.jqblocks.twl.RootPane;
@@ -61,6 +61,9 @@ public class MainGameState extends BasicTWLGameState {
 
   @Autowired
   EventBus eventBus;
+
+  @Autowired
+  KeyboardInputEventBus keyboardInputEventBus;
 
   @Autowired
   MouseInputEventBus mouseInputEventBus;
@@ -157,6 +160,7 @@ public class MainGameState extends BasicTWLGameState {
     // This happens mostly with breakpoints and generally breaks physics.
     if (delta > 100) return;
     TimingInfo.Timer t = timingInfo.getTimer("update");
+    keyboardInputEventBus.update();
     mouseInputEventBus.update();
     eventBus.update();
     for (InputListener l : inputListeners) {
@@ -167,6 +171,22 @@ public class MainGameState extends BasicTWLGameState {
   }
 
   /* Event handling */
+
+  /**
+	 * @see org.newdawn.slick.InputListener#keyPressed(int, char)
+	 */
+  @Override
+	public void keyPressed(int key, char c) {
+    keyboardInputEventBus.keyPressed(key, c);
+	}
+
+	/**
+	 * @see org.newdawn.slick.InputListener#keyReleased(int, char)
+	 */
+  @Override
+	public void keyReleased(int key, char c) {
+    keyboardInputEventBus.keyReleased(key, c);
+	}
 
   @Override
   public void mouseMoved(int oldx, int oldy, int newx, int newy) {

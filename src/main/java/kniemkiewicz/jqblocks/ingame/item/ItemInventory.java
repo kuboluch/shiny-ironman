@@ -18,7 +18,7 @@ import javax.annotation.PostConstruct;
  * Date: 10.07.12
  */
 @Component
-public class Inventory extends InventoryBase implements Renderable {
+public class ItemInventory extends InventoryBase<Item> implements Renderable {
 
   @Autowired
   RenderQueue renderQueue;
