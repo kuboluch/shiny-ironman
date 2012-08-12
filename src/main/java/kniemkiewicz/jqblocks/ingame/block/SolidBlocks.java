@@ -48,6 +48,10 @@ public class SolidBlocks{
     blocks = new RawEnumTable<WallBlockType>(WallBlockType.EMPTY, WallBlockType.SPACE, width, length);
   }
 
+  protected SolidBlocks(RawEnumTable<WallBlockType> blocks) {
+    this.blocks = blocks;
+  }
+
   @PostConstruct
   void init() {
     this.blocks.fillRendererCache(springBeanProvider);
@@ -74,14 +78,17 @@ public class SolidBlocks{
     return blocks;
   }
 
+  // TODO add some tests
   public boolean isOnSolidGround(Shape shape) {
     Rectangle rect = GeometryUtils.getNewBoundingRectangle(shape);
-    RawEnumTable<WallBlockType> table = blocks;
-    int y = table.toYIndex((int) rect.getMaxY() + 1);
-    int x1 = table.toXIndex((int) rect.getX());
-    int x2 = table.toXIndex((int) rect.getMaxX() - 1);
-    for (int x = x1; x < x2; x++) {
-      if (table.getValueForUnscaledPoint(x, y) == WallBlockType.EMPTY) {
+    if (blocks.collidesWithNonEmpty(rect)) {
+      return false;
+    }
+    int y = (int) (rect.getY() + (int) rect.getHeight() + 1);
+    int x1 = (int) rect.getX();
+    int x2 = (int) rect.getX() + (int) rect.getWidth();
+    for (int x = x1; x < x2; x += Sizes.BLOCK) {
+      if (blocks.getValueForUnscaledPoint(x, y) == WallBlockType.EMPTY) {
         return false;
       }
     }

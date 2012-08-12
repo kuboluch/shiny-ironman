@@ -1,4 +1,4 @@
-package kniemkiewicz.jqblocks.ingame.placable;
+package kniemkiewicz.jqblocks.ingame.placeable;
 
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 

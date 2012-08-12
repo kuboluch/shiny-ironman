@@ -106,15 +106,19 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
 
   private void transformToPile(Wood wood) {
     if (wood.getAmount() > 0) {
+      float rectMaxX = affectedRectangle.getX() + affectedRectangle.getWidth();
+      float rectMaxY = affectedRectangle.getY() + affectedRectangle.getHeight();
       int pileX = Sizes.roundToBlockSizeX(affectedRectangle.getX());
-      int pileY = Sizes.roundToBlockSizeY(affectedRectangle.getMaxY()) - ResourceObject.SIZE;
-      for (int i = 0; wood.getAmount() > 0 && pileX < affectedRectangle.getMaxX(); i++, pileX += ResourceObject.SIZE + 1) {
-        ResourceObject<Wood> woodPile = getWoodPile(pileX, pileY);
+      int pileY = Sizes.roundToBlockSizeY(rectMaxY) - ResourceObject.SIZE;
+      while (wood.getAmount() > 0 && pileX < rectMaxX) {
+        // CollisionController will find object with x + width = pileX so we add 1. Analogically for y coordinate.
+        ResourceObject<Wood> woodPile = getWoodPile(pileX + 1, pileY + 1);
         if (woodPile == null) {
           woodPile = createAndDropWoodPile(pileX, pileY);
         }
         wood = woodPile.addResource(wood);
         completionEffect.setPercentage((woodPile.getResourceAmount() * 100) / woodPile.getResourceMaxPileSize());
+        pileX += ResourceObject.SIZE;
       }
       if (wood.getAmount() > 0) {
         // Only if there is no more room for piles

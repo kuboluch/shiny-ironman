@@ -31,7 +31,7 @@ public final class GeometryUtils {
   public static boolean intersects(Shape shape1, Shape shape2) {
     TimingInfo.CURRENT_TIMING_INFO.getCounter("GeometryUtils.intersects").record(1);
     if (shape1.intersects(shape2)) return true;
-    
+
     if (shape2 instanceof Line) {
       return shape1.contains(shape2);
     }
@@ -39,9 +39,5 @@ public final class GeometryUtils {
       return shape2.contains(shape1);
     }
     return false;
-  }
-
-  public static int toInt(float f) {
-    return (int)Math.floor(f);
   }
 }

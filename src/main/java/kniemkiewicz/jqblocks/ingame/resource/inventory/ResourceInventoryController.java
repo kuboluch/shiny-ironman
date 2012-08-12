@@ -85,7 +85,6 @@ public class ResourceInventoryController implements InputListener, EventListener
     Shape dropObjectShape = controller.getDropObjectShape(inventory.getSelectedItem(), x, y);
     if (dropObjectShape == null) return false;
     if (conflictingObjectExists(dropObjectShape)) return false;
-    if (solidBlocks.getBlocks().collidesWithNonEmpty(dropObjectShape)) return false;
     if (!solidBlocks.isOnSolidGround(dropObjectShape)) return false;
     MovingPhysicalObject dropObject = controller.getDropObject(inventory.getSelectedItem(), x, y);
     dropObject(dropObject);
