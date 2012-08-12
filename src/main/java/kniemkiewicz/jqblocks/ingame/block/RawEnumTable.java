@@ -22,11 +22,12 @@ import java.util.List;
  */
 public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Serializable, RenderableObject<RawEnumTable<T>> {
 
-  Object[][] data;
-  T emptyType;
+  final Object[][] data;
+  final T emptyType;
+  final T outsideTable;
   transient EnumMap<T, RenderableBlockType.Renderer> rendererCache;
 
-  public RawEnumTable(T emptyType, int width, int height) {
+  public RawEnumTable(T emptyType, T outsideTable, int width, int height) {
     assert height > 0;
     assert width > 0;
     data = new Object[width][height];
@@ -36,14 +37,28 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
       }
     }
     this.emptyType = emptyType;
+    this.outsideTable = outsideTable;
   }
 
   final public T get(int x, int y) {
+    if (x < 0) return outsideTable;
+    if (y < 0) return outsideTable;
+    if (x >= data.length) return outsideTable;
+    if (y >= data[0].length) return outsideTable;
     return (T) data[x][y];
   }
 
   final public void set(int x, int y, T type) {
     data[x][y] = type;
+  }
+
+  final public boolean safeSet(int x, int y, T type) {
+    if (x < 0) return false;
+    if (y < 0) return false;
+    if (x >= data.length) return false;
+    if (y >= data[0].length) return false;
+    data[x][y] = type;
+    return true;
   }
 
   @Override

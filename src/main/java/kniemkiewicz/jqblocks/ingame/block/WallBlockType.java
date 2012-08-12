@@ -21,7 +21,22 @@ public enum WallBlockType implements RenderableBlockType{
     public BeanName<? extends Renderer> getRenderer() {
       return BEAN_NAME;
     }
-  };
+  },
+  ROCK {
+    final BeanName<RockBlockTypeRenderer> BEAN_NAME = new BeanName<RockBlockTypeRenderer>(RockBlockTypeRenderer.class);
+    @Override
+    public BeanName<? extends Renderer> getRenderer() {
+      return BEAN_NAME;
+    }
+  },
+  SPACE {
+    final BeanName<RockBlockTypeRenderer> BEAN_NAME = new BeanName<RockBlockTypeRenderer>(RockBlockTypeRenderer.class);
+    @Override
+    public BeanName<? extends Renderer> getRenderer() {
+      return BEAN_NAME;
+    }
+  },
+  ;
 
   public int getEndurance() {
     return Sizes.DEFAULT_BLOCK_ENDURANCE;

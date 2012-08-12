@@ -6,36 +6,34 @@ import org.springframework.stereotype.Component;
 
 /**
  * User: krzysiek
- * Date: 07.08.12
+ * Date: 12.08.12
  */
 @Component
-public class DirtBlockTypeRenderer implements RenderableBlockType.Renderer<WallBlockType> {
-
-  private static int LINE_WIDTH = 2;
-  public static Color BROWN = new Color(150.0f/255, 75.0f/255, 0);
-  public static Color DARK_GREEN = new Color(0, 0.75f, 0);
+public class RockBlockTypeRenderer implements RenderableBlockType.Renderer<WallBlockType> {
 
   @Override
   public void renderBlock(int x, int y, int width, int height, Graphics g) {
-    g.setColor(BROWN);
-    g.fillRect(x, y + LINE_WIDTH, width, height - LINE_WIDTH);
+    g.setColor(Color.gray);
+    g.fillRect(x, y, width, height + 1);
   }
 
   @Override
   public void renderBorder(int x, int y, int length, RenderableBlockType.Border type, WallBlockType other, Graphics g) {
-    if (other != WallBlockType.EMPTY) return;
-    g.setColor(DARK_GREEN);
-    g.setLineWidth(LINE_WIDTH);
+    if (other == WallBlockType.ROCK) return;
+    g.setColor(Color.black);
     switch (type) {
       case TOP:
+        g.drawLine(x, y - 1, x + length - 1, y - 1);
+        break;
       case BOTTOM:
-        g.drawLine(x, y, x + length, y);
+        g.drawLine(x, y + 1, x + length - 1, y + 1);
         break;
       case LEFT:
+        g.drawLine(x - 1, y, x - 1, y + length);
+        break;
       case RIGHT:
-        g.drawLine(x, y, x, y + length);
+        g.drawLine(x - 1, y, x - 1, y + length);
         break;
     }
-    g.setLineWidth(1);
   }
 }

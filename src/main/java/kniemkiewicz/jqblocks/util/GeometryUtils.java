@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.util;
 
+import kniemkiewicz.jqblocks.ingame.ui.info.TimingInfo;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
@@ -28,11 +29,9 @@ public final class GeometryUtils {
   }
 
   public static boolean intersects(Shape shape1, Shape shape2) {
-    boolean intersect = shape1.intersects(shape2);
-    assert intersect == shape2.intersects(shape1);
-    if (intersect) {
-      return true;
-    }
+    TimingInfo.CURRENT_TIMING_INFO.getCounter("GeometryUtils.intersects").record(1);
+    if (shape1.intersects(shape2)) return true;
+    
     if (shape2 instanceof Line) {
       return shape1.contains(shape2);
     }
@@ -43,8 +42,6 @@ public final class GeometryUtils {
   }
 
   public static int toInt(float f) {
-    if (f > 0) return (int)f;
-    if ((int)f == f) return (int)f;
-    return (int)f - 1;
+    return (int)Math.floor(f);
   }
 }

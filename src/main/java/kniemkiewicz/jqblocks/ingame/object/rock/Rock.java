@@ -27,7 +27,7 @@ public class Rock implements RenderableObject<Rock>, PickableObject, MovingPhysi
   private static final long serialVersionUID = 1;
 
   static int SMALL_CIRCLE_RADIUS = Sizes.BLOCK / 4;
-  static int LARGE_CIRCLE_RADIUS = Sizes.BLOCK / 2;
+  static int LARGE_CIRCLE_RADIUS = Sizes.BLOCK / 2 - 1;
 
   static Color LARGE_COLOR = Color.gray;
   static Color SMALL_COLOR = Color.lightGray;
