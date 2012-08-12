@@ -69,6 +69,6 @@ public class PlaceableWorkplaceObject implements RenderableObject<WorkplaceBackg
   }
 
   public boolean canBePlaced() {
-    return controller.canBePlaced(getShape());
+    return controller.canBePlaced();
   }
 }
