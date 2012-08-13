@@ -51,4 +51,9 @@ public class PickaxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<Pick
   public boolean isLarge() {
     return false;
   }
+
+  @Override
+  public boolean isEmpty() {
+    return false;
+  }
 }

@@ -28,6 +28,12 @@ public class Backgrounds {
 
   Set<BackgroundElement> backgrounds = new HashSet<BackgroundElement>();
 
+  public Backgrounds() { }
+
+  protected Backgrounds(Set<BackgroundElement> backgrounds) {
+    this.backgrounds = backgrounds;
+  }
+
   public void add(BackgroundElement background) {
     queue.add(background);
     backgrounds.add(background);

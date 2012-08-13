@@ -15,7 +15,7 @@ import java.util.Set;
 @Component
 public class ResourceStorageController {
 
-  final Map<String, Resource> resourceMap = new HashMap<String, Resource>();
+  final Map<ResourceType, Resource> resourceMap = new HashMap<ResourceType, Resource>();
 
   // TODO only for test purposes
   @PostConstruct
@@ -48,11 +48,11 @@ public class ResourceStorageController {
     return resourceMap.get(neededResource.getType()).getAmount() >= neededResource.getAmount();
   }
 
-  public Set<String> getResourceTypes() {
+  public Set<ResourceType> getResourceTypes() {
     return resourceMap.keySet();
   }
 
-  public int getResourceAmount(String type) {
+  public int getResourceAmount(ResourceType type) {
     assert resourceMap.containsKey(type);
     return resourceMap.get(type).getAmount();
   }

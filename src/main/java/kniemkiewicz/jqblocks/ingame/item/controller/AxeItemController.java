@@ -29,9 +29,6 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   private ResourceInventoryController resourceInventoryController;
 
   @Autowired
-  private PlayerResourceController playerResourceController;
-
-  @Autowired
   private RenderQueue renderQueue;
 
   @Autowired
@@ -45,7 +42,7 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   Wood wood = new Wood();
 
   @Override
-  boolean canPerformAction(int x, int y) {
+  protected boolean canPerformAction(int x, int y) {
     BackgroundElement backgroundElement = getBackgroundElement(new Rectangle(x, y, 1, 1));
     if (backgroundElement != null && backgroundElement.isResource()) {
       if (((ResourceBackgroundElement) backgroundElement).getMiningItemType().isAssignableFrom(AxeItem.class)) {
@@ -56,7 +53,7 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   }
 
   @Override
-  Rectangle getAffectedRectangle(int x, int y) {
+  protected Rectangle getAffectedRectangle(int x, int y) {
     Rectangle rect = null;
     BackgroundElement backgroundElement = getBackgroundElement(new Rectangle(x, y, 1, 1));
     if (backgroundElement != null && backgroundElement.isResource()) {
@@ -70,14 +67,14 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   }
 
   @Override
-  void startAction(AxeItem item) {
+  protected void startAction(AxeItem item) {
     assert completionEffect == null;
     completionEffect = new CompletionEffect(affectedRectangle);
     renderQueue.add(completionEffect);
   }
 
   @Override
-  void stopAction(AxeItem item) {
+  protected void stopAction(AxeItem item) {
     assert completionEffect != null;
     renderQueue.remove(completionEffect);
     completionEffect = null;
@@ -88,7 +85,7 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   }
 
   @Override
-  void updateAction(AxeItem item, int delta) {
+  protected void updateAction(AxeItem item, int delta) {
     BackgroundElement be = getAffectedBackgroundElement();
     if (be != null && be.isResource()) {
       ResourceBackgroundElement<Wood> rbe = ((ResourceBackgroundElement) be);
@@ -143,12 +140,12 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   }
 
   @Override
-  boolean isActionCompleted() {
+  protected boolean isActionCompleted() {
     return false;
   }
 
   @Override
-  void onAction() {
+  protected void onAction() {
   }
 
   private BackgroundElement getAffectedBackgroundElement() {

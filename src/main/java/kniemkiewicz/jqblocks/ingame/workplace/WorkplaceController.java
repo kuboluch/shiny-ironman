@@ -36,14 +36,19 @@ public class WorkplaceController implements EventListener {
 
   @Autowired
   MainGameUI mainGameUI;
+
   @Autowired
   InputContainer inputContainer;
+
   @Autowired
   RenderQueue renderQueue;
+
   @Autowired
   Backgrounds backgrounds;
+
   @Autowired
   SolidBlocks solidBlocks;
+
   @Autowired
   PlayerController playerController;
 
@@ -67,13 +72,6 @@ public class WorkplaceController implements EventListener {
 
   @Override
   public void listen(List<Event> events) {
-    List<KeyPressedEvent> keyPressedEvents = Collections3.collect(events, KeyPressedEvent.class);
-    if (!keyPressedEvents.isEmpty()) {
-      for (KeyPressedEvent e : keyPressedEvents) {
-        handleInteractKeyPressedEvent(e);
-      }
-    }
-
     if (selectedWorkplace == null) return;
 
     List<MouseMovedEvent> mouseMovedEvents = Collections3.collect(events, MouseMovedEvent.class);
@@ -170,16 +168,6 @@ public class WorkplaceController implements EventListener {
     placableWorkplaceObject.changeY(y);
   }
 
-  private void handleInteractKeyPressedEvent(KeyPressedEvent e) {
-    if (KeyboardUtils.isInteractKeyPressed(e.getKey())) {
-      Workplace workplace = findWorkplace(playerController.getPlayer().getShape());
-      if (workplace != null) {
-        workplace.interact();
-        e.consume();
-      }
-    }
-  }
-
   @Override
   public List<Class> getEventTypesOfInterest() {
     return Arrays.asList((Class) InputEvent.class, (Class) ScreenMovedEvent.class);
@@ -189,17 +177,5 @@ public class WorkplaceController implements EventListener {
     if (solidBlocks.getBlocks().collidesWithNonEmpty(placableWorkplaceObject.getShape())) return false;
     if (!solidBlocks.isOnSolidGround(placableWorkplaceObject.getShape())) return false;
     return true;
-  }
-
-  private Workplace findWorkplace(Rectangle rect) {
-    BackgroundElement backgroundElement = null;
-    Iterator<BackgroundElement> it = backgrounds.intersects(rect);
-    while (it.hasNext()) {
-      backgroundElement = it.next();
-      if (backgroundElement.isWorkplace()) {
-        return ((WorkplaceBackgroundElement) backgroundElement).getWorkplace();
-      }
-    }
-    return null;
   }
 }

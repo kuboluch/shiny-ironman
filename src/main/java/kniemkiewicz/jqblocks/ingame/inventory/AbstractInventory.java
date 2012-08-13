@@ -1,6 +1,5 @@
 package kniemkiewicz.jqblocks.ingame.inventory;
 
-import kniemkiewicz.jqblocks.ingame.item.EmptyItem;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.util.Assert;
 
@@ -8,16 +7,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class InventoryBase<T extends Item> implements Inventory<T> {
+public abstract class AbstractInventory<T extends Item> implements Inventory<T> {
+
   public static final int SIZE = 10;
 
   protected List<Item> items = new ArrayList<Item>();
 
   protected int selectedIndex = 0;
-
-  protected final Item emptyItem = new EmptyItem();
 
   protected int size = SIZE;
 
@@ -25,7 +24,7 @@ public class InventoryBase<T extends Item> implements Inventory<T> {
     assert Assert.validateSerializable(item);
     int newIndex = -1;
     for (int i = 0; i < size; i++) {
-      if (items.get(i) == emptyItem) {
+      if (items.get(i).isEmpty()) {
         newIndex = i;
         break;
       }
@@ -34,7 +33,7 @@ public class InventoryBase<T extends Item> implements Inventory<T> {
       return false;
     }
     items.set(newIndex, item);
-    if (items.get(selectedIndex) == emptyItem) {
+    if (items.get(selectedIndex).isEmpty()) {
       selectedIndex = newIndex;
     }
     return true;
@@ -46,7 +45,7 @@ public class InventoryBase<T extends Item> implements Inventory<T> {
   }
 
   public T getSelectedItem() {
-    if (items.get(selectedIndex) == emptyItem) {
+    if (items.get(selectedIndex).isEmpty()) {
       return null;
     }
     return (T) items.get(selectedIndex);
@@ -56,19 +55,26 @@ public class InventoryBase<T extends Item> implements Inventory<T> {
     return size;
   }
 
-  public void setSize(int size) {
-    this.size = size;
+  @Override
+  public List<T> getItems() {
+    return new ArrayList<T>((Collection<? extends T>) items);
   }
 
   public void removeSelectedItem() {
-    items.set(selectedIndex, emptyItem);
+    items.set(selectedIndex, getEmptyItem());
   }
+
+  public void removeItem(int index) {
+    items.set(index, getEmptyItem());
+  }
+
+  abstract protected T getEmptyItem();
 
   public void serializeItems(ObjectOutputStream stream) throws IOException {
     stream.writeObject(selectedIndex);
     for (Item item : items) {
-      if (item == emptyItem) {
-        stream.writeObject(null);
+      if (item.isEmpty()) {
+        stream.writeObject(getEmptyItem());
       } else {
         stream.writeObject(item);
       }
@@ -79,8 +85,8 @@ public class InventoryBase<T extends Item> implements Inventory<T> {
     selectedIndex = (Integer)stream.readObject();
     for (int i = 0; i < getSize(); i++) {
       T item = (T) stream.readObject();
-      if (item == null) {
-        items.set(i, emptyItem);
+      if (item.isEmpty()) {
+        items.set(i, getEmptyItem());
       } else {
         items.set(i, item);
       }

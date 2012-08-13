@@ -1,8 +1,8 @@
 package kniemkiewicz.jqblocks.ingame.event.screen;
 
-import kniemkiewicz.jqblocks.ingame.event.EventBase;
+import kniemkiewicz.jqblocks.ingame.event.AbstractEvent;
 
-public class ScreenMovedEvent extends EventBase {
+public class ScreenMovedEvent extends AbstractEvent {
   private int oldShiftX;
   private int oldShiftY;
   private int newShiftX;

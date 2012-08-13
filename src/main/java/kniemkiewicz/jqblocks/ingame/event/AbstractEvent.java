@@ -4,7 +4,7 @@ package kniemkiewicz.jqblocks.ingame.event;
  * User: qba
  * Date: 09.08.12
  */
-public abstract class EventBase implements Event {
+public abstract class AbstractEvent implements Event {
 
   boolean consumed = false;
 

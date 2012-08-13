@@ -25,4 +25,9 @@ public class EmptyItem implements Item {
   public boolean isLarge() {
     return false;
   }
+
+  @Override
+  public boolean isEmpty() {
+    return true;
+  }
 }

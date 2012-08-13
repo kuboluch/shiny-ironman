@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.inventory;
 
-import kniemkiewicz.jqblocks.ingame.item.Item;
+import java.util.List;
 
 /**
  * User: qba
@@ -16,8 +16,10 @@ public interface Inventory<T> {
 
   public int getSize();
 
-  public void setSize(int size);
-
   public void removeSelectedItem();
+
+  public void removeItem(int index);
+
+  public List<T> getItems();
 
 }

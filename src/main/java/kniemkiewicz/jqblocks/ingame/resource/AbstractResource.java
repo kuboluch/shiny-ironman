@@ -2,7 +2,7 @@ package kniemkiewicz.jqblocks.ingame.resource;
 
 import kniemkiewicz.jqblocks.util.Assert;
 
-public class ResourceBase implements Resource {
+public abstract class AbstractResource implements Resource {
   private final static int PILE_SIZE = 1000;
 
   protected int amount = 0;
@@ -39,11 +39,6 @@ public class ResourceBase implements Resource {
   @Override
   public void deplete() {
     this.amount = 0;
-  }
-
-  @Override
-  public String getType() {
-    return this.getClass().getSimpleName();
   }
 
   @Override

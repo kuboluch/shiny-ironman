@@ -57,7 +57,18 @@ public class Workplace implements Interactive {
     return new PlaceableWorkplaceObject(this, x, y, renderer, controller);
   }
 
+  @Override
+  public boolean canInteract() {
+    return actionController.canInteract();
+  }
+
+  @Override
   public void interact() {
     actionController.interact();
+  }
+
+  @Override
+  public int getDurationToComplete() {
+    return actionController.getDurationToComplete();
   }
 }

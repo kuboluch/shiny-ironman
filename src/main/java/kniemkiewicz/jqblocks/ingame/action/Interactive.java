@@ -6,6 +6,10 @@ package kniemkiewicz.jqblocks.ingame.action;
  */
 public interface Interactive {
 
+  boolean canInteract();
+
   void interact();
+
+  int getDurationToComplete();
 
 }

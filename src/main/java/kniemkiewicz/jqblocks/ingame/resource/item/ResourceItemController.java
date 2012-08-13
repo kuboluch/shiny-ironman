@@ -18,7 +18,7 @@ import java.util.List;
  * Date: 7/27/12
  */
 @Component
-public class ResourceItemController implements ItemController<ResourceItem> {
+public class ResourceItemController implements ItemController<SimpleResourceItem> {
 
   @Autowired
   private RenderQueue renderQueue;
@@ -27,14 +27,14 @@ public class ResourceItemController implements ItemController<ResourceItem> {
   private MovingObjects movingObjects;
 
   @Override
-  public void listen(ResourceItem selectedItem, List<Event> events) { }
+  public void listen(SimpleResourceItem selectedItem, List<Event> events) { }
 
-  public Shape getDropObjectShape(ResourceItem item, int centerX, int centerY) {
+  public Shape getDropObjectShape(SimpleResourceItem item, int centerX, int centerY) {
     return ResourceObject.getShape(centerX, centerY);
   }
 
   @Override
-  public MovingPhysicalObject getDropObject(ResourceItem item, int centerX, int centerY) {
+  public MovingPhysicalObject getDropObject(SimpleResourceItem item, int centerX, int centerY) {
     ResourceObject ob = new ResourceObject(item.resource, Sizes.roundToBlockSizeX(centerX), Sizes.roundToBlockSizeY(centerY));
     ob.addTo(renderQueue, movingObjects);
     return ob;

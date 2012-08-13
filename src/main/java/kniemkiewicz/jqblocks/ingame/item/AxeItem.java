@@ -37,6 +37,11 @@ public class AxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<AxeItem>
     return false;
   }
 
+  @Override
+  public boolean isEmpty() {
+    return false;
+  }
+
   private static final BeanName<ItemRenderer> RENDERER = new BeanName<ItemRenderer>(ImageRenderer.class, "axeRenderer");
 
   @Override

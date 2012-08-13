@@ -17,6 +17,7 @@ import kniemkiewicz.jqblocks.ingame.ui.MainGameUI;
 import kniemkiewicz.jqblocks.ingame.ui.info.MouseInputInfo;
 import kniemkiewicz.jqblocks.ingame.ui.info.ResourceInfo;
 import kniemkiewicz.jqblocks.ingame.ui.info.TimingInfo;
+import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceActionController;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
 import kniemkiewicz.jqblocks.twl.BasicTWLGameState;
 import kniemkiewicz.jqblocks.twl.RootPane;
@@ -93,6 +94,9 @@ public class MainGameState extends BasicTWLGameState {
   WorkplaceController workplaceController;
 
   @Autowired
+  WorkplaceActionController workplaceActionController;
+
+  @Autowired
   UIController uiController;
 
   @Autowired
@@ -130,6 +134,7 @@ public class MainGameState extends BasicTWLGameState {
     inputListeners.add(uiController);
     eventBus.addListener(mouseInputInfo);
     eventBus.addListener(workplaceController);
+    eventBus.addListener(workplaceActionController);
     eventBus.addListener(inventoryController);
     eventBus.addListener(resourceInventoryController);
     renderQueue.add(timingInfo);
@@ -163,6 +168,7 @@ public class MainGameState extends BasicTWLGameState {
     keyboardInputEventBus.update();
     mouseInputEventBus.update();
     eventBus.update();
+    workplaceActionController.update(delta);
     for (InputListener l : inputListeners) {
       l.listen(gameContainer.getInput(), delta);
     }

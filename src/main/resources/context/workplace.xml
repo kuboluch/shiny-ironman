@@ -49,8 +49,10 @@
     <bean id="fireplace6" parent="fireplace"/>
 
     <bean id="nullActionController" class="kniemkiewicz.jqblocks.ingame.action.NullActionController"/>
-    <bean id="woodProcessController" class="kniemkiewicz.jqblocks.ingame.workplace.action.ProcessResourceActionController">
-        <constructor-arg value="WOOD"/>
+    <bean id="woodProcessController" class="kniemkiewicz.jqblocks.ingame.workplace.action.ProcessResourceController">
+        <constructor-arg>
+            <util:constant static-field="kniemkiewicz.jqblocks.ingame.resource.ResourceType.WOOD"/>
+        </constructor-arg>
     </bean>
 
 </beans>

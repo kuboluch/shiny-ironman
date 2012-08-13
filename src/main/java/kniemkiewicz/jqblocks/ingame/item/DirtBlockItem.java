@@ -37,6 +37,11 @@ public class DirtBlockItem implements Item, UpdateQueue.ToBeUpdated<DirtBlockIte
   }
 
   @Override
+  public boolean isEmpty() {
+    return false;
+  }
+
+  @Override
   public Class<? extends UpdateQueue.UpdateController<DirtBlockItem>> getUpdateController() {
     return DirtBlockItemController.class;
   }

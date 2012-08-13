@@ -20,7 +20,6 @@ import java.util.Iterator;
 
 @Component
 public class PickaxeItemController extends AbstractActionItemController<PickaxeItem> {
-  public static Log logger = LogFactory.getLog(PickaxeItemController.class);
 
   @Autowired
   private SolidBlocks blocks;
@@ -39,7 +38,7 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
   private int blockEndurance = 0;
 
   @Override
-  boolean canPerformAction(int x, int y) {
+  protected boolean canPerformAction(int x, int y) {
     return blocks.getBlocks().getValueForUnscaledPoint(x, y) == WallBlockType.DIRT;
   }
 
@@ -48,12 +47,12 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
   }
 
   @Override
-  Rectangle getAffectedRectangle(int x, int y) {
+  protected Rectangle getAffectedRectangle(int x, int y) {
     return new Rectangle(x, y, Sizes.BLOCK, Sizes.BLOCK);
   }
 
   @Override
-  void startAction(PickaxeItem item) {
+  protected void startAction(PickaxeItem item) {
     WallBlockType block = getAffectedBlock();
     blockEndurance = block.getEndurance();
     digEffect = new DigEffect(blockEndurance, affectedRectangle);
@@ -61,25 +60,25 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
   }
 
   @Override
-  void stopAction(PickaxeItem item) {
+  protected void stopAction(PickaxeItem item) {
     renderQueue.remove(digEffect);
     digEffect = null;
     blockEndurance = 0;
   }
 
   @Override
-  void updateAction(PickaxeItem item, int delta) {
+  protected void updateAction(PickaxeItem item, int delta) {
     blockEndurance -= delta * item.getStrength();
     digEffect.setCurrentEndurance(blockEndurance);
   }
 
   @Override
-  boolean isActionCompleted() {
+  protected boolean isActionCompleted() {
     return blockEndurance <= 0;
   }
 
   @Override
-  void onAction() {
+  protected void onAction() {
     if (affectedRectangle != null) {
       removeBlock();
     }

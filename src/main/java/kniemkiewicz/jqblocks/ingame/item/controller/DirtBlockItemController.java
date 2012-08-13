@@ -22,33 +22,33 @@ public class DirtBlockItemController extends AbstractActionItemController<DirtBl
   SolidBlocks blocks;
 
   @Override
-  boolean canPerformAction(int x, int y) {
+  protected boolean canPerformAction(int x, int y) {
     return !blocks.getBlocks().collidesWithNonEmpty(new Rectangle(x, y, 1, 1));
   }
 
   @Override
-  Rectangle getAffectedRectangle(int x, int y) {
+  protected Rectangle getAffectedRectangle(int x, int y) {
     return new Rectangle(x, y, Sizes.BLOCK, Sizes.BLOCK);
   }
 
   @Override
-  void startAction(DirtBlockItem item) {
+  protected void startAction(DirtBlockItem item) {
     return;
   }
 
   @Override
-  void stopAction(DirtBlockItem item) { }
+  protected void stopAction(DirtBlockItem item) { }
 
   @Override
-  void updateAction(DirtBlockItem item, int delta) { }
+  protected void updateAction(DirtBlockItem item, int delta) { }
 
   @Override
-  boolean isActionCompleted() {
+  protected boolean isActionCompleted() {
     return true;
   }
 
   @Override
-  void onAction() {
+  protected void onAction() {
     addBlock(affectedRectangle.getX(), affectedRectangle.getY());
   }
 

@@ -8,7 +8,7 @@ public interface Resource extends Serializable {
 
   public void deplete();
 
-  public String getType();
+  public ResourceType getType();
 
   public int getMaxPileSize();
 

@@ -1,37 +1,34 @@
-package kniemkiewicz.jqblocks.ingame.object.rock;
+package kniemkiewicz.jqblocks.ingame.resource.item;
 
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
-import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.resource.Resource;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 /**
  * User: knie
- * Date: 7/25/12
+ * Date: 7/27/12
  */
-public class RockItem implements Item {
+public class SimpleResourceItem implements ResourceItem {
 
-  boolean large;
+  final Resource resource;
 
-  public RockItem(boolean large) {
-    this.large = large;
+  public SimpleResourceItem(Resource resource) {
+    this.resource = resource;
   }
 
   @Override
   public void renderItem(Graphics g, int x, int y, int square_size) {
-    int radius = (int) (square_size * 0.4);
-    int diff = square_size / 2 - radius;
-    g.setColor(large ? Rock.LARGE_COLOR : Rock.SMALL_COLOR);
-    g.fillOval(x + diff, y + diff, 2 * radius, 2 * radius);
-    g.setColor(Color.black);
-    g.drawOval(x + diff, y + diff, 2 * radius, 2 * radius);
+    // TODO: same as in resourceObject.
+    g.setColor(Color.cyan);
+    g.fillRect(x + 3, y + 3, square_size - 6, square_size - 6);
   }
 
   @Override
   public Class<? extends ItemController> getItemController() {
-    return RockItemController.class;
+    return ResourceItemController.class;
   }
 
   @Override
@@ -41,11 +38,16 @@ public class RockItem implements Item {
 
   @Override
   public boolean isLarge() {
-    return large;
+    return true;
   }
 
   @Override
   public boolean isEmpty() {
     return false;
+  }
+
+  @Override
+  public Resource getResource() {
+    return resource;
   }
 }

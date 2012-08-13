@@ -3,15 +3,16 @@ package kniemkiewicz.jqblocks.ingame.resource.inventory;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Renderable;
+import kniemkiewicz.jqblocks.ingame.inventory.AbstractInventory;
 import kniemkiewicz.jqblocks.ingame.inventory.Inventory;
-import kniemkiewicz.jqblocks.ingame.inventory.InventoryBase;
+import kniemkiewicz.jqblocks.ingame.item.EmptyItem;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemInventory;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.resource.Resource;
 import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
-import kniemkiewicz.jqblocks.util.Assert;
+import kniemkiewicz.jqblocks.ingame.resource.item.SimpleResourceItem;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
-import org.apache.log4j.lf5.util.Resource;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 
 @Component
-public class ResourceInventory extends InventoryBase<ResourceItem> implements Inventory<ResourceItem>, Renderable {
+public class ResourceInventory extends AbstractInventory<ResourceItem> implements Inventory<ResourceItem>, Renderable {
 
   @Autowired
   RenderQueue renderQueue;
@@ -37,24 +38,27 @@ public class ResourceInventory extends InventoryBase<ResourceItem> implements In
   public static int Y_MARGIN = 5;
   public static int X_MARGIN = 10;
 
+  private static class ResourceEmptyItem extends EmptyItem implements ResourceItem {
+    @Override
+    public Resource getResource() {
+      return null;
+    }
+  }
+
+  protected final ResourceItem emptyItem = new ResourceEmptyItem();
+
   @PostConstruct
   void init() {
     size = 2;
     renderQueue.add(this);
     for (int i = 0; i < size; i++) {
-      items.add(emptyItem);
+      items.add(getEmptyItem());
     }
   }
 
-  public boolean add(ResourceItem item) {
-    assert Assert.validateSerializable(item);
-    Assert.assertTrue(selectedIndex >= 0);
-    Assert.assertTrue(selectedIndex < size);
-    if (items.get(selectedIndex) == emptyItem) {
-      items.set(selectedIndex, item);
-      return true;
-    }
-    return false;
+  @Override
+  protected ResourceItem getEmptyItem() {
+    return emptyItem;
   }
 
   final static private String[] ids = {"F1", "F2", "F3"};

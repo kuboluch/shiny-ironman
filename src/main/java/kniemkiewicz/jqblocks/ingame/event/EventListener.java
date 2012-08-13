@@ -4,8 +4,8 @@ import java.util.List;
 
 public interface EventListener {
 
-  void listen(List<Event> events);
+  public void listen(List<Event> events);
 
-  List<Class> getEventTypesOfInterest();
+  public List<Class> getEventTypesOfInterest();
 
 }

@@ -3,7 +3,7 @@ package kniemkiewicz.jqblocks.ingame.item;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Renderable;
-import kniemkiewicz.jqblocks.ingame.inventory.InventoryBase;
+import kniemkiewicz.jqblocks.ingame.inventory.AbstractInventory;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.newdawn.slick.Color;
@@ -18,7 +18,7 @@ import javax.annotation.PostConstruct;
  * Date: 10.07.12
  */
 @Component
-public class ItemInventory extends InventoryBase<Item> implements Renderable {
+public class ItemInventory extends AbstractInventory<Item> implements Renderable {
 
   @Autowired
   RenderQueue renderQueue;
@@ -36,17 +36,24 @@ public class ItemInventory extends InventoryBase<Item> implements Renderable {
   public static int Y_MARGIN = 5;
   public static int X_MARGIN = 10;
 
+  protected final Item emptyItem = new EmptyItem();
+
   @PostConstruct
   void init() {
     renderQueue.add(this);
     for (int i = 0; i < getSize(); i++) {
-      items.add(emptyItem);
+      items.add(getEmptyItem());
     }
     Assert.executeAndAssert(add(new DirtBlockItem()));
     Assert.executeAndAssert(add(new PickaxeItem()));
     Assert.executeAndAssert(add(new AxeItem()));
     Assert.executeAndAssert(add(new BowItem()));
     Assert.executeAndAssert(add(new PickaxeItem(1000000)));
+  }
+
+  @Override
+  protected Item getEmptyItem() {
+    return emptyItem;
   }
 
   final static private String[] ids = {"1", "2","3","4","5","6","7","8","9","0"};

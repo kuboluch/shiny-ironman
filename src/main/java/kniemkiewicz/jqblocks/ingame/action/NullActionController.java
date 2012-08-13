@@ -5,6 +5,17 @@ package kniemkiewicz.jqblocks.ingame.action;
  * Date: 12.08.12
  */
 public class NullActionController implements Interactive {
+
   @Override
-  public void interact() {}
+  public boolean canInteract() {
+    return false;
+  }
+
+  @Override
+  public void interact() { }
+
+  @Override
+  public int getDurationToComplete() {
+    return 0;
+  }
 }

@@ -45,4 +45,9 @@ public class BowItem implements Item {
   public boolean isLarge() {
     return false;
   }
+
+  @Override
+  public boolean isEmpty() {
+    return false;
+  }
 }

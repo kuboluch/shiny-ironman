@@ -6,7 +6,7 @@ import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.object.*;
-import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
+import kniemkiewicz.jqblocks.ingame.resource.item.SimpleResourceItem;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Color;
@@ -67,7 +67,7 @@ public class ResourceObject<T extends Resource> implements RenderableObject<Reso
 
   @Override
   public Item getItem() {
-    return new ResourceItem(resource);
+    return new SimpleResourceItem(resource);
   }
 
   @Override

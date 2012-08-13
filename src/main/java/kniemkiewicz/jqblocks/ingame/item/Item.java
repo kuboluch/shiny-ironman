@@ -11,6 +11,7 @@ import java.io.Serializable;
  * Date: 10.07.12
  */
 public interface Item extends Serializable {
+
   Class<? extends ItemController> getItemController();
 
   // renderItem is used only if getItemRenderer returns false.
@@ -19,4 +20,6 @@ public interface Item extends Serializable {
   public void renderItem(Graphics g, int x, int y, int square_size);
 
   boolean isLarge();
+
+  boolean isEmpty();
 }

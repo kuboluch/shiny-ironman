@@ -1,11 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.event.input;
 
-import kniemkiewicz.jqblocks.ingame.event.Event;
-import kniemkiewicz.jqblocks.ingame.event.EventBase;
+import kniemkiewicz.jqblocks.ingame.event.AbstractEvent;
 
 import java.util.Comparator;
 
-public class InputEvent extends EventBase {
+public class InputEvent extends AbstractEvent {
 
   private long time;
 

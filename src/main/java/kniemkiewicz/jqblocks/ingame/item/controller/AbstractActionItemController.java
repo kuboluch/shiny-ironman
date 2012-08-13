@@ -17,32 +17,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpdated<T> & Item> implements ItemController<T>, UpdateQueue.UpdateController<T> {
+
   public static final int RANGE = 75;
 
   @Autowired
-  UpdateQueue updateQueue;
+  protected UpdateQueue updateQueue;
 
   @Autowired
-  PlayerController playerController;
+  protected PlayerController playerController;
 
   @Autowired
-  InputContainer inputContainer;
+  protected InputContainer inputContainer;
 
-  Rectangle affectedRectangle;
+  protected Rectangle affectedRectangle;
 
-  abstract boolean canPerformAction(int x, int y);
+  abstract protected boolean canPerformAction(int x, int y);
 
-  abstract Rectangle getAffectedRectangle(int x, int y);
+  abstract protected Rectangle getAffectedRectangle(int x, int y);
 
-  abstract void startAction(T item);
+  abstract protected void startAction(T item);
 
-  abstract void stopAction(T item);
+  abstract protected void stopAction(T item);
 
-  abstract void updateAction(T item, int delta);
+  abstract protected void updateAction(T item, int delta);
 
-  abstract boolean isActionCompleted();
+  abstract protected boolean isActionCompleted();
 
-  abstract void onAction();
+  abstract protected void onAction();
 
   public boolean canPerformAction() {
     int x = Sizes.roundToBlockSizeX(affectedRectangle.getX());
