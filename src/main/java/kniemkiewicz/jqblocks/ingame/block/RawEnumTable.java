@@ -27,9 +27,9 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
   final T outsideTable;
   transient EnumMap<T, RenderableBlockType.Renderer> rendererCache;
 
-  public RawEnumTable(T emptyType, T outsideTable, int width, int height) {
-    assert height > 0;
-    assert width > 0;
+  public RawEnumTable(T emptyType, T outsideTable) {
+    int width = (Sizes.MAX_X - Sizes.MIN_X) / Sizes.BLOCK;
+    int height = (Sizes.MAX_Y - Sizes.MIN_Y) / Sizes.BLOCK;
     data = new Object[width][height];
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {
@@ -179,8 +179,8 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
     final int y0 = Math.round((shape.getY() - Sizes.MIN_Y) / Sizes.BLOCK);
     final int width = Math.round(shape.getWidth() / Sizes.BLOCK);
     final int height = Math.round(shape.getHeight() / Sizes.BLOCK);
-    for (int x = x0; x < x0 + width; x++) {
-      for (int y = y0; y < y0 + height; y++) {
+    for (int x = Math.max(x0, 0); x < Math.min(x0 + width, this.data.length); x++) {
+      for (int y = Math.max(y0,0); y < Math.min(y0 + height, this.data[0].length); y++) {
         data[x][y] = type;
       }
     }
@@ -224,10 +224,10 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
   }
 
   public boolean collidesWithNonEmpty(Rectangle unscaledRect) {
-    int x1 = toXIndex(GeometryUtils.toInt(unscaledRect.getX()));
-    int x2 = toXIndex(GeometryUtils.toInt(unscaledRect.getX() + unscaledRect.getWidth() - 1));
-    int y1 = toYIndex(GeometryUtils.toInt(unscaledRect.getY()));
-    int y2 = toYIndex(GeometryUtils.toInt(unscaledRect.getY() + unscaledRect.getHeight() - 1));
+    int x1 = toXIndex((int)Math.ceil(unscaledRect.getMinX()));
+    int x2 = toXIndex((int)Math.floor(unscaledRect.getMaxX()));
+    int y1 = toYIndex((int)Math.ceil(unscaledRect.getMinY()));
+    int y2 = toYIndex((int)Math.floor(unscaledRect.getMaxY()));
     if ((x1 < 0) || (x2 >= data.length) || (y1 < 0) || (y2 >= data[0].length)) {
       return true;
     }
@@ -242,10 +242,10 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
   // Rectangles returned by this method are meant to be used with HitResolver, they are not smallest possible ones,
   // some points may be in more than one and so on.
   public List<Rectangle> getIntersectingRectangles(Rectangle unscaledRect) {
-    int x1 = toXIndex(GeometryUtils.toInt(unscaledRect.getX()));
-    int x2 = toXIndex(GeometryUtils.toInt(unscaledRect.getMaxX()));
-    int y1 = toYIndex(GeometryUtils.toInt(unscaledRect.getY()));
-    int y2 = toYIndex(GeometryUtils.toInt(unscaledRect.getMaxY()));
+    int x1 = toXIndex((int)Math.ceil(unscaledRect.getMinX()));
+    int x2 = toXIndex((int)Math.floor(unscaledRect.getMaxX()));
+    int y1 = toYIndex((int)Math.ceil(unscaledRect.getMinY()));
+    int y2 = toYIndex((int)Math.floor(unscaledRect.getMaxY()));
     List<Rectangle> rectangles = new ArrayList<Rectangle>();
     if (x1 < 0) {
       rectangles.add(new Rectangle(Sizes.MIN_X - 1000, Sizes.MIN_Y - 1000, 1000, Sizes.MAX_Y - Sizes.MIN_Y + 2000));

@@ -96,7 +96,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
     List<T> oldObjects = leaf.objects;
     leaf.objects = new ArrayList<T>();
     for (T ob : oldObjects) {
-      Rectangle rect = GeometryUtils.getOpenBoundingRectangle(ob.getShape());
+      Rectangle rect = GeometryUtils.getBoundingRectangle(ob.getShape());
       if ((rect.getMaxX() <= cx) && (rect.getMaxY() <= cy)) {
         if (leaf.topLeft == null) {
           leaf.topLeft = new Leaf<T>();
@@ -149,7 +149,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
     float cy = CENTER_Y;
     float dx = DIFF_X;
     float dy = DIFF_Y;
-    Rectangle rect = GeometryUtils.getOpenBoundingRectangle(object.getShape());
+    Rectangle rect = GeometryUtils.getBoundingRectangle(object.getShape());
     while (true) {
       if (leaf.objects.contains(object)) {
         return false;

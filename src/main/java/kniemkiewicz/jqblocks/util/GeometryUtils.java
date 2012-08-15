@@ -29,6 +29,16 @@ public final class GeometryUtils {
   }
 
   public static boolean intersects(Shape shape1, Shape shape2) {
+    if (!internalIntersects(shape1, shape2)) return false;
+    // getX + width is incorrect for lines
+    if (shape1.getMaxX() < shape2.getMinX()) return false;
+    if (shape2.getMaxX() < shape1.getMinX()) return false;
+    if (shape1.getMaxY() < shape2.getMinY()) return false;
+    if (shape2.getMaxY() < shape1.getMinY()) return false;
+    return true;
+  }
+
+  public static boolean internalIntersects(Shape shape1, Shape shape2) {
     TimingInfo.CURRENT_TIMING_INFO.getCounter("GeometryUtils.intersects").record(1);
     if (shape1.intersects(shape2)) return true;
 
@@ -39,12 +49,5 @@ public final class GeometryUtils {
       return shape2.contains(shape1);
     }
     return false;
-  }
-
-
-  public static int toInt(float f) {
-    if (f > 0) return (int)f;
-    if ((int)f == f) return (int)f;
-    return (int)f - 1;
   }
 }

@@ -13,9 +13,7 @@ public class SolidBlocksTest {
 
   @Test
   public void onSolidGroundTest() {
-    int width = (Sizes.MAX_X - Sizes.MIN_X) / Sizes.BLOCK;
-    int length = (Sizes.MAX_Y - Sizes.MIN_Y) / Sizes.BLOCK;
-    RawEnumTable table = new RawEnumTable<WallBlockType>(WallBlockType.EMPTY, WallBlockType.SPACE, width, length);
+    RawEnumTable table = new RawEnumTable<WallBlockType>(WallBlockType.EMPTY, WallBlockType.SPACE);
 
     Rectangle floor = new Rectangle(- (10 * Sizes.BLOCK), 10 * Sizes.BLOCK, (10 * Sizes.BLOCK) * 2, Sizes.BLOCK);
     table.setRectUnscaled(floor, WallBlockType.DIRT);

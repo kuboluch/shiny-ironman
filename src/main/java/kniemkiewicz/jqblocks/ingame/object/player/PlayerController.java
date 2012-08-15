@@ -11,6 +11,8 @@ import kniemkiewicz.jqblocks.ingame.object.PickableObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObjectType;
 import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventory;
 import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
+import kniemkiewicz.jqblocks.util.Assert;
+import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +63,9 @@ public class PlayerController implements InputListener {
     player = new Player();
     player.addTo(renderQueue, movingObjects);
     player.getXMovement().setPos(VillageGenerator.STARTING_X);
-    player.getYMovement().setPos(villageGenerator.getStartingY() - Player.HEIGHT - 3);
+    player.getYMovement().setPos(villageGenerator.getStartingY() - Player.HEIGHT - 2);
+    player.updateShape();
+    System.out.println(player.getShape().getX() + " " + player.getShape().getY());
   }
 
   public void listen(Input input, int delta) {
@@ -88,8 +92,16 @@ public class PlayerController implements InputListener {
     float x = player.getXMovement().getPos();
     float y = player.getYMovement().getPos();
     player.update(delta);
-    List<Rectangle> collidingRectangles = blocks.getBlocks().getIntersectingRectangles(player.getShape());
+    //having a copy of players shape make debugging easier.
+    Rectangle playerShape = GeometryUtils.getNewBoundingRectangle(player.getShape());
+    List<Rectangle> collidingRectangles = blocks.getBlocks().getIntersectingRectangles(playerShape);
 
+    for (Rectangle r : collidingRectangles) {
+      if(!GeometryUtils.intersects(r, playerShape)) {
+        blocks.getBlocks().getIntersectingRectangles(playerShape);
+        assert false;
+      }
+    }
     for (Rectangle r : collidingRectangles) {
       HitResolver.resolve(player, player.getXMovement().getPos() - x, player.getYMovement().getPos() - y, r);
       player.updateShape();
@@ -107,6 +119,11 @@ public class PlayerController implements InputListener {
             objectKiller.killMovingObject(pickableObject);
           }
         }
+      }
+    }
+    if (Assert.ASSERT_ENABLED) {
+      for (Rectangle r : collidingRectangles) {
+        assert !GeometryUtils.intersects(r, player.getShape());
       }
     }
     assert blocks.getBlocks().getIntersectingRectangles(player.getShape()).size() == 0;

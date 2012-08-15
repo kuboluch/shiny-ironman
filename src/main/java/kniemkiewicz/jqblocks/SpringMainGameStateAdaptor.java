@@ -95,14 +95,17 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
     if (endGameController.isGameShouldRestart()) {
       MainGameState.Settings settings = new MainGameState.Settings();
       try {
-        FileInputStream input = new FileInputStream(SaveGameListener.FILENAME);
-        BufferedInputStream bufferedInputStream = new BufferedInputStream(input);
-        ObjectInputStream objectInputStream = new ObjectInputStream(bufferedInputStream);
-        settings.savegame = objectInputStream;
+        if (endGameController.isGameShouldBeLoaded()) {
+          FileInputStream input = new FileInputStream(SaveGameListener.FILENAME);
+          BufferedInputStream bufferedInputStream = new BufferedInputStream(input);
+          ObjectInputStream objectInputStream = new ObjectInputStream(bufferedInputStream);
+          settings.savegame = objectInputStream;
+        }
         initInternal(gameContainer, stateBasedGame, settings);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
+
     }
     if (endGameController.isGameShouldEnd()) {
       gameContainer.exit();
