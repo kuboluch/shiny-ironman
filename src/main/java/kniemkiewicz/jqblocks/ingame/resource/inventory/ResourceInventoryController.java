@@ -1,33 +1,30 @@
 package kniemkiewicz.jqblocks.ingame.resource.inventory;
 
 import kniemkiewicz.jqblocks.ingame.CollisionController;
-import kniemkiewicz.jqblocks.ingame.InputListener;
 import kniemkiewicz.jqblocks.ingame.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.block.RawEnumTable;
+import kniemkiewicz.jqblocks.ingame.World;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
-import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.EventListener;
 import kniemkiewicz.jqblocks.ingame.event.input.InputEvent;
+import kniemkiewicz.jqblocks.ingame.event.input.keyboard.KeyPressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
-import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseClickEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController;
 import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
+import kniemkiewicz.jqblocks.ingame.object.PickableObject;
+import kniemkiewicz.jqblocks.ingame.object.PickableObjectType;
 import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.resource.ResourceObject;
+import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
-import kniemkiewicz.jqblocks.util.IterableIterator;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,42 +34,118 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * User: krzysiek
- * Date: 11.07.12
+ * User: kuboluch
+ * Date: 31.07.12
  */
 @Component
-public class ResourceInventoryController implements InputListener, EventListener {
+public class ResourceInventoryController implements EventListener {
 
   private static int DROP_RANGE = 4 * Sizes.BLOCK;
 
   @Autowired
   ResourceInventory inventory;
+
   @Autowired
   SpringBeanProvider provider;
+
   @Autowired
   SolidBlocks solidBlocks;
+
   @Autowired
   PlayerController playerController;
+
   @Autowired
   InputContainer inputContainer;
+
   @Autowired
   CollisionController collisionController;
 
-  public void listen(Input input, int delta) {
-    int f = KeyboardUtils.getPressedFunctionKey(input);
-    if (f > 0 && f <= inventory.getSize()) {
-      inventory.setSelectedIndex(f - 1);
-    }
-  }
+  @Autowired
+  World objectKiller;
 
   @Override
   public List<Class> getEventTypesOfInterest() {
     return Arrays.asList((Class) InputEvent.class, (Class) ScreenMovedEvent.class);
   }
 
+  @Override
+  public void listen(List<Event> events) {
+    List<KeyPressedEvent> keyPressedEvents = Collections3.collect(events, KeyPressedEvent.class);
+    if (!keyPressedEvents.isEmpty()) {
+      for (KeyPressedEvent e : keyPressedEvents) {
+        handleKeyPressedEvent(e);
+      }
+    }
+
+    List<MousePressedEvent> mousePressedEvents = Collections3.collect(events, MousePressedEvent.class);
+    if (!mousePressedEvents.isEmpty()) {
+      for (MousePressedEvent e : mousePressedEvents) {
+        if (e.getButton() == Button.RIGHT) {
+          handleMouseRightClickEvent(e);
+        }
+      }
+    }
+
+    // TODO add and move to PlayerEquipmentController
+    if (inventory.getSelectedItem() != null) {
+      Class<? extends ItemController> clazz = inventory.getSelectedItem().getItemController();
+      if (clazz != null) {
+        ItemController controller = provider.getBean(clazz, true);
+        controller.listen(inventory.getSelectedItem(), events);
+      }
+    }
+  }
+
+  private void handleKeyPressedEvent(KeyPressedEvent e) {
+    if (KeyboardUtils.isFunctionKeyPressed(e.getKey())) {
+      int f = KeyboardUtils.getPressedFunctionKey(e.getKey());
+      if (f > 0 && f <= inventory.getSize()) {
+        inventory.setSelectedIndex(f - 1);
+        e.consume();
+      }
+    }
+
+    if (KeyboardUtils.isDownPressed(e.getKey())) {
+      ResourceObject resourceObject = findNearestResourceObject();
+      if (resourceObject != null) {
+        if (inventory.add((ResourceItem) resourceObject.getItem())) {
+          objectKiller.killMovingObject(resourceObject);
+          e.consume();
+        }
+      }
+    }
+  }
+
+  private void handleMouseRightClickEvent(MousePressedEvent e) {
+    if (KeyboardUtils.isResourceInventoryKeyPressed(inputContainer.getInput())) {
+      if (dropItem(e.getLevelX(), e.getLevelY())) {
+        e.consume();
+        return;
+      }
+    }
+  }
+
+  private ResourceObject findNearestResourceObject() {
+    float playerX = playerController.getPlayer().getShape().getCenterX();
+    float playerY = playerController.getPlayer().getShape().getCenterY();
+    double lastDistance = -1;
+    ResourceObject nearestResourceObject = null;
+
+    for (PickableObject pickableObject : collisionController.<PickableObject>fullSearch(MovingObjects.PICKABLE, playerController.getPlayer().getShape())) {
+      if (PickableObjectType.RESOURCE.equals(pickableObject.getType())) {
+        double distanceToObject = GeometryUtils.distance(playerX, playerY, pickableObject.getShape().getCenterX(), pickableObject.getShape().getCenterY());
+        if (lastDistance < 0 || distanceToObject < lastDistance) {
+          nearestResourceObject = (ResourceObject) pickableObject;
+        }
+      }
+    }
+
+    return nearestResourceObject;
+  }
+
   public void dropObject(MovingPhysicalObject dropObject) {
     Shape shape = dropObject.getShape();
-    dropObject.setY((int)(solidBlocks.getBlocks().getUnscaledDropHeight(shape) - shape.getHeight() - 1));
+    dropObject.setY((int) (solidBlocks.getBlocks().getUnscaledDropHeight(shape) - shape.getHeight() - 1));
   }
 
   private boolean dropItem(int x, int y) {
@@ -95,28 +168,5 @@ public class ResourceInventoryController implements InputListener, EventListener
     List<ResourceObject> resourceObjects =
         Collections3.collect(collisionController.fullSearch(MovingObjects.OBJECT_TYPES, rect), ResourceObject.class);
     return !resourceObjects.isEmpty();
-  }
-
-  @Override
-  public void listen(List<Event> events) {
-    if (events.size() == 0) return;
-    for (Event e : events) {
-      if (e instanceof MousePressedEvent) {
-        MousePressedEvent mpe = (MousePressedEvent) e;
-        if (!mpe.isConsumed() && (mpe.getButton() == Button.RIGHT)
-            && KeyboardUtils.isResourceInventoryKeyPressed(inputContainer.getInput())) {
-          if (dropItem(mpe.getLevelX(), mpe.getLevelY())) {
-            return;
-          }
-        }
-      }
-    }
-    if (inventory.getSelectedItem() != null) {
-      Class<? extends ItemController> clazz = inventory.getSelectedItem().getItemController();
-      if (clazz != null) {
-        ItemController controller = provider.getBean(clazz, true);
-        controller.listen(inventory.getSelectedItem(), events);
-      }
-    }
   }
 }

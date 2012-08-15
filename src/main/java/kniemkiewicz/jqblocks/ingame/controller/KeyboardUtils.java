@@ -14,6 +14,9 @@ public class KeyboardUtils {
   public static boolean isDownPressed(Input input) {
     return (input.isKeyDown(Input.KEY_S) || input.isKeyDown(Input.KEY_DOWN));
   }
+  public static boolean isDownPressed(int key) {
+    return (key == Input.KEY_S || key == Input.KEY_DOWN);
+  }
   public static boolean isUpPressed(Input input) {
     return (input.isKeyDown(Input.KEY_W) || input.isKeyDown(Input.KEY_UP));
   }
@@ -61,27 +64,35 @@ public class KeyboardUtils {
   /**
    * @return 0-9 for keys and -1 if none is selected
    */
-  public static int getPressedNumericKey(Input input) {
-    for (int k = Input.KEY_1; k < Input.KEY_9; k++) {
-      if (input.isKeyDown(k)) {
+  public static int getPressedNumericKey(int key) {
+    for (int k = Input.KEY_1; k <= Input.KEY_9; k++) {
+      if (k == key) {
         return k - Input.KEY_1 + 1;
       }
     }
-    if (input.isKeyPressed(Input.KEY_0)) {
+    if (key == Input.KEY_0) {
       return 0;
     }
     return -1;
   }
 
+  public static boolean isNumericKeyPressed(int key) {
+    return (key >= Input.KEY_1 && key <= Input.KEY_0);
+  }
+
   /**
    * @return F1-F12 for keys and -1 if none is selected
    */
-  public static int getPressedFunctionKey(Input input) {
+  public static int getPressedFunctionKey(int key) {
     for (int k = Input.KEY_F1; k < Input.KEY_F12; k++) {
-      if (input.isKeyDown(k)) {
+      if (k == key) {
         return k - Input.KEY_F1 + 1;
       }
     }
     return -1;
+  }
+
+  public static boolean isFunctionKeyPressed(int key) {
+    return (key >= Input.KEY_F1 && key <= Input.KEY_F12);
   }
 }

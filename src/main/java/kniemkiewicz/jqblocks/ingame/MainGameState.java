@@ -129,8 +129,6 @@ public class MainGameState extends BasicTWLGameState {
     inputListeners.add(playerController);
     inputListeners.add(endGameController);
     inputListeners.add(saveGameListener);
-    inputListeners.add(inventoryController);
-    inputListeners.add(resourceInventoryController);
     inputListeners.add(uiController);
     eventBus.addListener(mouseInputInfo);
     eventBus.addListener(workplaceController);

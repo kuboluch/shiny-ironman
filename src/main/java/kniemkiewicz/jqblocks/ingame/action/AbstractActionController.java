@@ -64,7 +64,6 @@ public abstract class AbstractActionController implements EventListener {
   public void listen(List<Event> events) {
     List<MousePressedEvent> mousePressedEvents = Collections3.collect(events, MousePressedEvent.class);
     if (!mousePressedEvents.isEmpty()) {
-      handleMousePressedEvent(mousePressedEvents.get(0));
       for (MousePressedEvent e : mousePressedEvents) {
         handleMousePressedEvent(e);
       }

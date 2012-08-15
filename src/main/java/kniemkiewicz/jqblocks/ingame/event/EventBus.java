@@ -50,7 +50,9 @@ public class EventBus {
           iter.remove();
         }
       }
-      listener.listen(eventsOfIntrest);
+      if (!eventsOfIntrest.isEmpty()) {
+        listener.listen(eventsOfIntrest);
+      }
     }
   }
 }

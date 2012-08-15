@@ -55,6 +55,7 @@ public class WorkplaceActionController extends AbstractActionController {
 
   @Override
   protected void startAction() {
+    assert completionEffect == null;
     completionEffect = new CompletionEffect(affectedRectangle);
     Workplace workplace = findWorkplace(affectedRectangle);
     totalDuration = workplace.getDurationToComplete();
@@ -93,17 +94,17 @@ public class WorkplaceActionController extends AbstractActionController {
     List<KeyPressedEvent> keyPressedEvents = Collections3.collect(events, KeyPressedEvent.class);
     if (!keyPressedEvents.isEmpty()) {
       for (KeyPressedEvent e : keyPressedEvents) {
-        handleInteractKeyPressedEvent(e);
+        handleKeyPressedEvent(e);
       }
     }
 
     super.listen(events);
   }
 
-  private void handleInteractKeyPressedEvent(KeyPressedEvent event) {
+  private void handleKeyPressedEvent(KeyPressedEvent event) {
     if (KeyboardUtils.isInteractKeyPressed(event.getKey())) {
-      int playerX = Sizes.roundToBlockSizeX(playerController.getPlayer().getShape().getX());
-      int playerY = Sizes.roundToBlockSizeY(playerController.getPlayer().getShape().getY());
+      int playerX = Sizes.roundToBlockSizeX(playerController.getPlayer().getShape().getCenterX());
+      int playerY = Sizes.roundToBlockSizeY(playerController.getPlayer().getShape().getCenterY());
 
       if (affectedRectangle != null) {
         Rectangle rect = new Rectangle(playerX, playerY, 1, 1);
@@ -112,7 +113,7 @@ public class WorkplaceActionController extends AbstractActionController {
           affectedRectangle = null;
         }
       }
-      if (canPerformAction(playerX, playerY)) {
+      if (affectedRectangle == null && canPerformAction(playerX, playerY)) {
         affectedRectangle = getAffectedRectangle(playerX, playerY);
         startAction();
         event.consume();

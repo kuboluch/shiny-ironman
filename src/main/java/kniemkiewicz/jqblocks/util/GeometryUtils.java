@@ -21,6 +21,7 @@ public final class GeometryUtils {
   }
 
   public static Rectangle getOpenBoundingRectangle(Shape shape) {
+    // TODO check if width and height can be cutted (shape.width/height <= 2)
     Rectangle rect = GeometryUtils.getNewBoundingRectangle(shape);
     rect.setX(rect.getX() + 1);
     rect.setY(rect.getY() + 1);
@@ -42,6 +43,9 @@ public final class GeometryUtils {
     return false;
   }
 
+  public static double distance(float x1, float y1, float x2, float y2) {
+    return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+  }
 
   public static int toInt(float f) {
     if (f > 0) return (int)f;

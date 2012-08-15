@@ -4,13 +4,7 @@ import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.controller.HitResolver;
 import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
-import kniemkiewicz.jqblocks.ingame.item.ItemInventory;
-import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
-import kniemkiewicz.jqblocks.ingame.object.PickableObject;
-import kniemkiewicz.jqblocks.ingame.object.PickableObjectType;
-import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventory;
-import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,22 +31,10 @@ public class PlayerController implements InputListener {
   MovingObjects movingObjects;
 
   @Autowired
-  World objectKiller;
-
-  @Autowired
-  ItemInventory inventory;
-
-  @Autowired
-  ResourceInventory resourceInventory;
-
-  @Autowired
   RenderQueue renderQueue;
 
   @Autowired
   VillageGenerator villageGenerator;
-
-  @Autowired
-  CollisionController collisionController;
 
   /**
    * This is manually invoked by Game to make sure that level is created before.
@@ -94,25 +76,11 @@ public class PlayerController implements InputListener {
       HitResolver.resolve(player, player.getXMovement().getPos() - x, player.getYMovement().getPos() - y, r);
       player.updateShape();
     }
-    for (PickableObject pickableObject : collisionController.<PickableObject>fullSearch(MovingObjects.PICKABLE, player.getShape())) {
-      Item item = pickableObject.getItem();
-      PickableObjectType poType = pickableObject.getType();
-      if (PickableObjectType.ACTION.equals(poType)) {
-        if (inventory.add(item)) {
-          objectKiller.killMovingObject(pickableObject);
-        }
-      } else if (PickableObjectType.RESOURCE.equals(poType)) {
-        if (KeyboardUtils.isDownPressed(input)) {
-          if (resourceInventory.add((ResourceItem) item)) {
-            objectKiller.killMovingObject(pickableObject);
-          }
-        }
-      }
-    }
+
     assert blocks.getBlocks().getIntersectingRectangles(player.getShape()).size() == 0;
     // Do not change this without a good reason. May lead to screen flickering in rare conditions.
-    int centerX = (int)player.getXMovement().getPos() + Player.WIDTH / 2;
-    int centerY = (int)player.getYMovement().getPos() + Player.HEIGHT / 2;
+    int centerX = (int) player.getXMovement().getPos() + Player.WIDTH / 2;
+    int centerY = (int) player.getYMovement().getPos() + Player.HEIGHT / 2;
     pointOfView.setCenter(centerX, centerY);
   }
 
