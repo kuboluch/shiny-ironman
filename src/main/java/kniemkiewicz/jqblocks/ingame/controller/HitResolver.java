@@ -31,7 +31,7 @@ public class HitResolver {
     switch (decision) {
       case TOP:
         player.getYMovement().setSpeed(0);
-        player.getYMovement().setPos(rect.getMinY() - Player.HEIGHT + 1);
+        player.getYMovement().setPos(rect.getMinY() - Player.HEIGHT);
         break;
       case BOTTOM:
         player.getYMovement().setSpeed(0);
@@ -39,7 +39,7 @@ public class HitResolver {
         break;
       case LEFT:
         player.getXMovement().setSpeed(0);
-        player.getXMovement().setPos(rect.getMinX() - Player.WIDTH + 1);
+        player.getXMovement().setPos(rect.getMinX() - Player.WIDTH);
         break;
       case RIGHT:
         player.getXMovement().setSpeed(0);

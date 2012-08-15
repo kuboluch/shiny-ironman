@@ -43,9 +43,7 @@ public class SolidBlocks{
   TimingInfo timingInfo;
 
   public SolidBlocks() {
-    int width = (Sizes.MAX_X - Sizes.MIN_X) / Sizes.BLOCK;
-    int length = (Sizes.MAX_Y - Sizes.MIN_Y) / Sizes.BLOCK;
-    blocks = new RawEnumTable<WallBlockType>(WallBlockType.EMPTY, WallBlockType.SPACE, width, length);
+    blocks = new RawEnumTable<WallBlockType>(WallBlockType.EMPTY, WallBlockType.SPACE);
   }
 
   protected SolidBlocks(RawEnumTable<WallBlockType> blocks) {

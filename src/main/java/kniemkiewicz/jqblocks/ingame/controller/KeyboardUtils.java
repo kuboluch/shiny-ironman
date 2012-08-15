@@ -95,4 +95,8 @@ public class KeyboardUtils {
   public static boolean isFunctionKeyPressed(int key) {
     return (key >= Input.KEY_F1 && key <= Input.KEY_F12);
   }
+
+  public static boolean isMapViewPressed(Input input) {
+    return (input.isKeyDown(Input.KEY_M));
+  }
 }

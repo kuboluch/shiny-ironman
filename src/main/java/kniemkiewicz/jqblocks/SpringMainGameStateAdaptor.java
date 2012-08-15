@@ -47,18 +47,21 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
   @Override
   public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
     MainGameState.Settings gameSettings = new MainGameState.Settings();
-    gameSettings.seed = 1L;
     initInternal(gameContainer, stateBasedGame, gameSettings);
   }
 
   void initInternal(GameContainer gameContainer, StateBasedGame stateBasedGame, MainGameState.Settings gameSettings) throws SlickException {
     // This a fix for some stupid idea-spring conflict on Linux
+    stateApplicationContext = null;
     while (stateApplicationContext == null) {
       try {
         stateApplicationContext = getContext(mainApplicationContext, new String[]{gameContextPath}, new Object[]{});
       } catch (BeanDefinitionStoreException e) {
         logger.error("???", e);
       }
+    }
+    if (gameSettings.seed == null) {
+      gameSettings.seed = 1L;
     }
     gameState = stateApplicationContext.getBean(MainGameState.class);
     gameState.setSettings(gameSettings);
@@ -95,14 +98,17 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
     if (endGameController.isGameShouldRestart()) {
       MainGameState.Settings settings = new MainGameState.Settings();
       try {
-        FileInputStream input = new FileInputStream(SaveGameListener.FILENAME);
-        BufferedInputStream bufferedInputStream = new BufferedInputStream(input);
-        ObjectInputStream objectInputStream = new ObjectInputStream(bufferedInputStream);
-        settings.savegame = objectInputStream;
+        if (endGameController.isGameShouldBeLoaded()) {
+          FileInputStream input = new FileInputStream(SaveGameListener.FILENAME);
+          BufferedInputStream bufferedInputStream = new BufferedInputStream(input);
+          ObjectInputStream objectInputStream = new ObjectInputStream(bufferedInputStream);
+          settings.savegame = objectInputStream;
+        }
         initInternal(gameContainer, stateBasedGame, settings);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
+
     }
     if (endGameController.isGameShouldEnd()) {
       gameContainer.exit();

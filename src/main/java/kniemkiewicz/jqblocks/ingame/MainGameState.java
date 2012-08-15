@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame;
 
 import de.matthiasmann.twl.GUI;
+import kniemkiewicz.jqblocks.ingame.block.MapView;
 import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.controller.InventoryController;
 import kniemkiewicz.jqblocks.ingame.controller.SaveGameListener;
@@ -103,6 +104,9 @@ public class MainGameState extends BasicTWLGameState {
   HealthBar healthBar;
 
   @Autowired
+  MapView mapView;
+
+  @Autowired
   World world;
 
   private Settings settings;
@@ -130,6 +134,7 @@ public class MainGameState extends BasicTWLGameState {
     inputListeners.add(endGameController);
     inputListeners.add(saveGameListener);
     inputListeners.add(uiController);
+    inputListeners.add(mapView);
     eventBus.addListener(mouseInputInfo);
     eventBus.addListener(workplaceController);
     eventBus.addListener(workplaceActionController);
@@ -139,6 +144,7 @@ public class MainGameState extends BasicTWLGameState {
     renderQueue.add(mouseInputInfo);
     renderQueue.add(resourceInfo);
     renderQueue.add(healthBar);
+    renderQueue.add(mapView);
     if (settings.savegame != null) {
       world.loadGameData(settings.savegame);
     } else {

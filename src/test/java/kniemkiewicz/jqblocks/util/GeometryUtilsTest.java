@@ -2,8 +2,10 @@ package kniemkiewicz.jqblocks.util;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 
 /**
  * User: knie
@@ -45,16 +47,28 @@ public class GeometryUtilsTest {
   @Test
   public void testBoundaryCaseForRectangles() {
     // Side by side
-    Rectangle r1 = new Rectangle(0f, 0f, 50f, 100f);
-    Rectangle r2 = new Rectangle(0f, 100f, 50f, 100f);
-    Assert.assertTrue(GeometryUtils.intersects(r1, r2));
+    Rectangle r1 = new Rectangle(0f, 0f, 100f, 100f);
+    Rectangle r2 = new Rectangle(0f, 100f, 100f, 100f);
+    Assert.assertFalse(GeometryUtils.intersects(r1, r2));
 
-    Rectangle r3 = new Rectangle(0f, 0f, 50f, 100f);
-    Rectangle r4 = new Rectangle(0f, 100.5f, 50f, 100f);
+    Rectangle r3 = new Rectangle(0f, 0f, 100f, 100f);
+    Rectangle r4 = new Rectangle(0f, 100.5f, 100f, 100f);
     Assert.assertFalse(GeometryUtils.intersects(r3, r4));
 
-    Rectangle r5 = new Rectangle(0f, 0f, 50f, 100f);
-    Rectangle r6 = new Rectangle(0f, 99.5f, 50f, 100f);
+    Rectangle r5 = new Rectangle(0f, 0f, 100f, 100f);
+    Rectangle r6 = new Rectangle(0f, 98.9f, 100f, 100f);
     Assert.assertTrue(GeometryUtils.intersects(r5, r6));
+  }
+
+  @Test
+  public void testBoundaryCaseForCircles() {
+    // Side by side
+    Shape c1 = new Circle(0 , 0, 1);
+    Shape c2 = new Circle(0 , 2, 1);
+    Assert.assertFalse(GeometryUtils.intersects(c1, c2));
+
+    Shape c3 = new Circle(1.9f , 0, 1);
+    Assert.assertTrue(GeometryUtils.intersects(c1, c3));
+    Assert.assertFalse(GeometryUtils.intersects(c2, c3));
   }
 }

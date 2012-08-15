@@ -45,6 +45,6 @@ public class Backgrounds {
   }
 
   public Iterator<BackgroundElement> intersects(Rectangle rect) {
-    return new LinearIntersectionIterator<BackgroundElement>(backgrounds.iterator(), GeometryUtils.getOpenBoundingRectangle(rect));
+    return new LinearIntersectionIterator<BackgroundElement>(backgrounds.iterator(), rect);
   }
 }

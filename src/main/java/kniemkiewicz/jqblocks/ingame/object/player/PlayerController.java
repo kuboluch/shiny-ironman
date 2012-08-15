@@ -5,7 +5,11 @@ import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.controller.HitResolver;
 import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
+import kniemkiewicz.jqblocks.util.Assert;
+import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -43,7 +47,8 @@ public class PlayerController implements InputListener {
     player = new Player();
     player.addTo(renderQueue, movingObjects);
     player.getXMovement().setPos(VillageGenerator.STARTING_X);
-    player.getYMovement().setPos(villageGenerator.getStartingY() - Player.HEIGHT - 3);
+    player.getYMovement().setPos(villageGenerator.getStartingY() - Player.HEIGHT - 2);
+    player.updateShape();
   }
 
   public void listen(Input input, int delta) {
@@ -70,13 +75,26 @@ public class PlayerController implements InputListener {
     float x = player.getXMovement().getPos();
     float y = player.getYMovement().getPos();
     player.update(delta);
-    List<Rectangle> collidingRectangles = blocks.getBlocks().getIntersectingRectangles(player.getShape());
+    //having a copy of players shape make debugging easier.
+    Rectangle playerShape = GeometryUtils.getNewBoundingRectangle(player.getShape());
+    List<Rectangle> collidingRectangles = blocks.getBlocks().getIntersectingRectangles(playerShape);
 
+    for (Rectangle r : collidingRectangles) {
+      if(!GeometryUtils.intersects(r, playerShape)) {
+        blocks.getBlocks().getIntersectingRectangles(playerShape);
+        assert false;
+      }
+    }
     for (Rectangle r : collidingRectangles) {
       HitResolver.resolve(player, player.getXMovement().getPos() - x, player.getYMovement().getPos() - y, r);
       player.updateShape();
     }
 
+    if (Assert.ASSERT_ENABLED) {
+      for (Rectangle r : collidingRectangles) {
+        assert !GeometryUtils.intersects(r, player.getShape());
+      }
+    }
     assert blocks.getBlocks().getIntersectingRectangles(player.getShape()).size() == 0;
     // Do not change this without a good reason. May lead to screen flickering in rare conditions.
     int centerX = (int) player.getXMovement().getPos() + Player.WIDTH / 2;
