@@ -153,6 +153,7 @@ public class InventoryController implements EventListener {
   }
 
   private boolean dropItem(int x, int y) {
+    if (inventory.getSelectedItem() == null) return false;
     if (!AbstractActionItemController.isInRange(x, y, playerController.getPlayer(), DROP_RANGE)) return false;
     Class<? extends ItemController> clazz = inventory.getSelectedItem().getItemController();
     if (clazz == null) return false;

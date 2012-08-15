@@ -8,6 +8,7 @@
     <bean id="pickaxeRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
         <constructor-arg value="images/pickaxe.png"/>
     </bean>
+
     <bean id="axeRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
         <constructor-arg value="images/axe.png"/>
     </bean>
@@ -25,4 +26,9 @@
     </bean>
 
     <bean id="resourceRenderer" class="kniemkiewicz.jqblocks.ingame.resource.renderer.ResourceRenderer"/>
+
+     <bean id="ladderRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
+        <constructor-arg ref="blockSheet"/>
+        <constructor-arg value="ladder"/>
+    </bean>
 </beans>
