@@ -24,11 +24,7 @@ public class RockBlockTypeRenderer implements RenderableBlockType.Renderer<WallB
 
   @Override
   public void renderBlock(int x, int y, int width, int height, Graphics g) {
-    for (int drawX = x; drawX < (x + width); drawX += Sizes.BLOCK) {
-      for (int drawY = y; drawY < (y + height); drawY += Sizes.BLOCK) {
-        g.drawImage(blockSheet.getSprite("stone"), drawX, drawY, drawX + Sizes.BLOCK, drawY + Sizes.BLOCK, 0, 0, Sizes.BLOCK, Sizes.BLOCK);
-      }
-    }
+    texture(x, y, width, height, g, blockSheet.getSprite("stone"));
   }
 
   @Override
@@ -48,6 +44,14 @@ public class RockBlockTypeRenderer implements RenderableBlockType.Renderer<WallB
       case RIGHT:
         g.drawLine(x - 1, y, x - 1, y + length);
         break;
+    }
+  }
+
+  private void texture(int x, int y, int width, int height, Graphics g, Image texture) {
+    for (int drawX = x; drawX < (x + width); drawX += Sizes.BLOCK) {
+      for (int drawY = y; drawY < (y + height); drawY += Sizes.BLOCK) {
+        g.drawImage(texture, drawX, drawY, drawX + Sizes.BLOCK, drawY + Sizes.BLOCK, 0, 0, Sizes.BLOCK, Sizes.BLOCK);
+      }
     }
   }
 }
