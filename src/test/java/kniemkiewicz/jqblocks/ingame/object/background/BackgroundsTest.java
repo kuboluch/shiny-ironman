@@ -50,10 +50,10 @@ public class BackgroundsTest {
     Assert.assertFalse(iter.hasNext());
 
     Iterator<BackgroundElement> iter2 = backgrounds.intersects(new Rectangle(1f, 0f, 48f, 96f));
-    Assert.assertFalse(iter2.hasNext());
+    Assert.assertTrue(iter2.hasNext());
 
     Iterator<BackgroundElement> iter3 = backgrounds.intersects(new Rectangle(-1f, 0f, 48f, 96f));
-    Assert.assertTrue(iter3.hasNext());
+    Assert.assertFalse(iter3.hasNext());
   }
 
   @Test

@@ -57,9 +57,7 @@ public final class GeometryUtils {
     return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
   }
 
-  public static int toInt(float f) {
-    if (f > 0) return (int)f;
-    if ((int)f == f) return (int)f;
-    return (int)f - 1;
+  public static String toString(Rectangle rect) {
+    return "Rect{"+ rect.getX() + "," + rect.getY() + "," + rect.getMaxX() + "," + rect.getMaxY() + "}";
   }
 }

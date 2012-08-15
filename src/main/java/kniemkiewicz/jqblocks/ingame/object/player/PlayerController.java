@@ -7,6 +7,8 @@ import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
@@ -22,6 +24,8 @@ import java.util.List;
  */
 @Component
 public class PlayerController implements InputListener {
+
+  static final Log logger = LogFactory.getLog(PlayerController.class);
 
   Player player;
 
@@ -85,20 +89,33 @@ public class PlayerController implements InputListener {
         assert false;
       }
     }
+    float newX = player.getXMovement().getPos();
+    float newY = player.getYMovement().getPos();
+    float dx = newX - x;
+    float dy = newY - y;
+    logger.debug(player.toString());
     for (Rectangle r : collidingRectangles) {
-      HitResolver.resolve(player, player.getXMovement().getPos() - x, player.getYMovement().getPos() - y, r);
+      HitResolver.resolve(player, dx, dy, r);
+      logger.debug(GeometryUtils.toString(r) + " " + player.toString());
       player.updateShape();
     }
-
     if (Assert.ASSERT_ENABLED) {
       for (Rectangle r : collidingRectangles) {
         assert !GeometryUtils.intersects(r, player.getShape());
       }
     }
-    assert blocks.getBlocks().getIntersectingRectangles(player.getShape()).size() == 0;
+    if (Assert.ASSERT_ENABLED) {
+      if (blocks.getBlocks().getIntersectingRectangles(player.getShape()).size() > 0) {
+        for (Rectangle r : blocks.getBlocks().getIntersectingRectangles(player.getShape())) {
+          HitResolver.resolve(player, dx, dy, r);
+          player.updateShape();
+        }
+        assert false;
+      }
+    }
     // Do not change this without a good reason. May lead to screen flickering in rare conditions.
-    int centerX = (int) player.getXMovement().getPos() + Player.WIDTH / 2;
-    int centerY = (int) player.getYMovement().getPos() + Player.HEIGHT / 2;
+    int centerX = (int)player.getXMovement().getPos() + Player.WIDTH / 2;
+    int centerY = (int)player.getYMovement().getPos() + Player.HEIGHT / 2;
     pointOfView.setCenter(centerX, centerY);
   }
 

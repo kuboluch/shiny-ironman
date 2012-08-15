@@ -26,7 +26,7 @@ public class HitResolver {
   public static void resolve(Player player, float dx, float dy, Rectangle rect) {
     //Rectangle shape = GeometryUtils.getOpenBoundingRectangle(player.getShape());
     Rectangle shape = player.getShape();
-    if (!GeometryUtils.intersects(rect, shape)) return;
+    //if (!GeometryUtils.intersects(rect, shape)) return;
     Decision decision = decide(shape, dx, dy, rect);
     switch (decision) {
       case TOP:
