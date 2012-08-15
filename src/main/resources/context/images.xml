@@ -17,6 +17,7 @@
     <bean id="axeRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
         <constructor-arg value="images/axe.png"/>
     </bean>
+
     <bean id="fireplaceRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
         <constructor-arg value="images/fireplace.png"/>
     </bean>
@@ -24,7 +25,13 @@
     <bean id="treeRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
         <constructor-arg value="images/tree.png"/>
     </bean>
+
     <bean id="batRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
         <constructor-arg value="images/bat.png"/>
+    </bean>
+
+    <bean id="blockSheet" class="org.newdawn.slick.XMLPackedSheet">
+        <constructor-arg value="spritesheet/blockSheet"/>
+        <constructor-arg value="spritesheet/blockSheet.xml"/>
     </bean>
 </beans>

@@ -1,6 +1,8 @@
 package kniemkiewicz.jqblocks.ingame.block;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.block.renderer.DirtBlockTypeRenderer;
+import kniemkiewicz.jqblocks.ingame.block.renderer.RockBlockTypeRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.util.BeanName;
 

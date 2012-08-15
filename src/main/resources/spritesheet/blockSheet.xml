@@ -1,0 +1,7 @@
+<sheet>
+	<sprite name="grass" x="0" y="0" width="16" height="16" />
+	<sprite name="stone" x="0" y="16" width="16" height="16" />
+	<sprite name="dirt" x="32" y="0" width="16" height="16" />
+	<sprite name="dirtWithGrass" x="48" y="0" width="16" height="16" />
+	<sprite name="ladder" x="48" y="80" width="16" height="16" />
+</sheet>

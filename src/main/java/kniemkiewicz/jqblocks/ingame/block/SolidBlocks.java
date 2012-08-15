@@ -7,6 +7,7 @@ import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.ui.info.TimingInfo;
 import kniemkiewicz.jqblocks.util.*;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.XMLPackedSheet;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
