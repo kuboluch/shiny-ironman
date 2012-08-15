@@ -4,10 +4,7 @@ import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.BeanNameAware;
 
@@ -33,6 +30,10 @@ public class ImageRenderer implements ItemRenderer<Item>, ObjectRenderer<Rendera
 
   public ImageRenderer(Image image) {
     this.image = image;
+  }
+
+  public ImageRenderer(XMLPackedSheet sheet, String imageName) {
+    this.image = sheet.getSprite(imageName);
   }
 
   public Image getImage() {

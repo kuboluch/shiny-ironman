@@ -89,7 +89,6 @@ public class Rock implements RenderableObject<Rock>, PickableObject, MovingPhysi
     circle.setY(y);
   }
 
-
   // need to implement serialization as Circle is not Serializable
   private void readObject(ObjectInputStream inputStream) throws ClassNotFoundException, IOException {
     //always perform the default de-serialization first

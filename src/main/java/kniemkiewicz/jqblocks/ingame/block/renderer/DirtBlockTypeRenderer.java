@@ -39,7 +39,8 @@ public class DirtBlockTypeRenderer implements RenderableBlockType.Renderer<WallB
     g.setLineWidth(LINE_WIDTH);
     switch (type) {
       case TOP:
-        texture(x, y, length, Sizes.BLOCK, g, blockSheet.getSprite("dirtWithGrass"));
+        //texture(x, y, length, Sizes.BLOCK, g, blockSheet.getSprite("dirtWithGrass"));
+        texture(x, y - Sizes.BLOCK, length, Sizes.BLOCK, g, blockSheet.getSprite("grass4"));
         break;
       case BOTTOM:
         g.drawLine(x, y, x + length, y);

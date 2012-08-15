@@ -49,6 +49,7 @@ public class ItemInventory extends AbstractInventory<Item> implements Renderable
     Assert.executeAndAssert(add(new AxeItem()));
     Assert.executeAndAssert(add(new BowItem()));
     Assert.executeAndAssert(add(new PickaxeItem(1000000)));
+    Assert.executeAndAssert(add(new LadderItem()));
   }
 
   @Override

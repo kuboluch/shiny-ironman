@@ -1,15 +1,12 @@
 package kniemkiewicz.jqblocks.ingame.resource;
 
-import kniemkiewicz.jqblocks.ingame.MovingObjects;
-import kniemkiewicz.jqblocks.ingame.PointOfView;
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
-import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.object.*;
 import kniemkiewicz.jqblocks.ingame.resource.item.SimpleResourceItem;
+import kniemkiewicz.jqblocks.ingame.resource.renderer.ResourceRenderer;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.BeanName;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
@@ -42,18 +39,15 @@ public class ResourceObject<T extends Resource> implements RenderableObject<Reso
     Assert.executeAndAssert(movingObjects.add(this));
   }
 
+  private static final BeanName<ResourceRenderer> RENDERER = new BeanName<ResourceRenderer>(ResourceRenderer.class, "resourceRenderer");
+
   @Override
   public BeanName<? extends ObjectRenderer<ResourceObject>> getRenderer() {
-    // TODO: something more fancy here, with dynamic images based on which resource we have inside.
-    return null;
+    return RENDERER;
   }
 
   @Override
-  public void renderObject(Graphics g, PointOfView pov) {
-    g.setColor(Color.cyan);
-    float percentage = (float) resource.getAmount() * 1.0f / resource.getMaxPileSize() * 1.0f;
-    g.fill(new Rectangle(rectangle.getX(), rectangle.getY() + rectangle.getHeight() * (1.0f - percentage), rectangle.getWidth() * percentage, rectangle.getHeight() * percentage));
-  }
+  public void renderObject(Graphics g, PointOfView pov) { }
 
   @Override
   public Layer getLayer() {
@@ -91,6 +85,10 @@ public class ResourceObject<T extends Resource> implements RenderableObject<Reso
 
   public int getResourceMaxPileSize() {
     return resource.getMaxPileSize();
+  }
+
+  public ResourceType getResourceType() {
+    return resource.getType();
   }
 
   public T addResource(T resource) {

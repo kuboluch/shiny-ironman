@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+    <bean id="pickaxeRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
+        <constructor-arg value="images/pickaxe.png"/>
+    </bean>
+
+    <bean id="axeRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
+        <constructor-arg value="images/axe.png"/>
+    </bean>
+
+    <bean id="fireplaceRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
+        <constructor-arg value="images/fireplace.png"/>
+    </bean>
+
+    <bean id="treeRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
+        <constructor-arg value="images/tree.png"/>
+    </bean>
+
+    <bean id="batRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
+        <constructor-arg value="images/bat.png"/>
+    </bean>
+
+    <bean id="resourceRenderer" class="kniemkiewicz.jqblocks.ingame.resource.renderer.ResourceRenderer"/>
+
+     <bean id="ladderRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
+        <constructor-arg ref="blockSheet"/>
+        <constructor-arg value="ladder"/>
+    </bean>
+</beans>

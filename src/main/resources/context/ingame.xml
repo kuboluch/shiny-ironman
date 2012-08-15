@@ -10,6 +10,7 @@
   <context:annotation-config />
   <context:component-scan base-package="kniemkiewicz.jqblocks.ingame"/>
   <import resource="images.xml"/>
+  <import resource="renderer.xml"/>
   <import resource="ui.xml"/>
   <import resource="workplace.xml"/>
 
