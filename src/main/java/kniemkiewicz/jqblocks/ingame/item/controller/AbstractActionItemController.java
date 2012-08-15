@@ -18,7 +18,7 @@ import java.util.List;
 
 public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpdated<T> & Item> implements ItemController<T>, UpdateQueue.UpdateController<T> {
 
-  public static final int RANGE = 75;
+  public static final int RANGE = 16 * Sizes.BLOCK;
 
   @Autowired
   protected UpdateQueue updateQueue;

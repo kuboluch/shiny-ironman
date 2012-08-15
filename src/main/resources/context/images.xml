@@ -7,27 +7,9 @@
     <bean id="playerLeftImage" class="org.newdawn.slick.Image">
         <constructor-arg value="images/supermanLeft.png"/>
     </bean>
+
     <bean id="playerRightImage" class="org.newdawn.slick.Image">
         <constructor-arg value="images/supermanRight.png"/>
-    </bean>
-
-    <bean id="pickaxeRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
-        <constructor-arg value="images/pickaxe.png"/>
-    </bean>
-    <bean id="axeRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
-        <constructor-arg value="images/axe.png"/>
-    </bean>
-
-    <bean id="fireplaceRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
-        <constructor-arg value="images/fireplace.png"/>
-    </bean>
-
-    <bean id="treeRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
-        <constructor-arg value="images/tree.png"/>
-    </bean>
-
-    <bean id="batRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
-        <constructor-arg value="images/bat.png"/>
     </bean>
 
     <bean id="blockSheet" class="org.newdawn.slick.XMLPackedSheet">

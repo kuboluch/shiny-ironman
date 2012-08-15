@@ -3,8 +3,8 @@ package kniemkiewicz.jqblocks.ingame.resource.item;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.resource.Resource;
+import kniemkiewicz.jqblocks.ingame.resource.renderer.ResourceRenderer;
 import kniemkiewicz.jqblocks.util.BeanName;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 /**
@@ -20,20 +20,18 @@ public class SimpleResourceItem implements ResourceItem {
   }
 
   @Override
-  public void renderItem(Graphics g, int x, int y, int square_size) {
-    // TODO: same as in resourceObject.
-    g.setColor(Color.cyan);
-    g.fillRect(x + 3, y + 3, square_size - 6, square_size - 6);
-  }
+  public void renderItem(Graphics g, int x, int y, int square_size) { }
 
   @Override
   public Class<? extends ItemController> getItemController() {
     return ResourceItemController.class;
   }
 
+  private static final BeanName<ResourceRenderer> RENDERER = new BeanName<ResourceRenderer>(ResourceRenderer.class, "resourceRenderer");
+
   @Override
   public BeanName<? extends ItemRenderer> getItemRenderer() {
-    return null;
+    return RENDERER;
   }
 
   @Override

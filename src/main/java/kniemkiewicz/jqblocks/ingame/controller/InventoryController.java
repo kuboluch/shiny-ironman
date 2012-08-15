@@ -37,7 +37,7 @@ import java.util.List;
 @Component
 public class InventoryController implements EventListener {
 
-  private static int DROP_RANGE = 4 * Sizes.BLOCK;
+  private static int DROP_RANGE = 16 * Sizes.BLOCK;
 
   @Autowired
   ItemInventory inventory;

@@ -40,7 +40,7 @@ import java.util.List;
 @Component
 public class ResourceInventoryController implements EventListener {
 
-  private static int DROP_RANGE = 4 * Sizes.BLOCK;
+  private static int DROP_RANGE = 16 * Sizes.BLOCK;
 
   @Autowired
   ResourceInventory inventory;
@@ -149,11 +149,14 @@ public class ResourceInventoryController implements EventListener {
   }
 
   private boolean dropItem(int x, int y) {
+    if (inventory.getSelectedItem() == null) return false;
     if (!AbstractActionItemController.isInRange(x, y, playerController.getPlayer(), DROP_RANGE)) return false;
     Class<? extends ItemController> clazz = inventory.getSelectedItem().getItemController();
     if (clazz == null) return false;
     ItemController controller = provider.getBean(clazz, true);
-    Shape dropObjectShape = controller.getDropObjectShape(inventory.getSelectedItem(), x, y);
+    int dropItemX = Sizes.roundToBlockSizeX(x);
+    int dropItemY = Sizes.roundToBlockSizeY(y);
+    Shape dropObjectShape = controller.getDropObjectShape(inventory.getSelectedItem(), dropItemX, dropItemY);
     if (dropObjectShape == null) return false;
     if (conflictingObjectExists(dropObjectShape)) return false;
     if (!solidBlocks.isOnSolidGround(dropObjectShape)) return false;

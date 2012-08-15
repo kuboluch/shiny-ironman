@@ -10,8 +10,8 @@ public class Sizes {
   public static float MAX_FALL_SPEED = Sizes.BLOCK / TIME_UNIT * 20;
   public static float G = MAX_FALL_SPEED / TIME_UNIT / 10;
 
-  public static int DEFAULT_WINDOW_WIDTH = 1000;
-  public static int DEFAULT_WINDOW_HEIGHT = 800;
+  public static int DEFAULT_WINDOW_WIDTH = 1280;
+  public static int DEFAULT_WINDOW_HEIGHT = 720;
 
   // This should be 2^x * BLOCK
   public static int MIN_X = -512  * BLOCK;

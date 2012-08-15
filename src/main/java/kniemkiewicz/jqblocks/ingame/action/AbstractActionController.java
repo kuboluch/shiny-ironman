@@ -27,7 +27,7 @@ import java.util.List;
  */
 public abstract class AbstractActionController implements EventListener {
 
-  public static final int RANGE = 75;
+  public static final int RANGE = 16 * Sizes.BLOCK;
 
   @Autowired
   protected UpdateQueue updateQueue;
