@@ -65,7 +65,6 @@ public class PlayerController implements InputListener {
     player.getXMovement().setPos(VillageGenerator.STARTING_X);
     player.getYMovement().setPos(villageGenerator.getStartingY() - Player.HEIGHT - 2);
     player.updateShape();
-    System.out.println(player.getShape().getX() + " " + player.getShape().getY());
   }
 
   public void listen(Input input, int delta) {

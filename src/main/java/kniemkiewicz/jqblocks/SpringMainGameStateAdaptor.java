@@ -47,18 +47,21 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
   @Override
   public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
     MainGameState.Settings gameSettings = new MainGameState.Settings();
-    gameSettings.seed = 1L;
     initInternal(gameContainer, stateBasedGame, gameSettings);
   }
 
   void initInternal(GameContainer gameContainer, StateBasedGame stateBasedGame, MainGameState.Settings gameSettings) throws SlickException {
     // This a fix for some stupid idea-spring conflict on Linux
+    stateApplicationContext = null;
     while (stateApplicationContext == null) {
       try {
         stateApplicationContext = getContext(mainApplicationContext, new String[]{gameContextPath}, new Object[]{});
       } catch (BeanDefinitionStoreException e) {
         logger.error("???", e);
       }
+    }
+    if (gameSettings.seed == null) {
+      gameSettings.seed = 1L;
     }
     gameState = stateApplicationContext.getBean(MainGameState.class);
     gameState.setSettings(gameSettings);
