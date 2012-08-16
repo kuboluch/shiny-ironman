@@ -42,8 +42,11 @@ public class UpdateQueue {
           continue;
         }
       }
-      UpdateController controller = (UpdateController) springBeanProvider.getBean(o.getUpdateController(), true);
-      controller.update(o, delta);
+      Class<? extends UpdateController> clazz = o.getUpdateController();
+      if (clazz != null) {
+        UpdateController controller = springBeanProvider.getBean(clazz, true);
+        controller.update(o, delta);
+      }
     }
   }
 

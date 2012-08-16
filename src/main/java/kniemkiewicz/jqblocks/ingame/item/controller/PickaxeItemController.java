@@ -7,16 +7,12 @@ import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
 import kniemkiewicz.jqblocks.ingame.item.PickaxeItem;
 import kniemkiewicz.jqblocks.ingame.object.DigEffect;
 import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
-import kniemkiewicz.jqblocks.ingame.object.background.BackgroundFactory;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import kniemkiewicz.jqblocks.ingame.object.background.NaturalDirtBackground;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Iterator;
 
 @Component
 public class PickaxeItemController extends AbstractActionItemController<PickaxeItem> {
@@ -29,9 +25,6 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
 
   @Autowired
   Backgrounds backgrounds;
-
-  @Autowired
-  BackgroundFactory backgroundFactory;
 
   private DigEffect digEffect;
 
@@ -90,7 +83,7 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
 
   private void removeBlock() {
     blocks.getBlocks().setRectUnscaled(affectedRectangle, WallBlockType.EMPTY);
-    backgrounds.add(backgroundFactory.getNaturalDirtBackground(
+    backgrounds.add(new NaturalDirtBackground(
         affectedRectangle.getX(), affectedRectangle.getY(), affectedRectangle.getWidth(), affectedRectangle.getHeight()));
   }
 

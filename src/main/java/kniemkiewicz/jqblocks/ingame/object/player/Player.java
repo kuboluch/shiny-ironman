@@ -33,6 +33,7 @@ public class Player implements RenderableObject<Player>,PhysicalObject,HasHealth
   public static final float X_ACCELERATION = MAX_X_SPEED / Sizes.TIME_UNIT / 3.75f;
   public static final float DEFAULT_X_DECELERATION = MAX_X_SPEED / Sizes.TIME_UNIT / 2.5f;
   public static final float JUMP_SPEED = Sizes.MAX_FALL_SPEED / 3;
+  public static final float MAX_LADDER_SPEED = Sizes.MAX_FALL_SPEED / 9;
 
   public Player() {
     xMovement = new LimitedSpeed(MAX_X_SPEED, 0, 0, DEFAULT_X_DECELERATION);

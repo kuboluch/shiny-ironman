@@ -76,4 +76,10 @@ public class LimitedSpeed implements Serializable{
         ", a=" + acceleration +
         '}';
   }
+
+  public void limitSpeed(float currentMaxSpeed) {
+    if (Math.abs(speed) > currentMaxSpeed) {
+      speed = speed > 0 ? currentMaxSpeed : -currentMaxSpeed;
+    }
+  }
 }

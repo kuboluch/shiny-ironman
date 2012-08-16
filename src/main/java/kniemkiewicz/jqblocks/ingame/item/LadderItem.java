@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.item;
 
 import kniemkiewicz.jqblocks.ingame.ImageRenderer;
+import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.object.transport.LadderItemController;
 import kniemkiewicz.jqblocks.util.BeanName;
@@ -10,7 +11,7 @@ import org.newdawn.slick.Graphics;
  * User: qba
  * Date: 15.08.12
  */
-public class LadderItem implements Item {
+public class LadderItem implements Item, UpdateQueue.ToBeUpdated<LadderItem> {
 
   @Override
   public Class<? extends ItemController> getItemController() {
@@ -35,5 +36,10 @@ public class LadderItem implements Item {
   @Override
   public boolean isEmpty() {
     return false;
+  }
+
+  @Override
+  public Class<? extends UpdateQueue.UpdateController<LadderItem>> getUpdateController() {
+    return LadderItemController.class;
   }
 }

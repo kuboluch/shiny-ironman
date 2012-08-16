@@ -11,14 +11,14 @@ import kniemkiewicz.jqblocks.util.BeanName;
  * User: knie
  * Date: 7/23/12
  */
-public class Tree extends AbstractBackgroundElement<Tree> implements ResourceBackgroundElement<Wood> {
+public class LadderBackground extends AbstractBackgroundElement<LadderBackground> {
 
   private static final long serialVersionUID = 1;
 
-  public static int HEIGHT = Sizes.BLOCK * 8;
-  public static int WIDTH = Sizes.BLOCK * 4;
+  public static int HEIGHT = 2 * Sizes.BLOCK;
+  public static int WIDTH = 2 * Sizes.BLOCK;
 
-  public Tree(int x, int y) {
+  public LadderBackground(int x, int y) {
     super(x, y, WIDTH, HEIGHT);
   }
 
@@ -27,20 +27,15 @@ public class Tree extends AbstractBackgroundElement<Tree> implements ResourceBac
     return true;
   }
 
-  private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(ImageRenderer.class, "treeRenderer");
+  private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(ImageRenderer.class, "ladderRenderer");
 
   @Override
-  public BeanName<? extends ObjectRenderer<? super Tree>> getRenderer() {
+  public BeanName<? extends ObjectRenderer<? super LadderBackground>> getRenderer() {
     return RENDERER;
   }
 
-  @Override
-  public Class getMiningItemType() {
-    return AxeItem.class;
-  }
+  public void addTo(Backgrounds backgrounds) {
+    backgrounds.add(this);
 
-  @Override
-  public Wood mine(int delta) {
-    return new Wood(delta * Sizes.DEFAULT_RESOURCE_RICHNESS);
   }
 }

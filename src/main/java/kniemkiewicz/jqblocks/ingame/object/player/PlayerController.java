@@ -5,7 +5,11 @@ import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.controller.HitResolver;
 import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
+import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
+import kniemkiewicz.jqblocks.ingame.object.background.LadderBackground;
+import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
 import kniemkiewicz.jqblocks.util.Assert;
+import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -42,6 +46,9 @@ public class PlayerController implements InputListener {
   RenderQueue renderQueue;
 
   @Autowired
+  Backgrounds backgrounds;
+
+  @Autowired
   VillageGenerator villageGenerator;
 
   /**
@@ -64,16 +71,35 @@ public class PlayerController implements InputListener {
     Rectangle belowPlayer = new Rectangle(player.getShape().getMinX() + 1, player.getShape().getMaxY() + 2,
         player.getShape().getWidth() - 4, 0);
     boolean flying = !blocks.getBlocks().collidesWithNonEmpty(belowPlayer);
-    if (KeyboardUtils.isUpPressed(input) && !flying) {
-      player.getYMovement().setSpeed(-Player.JUMP_SPEED);
-    } else {
-      player.getYMovement().setAcceleration(Sizes.G);
-    }
     if (KeyboardUtils.isLeftPressed(input)) {
       player.getXMovement().setAcceleration(-Player.X_ACCELERATION);
     }
     if (KeyboardUtils.isRightPressed(input)) {
       player.getXMovement().setAcceleration(Player.X_ACCELERATION);
+    }
+    // Are we holding a ladder?
+    if (Collections3.findFirst(backgrounds.intersects(player.getShape()), LadderBackground.class) != null) {
+      // We shouldn't slow down player if he can walk instead of holding ladder.
+      if (flying) {
+        player.getXMovement().limitSpeed(Player.MAX_LADDER_SPEED);
+      }
+      LimitedSpeed yMovement = player.getYMovement();
+      if (yMovement.getAcceleration() > 0) {
+        yMovement.setAcceleration(0);
+      }
+      yMovement.setSpeed(0);
+      if (KeyboardUtils.isUpPressed(input)) {
+        player.getYMovement().setSpeed(-Player.MAX_LADDER_SPEED);
+      }
+      if (KeyboardUtils.isDownPressed(input)) {
+        player.getYMovement().setSpeed(Player.MAX_LADDER_SPEED);
+      }
+    } else {
+      if (KeyboardUtils.isUpPressed(input) && !flying) {
+        player.getYMovement().setSpeed(-Player.JUMP_SPEED);
+      } else {
+        player.getYMovement().setAcceleration(Sizes.G);
+      }
     }
 
     float x = player.getXMovement().getPos();

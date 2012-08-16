@@ -16,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+// Use of ToBeUpdated in this class is hackish, requesting that Item has to point to this controller
+// as it's update controller is non obvious. TODO: Insert a wrapper around item to the UpdateQueue so that item is not
+// even required to implement ToBeUpdated
 public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpdated<T> & Item> implements ItemController<T>, UpdateQueue.UpdateController<T> {
 
   public static final int RANGE = 16 * Sizes.BLOCK;

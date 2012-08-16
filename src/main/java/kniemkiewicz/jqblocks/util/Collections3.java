@@ -70,6 +70,16 @@ public final class Collections3 {
     return result;
   }
 
+  public static <T> T findFirst(final Iterator<? super T> it, Class<T> clazz) {
+    while (it.hasNext()) {
+      Object element = it.next();
+      if (clazz.equals(element.getClass())) {
+        return (T) element;
+      }
+    }
+    return null;
+  }
+
   public static <T> List<T> collectSubclasses(final Iterator<? super T> it, Class<T> clazz) {
     List result = new ArrayList();
     while (it.hasNext()) {
