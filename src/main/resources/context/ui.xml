@@ -7,4 +7,7 @@
     <bean id="fireplaceUIRenderer" class="kniemkiewicz.jqblocks.ingame.ui.renderer.Image">
         <constructor-arg value="/images/fireplace.png"/>
     </bean>
+    <bean id="sawmillUIRenderer" class="kniemkiewicz.jqblocks.ingame.ui.renderer.Image">
+        <constructor-arg value="/images/saw.png"/>
+    </bean>
 </beans>

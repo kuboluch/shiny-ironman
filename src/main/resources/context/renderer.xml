@@ -17,6 +17,10 @@
         <constructor-arg value="images/fireplace.png"/>
     </bean>
 
+    <bean id="sawmillRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
+        <constructor-arg value="images/saw.png"/>
+    </bean>
+
     <bean id="treeRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
         <constructor-arg value="images/tree.png"/>
     </bean>

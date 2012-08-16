@@ -42,11 +42,11 @@ public class MainGameUI {
 
   public void layoutUI() {
     workplacePanel.adjustSize();
-    scrollPane.setSize(workplacePanel.getPreferredWidth(), 200);
+    final int HEIGHT = 200;
+    scrollPane.setSize(workplacePanel.getPreferredWidth(), HEIGHT);
     workplaceFrame.adjustSize();
-    workplaceFrame.setSize(workplaceFrame.getWidth(), 200);
-    workplaceFrame.setPosition(5, rootPane.getHeight() - 200 - 5);
-
+    workplaceFrame.setSize(workplaceFrame.getWidth(), HEIGHT);
+    workplaceFrame.setPosition(5, rootPane.getHeight() - HEIGHT - 40);
   }
 
   public boolean isWorkplaceWidgetVisible() {

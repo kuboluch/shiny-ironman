@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.ingame.block;
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.ui.info.TimingInfo;
 import kniemkiewicz.jqblocks.util.*;
@@ -43,6 +44,9 @@ public class SolidBlocks{
   @Autowired
   TimingInfo timingInfo;
 
+  @Autowired
+  Backgrounds backgrounds;
+
   public SolidBlocks() {
     blocks = new RawEnumTable<WallBlockType>(WallBlockType.EMPTY, WallBlockType.SPACE);
   }
@@ -60,6 +64,7 @@ public class SolidBlocks{
   public boolean add(Rectangle block, WallBlockType type) {
     if (blocks.collidesWithNonEmpty(block)) return false;
     if (collisionController.intersects(MovingObjects.OBJECT_TYPES, block)) return false;
+    if (backgrounds.intersects(block).hasNext()) return false;
     blocks.setRectUnscaled(block, type);
     return true;
   }

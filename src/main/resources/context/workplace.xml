@@ -38,8 +38,8 @@
         <constructor-arg value="You can cut log into wood"/>
         <constructor-arg value="4"/>
         <constructor-arg value="3"/>
-        <constructor-arg ref="fireplaceRenderer"/>
-        <constructor-arg ref="fireplaceUIRenderer"/>
+        <constructor-arg ref="sawmillRenderer"/>
+        <constructor-arg ref="sawmillUIRenderer"/>
         <constructor-arg ref="woodProcessController"/>
     </bean>
 
