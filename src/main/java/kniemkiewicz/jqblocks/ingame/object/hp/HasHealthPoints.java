@@ -1,12 +1,12 @@
 package kniemkiewicz.jqblocks.ingame.object.hp;
 
-import kniemkiewicz.jqblocks.ingame.World;
+import kniemkiewicz.jqblocks.util.BeanName;
 
 /**
  * User: knie
  * Date: 7/28/12
  */
-public interface HasHealthPoints {
+public interface HasHealthPoints<T extends HasHealthPoints> {
   HealthPoints getHp();
-  void killed(World killer);
+  BeanName<? extends HealthController<T>> getHealthController();
 }

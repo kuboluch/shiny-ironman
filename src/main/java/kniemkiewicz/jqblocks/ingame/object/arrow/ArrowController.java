@@ -67,7 +67,7 @@ public class ArrowController implements UpdateQueue.UpdateController<Arrow>{
       }
       updateQueue.remove(arrow);
       if ((po.get() != null) && (po.get() instanceof HasHealthPoints)) {
-        ((HasHealthPoints)po.get()).getHp().damage(ARROW_DMG, killer);
+        ((HasHealthPoints)po.get()).getHp().damage(ARROW_DMG, arrow, killer);
       }
     }
   }

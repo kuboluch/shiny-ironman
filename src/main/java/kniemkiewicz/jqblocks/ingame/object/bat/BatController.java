@@ -7,6 +7,7 @@ import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.hp.HasHealthPoints;
+import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.SlickException;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Component;
  * Date: 7/25/12
  */
 @Component
-public class BatController implements UpdateQueue.UpdateController<Bat>{
+public class BatController implements UpdateQueue.UpdateController<Bat>, HealthController<Bat> {
 
   @Autowired
   SolidBlocks solidBlocks;
@@ -35,14 +36,6 @@ public class BatController implements UpdateQueue.UpdateController<Bat>{
 
   public static int BITE_DMG = 20;
 
-  public BatController() {
-    try {
-      underAttackSound = new Sound("sounds/under_attack.ogg");
-    } catch (SlickException e) {
-      throw new RuntimeException("", e);
-    }
-  }
-
   @Override
   public void update(Bat bat, int delta) {
     float prevX = bat.xMovement.getPos();
@@ -56,8 +49,6 @@ public class BatController implements UpdateQueue.UpdateController<Bat>{
     Assert.executeAndAssert(movingObjects.update(bat));
   }
 
-  Sound underAttackSound;
-
   public boolean hits(Bat bat) {
     if (solidBlocks.getBlocks().collidesWithNonEmpty(bat.getShape())) return true;
     boolean collided = false;
@@ -67,13 +58,16 @@ public class BatController implements UpdateQueue.UpdateController<Bat>{
       }
       if (p instanceof Player) {
         ((HasHealthPoints) p).getHp().damageRateLimited(bat, BITE_DMG, 300, world);
-        // TODO(knie): Fix HasHealthPoints to return proper controller and move this code there.
-        // Also move sound into context, this is just a hack to check if sounds work.
-        if (!underAttackSound.playing()) {
-          underAttackSound.play(1, 1);
-        }
       }
     }
     return collided;
   }
+
+  @Override
+  public void killed(Bat object) {
+    world.killMovingObject(object);
+  }
+
+  @Override
+  public void damaged(Bat object, Object source, int amount) { }
 }

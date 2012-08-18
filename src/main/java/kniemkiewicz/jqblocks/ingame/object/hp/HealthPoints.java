@@ -28,11 +28,13 @@ public class HealthPoints implements Serializable {
     this.object = object;
   }
 
-  public void damage(int dmg, World killer) {
+  public void damage(int dmg, Object source, World world) {
     currentHp -= dmg;
     if (currentHp <= 0) {
       currentHp = 0;
-      object.killed(killer);
+      world.getSpringBeanProvider().<HealthController>getBean(object.getHealthController(), true).killed(object);
+    } else {
+      world.getSpringBeanProvider().<HealthController>getBean(object.getHealthController(), true).damaged(object, source, dmg);
     }
   }
 
@@ -60,7 +62,7 @@ public class HealthPoints implements Serializable {
       doDmg = true;
     }
     if (doDmg) {
-      this.damage(biteDmg, world);
+      this.damage(biteDmg, attacker, world);
       attackers.put(attacker, currentTime);
     }
   }

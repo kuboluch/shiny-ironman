@@ -4,8 +4,10 @@ import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.object.hp.HasHealthPoints;
+import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
+import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
@@ -15,7 +17,7 @@ import org.newdawn.slick.geom.Rectangle;
  * User: knie
  * Date: 7/24/12
  */
-public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat>,HasHealthPoints {
+public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat>,HasHealthPoints<Bat> {
 
   Rectangle rectangle;
   int y;
@@ -69,8 +71,10 @@ public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat>,H
     return healthPoints;
   }
 
+  private static final BeanName<BatController> CONTROLLER = new BeanName<BatController>(BatController.class);
+
   @Override
-  public void killed(World killer) {
-    killer.killMovingObject(this);
+  public BeanName<? extends HealthController<Bat>> getHealthController() {
+    return CONTROLLER;
   }
 }

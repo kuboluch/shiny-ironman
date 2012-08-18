@@ -4,7 +4,9 @@ import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer;
 import kniemkiewicz.jqblocks.ingame.object.hp.HasHealthPoints;
+import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
 import kniemkiewicz.jqblocks.util.BeanName;
@@ -15,11 +17,13 @@ import org.newdawn.slick.geom.Rectangle;
  * User: krzysiek
  * Date: 08.07.12
  */
-public class Player implements RenderableObject<Player>,PhysicalObject,HasHealthPoints {
+public class Player implements PhysicalObject,HasHealthPoints<Player>, TwoFacedImageRenderer.Renderable {
 
   private static final long serialVersionUID = 1;
 
   private static int INITIAL_HP = 1000;
+  // Used in Spring.
+  public static int IMAGE_WIDTH = Sizes.BLOCK * 3;
 
   boolean leftFaced;
   LimitedSpeed xMovement;
@@ -47,10 +51,10 @@ public class Player implements RenderableObject<Player>,PhysicalObject,HasHealth
     movingObjects.add(this);
   }
 
-  private static final BeanName<PlayerRenderer> RENDERER = new BeanName<PlayerRenderer>(PlayerRenderer.class);
+  private static final BeanName<TwoFacedImageRenderer> RENDERER = new BeanName<TwoFacedImageRenderer>(TwoFacedImageRenderer.class, "playerRenderer");
 
   @Override
-  public BeanName<? extends ObjectRenderer<Player>> getRenderer() {
+  public BeanName<? extends ObjectRenderer<TwoFacedImageRenderer.Renderable>> getRenderer() {
     return RENDERER;
   }
 
@@ -102,8 +106,15 @@ public class Player implements RenderableObject<Player>,PhysicalObject,HasHealth
     return healthPoints;
   }
 
+  private static final BeanName<PlayerController> CONTROLLER = new BeanName<PlayerController>(PlayerController.class);
+
   @Override
-  public void killed(World killer) {
-    // for now player cannot be killed.
+  public BeanName<? extends HealthController<Player>> getHealthController() {
+    return CONTROLLER;
+  }
+
+  @Override
+  public boolean isLeftFaced() {
+    return leftFaced;
   }
 }

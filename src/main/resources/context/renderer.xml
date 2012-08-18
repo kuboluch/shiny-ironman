@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-                        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
 
     <bean id="pickaxeRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
@@ -27,6 +29,14 @@
 
     <bean id="batRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
         <constructor-arg value="images/bat.png"/>
+    </bean>
+
+    <bean id="playerRenderer" class="kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer">
+        <constructor-arg ref="playerLeftImage"/>
+        <constructor-arg ref="playerRightImage"/>
+        <constructor-arg>
+            <util:constant static-field="kniemkiewicz.jqblocks.ingame.object.player.Player.IMAGE_WIDTH"/>
+        </constructor-arg>
     </bean>
 
     <bean id="resourceRenderer" class="kniemkiewicz.jqblocks.ingame.resource.renderer.ResourceRenderer"/>

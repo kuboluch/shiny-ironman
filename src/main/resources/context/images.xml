@@ -12,6 +12,14 @@
         <constructor-arg value="images/supermanRight.png"/>
     </bean>
 
+    <bean id="peonImage" class="org.newdawn.slick.Image">
+        <constructor-arg value="images/peon.png"/>
+    </bean>
+
+    <bean id="peonLeftImage" class="org.newdawn.slick.Image">
+        <constructor-arg value="images/peonLeft.png"/>
+    </bean>
+
     <bean id="blockSheet" class="org.newdawn.slick.XMLPackedSheet">
         <constructor-arg value="spritesheet/blockSheet"/>
         <constructor-arg value="spritesheet/blockSheet.xml"/>

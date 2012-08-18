@@ -168,4 +168,8 @@ public final class World {
     // Here we can put all small tweaks that are needed to make loaded level work correctly.
     playerController.setPlayer(player);
   }
+
+  public SpringBeanProvider getSpringBeanProvider() {
+    return springBeanProvider;
+  }
 }

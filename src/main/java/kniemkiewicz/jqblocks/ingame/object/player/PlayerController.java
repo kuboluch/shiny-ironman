@@ -7,6 +7,7 @@ import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.LadderBackground;
+import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.Collections3;
@@ -20,6 +21,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -27,7 +29,7 @@ import java.util.List;
  * Date: 08.07.12
  */
 @Component
-public class PlayerController implements InputListener {
+public class PlayerController implements InputListener,HealthController<Player> {
 
   static final Log logger = LogFactory.getLog(PlayerController.class);
 
@@ -50,6 +52,9 @@ public class PlayerController implements InputListener {
 
   @Autowired
   VillageGenerator villageGenerator;
+
+  @Resource
+  Sound underAttackSound;
 
   /**
    * This is manually invoked by Game to make sure that level is created before.
@@ -151,5 +156,17 @@ public class PlayerController implements InputListener {
 
   public void setPlayer(Player player) {
     this.player = player;
+  }
+
+  @Override
+  public void killed(Player object) {
+    // as for now, Player cannot be killed
+  }
+
+  @Override
+  public void damaged(Player object, Object source, int amount) {
+    if (!underAttackSound.playing()) {
+      underAttackSound.play(1, 1);
+    }
   }
 }
