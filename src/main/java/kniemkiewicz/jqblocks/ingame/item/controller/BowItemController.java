@@ -59,14 +59,14 @@ public class BowItemController implements ItemController<BowItem> {
 
   private void shotArrow(int levelX, int levelY) {
     Player player = playerController.getPlayer();
-    int dx = (int)(levelX - player.getXMovement().getPos());
-    int dy = (int)(levelY - player.getYMovement().getPos());
+    int dx = (int)(levelX - player.getFullXYMovement().getX());
+    int dy = (int)(levelY - player.getFullXYMovement().getY());
     if ((dx == 0) && (dy == 0)) return;
     float dd = (float)Math.sqrt(dx * dx + dy * dy);
     float vx = dx / dd * SPEED;
     float vy = dy / dd * SPEED;
     float x = player.getShape().getCenterX();
-    float y = player.getYMovement().getPos() + Player.HEIGHT / 3;
+    float y = player.getFullXYMovement().getY() + Player.HEIGHT / 3;
     arrowController.add(new Arrow(x, y, player, vx, vy));
   }
 }

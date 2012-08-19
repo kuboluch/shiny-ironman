@@ -3,13 +3,13 @@ package kniemkiewicz.jqblocks.ingame.object.peon;
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
-import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer;
 import kniemkiewicz.jqblocks.ingame.object.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
-import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
+import kniemkiewicz.jqblocks.ingame.util.HorizontalMovement;
+import kniemkiewicz.jqblocks.ingame.util.SingleAxisMovement;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -30,8 +30,7 @@ public class Peon implements PhysicalObject,HasHealthPoints<Peon>, TwoFacedImage
   HealthPoints healthPoints = new HealthPoints(PEON_HP, this);
   final Rectangle shape;
 
-  LimitedSpeed xMovement;
-  private int y;
+  HorizontalMovement movement;
 
   public static Peon createAndRegister(int x, int y, PeonController controller) {
     Peon peon = new Peon(x, y);
@@ -40,9 +39,8 @@ public class Peon implements PhysicalObject,HasHealthPoints<Peon>, TwoFacedImage
   }
 
   private Peon(int x, int y) {
-    this.xMovement = new LimitedSpeed(MAX_PEON_SPEED, 0, x, 0);
-    this.y = y;
-    shape = new Rectangle(xMovement.getPos(), y, WIDTH, HEIGHT);
+    movement = new HorizontalMovement(x, y, MAX_PEON_SPEED);
+    shape = new Rectangle(x, y, WIDTH, HEIGHT);
   }
 
   @Override
@@ -59,7 +57,7 @@ public class Peon implements PhysicalObject,HasHealthPoints<Peon>, TwoFacedImage
 
   @Override
   public boolean isLeftFaced() {
-    return !xMovement.getLastDirection();
+    return !movement.getXMovement().getLastDirection();
   }
 
   private static final BeanName<TwoFacedImageRenderer> RENDERER = new BeanName<TwoFacedImageRenderer>(TwoFacedImageRenderer.class, "peonRenderer");

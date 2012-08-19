@@ -9,6 +9,7 @@ import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
+import kniemkiewicz.jqblocks.ingame.util.SingleAxisMovement;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
@@ -38,13 +39,14 @@ public class BatController implements UpdateQueue.UpdateController<Bat>, HealthC
 
   @Override
   public void update(Bat bat, int delta) {
-    float prevX = bat.xMovement.getPos();
-    bat.xMovement.update(delta);
-    bat.rectangle.setX(bat.xMovement.getPos());
+    float prevX = bat.getMovement().getX();
+    bat.getMovement().update(delta);
+    bat.rectangle.setX(bat.getMovement().getX());
     if (hits(bat)) {
-      bat.xMovement.setPos(prevX);
-      bat.xMovement.setSpeed(- bat.xMovement.getSpeed());
-      bat.rectangle.setX(bat.xMovement.getPos());
+      SingleAxisMovement xMovement = bat.getMovement().getXMovement();
+      xMovement.setPos(prevX);
+      xMovement.setSpeed(- xMovement.getSpeed());
+      bat.rectangle.setX(xMovement.getPos());
     }
     Assert.executeAndAssert(movingObjects.update(bat));
   }

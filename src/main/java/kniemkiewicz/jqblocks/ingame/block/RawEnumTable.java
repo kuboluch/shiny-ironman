@@ -98,6 +98,11 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
     if (y0 + height > data[0].length) {
       height = data[0].length - y0;
     }
+    renderBlocks(g, x0, y0, width, height);
+    renderBorders(g, x0, y0, width, height);
+  }
+
+  private void renderBlocks(Graphics g, int x0, int y0, int width, int height) {
     for (int x = x0; x < x0 + width; x++) {
       int currentFirstY = y0;
       T currentType = emptyType;
@@ -109,11 +114,6 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
           RenderableBlockType.Renderer r1 = rendererCache.get(currentType);
           if (r1 != null) {
             r1.renderBlock(xx, yy1, Sizes.BLOCK, height2, g);
-            r1.renderBorder(xx, yy1 + height2, Sizes.BLOCK, RenderableBlockType.Border.BOTTOM, (T)data[x][y], g);
-          }
-          RenderableBlockType.Renderer r2 = rendererCache.get((T)data[x][y]);
-          if (r2 != null) {
-            r2.renderBorder(xx, yy1 + height2, Sizes.BLOCK, RenderableBlockType.Border.TOP, currentType, g);
           }
           currentType = (T)data[x][y];
           currentFirstY = y;
@@ -125,6 +125,30 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
       RenderableBlockType.Renderer r = rendererCache.get(currentType);
       if (r != null) {
         r.renderBlock(xx, yy1, Sizes.BLOCK, height2, g);
+      }
+    }
+  }
+
+  private void renderBorders(Graphics g, int x0, int y0, int width, int height) {
+    for (int x = x0; x < x0 + width; x++) {
+      int currentFirstY = y0;
+      T currentType = emptyType;
+      int xx = x * Sizes.BLOCK + Sizes.MIN_X;
+      for (int y = y0; y < y0 + height; y++) {
+        if (currentType != data[x][y]) {
+          int yy1 = currentFirstY * Sizes.BLOCK + Sizes.MIN_Y;
+          int height2 = (y - currentFirstY) * Sizes.BLOCK;
+          RenderableBlockType.Renderer r1 = rendererCache.get(currentType);
+          if (r1 != null) {
+            r1.renderBorder(xx, yy1 + height2, Sizes.BLOCK, RenderableBlockType.Border.BOTTOM, (T)data[x][y], g);
+          }
+          RenderableBlockType.Renderer r2 = rendererCache.get((T)data[x][y]);
+          if (r2 != null) {
+            r2.renderBorder(xx, yy1 + height2, Sizes.BLOCK, RenderableBlockType.Border.TOP, currentType, g);
+          }
+          currentType = (T)data[x][y];
+          currentFirstY = y;
+        }
       }
     }
     for (int x = x0 + 1; x < x0 + width; x++) {
@@ -162,7 +186,6 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
       }
     }
   }
-
 
   @Override
   public Layer getLayer() {

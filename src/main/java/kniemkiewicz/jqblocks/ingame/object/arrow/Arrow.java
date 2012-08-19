@@ -6,7 +6,7 @@ import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.item.BowItem;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
-import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
+import kniemkiewicz.jqblocks.ingame.util.SingleAxisMovement;
 import kniemkiewicz.jqblocks.util.BeanName;
 import kniemkiewicz.jqblocks.util.SerializationUtils2;
 import org.newdawn.slick.Graphics;
@@ -26,16 +26,16 @@ public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Ar
   private static final long serialVersionUID = 1;
 
   transient Line line;
-  LimitedSpeed xMovement;
-  LimitedSpeed yMovement;
+  SingleAxisMovement xMovement;
+  SingleAxisMovement yMovement;
   //TODO: fix this, we need global object ids or something like that.
   transient Object source;
   private static int LENGTH = Sizes.BLOCK;
 
   public Arrow(float x, float y, Object source, float xSpeed, float ySpeed) {
     this.line = new Line(x, y, x, y);
-    xMovement = new LimitedSpeed(2 * xSpeed, xSpeed, x, 0);
-    yMovement = new LimitedSpeed(Sizes.MAX_FALL_SPEED, ySpeed, y, 0);
+    xMovement = new SingleAxisMovement(2 * xSpeed, xSpeed, x, 0);
+    yMovement = new SingleAxisMovement(Sizes.MAX_FALL_SPEED, ySpeed, y, 0);
     this.source = source;
   }
 
@@ -76,11 +76,11 @@ public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Ar
     line.set(xMovement.getPos() - lx, yMovement.getPos() - ly, xMovement.getPos() + lx, yMovement.getPos() + ly);
   }
 
-  public LimitedSpeed getXMovement() {
+  public SingleAxisMovement getXMovement() {
     return xMovement;
   }
 
-  public LimitedSpeed getYMovement() {
+  public SingleAxisMovement getYMovement() {
     return yMovement;
   }
 

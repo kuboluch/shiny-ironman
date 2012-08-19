@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.item.controller;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.action.AbstractActionController;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.*;
@@ -155,14 +156,8 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
     affectedRectangle = null;
   }
 
-  public static boolean isInRange(int x, int y, Player player, int range) {
-    float px = player.getXMovement().getPos();
-    float py = player.getYMovement().getPos();
-    return  (px - x) * (px - x) + (py - y) * (py - y) < range * range;
-  }
-
   public boolean isInRange(int x, int y) {
-    return isInRange(x, y, playerController.getPlayer(), RANGE);
+    return AbstractActionController.isInRange(x, y, playerController.getPlayer(), RANGE);
   }
 
   @Override

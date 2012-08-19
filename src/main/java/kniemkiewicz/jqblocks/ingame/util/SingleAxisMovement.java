@@ -6,7 +6,7 @@ import java.io.Serializable;
  * User: krzysiek
  * Date: 08.07.12
  */
-public class LimitedSpeed implements Serializable{
+public class SingleAxisMovement implements Serializable{
 
   private static final long serialVersionUID = 1;
 
@@ -17,7 +17,7 @@ public class LimitedSpeed implements Serializable{
   float defaultDeceleration;
   boolean lastDirection;
 
-  public LimitedSpeed(float maxSpeed, float speed, float x, float defaultDeceleration) {
+  public SingleAxisMovement(float maxSpeed, float speed, float x, float defaultDeceleration) {
     this.maxSpeed = maxSpeed;
     this.speed = speed;
     this.pos = x;
@@ -75,7 +75,7 @@ public class LimitedSpeed implements Serializable{
 
   @Override
   final public String toString() {
-    return "LimitedSpeed{" +
+    return "SingleAxisMovement{" +
         "x=" + pos +
         ", v=" + speed +
         ", a=" + acceleration +
@@ -90,5 +90,9 @@ public class LimitedSpeed implements Serializable{
 
   final public boolean getLastDirection() {
     return lastDirection;
+  }
+
+  public void setDefaultDeceleration(float defaultDeceleration) {
+    this.defaultDeceleration = defaultDeceleration;
   }
 }

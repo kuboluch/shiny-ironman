@@ -22,7 +22,7 @@ public class DirtBlockTypeRenderer implements RenderableBlockType.Renderer<WallB
 
   private static int LINE_WIDTH = 2;
   public static Color BROWN = new Color(150.0f/255, 75.0f/255, 0);
-  public static Color DARK_GREEN = new Color(0, 0.75f, 0);
+  public static Color DARK_GREEN = new Color(84f/255, 129f/255, 73f/255);
 
   @Resource( name="blockSheet" )
   XMLPackedSheet blockSheet;
@@ -39,7 +39,7 @@ public class DirtBlockTypeRenderer implements RenderableBlockType.Renderer<WallB
     g.setLineWidth(LINE_WIDTH);
     switch (type) {
       case TOP:
-        //texture(x, y, length, Sizes.BLOCK, g, blockSheet.getSprite("dirtWithGrass"));
+        texture(x, y, length, Sizes.BLOCK, g, blockSheet.getSprite("dirtWithGrass"));
         texture(x, y - Sizes.BLOCK, length, Sizes.BLOCK, g, blockSheet.getSprite("grass4"));
         break;
       case BOTTOM:

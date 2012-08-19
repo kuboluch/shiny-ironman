@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.CollisionController;
 import kniemkiewicz.jqblocks.ingame.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.World;
+import kniemkiewicz.jqblocks.ingame.action.AbstractActionController;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.EventListener;
@@ -154,7 +155,7 @@ public class InventoryController implements EventListener {
 
   private boolean dropItem(int x, int y) {
     if (inventory.getSelectedItem() == null) return false;
-    if (!AbstractActionItemController.isInRange(x, y, playerController.getPlayer(), DROP_RANGE)) return false;
+    if (!AbstractActionController.isInRange(x, y, playerController.getPlayer(), DROP_RANGE)) return false;
     Class<? extends ItemController> clazz = inventory.getSelectedItem().getItemController();
     if (clazz == null) return false;
     ItemController controller = provider.getBean(clazz, true);

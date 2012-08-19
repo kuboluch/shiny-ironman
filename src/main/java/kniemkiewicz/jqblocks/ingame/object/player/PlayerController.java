@@ -8,14 +8,14 @@ import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.LadderBackground;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
-import kniemkiewicz.jqblocks.ingame.util.LimitedSpeed;
+import kniemkiewicz.jqblocks.ingame.util.FullXYMovement;
+import kniemkiewicz.jqblocks.ingame.util.SingleAxisMovement;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +62,8 @@ public class PlayerController implements InputListener,HealthController<Player> 
   public void initPlayer() {
     player = new Player();
     player.addTo(renderQueue, movingObjects);
-    player.getXMovement().setPos(VillageGenerator.STARTING_X);
-    player.getYMovement().setPos(villageGenerator.getStartingY() - Player.HEIGHT - 2);
+    player.getFullXYMovement().getXMovement().setPos(VillageGenerator.STARTING_X);
+    player.getFullXYMovement().getYMovement().setPos(villageGenerator.getStartingY() - Player.HEIGHT - 2);
     player.updateShape();
   }
 
@@ -76,39 +76,41 @@ public class PlayerController implements InputListener,HealthController<Player> 
     Rectangle belowPlayer = new Rectangle(player.getShape().getMinX() + 1, player.getShape().getMaxY() + 2,
         player.getShape().getWidth() - 4, 0);
     boolean flying = !blocks.getBlocks().collidesWithNonEmpty(belowPlayer);
+    FullXYMovement playerMovement = player.getFullXYMovement();
+    SingleAxisMovement xMovement = playerMovement.getXMovement();
     if (KeyboardUtils.isLeftPressed(input)) {
-      player.getXMovement().setAcceleration(-Player.X_ACCELERATION);
+      xMovement.setAcceleration(-Player.X_ACCELERATION);
     }
     if (KeyboardUtils.isRightPressed(input)) {
-      player.getXMovement().setAcceleration(Player.X_ACCELERATION);
+      xMovement.setAcceleration(Player.X_ACCELERATION);
     }
+    SingleAxisMovement yMovement = playerMovement.getYMovement();
     // Are we holding a ladder?
     if (Collections3.findFirst(backgrounds.intersects(player.getShape()), LadderBackground.class) != null) {
       // We shouldn't slow down player if he can walk instead of holding ladder.
       if (flying) {
-        player.getXMovement().limitSpeed(Player.MAX_LADDER_SPEED);
+        xMovement.limitSpeed(Player.MAX_LADDER_SPEED);
       }
-      LimitedSpeed yMovement = player.getYMovement();
       if (yMovement.getAcceleration() > 0) {
         yMovement.setAcceleration(0);
       }
       yMovement.setSpeed(0);
       if (KeyboardUtils.isUpPressed(input)) {
-        player.getYMovement().setSpeed(-Player.MAX_LADDER_SPEED);
+        yMovement.setSpeed(-Player.MAX_LADDER_SPEED);
       }
       if (KeyboardUtils.isDownPressed(input)) {
-        player.getYMovement().setSpeed(Player.MAX_LADDER_SPEED);
+        yMovement.setSpeed(Player.MAX_LADDER_SPEED);
       }
     } else {
       if (KeyboardUtils.isUpPressed(input) && !flying) {
-        player.getYMovement().setSpeed(-Player.JUMP_SPEED);
+        yMovement.setSpeed(-Player.JUMP_SPEED);
       } else {
-        player.getYMovement().setAcceleration(Sizes.G);
+        yMovement.setAcceleration(Sizes.G);
       }
     }
 
-    float x = player.getXMovement().getPos();
-    float y = player.getYMovement().getPos();
+    float x = xMovement.getPos();
+    float y = yMovement.getPos();
     player.update(delta);
     //having a copy of players shape make debugging easier.
     Rectangle playerShape = GeometryUtils.getNewBoundingRectangle(player.getShape());
@@ -120,8 +122,8 @@ public class PlayerController implements InputListener,HealthController<Player> 
         assert false;
       }
     }
-    float newX = player.getXMovement().getPos();
-    float newY = player.getYMovement().getPos();
+    float newX = xMovement.getPos();
+    float newY = yMovement.getPos();
     float dx = newX - x;
     float dy = newY - y;
     logger.debug(player.toString());
@@ -145,8 +147,8 @@ public class PlayerController implements InputListener,HealthController<Player> 
       }
     }
     // Do not change this without a good reason. May lead to screen flickering in rare conditions.
-    int centerX = (int)player.getXMovement().getPos() + Player.WIDTH / 2;
-    int centerY = (int)player.getYMovement().getPos() + Player.HEIGHT / 2;
+    int centerX = (int)xMovement.getPos() + Player.WIDTH / 2;
+    int centerY = (int)yMovement.getPos() + Player.HEIGHT / 2;
     pointOfView.setCenter(centerX, centerY);
   }
 
