@@ -30,7 +30,6 @@ public class ItemInventory extends AbstractInventory<Item> implements Renderable
   SpringBeanProvider springBeanProvider;
 
   public static int SQUARE_SIZE = 25;
-  public static int LARGE_SQUARE_SIZE = 40;
   public static int SQUARE_DIST = 10;
   public static int SQUARE_ROUNDING = 3;
   public static int Y_MARGIN = 5;

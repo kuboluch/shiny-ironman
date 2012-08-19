@@ -89,9 +89,6 @@ public class MainGameState extends BasicTWLGameState {
   InputContainer inputContainer;
 
   @Autowired
-  CollisionController collisionController;
-
-  @Autowired
   WorkplaceController workplaceController;
 
   @Autowired
@@ -135,7 +132,6 @@ public class MainGameState extends BasicTWLGameState {
     inputListeners.add(saveGameListener);
     inputListeners.add(uiController);
     inputListeners.add(mapView);
-    eventBus.addListener(mouseInputInfo);
     eventBus.addListener(workplaceController);
     eventBus.addListener(workplaceActionController);
     eventBus.addListener(inventoryController);
