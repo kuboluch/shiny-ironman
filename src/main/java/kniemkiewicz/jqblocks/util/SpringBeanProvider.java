@@ -3,6 +3,8 @@ package kniemkiewicz.jqblocks.util;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -13,11 +15,14 @@ import java.util.Map;
  * Date: 14.07.12
  */
 @Component
-public final class SpringBeanProvider implements BeanFactoryAware {
+public final class SpringBeanProvider implements ApplicationContextAware {
 
-  BeanFactory beanFactory;
-  public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-    this.beanFactory = beanFactory;
+  public static SpringBeanProvider CURRENT_PROVIDER = null;
+
+  ApplicationContext applicationContext;
+
+  SpringBeanProvider() {
+    CURRENT_PROVIDER = this;
   }
 
   Map<BeanName, Object>  cache = new HashMap<BeanName, Object>();
@@ -34,10 +39,21 @@ public final class SpringBeanProvider implements BeanFactoryAware {
       return (T) cache.get(name);
     } else {
       if (name.name == null) {
-        return beanFactory.getBean(name.clazz);
+        return applicationContext.getBean(name.clazz);
       } else {
-        return beanFactory.getBean(name.name, name.clazz);
+        return applicationContext.getBean(name.name, name.clazz);
       }
     }
+  }
+
+  public <T> BeanName<T> getNameFor(T bean) {
+    String[] names = applicationContext.getBeanNamesForType(bean.getClass());
+    if (names.length == 0) return null;
+    return new BeanName<T>((Class<T>)bean.getClass(), names[0]);
+  }
+
+  @Override
+  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    this.applicationContext = applicationContext;
   }
 }

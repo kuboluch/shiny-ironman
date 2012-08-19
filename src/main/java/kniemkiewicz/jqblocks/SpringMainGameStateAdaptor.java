@@ -60,7 +60,7 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
         logger.error("???", e);
       }
     }
-    if (gameSettings.seed == null) {
+    if (gameSettings.seed == null && gameSettings.savegame == null) {
       gameSettings.seed = 1L;
     }
     gameState = stateApplicationContext.getBean(MainGameState.class);

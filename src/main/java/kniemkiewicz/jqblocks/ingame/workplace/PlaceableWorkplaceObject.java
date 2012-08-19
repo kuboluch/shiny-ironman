@@ -10,6 +10,7 @@ import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement
 import kniemkiewicz.jqblocks.ingame.placeable.Placeable;
 import kniemkiewicz.jqblocks.ingame.placeable.renderer.PlaceableObjectImageRenderer;
 import kniemkiewicz.jqblocks.util.BeanName;
+import kniemkiewicz.jqblocks.util.SerializableBeanProxy;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Shape;
 
@@ -23,14 +24,13 @@ public class PlaceableWorkplaceObject implements RenderableObject<WorkplaceBackg
 
   ObjectRenderer renderer;
 
-  WorkplaceController controller;
+  SerializableBeanProxy<WorkplaceController> controller;
 
   public PlaceableWorkplaceObject(Workplace workplace, int x, int y, ImageRenderer renderer, WorkplaceController controller) {
     this.renderer = new PlaceableObjectImageRenderer(renderer);
-    this.controller = controller;
+    this.controller = SerializableBeanProxy.getInstance(controller);
     BeanName rendererBeanName = new BeanName(renderer.getClass(), renderer.getBeanName());
     backgroundElement = new WorkplaceBackgroundElement(workplace, x, y, rendererBeanName);
-
   }
 
   public void changeX(int newX) {
@@ -69,6 +69,6 @@ public class PlaceableWorkplaceObject implements RenderableObject<WorkplaceBackg
   }
 
   public boolean canBePlaced() {
-    return controller.canBePlaced();
+    return controller.get().canBePlaced();
   }
 }

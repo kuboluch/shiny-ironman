@@ -59,7 +59,6 @@ public class ItemInventory extends AbstractInventory<Item> implements Renderable
   final static private String[] ids = {"1", "2","3","4","5","6","7","8","9","0"};
 
   public void render(Graphics g) {
-
     int x = pointOfView.getWindowWidth() - items.size() * SQUARE_SIZE - (items.size() - 1) * SQUARE_DIST - X_MARGIN;
     int i = 0;
     for (Item item : items) {
