@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.controller;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
+import kniemkiewicz.jqblocks.ingame.util.SingleAxisMovement;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -28,30 +29,32 @@ public class HitResolver {
     Rectangle shape = player.getShape();
     //if (!GeometryUtils.intersects(rect, shape)) return;
     Decision decision = decide(shape, dx, dy, rect);
+    SingleAxisMovement xMovement = player.getFullXYMovement().getXMovement();
+    SingleAxisMovement yMovement = player.getFullXYMovement().getYMovement();
     switch (decision) {
       case TOP:
-        player.getYMovement().setSpeed(0);
-        player.getYMovement().setPos(rect.getMinY() - Player.HEIGHT);
+        yMovement.setSpeed(0);
+        yMovement.setPos(rect.getMinY() - Player.HEIGHT);
         break;
       case BOTTOM:
-        player.getYMovement().setSpeed(0);
-        player.getYMovement().setPos(rect.getMaxY() + 1);
+        yMovement.setSpeed(0);
+        yMovement.setPos(rect.getMaxY() + 1);
         break;
       case LEFT:
-        player.getXMovement().setSpeed(0);
-        player.getXMovement().setPos(rect.getMinX() - Player.WIDTH);
+        xMovement.setSpeed(0);
+        xMovement.setPos(rect.getMinX() - Player.WIDTH);
         break;
       case RIGHT:
-        player.getXMovement().setSpeed(0);
-        player.getXMovement().setPos(rect.getMaxX() + 1);
+        xMovement.setSpeed(0);
+        xMovement.setPos(rect.getMaxX() + 1);
         break;
       case IGNORE:
         break;
     }
-    assert player.getXMovement().getPos() > Sizes.MIN_X - Player.WIDTH - 1;
-    assert player.getXMovement().getPos() < Sizes.MAX_X + 100;
-    assert player.getYMovement().getPos() > Sizes.MIN_Y - Player.HEIGHT - 1;
-    assert player.getYMovement().getPos() < Sizes.MAX_Y + 100;
+    assert xMovement.getPos() > Sizes.MIN_X - Player.WIDTH - 1;
+    assert xMovement.getPos() < Sizes.MAX_X + 100;
+    assert yMovement.getPos() > Sizes.MIN_Y - Player.HEIGHT - 1;
+    assert yMovement.getPos() < Sizes.MAX_Y + 100;
   }
 
   static Decision decide(Rectangle player, float dx, float dy, Rectangle rect) {
