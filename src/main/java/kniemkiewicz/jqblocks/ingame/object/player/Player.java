@@ -25,7 +25,6 @@ public class Player implements PhysicalObject,HasHealthPoints<Player>, TwoFacedI
   // Used in Spring.
   public static int IMAGE_WIDTH = Sizes.BLOCK * 3;
 
-  boolean leftFaced;
   LimitedSpeed xMovement;
   LimitedSpeed yMovement;
   private Rectangle shape;
@@ -71,9 +70,6 @@ public class Player implements PhysicalObject,HasHealthPoints<Player>, TwoFacedI
   public void update(int delta) {
     xMovement.update(delta);
     yMovement.update(delta);
-    if (xMovement.getSpeed() != 0) {
-      leftFaced = xMovement.getSpeed() < 0;
-    }
     updateShape();
   }
 
@@ -95,7 +91,7 @@ public class Player implements PhysicalObject,HasHealthPoints<Player>, TwoFacedI
   @Override
   public String toString() {
     return "Player{" +
-        "leftFaced=" + leftFaced +
+        "leftFaced=" + isLeftFaced() +
         ", xMovement=" + xMovement +
         ", yMovement=" + yMovement +
         '}';
@@ -115,6 +111,6 @@ public class Player implements PhysicalObject,HasHealthPoints<Player>, TwoFacedI
 
   @Override
   public boolean isLeftFaced() {
-    return leftFaced;
+    return !xMovement.getLastDirection();
   }
 }

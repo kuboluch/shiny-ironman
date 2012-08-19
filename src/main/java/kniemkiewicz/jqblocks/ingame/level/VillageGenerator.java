@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.level;
 
+import kniemkiewicz.jqblocks.ingame.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
@@ -7,8 +8,11 @@ import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.Fireplace;
 import kniemkiewicz.jqblocks.ingame.object.background.LadderBackground;
 import kniemkiewicz.jqblocks.ingame.object.background.NaturalDirtBackground;
+import kniemkiewicz.jqblocks.ingame.object.peon.Peon;
+import kniemkiewicz.jqblocks.ingame.object.peon.PeonController;
 import kniemkiewicz.jqblocks.ingame.workplace.Workplace;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
+import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,6 +38,9 @@ public class VillageGenerator {
   @Resource(name = "fireplace")
   Workplace fireplace;
 
+  @Autowired
+  PeonController peonController;
+
   public static final int STARTING_X = (Sizes.MIN_X + Sizes.MAX_X) / 2;
 
   public static final int VILLAGE_RADIUS = 18;
@@ -50,12 +57,7 @@ public class VillageGenerator {
     solidBlocks.add(new Rectangle(x - Sizes.BLOCK * 3, y  - Sizes.BLOCK * 5, Sizes.BLOCK * 6, Sizes.BLOCK), WallBlockType.DIRT);
   }
 
-  void generateVillage(int villageY) {
-    startingY = villageY;
-    makeHouse(STARTING_X, villageY);
-    backgrounds.add(fireplace.getPlaceableObject(STARTING_X - Fireplace.WIDTH / 2, villageY - Fireplace.HEIGHT, workplaceController).getBackgroundElement());
-    makeHouse(STARTING_X - Sizes.BLOCK * 10, villageY);
-    makeHouse(STARTING_X + Sizes.BLOCK * 10, villageY);
+  void generateLadders() {
     for (int i = 0; i < 10; i++) {
       int y = startingY - 2 * Sizes.BLOCK * (i + 1);
       new LadderBackground(STARTING_X + Sizes.BLOCK * 4, y).addTo(backgrounds);
@@ -64,5 +66,15 @@ public class VillageGenerator {
       int y = startingY - 2 * Sizes.BLOCK * 10;
       new LadderBackground(STARTING_X + 2 * i * Sizes.BLOCK, y).addTo(backgrounds);
     }
+  }
+
+  void generateVillage(int villageY) {
+    startingY = villageY;
+    makeHouse(STARTING_X, villageY);
+    backgrounds.add(fireplace.getPlaceableObject(STARTING_X - Fireplace.WIDTH / 2, villageY - Fireplace.HEIGHT, workplaceController).getBackgroundElement());
+    makeHouse(STARTING_X - Sizes.BLOCK * 10, villageY);
+    makeHouse(STARTING_X + Sizes.BLOCK * 10, villageY);
+    generateLadders();
+    Assert.executeAndAssert(Peon.createAndRegister(STARTING_X, (int)(villageY - Peon.HEIGHT), peonController) != null);
   }
 }

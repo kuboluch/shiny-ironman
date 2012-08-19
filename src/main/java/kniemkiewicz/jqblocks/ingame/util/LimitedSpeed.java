@@ -15,35 +15,37 @@ public class LimitedSpeed implements Serializable{
   float maxSpeed;
   float acceleration = 0;
   float defaultDeceleration;
+  boolean lastDirection;
 
   public LimitedSpeed(float maxSpeed, float speed, float x, float defaultDeceleration) {
     this.maxSpeed = maxSpeed;
     this.speed = speed;
     this.pos = x;
     this.defaultDeceleration = defaultDeceleration;
+    this.lastDirection = speed >= 0;
   }
 
-  public float getPos() {
+  final public float getPos() {
     return pos;
   }
 
-  public float getSpeed() {
+  final public float getSpeed() {
     return speed;
   }
 
-  public float getAcceleration() {
+  final public float getAcceleration() {
     return acceleration;
   }
 
-  public void setAcceleration(float acceleration) {
+  final public void setAcceleration(float acceleration) {
     this.acceleration = acceleration;
   }
 
-  public void setSpeed(float speed) {
+  final public void setSpeed(float speed) {
     this.speed = speed;
   }
 
-  public void update(int delta) {
+  final public void update(int delta) {
     if (acceleration != 0) {
       speed += acceleration * delta;
       acceleration = 0;
@@ -62,14 +64,17 @@ public class LimitedSpeed implements Serializable{
       }
     }
     pos += speed * delta;
+    if (speed != 0) {
+      lastDirection = speed >= 0;
+    }
   }
 
-  public void setPos(float pos) {
+  final public void setPos(float pos) {
     this.pos = pos;
   }
 
   @Override
-  public String toString() {
+  final public String toString() {
     return "LimitedSpeed{" +
         "x=" + pos +
         ", v=" + speed +
@@ -77,9 +82,13 @@ public class LimitedSpeed implements Serializable{
         '}';
   }
 
-  public void limitSpeed(float currentMaxSpeed) {
+  final public void limitSpeed(float currentMaxSpeed) {
     if (Math.abs(speed) > currentMaxSpeed) {
       speed = speed > 0 ? currentMaxSpeed : -currentMaxSpeed;
     }
+  }
+
+  final public boolean getLastDirection() {
+    return lastDirection;
   }
 }

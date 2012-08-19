@@ -7,4 +7,8 @@
     <bean id="underAttackSound" class="org.newdawn.slick.Sound">
         <constructor-arg value="sounds/under_attack.ogg"/>
     </bean>
+
+    <bean id="newPeonSound" class="org.newdawn.slick.Sound">
+        <constructor-arg value="sounds/new_peon.ogg"/>
+    </bean>
 </beans>

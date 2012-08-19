@@ -27,13 +27,27 @@ public class TwoFacedImageRenderer implements ObjectRenderer<TwoFacedImageRender
     this.imageWidth = imageWidth;
   }
 
+  public TwoFacedImageRenderer(Image leftImage, Image rightImage) {
+    this.leftImage = leftImage;
+    this.rightImage = rightImage;
+    this.imageWidth = -1;
+  }
+
   @Override
   public void render(Renderable p, Graphics g, PointOfView pov) {
     Shape shape = p.getShape();
     if (p.isLeftFaced()) {
-      leftImage.draw((int)shape.getMinX(), (int)shape.getMinY(), imageWidth, shape.getHeight());
+      float width = imageWidth;
+      if (width < 0) {
+        width = shape.getWidth();
+      }
+      leftImage.draw((int)shape.getMinX(), (int)shape.getMinY(), width, shape.getHeight());
     } else {
-      rightImage.draw((int)shape.getMaxX() - imageWidth, (int)shape.getMinY(), imageWidth, shape.getHeight());
+      if (imageWidth > 0) {
+        rightImage.draw((int)shape.getMaxX() - imageWidth, (int)shape.getMinY(), imageWidth, shape.getHeight());
+      } else {
+        rightImage.draw((int)shape.getMinX(), (int)shape.getMinY(), shape.getWidth(), shape.getHeight());
+      }
     }
   }
 }

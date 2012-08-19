@@ -39,6 +39,11 @@
         </constructor-arg>
     </bean>
 
+    <bean id="peonRenderer" class="kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer">
+        <constructor-arg ref="peonLeftImage"/>
+        <constructor-arg ref="peonImage"/>
+    </bean>
+
     <bean id="resourceRenderer" class="kniemkiewicz.jqblocks.ingame.resource.renderer.ResourceRenderer"/>
 
      <bean id="ladderRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
