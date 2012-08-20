@@ -4,19 +4,11 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <bean id="playerLeftImage" class="org.newdawn.slick.Image">
+    <bean id="playerLeftImage" class="kniemkiewicz.jqblocks.FlippingImage">
         <constructor-arg value="images/supermanLeft.png"/>
     </bean>
 
-    <bean id="playerRightImage" class="org.newdawn.slick.Image">
-        <constructor-arg value="images/supermanRight.png"/>
-    </bean>
-
-    <bean id="peonImage" class="org.newdawn.slick.Image">
-        <constructor-arg value="images/peon.png"/>
-    </bean>
-
-    <bean id="peonLeftImage" class="org.newdawn.slick.Image">
+    <bean id="peonLeftImage" class="kniemkiewicz.jqblocks.FlippingImage">
         <constructor-arg value="images/peonLeft.png"/>
     </bean>
 
