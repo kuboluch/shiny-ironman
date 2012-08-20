@@ -76,6 +76,7 @@ public class SolidBlocks{
   public void deserializeData(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     blocks = (RawEnumTable<WallBlockType>) stream.readObject();
     blocks.fillRendererCache(springBeanProvider);
+    renderQueue.add(blocks);
   }
 
   public RawEnumTable<WallBlockType> getBlocks() {
