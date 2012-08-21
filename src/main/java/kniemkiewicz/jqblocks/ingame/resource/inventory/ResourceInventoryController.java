@@ -1,11 +1,9 @@
 package kniemkiewicz.jqblocks.ingame.resource.inventory;
 
-import kniemkiewicz.jqblocks.ingame.CollisionController;
-import kniemkiewicz.jqblocks.ingame.MovingObjects;
-import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.World;
+import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.action.AbstractActionController;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
+import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.event.Event;
@@ -16,13 +14,11 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
-import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController;
-import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
+import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObjectType;
-import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
-import kniemkiewicz.jqblocks.ingame.resource.ResourceObject;
 import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
+import kniemkiewicz.jqblocks.ingame.resource.item.ResourceObject;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
@@ -51,6 +47,12 @@ public class ResourceInventoryController implements EventListener {
 
   @Autowired
   SolidBlocks solidBlocks;
+
+  @Autowired
+  RenderQueue renderQueue;
+
+  @Autowired
+  MovingObjects movingObjects;
 
   @Autowired
   PlayerController playerController;
@@ -106,7 +108,7 @@ public class ResourceInventoryController implements EventListener {
       }
     }
 
-    if (KeyboardUtils.isDownPressed(e.getKey())) {
+    if (KeyboardUtils.isDownKey(e.getKey())) {
       ResourceObject resourceObject = findNearestResourceObject();
       if (resourceObject != null) {
         if (inventory.add((ResourceItem) resourceObject.getItem())) {
@@ -144,9 +146,17 @@ public class ResourceInventoryController implements EventListener {
     return nearestResourceObject;
   }
 
-  public void dropObject(MovingPhysicalObject dropObject) {
+  public void dropObject(DroppableObject dropObject) {
     Shape shape = dropObject.getShape();
     dropObject.setY((int) (solidBlocks.getBlocks().getUnscaledDropHeight(shape) - shape.getHeight() - 1));
+    addToWorld(dropObject);
+    return;
+  }
+
+  private boolean addToWorld(DroppableObject dropObject) {
+    if (!movingObjects.add(dropObject)) return false;
+    renderQueue.add(dropObject);
+    return true;
   }
 
   private boolean dropItem(int x, int y) {
@@ -157,11 +167,10 @@ public class ResourceInventoryController implements EventListener {
     ItemController controller = provider.getBean(clazz, true);
     int dropItemX = Sizes.roundToBlockSizeX(x);
     int dropItemY = Sizes.roundToBlockSizeY(y);
-    Shape dropObjectShape = controller.getDropObjectShape(inventory.getSelectedItem(), dropItemX, dropItemY);
-    if (dropObjectShape == null) return false;
-    if (conflictingObjectExists(dropObjectShape)) return false;
-    if (!solidBlocks.isOnSolidGround(dropObjectShape)) return false;
-    MovingPhysicalObject dropObject = controller.getDropObject(inventory.getSelectedItem(), x, y);
+    DroppableObject dropObject = controller.getObject(inventory.getSelectedItem(), dropItemX, dropItemY);
+    if (dropObject == null) return false;
+    if (conflictingObjectExists(dropObject.getShape())) return false;
+    if (!solidBlocks.isOnSolidGround(dropObject.getShape())) return false;
     dropObject(dropObject);
     inventory.removeSelectedItem();
     return true;

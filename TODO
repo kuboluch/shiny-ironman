@@ -1,4 +1,5 @@
 Krzysiek:
+0 not stealing other's todos
 1 caves in level generator
 2 simple enemy that hides in caves (aka some classes for handling AI and stuff)
 4 faster collision detection
@@ -9,19 +10,15 @@ Krzysiek:
 9 bug: arrows loose their source when loading
 
 Kuba:
-- building functionality - sawmill
-- pile process to resource - wood in sawmill - global resource economy for now
 - building ladder
-- climbing ladder - just for fun
+- climbing ladder - just for fun (Krzysiek is fun thief)
 - crafting functionality - torches from wood
 - viva la révolution (from global to regional economy) :)
 - create simple demo world with mining, building & crafting for player only
     Resources: wood, stone, food
     Structures: hearth (spawn point, source of fire), sawmill, stonecutter, farm
-    Items: hoe?, axe, hammer (with deassamble power), ladder (item or workplace?), torch, arrows
+    Items: hoe?, axe, hammer (with deassamble power), ladder (item or workplaceDefinition?), torch, arrows
 
-- pressing down should fill inventory even if currently selected slot is full
-- I still feel that we shouldn't auto pickup small items. It will be more consistent if pressing up picks up those as well and pressing down is fast. We can leave auto pickup as an option
 ...
 - darkness & light (so late because it doesn't affect gameplay so much)
 

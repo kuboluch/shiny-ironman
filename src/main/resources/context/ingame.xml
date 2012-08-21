@@ -13,6 +13,7 @@
   <import resource="renderer.xml"/>
   <import resource="sounds.xml"/>
   <import resource="ui.xml"/>
+  <import resource="item.xml"/>
   <import resource="workplace.xml"/>
 
   <bean id="springBeanProvider" class="kniemkiewicz.jqblocks.util.SpringBeanProvider"/>

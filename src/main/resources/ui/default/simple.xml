@@ -77,6 +77,7 @@
 
         <area name="white" xywh="24,4,1,1"/>
         <alias name="black" ref="white" tint="#000"/>
+        <alias name="green" ref="white" tint="#0F0"/>
 
         <alias name="frame.resizeIcon" ref="-iconC"/>
 
@@ -346,10 +347,16 @@
         <alias name="nohscrollbar.upbutton.background" ref="none"/>
         <alias name="novscrollbar.upbutton.background" ref="none"/>
 
-        <composed name="workplaceitem.background" border="5">
+        <composed name="selectableobject.background" border="5">
             <alias ref="none"/>
             <alias ref="white" if="hover" tint="#80FFFFFF"/>
             <alias ref="white" if="selected" tint="#FFFFFFFF"/>
+        </composed>
+
+        <composed name="selectableproduceobject.background" border="5">
+            <alias ref="none"/>
+            <alias ref="white" if="hover" tint="#8000FF00"/>
+            <alias ref="white" if="selected" tint="#FF00FF00"/>
         </composed>
     </images>
 
@@ -959,10 +966,10 @@
         </inputMapDef></param>
     </theme>
 
-    <!--<theme name="workplacepanel-title" ref="resizableframe-title" allowWildcard="true"/>-->
-    <!--<theme name="workplacepanel" ref="resizableframe" allowWildcard="true"/>-->
+    <!--<theme name="selectobjectpanel-title" ref="resizableframe-title" allowWildcard="true"/>-->
+    <!--<theme name="selectobjectpanel" ref="resizableframe" allowWildcard="true"/>-->
 
-    <!--<theme name="workplaceitem" ref="resizableframe" allowWildcard="true"/>-->
+    <!--<theme name="selectableobject" ref="resizableframe" allowWildcard="true"/>-->
 
     <theme name="noframe-title" ref="-defaults" allowWildcard="true">
         <param name="background"><image>none</image></param>
@@ -995,13 +1002,23 @@
         <param name="titleAreaBottom"><int>0</int></param>
     </theme>
 
-    <theme name="workplacepanel-title" ref="noframe-title" allowWildcard="true"/>
-    <theme name="workplacepanel" ref="noframe" allowWildcard="true"/>
-    <theme name="workplaceitem" ref="resizableframe" allowWildcard="true">
-        <param name="background"><image>workplaceitem.background</image></param>
+    <theme name="selectobjectpanel-title" ref="noframe-title" allowWildcard="true"/>
+    <theme name="selectobjectpanel" ref="noframe" allowWildcard="true"/>
+    <theme name="selectableobject" ref="resizableframe" allowWildcard="true">
+        <param name="background"><image>selectableobject.background</image></param>
     </theme>
 
-    <theme name="workplaceicon" ref="-defaults" allowWildcard="true">
+    <theme name="workplaceselectpanel" ref="selectobjectpanel" allowWildcard="true"/>
+
+    <theme name="produceselectpanel-title" ref="noframe-title" allowWildcard="true"/>
+    <theme name="produceselectpanel" ref="noframe" allowWildcard="true"/>
+    <theme name="selectableproduceobject" ref="resizableframe" allowWildcard="true">
+        <param name="background"><image>selectableproduceobject.background</image></param>
+    </theme>
+    <theme name="selecteditempanel-title" ref="noframe-title" allowWildcard="true"/>
+    <theme name="selecteditempanel" ref="noframe" allowWildcard="true"/>
+
+    <theme name="icon" ref="-defaults" allowWildcard="true">
         <!--<param name="background"><image>-borderA</image></param>-->
         <!--<param name="border"><border>background.border</border></param>-->
         <param name="icons"><map>

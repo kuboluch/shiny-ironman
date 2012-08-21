@@ -14,7 +14,7 @@ public class KeyboardUtils {
   public static boolean isDownPressed(Input input) {
     return (input.isKeyDown(Input.KEY_S) || input.isKeyDown(Input.KEY_DOWN));
   }
-  public static boolean isDownPressed(int key) {
+  public static boolean isDownKey(int key) {
     return (key == Input.KEY_S || key == Input.KEY_DOWN);
   }
   public static boolean isUpPressed(Input input) {
@@ -45,19 +45,20 @@ public class KeyboardUtils {
     return (input.isKeyDown(Input.KEY_LSHIFT));
   }
 
-  public static boolean isConstructMenuKeyPressed(Input input) {
-    return (input.isKeyDown(Input.KEY_C));
+  public static boolean isBuildMenuKey(int key) {
+    return (key == Input.KEY_B);
   }
 
-  public static boolean isConstructMenuKeyReleased(Input input) {
-    return (input.isKeyPressed(Input.KEY_C));
+  public static boolean isProduceMenuKey(int key) {
+    return (key == Input.KEY_V);
   }
+
 
   public static boolean isDebugDisplayKeyPressed(Input input) {
     return (input.isKeyDown(Input.KEY_P));
   }
 
-  public static boolean isInteractKeyPressed(int key) {
+  public static boolean isInteractKey(int key) {
     return (key == Input.KEY_X);
   }
 
