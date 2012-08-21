@@ -5,12 +5,27 @@ import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.ingame.util.SingleAxisMovement;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
+
+import java.util.List;
 
 /**
  * User: krzysiek
  * Date: 17.07.12
  */
 public class HitResolver {
+
+  public static float resolveSimpleTop(List<Rectangle> rectangles, Shape shape) {
+    float y = shape.getMaxY();
+    for (Rectangle r : rectangles) {
+      if (GeometryUtils.intersects(r, shape)) {
+        if (y > r.getMinY()) {
+          y = r.getMinY();
+        }
+      }
+    }
+    return y - shape.getHeight();
+  }
 
   enum Decision {
     TOP,

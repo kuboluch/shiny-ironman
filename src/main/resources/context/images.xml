@@ -4,11 +4,11 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <bean id="playerLeftImage" class="kniemkiewicz.jqblocks.FlippingImage">
+    <bean id="playerLeftImage" class="kniemkiewicz.jqblocks.util.FlippingImage">
         <constructor-arg value="images/supermanLeft.png"/>
     </bean>
 
-    <bean id="peonLeftImage" class="kniemkiewicz.jqblocks.FlippingImage">
+    <bean id="peonLeftImage" class="kniemkiewicz.jqblocks.util.FlippingImage">
         <constructor-arg value="images/peonLeft.png"/>
     </bean>
 

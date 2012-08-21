@@ -1,5 +1,8 @@
 package kniemkiewicz.jqblocks.ingame.level;
 
+import kniemkiewicz.jqblocks.ingame.FreeFallController;
+import kniemkiewicz.jqblocks.ingame.MovingObjects;
+import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
@@ -8,6 +11,7 @@ import kniemkiewicz.jqblocks.ingame.object.background.LadderBackground;
 import kniemkiewicz.jqblocks.ingame.object.background.NaturalDirtBackground;
 import kniemkiewicz.jqblocks.ingame.object.peon.Peon;
 import kniemkiewicz.jqblocks.ingame.object.peon.PeonController;
+import kniemkiewicz.jqblocks.ingame.object.rock.Rock;
 import kniemkiewicz.jqblocks.ingame.workplace.Workplace;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
 import kniemkiewicz.jqblocks.util.Assert;
@@ -40,7 +44,16 @@ public class VillageGenerator {
   Workplace sawmill;
 
   @Autowired
+  RenderQueue renderQueue;
+
+  @Autowired
+  MovingObjects movingObjects;
+
+  @Autowired
   PeonController peonController;
+
+  @Autowired
+  FreeFallController freeFallController;
 
   public static final int STARTING_X = (Sizes.MIN_X + Sizes.MAX_X) / 2;
 
@@ -69,6 +82,14 @@ public class VillageGenerator {
     }
   }
 
+  void addFallingStars() {
+    for (int i = 0; i < 5; i++) {
+      Rock rock = new Rock(STARTING_X + Sizes.BLOCK * i, startingY - (20 + 5 * i) * Sizes.BLOCK, false);
+      rock.addTo(renderQueue, movingObjects);
+      freeFallController.add(rock);
+    }
+  }
+
   void generateVillage(int villageY) {
     startingY = villageY;
     makeHouse(STARTING_X, villageY);
@@ -78,5 +99,6 @@ public class VillageGenerator {
     backgrounds.add(sawmill.getPlaceableObject(STARTING_X + Sizes.BLOCK * 10 - sawmill.getBlockWidth() * Sizes.BLOCK / 2, villageY - sawmill.getBlockHeight() * Sizes.BLOCK, workplaceController).getBackgroundElement());
     generateLadders();
     Assert.executeAndAssert(Peon.createAndRegister(STARTING_X, (int)(villageY - Peon.HEIGHT), peonController) != null);
+    addFallingStars();
   }
 }

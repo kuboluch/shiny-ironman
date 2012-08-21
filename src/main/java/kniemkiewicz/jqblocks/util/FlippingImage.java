@@ -1,4 +1,4 @@
-package kniemkiewicz.jqblocks;
+package kniemkiewicz.jqblocks.util;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;

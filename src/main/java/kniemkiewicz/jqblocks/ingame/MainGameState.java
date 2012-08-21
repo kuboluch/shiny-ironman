@@ -104,6 +104,9 @@ public class MainGameState extends BasicTWLGameState {
   MapView mapView;
 
   @Autowired
+  FreeFallController freeFallController;
+
+  @Autowired
   World world;
 
   private Settings settings;
@@ -173,6 +176,7 @@ public class MainGameState extends BasicTWLGameState {
       l.listen(gameContainer.getInput(), delta);
     }
     updateQueue.update(delta);
+    freeFallController.update(delta);
     t.record();
   }
 

@@ -1,9 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.object.rock;
 
-import kniemkiewicz.jqblocks.ingame.MovingObjects;
-import kniemkiewicz.jqblocks.ingame.PointOfView;
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
-import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.object.*;
 import kniemkiewicz.jqblocks.util.BeanName;
@@ -22,7 +19,7 @@ import java.io.ObjectOutputStream;
  * User: knie
  * Date: 7/25/12
  */
-public class Rock implements RenderableObject<Rock>, PickableObject, MovingPhysicalObject {
+public class Rock implements RenderableObject<Rock>, PickableObject, MovingPhysicalObject, FreeFallController.CanFall {
 
   private static final long serialVersionUID = 1;
 
@@ -100,5 +97,10 @@ public class Rock implements RenderableObject<Rock>, PickableObject, MovingPhysi
     //perform the default serialization for all non-transient, non-static fields
     outputStream.defaultWriteObject();
     SerializationUtils2.serializeCircle(circle, outputStream);
+  }
+
+  @Override
+  public void setYAndUpdate(float y) {
+    circle.setY(y);
   }
 }

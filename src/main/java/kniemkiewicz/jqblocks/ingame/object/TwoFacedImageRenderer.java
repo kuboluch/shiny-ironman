@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.object;
 
-import kniemkiewicz.jqblocks.FlippingImage;
+import kniemkiewicz.jqblocks.util.FlippingImage;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Shape;

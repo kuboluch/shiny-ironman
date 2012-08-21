@@ -59,6 +59,9 @@ public final class World {
   @Autowired
   PlayerController playerController;
 
+  @Autowired
+  FreeFallController freeFallController;
+
   long timestamp = 0;
 
   public void advanceTime(long delta) {
@@ -99,6 +102,7 @@ public final class World {
     iters.add(renderQueue.iterateAllObjects());
     iters.add(movingObjects.iterateAll());
     iters.add(updateQueue.iterateAll());
+    iters.add(freeFallController.getObjects());
     for (Object ob : Collections3.iterateOverAllIterators(iters.iterator())) {
       // This class is listed in renderQueue but we do not want to serialize it here. It will be saved as part of
       // solidBlocks.
@@ -111,6 +115,7 @@ public final class World {
     stream.writeObject(markIndexes(indexes, renderQueue.iterateAllObjects()));
     stream.writeObject(markIndexes(indexes, movingObjects.iterateAll()));
     stream.writeObject(markIndexes(indexes, updateQueue.iterateAll()));
+    stream.writeObject(markIndexes(indexes, freeFallController.getObjects()));
     inventory.serializeItems(stream);
     resourceInventory.serializeItems(stream);
     solidBlocks.serializeData(stream);
@@ -150,6 +155,14 @@ public final class World {
         for (int i = 0; i < toBeUpdated.size(); i++) {
           if (toBeUpdated.get(i)) {
             updateQueue.add((UpdateQueue.ToBeUpdated) gameObjects.get(i));
+          }
+        }
+      }
+      {
+        BitSet falling = (BitSet)stream.readObject();
+        for (int i = 0; i < falling.size(); i++) {
+          if (falling.get(i)) {
+            freeFallController.add((FreeFallController.CanFall) gameObjects.get(i));
           }
         }
       }
