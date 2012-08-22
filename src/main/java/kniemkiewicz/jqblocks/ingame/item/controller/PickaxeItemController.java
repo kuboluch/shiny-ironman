@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.item.controller;
 
+import kniemkiewicz.jqblocks.ingame.FreeFallController;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
@@ -25,6 +26,9 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
 
   @Autowired
   Backgrounds backgrounds;
+
+  @Autowired
+  FreeFallController freeFallController;
 
   private DigEffect digEffect;
 
@@ -85,6 +89,9 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
     blocks.getBlocks().setRectUnscaled(affectedRectangle, WallBlockType.EMPTY);
     backgrounds.add(new NaturalDirtBackground(
         affectedRectangle.getX(), affectedRectangle.getY(), affectedRectangle.getWidth(), affectedRectangle.getHeight()));
+    Rectangle rect = new Rectangle(affectedRectangle.getX(), affectedRectangle.getY() - Sizes.BLOCK / 4,
+        affectedRectangle.getWidth(), affectedRectangle.getHeight());
+    freeFallController.addObjectsInRectangle(rect);
   }
 
   @Override
