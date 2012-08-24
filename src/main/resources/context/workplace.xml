@@ -10,12 +10,12 @@
                         http://www.springframework.org/schema/util
                         http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-    <bean id="structureConstroller" class="kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController">
+    <bean id="workplaceConstroller" class="kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController">
         <constructor-arg>
             <list>
                 <ref bean="fireplace"/>
                 <ref bean="sawmill"/>
-                <ref bean="fireplace3"/>
+                <ref bean="carpenter"/>
                 <ref bean="fireplace4"/>
                 <ref bean="fireplace5"/>
                 <ref bean="fireplace6"/>
@@ -23,7 +23,7 @@
         </constructor-arg>
     </bean>
 
-    <bean id="fireplace" class="kniemkiewicz.jqblocks.ingame.workplace.Workplace">
+    <bean id="fireplace" class="kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition">
         <constructor-arg value="fireplace"/>
         <constructor-arg value="Place with fire?"/>
         <constructor-arg value="4"/>
@@ -33,7 +33,7 @@
         <constructor-arg ref="nullActionController"/>
     </bean>
 
-    <bean id="sawmill" class="kniemkiewicz.jqblocks.ingame.workplace.Workplace">
+    <bean id="sawmill" class="kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition">
         <constructor-arg value="sawmill"/>
         <constructor-arg value="You can cut log into wood"/>
         <constructor-arg value="4"/>
@@ -41,6 +41,16 @@
         <constructor-arg ref="sawmillRenderer"/>
         <constructor-arg ref="sawmillUIRenderer"/>
         <constructor-arg ref="woodProcessController"/>
+    </bean>
+
+    <bean id="carpenter" class="kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition">
+        <constructor-arg value="sawmill"/>
+        <constructor-arg value="You can cut log into wood"/>
+        <constructor-arg value="4"/>
+        <constructor-arg value="3"/>
+        <constructor-arg ref="fireplaceRenderer"/>
+        <constructor-arg ref="fireplaceUIRenderer"/>
+        <constructor-arg ref="craftsmanController"/>
     </bean>
 
     <bean id="fireplace3" parent="fireplace"/>
@@ -53,6 +63,8 @@
         <constructor-arg>
             <util:constant static-field="kniemkiewicz.jqblocks.ingame.resource.ResourceType.WOOD"/>
         </constructor-arg>
+    </bean>
+    <bean id="craftsmanController" class="kniemkiewicz.jqblocks.ingame.workplace.action.CraftsmanController">
     </bean>
 
 </beans>

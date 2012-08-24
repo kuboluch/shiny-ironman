@@ -1,7 +1,7 @@
 package kniemkiewicz.jqblocks.ingame;
 
-import kniemkiewicz.jqblocks.ingame.resource.ResourceObject;
 import kniemkiewicz.jqblocks.ingame.resource.Wood;
+import kniemkiewicz.jqblocks.ingame.resource.item.ResourceObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.newdawn.slick.geom.Rectangle;

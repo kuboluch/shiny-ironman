@@ -53,6 +53,18 @@ public class RawEnumTableTest {
     Assert.assertTrue("Should collide when test.(y + height) is 1 below floor.y", table.collidesWithNonEmpty(test));
     Assert.assertNotNull("Should not be null", table.getIntersectingRectangles(test));
     Assert.assertFalse("Should not be empty when test.(y + height) is 1 below floor.y", table.getIntersectingRectangles(test).isEmpty());
+
+    test.setY(11 * Sizes.BLOCK - 1);
+    Assert.assertNotNull("Should not be null", table.getIntersectingRectangles(test));
+    Assert.assertFalse("Should not be empty when test.y 1 above floor.maxy", table.getIntersectingRectangles(test).isEmpty());
+
+    test.setY(11 * Sizes.BLOCK);
+    Assert.assertNotNull("Should not be null", table.getIntersectingRectangles(test));
+    Assert.assertTrue("Should not be empty when test.y is at floor.maxy", table.getIntersectingRectangles(test).isEmpty());
+
+    test.setY(11 * Sizes.BLOCK + 1);
+    Assert.assertNotNull("Should not be null", table.getIntersectingRectangles(test));
+    Assert.assertTrue("Should be empty when test.y is below floor.maxy", table.getIntersectingRectangles(test).isEmpty());
   }
 
   @Test

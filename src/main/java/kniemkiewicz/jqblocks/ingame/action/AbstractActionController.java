@@ -1,6 +1,5 @@
 package kniemkiewicz.jqblocks.ingame.action;
 
-import kniemkiewicz.jqblocks.ingame.InputListener;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.event.Event;
@@ -12,8 +11,8 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseReleasedEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
-import kniemkiewicz.jqblocks.ingame.object.player.Player;
-import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
+import kniemkiewicz.jqblocks.ingame.content.player.Player;
+import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;

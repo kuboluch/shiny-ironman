@@ -2,12 +2,7 @@ package kniemkiewicz.jqblocks.ingame;
 
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObject;
-import kniemkiewicz.jqblocks.ingame.object.player.Player;
-import kniemkiewicz.jqblocks.ingame.util.LinearIntersectionIterator;
 import kniemkiewicz.jqblocks.util.Assert;
-import kniemkiewicz.jqblocks.util.Collections3;
-import kniemkiewicz.jqblocks.util.IterableIterator;
-import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

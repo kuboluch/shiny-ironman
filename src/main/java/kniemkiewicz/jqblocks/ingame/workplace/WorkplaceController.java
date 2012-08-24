@@ -3,29 +3,23 @@ package kniemkiewicz.jqblocks.ingame.workplace;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
-import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.EventListener;
 import kniemkiewicz.jqblocks.ingame.event.input.InputEvent;
-import kniemkiewicz.jqblocks.ingame.event.input.keyboard.KeyPressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseDraggedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseMovedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
-import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
-import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
-import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
+import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.ui.MainGameUI;
 import kniemkiewicz.jqblocks.util.Collections3;
-import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -52,21 +46,21 @@ public class WorkplaceController implements EventListener {
   @Autowired
   PlayerController playerController;
 
-  List<Workplace> workplaces = new ArrayList<Workplace>();
+  List<WorkplaceDefinition> workplaceDefinitions = new ArrayList<WorkplaceDefinition>();
 
-  private Workplace selectedWorkplace;
+  private WorkplaceDefinition selectedWorkplace;
 
   private PlaceableWorkplaceObject placableWorkplaceObject;
 
-  public WorkplaceController(List<Workplace> workplaces) {
-    this.workplaces = workplaces;
+  public WorkplaceController(List<WorkplaceDefinition> workplaceDefinitions) {
+    this.workplaceDefinitions = workplaceDefinitions;
   }
 
-  public List<Workplace> getWorkplaces() {
-    return new ArrayList<Workplace>(workplaces);
+  public List<WorkplaceDefinition> getWorkplaceDefinitions() {
+    return new ArrayList<WorkplaceDefinition>(workplaceDefinitions);
   }
 
-  public void changeSelected(Workplace selected) {
+  public void changeSelected(WorkplaceDefinition selected) {
     selectedWorkplace = selected;
   }
 

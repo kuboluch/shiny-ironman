@@ -2,7 +2,7 @@ package kniemkiewicz.jqblocks.ingame.controller;
 
 import kniemkiewicz.jqblocks.ingame.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.object.player.Player;
+import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.util.SingleAxisMovement;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.newdawn.slick.geom.Rectangle;
@@ -17,11 +17,12 @@ import java.util.List;
 public class HitResolver {
 
   public static float resolveSimpleTop(List<Rectangle> rectangles, Shape shape) {
-    float y = shape.getMaxY();
+    Rectangle rectangle = GeometryUtils.getBoundingRectangle(shape);
+    float y = GeometryUtils.getMaxY(rectangle);
     for (Rectangle r : rectangles) {
       if (GeometryUtils.intersects(r, shape)) {
-        if (y > r.getMinY()) {
-          y = r.getMinY();
+        if (y > r.getY()) {
+          y = r.getY();
         }
       }
     }
@@ -48,19 +49,19 @@ public class HitResolver {
     switch (decision) {
       case TOP:
         yMovement.setSpeed(0);
-        yMovement.setPos(rect.getMinY() - rect.getHeight());
+        yMovement.setPos(rect.getY() - rect.getHeight());
         break;
       case BOTTOM:
         yMovement.setSpeed(0);
-        yMovement.setPos(rect.getMaxY() + 1);
+        yMovement.setPos(GeometryUtils.getMaxY(rect) + 1);
         break;
       case LEFT:
         xMovement.setSpeed(0);
-        xMovement.setPos(rect.getMinX() - rect.getWidth());
+        xMovement.setPos(rect.getX() - rect.getWidth());
         break;
       case RIGHT:
         xMovement.setSpeed(0);
-        xMovement.setPos(rect.getMaxX() + 1);
+        xMovement.setPos(GeometryUtils.getMaxX(rect) + 1);
         break;
       case IGNORE:
         break;
@@ -86,18 +87,18 @@ public class HitResolver {
     // Distance to collision before this step.
     float distanceY = 0;
     if (dy > 0) {
-      distanceY = rect.getMinY() - player.getMaxY() + ady;
+      distanceY = rect.getY() - GeometryUtils.getMaxY(player) + ady;
     } else {
-      distanceY = player.getMinY() - rect.getMaxY() + ady;
+      distanceY = player.getY() - GeometryUtils.getMaxY(rect) + ady;
     }
     if (distanceY < 0) {
       return dx < 0 ? Decision.RIGHT : Decision.LEFT;
     }
     float distanceX = 0;
     if (dx > 0) {
-      distanceX = rect.getMinX() - player.getMaxX() + adx;
+      distanceX = rect.getX() - GeometryUtils.getMaxX(player) + adx;
     } else {
-      distanceX = player.getMinX() - rect.getMaxX() + adx;
+      distanceX = player.getX() - GeometryUtils.getMaxX(rect) + adx;
     }
     if (distanceX < 0) {
       return dy < 0 ? Decision.BOTTOM : Decision.TOP;

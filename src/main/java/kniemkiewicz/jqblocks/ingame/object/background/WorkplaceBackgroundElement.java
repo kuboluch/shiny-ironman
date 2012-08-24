@@ -2,11 +2,9 @@ package kniemkiewicz.jqblocks.ingame.object.background;
 
 import kniemkiewicz.jqblocks.ingame.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.workplace.Workplace;
+import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition;
 import kniemkiewicz.jqblocks.util.BeanName;
 import kniemkiewicz.jqblocks.util.SerializableBeanProxy;
-
-import java.io.Serializable;
 
 /**
  * User: qba
@@ -14,13 +12,13 @@ import java.io.Serializable;
  */
 public class WorkplaceBackgroundElement extends AbstractBackgroundElement<WorkplaceBackgroundElement> {
 
-  private SerializableBeanProxy<Workplace> workplace;
+  private SerializableBeanProxy<WorkplaceDefinition> workplace;
 
   private BeanName rendererBeanName;
 
-  public WorkplaceBackgroundElement(Workplace workplace, int x, int y, BeanName rendererBeanName) {
-    super(x, y, workplace.getBlockWidth() * Sizes.BLOCK, workplace.getBlockHeight() * Sizes.BLOCK);
-    this.workplace = SerializableBeanProxy.getInstance(workplace);
+  public WorkplaceBackgroundElement(WorkplaceDefinition workplaceDefinition, int x, int y, BeanName rendererBeanName) {
+    super(x, y, workplaceDefinition.getBlockWidth() * Sizes.BLOCK, workplaceDefinition.getBlockHeight() * Sizes.BLOCK);
+    this.workplace = SerializableBeanProxy.getInstance(workplaceDefinition);
     this.rendererBeanName = rendererBeanName;
   }
 
@@ -39,7 +37,7 @@ public class WorkplaceBackgroundElement extends AbstractBackgroundElement<Workpl
     return Layer.PASSIVE_OBJECTS;
   }
 
-  public Workplace getWorkplace() {
+  public WorkplaceDefinition getWorkplace() {
     return workplace.get();
   }
 }

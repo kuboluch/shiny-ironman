@@ -5,8 +5,8 @@ import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.item.ItemInventory;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
-import kniemkiewicz.jqblocks.ingame.object.player.Player;
-import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
+import kniemkiewicz.jqblocks.ingame.content.player.Player;
+import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventory;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
@@ -102,7 +102,7 @@ public final class World {
     iters.add(renderQueue.iterateAllObjects());
     iters.add(movingObjects.iterateAll());
     iters.add(updateQueue.iterateAll());
-    iters.add(freeFallController.getSimpleObjects());
+    iters.add(freeFallController.getObjects());
     for (Object ob : Collections3.iterateOverAllIterators(iters.iterator())) {
       // This class is listed in renderQueue but we do not want to serialize it here. It will be saved as part of
       // solidBlocks.
@@ -115,7 +115,7 @@ public final class World {
     stream.writeObject(markIndexes(indexes, renderQueue.iterateAllObjects()));
     stream.writeObject(markIndexes(indexes, movingObjects.iterateAll()));
     stream.writeObject(markIndexes(indexes, updateQueue.iterateAll()));
-    stream.writeObject(markIndexes(indexes, freeFallController.getSimpleObjects()));
+    stream.writeObject(markIndexes(indexes, freeFallController.getObjects()));
     inventory.serializeItems(stream);
     resourceInventory.serializeItems(stream);
     solidBlocks.serializeData(stream);

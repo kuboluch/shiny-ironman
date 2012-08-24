@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.BeanName;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
@@ -224,9 +225,10 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
   // For given shape which does not collide with any blocks, find height at which it would stop by free falling down.
   // Gives bottom border. Takes into account only blocks as obstacles.
   public int getUnscaledDropHeight(Shape unscaledShape) {
-    int x1 = toXIndex((int)unscaledShape.getMinX() + 1);
-    int x2 = toXIndex((int)unscaledShape.getMaxX()) + 1;
-    int y1 = toYIndex((int)unscaledShape.getMaxY() - 1);
+    Rectangle rectangle = GeometryUtils.getBoundingRectangle(unscaledShape);
+    int x1 = toXIndex((int)rectangle.getX() + 1);
+    int x2 = toXIndex((int)GeometryUtils.getMaxX(rectangle)) + 1;
+    int y1 = toYIndex((int)GeometryUtils.getMaxY(rectangle) - 1);
     boolean emptyRow = true;
     int y;
     for (y = y1; y < data[0].length;y++) {
@@ -247,10 +249,10 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
   }
 
   public boolean collidesWithNonEmpty(Rectangle unscaledRect) {
-    int x1 = toXIndex((int)Math.ceil(unscaledRect.getMinX()));
-    int x2 = toXIndex((int)Math.floor(unscaledRect.getMaxX()));
-    int y1 = toYIndex((int)Math.ceil(unscaledRect.getMinY()));
-    int y2 = toYIndex((int)Math.floor(unscaledRect.getMaxY()));
+    int x1 = toXIndex((int)Math.ceil(unscaledRect.getX()));
+    int x2 = toXIndex((int)Math.floor(GeometryUtils.getMaxX(unscaledRect)));
+    int y1 = toYIndex((int)Math.ceil(unscaledRect.getY()));
+    int y2 = toYIndex((int)Math.floor(GeometryUtils.getMaxY(unscaledRect)));
     if ((x1 < 0) || (x2 >= data.length) || (y1 < 0) || (y2 >= data[0].length)) {
       return true;
     }
@@ -266,9 +268,9 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
   // some points may be in more than one and so on.
   public List<Rectangle> getIntersectingRectangles(Rectangle unscaledRect) {
     int x1 = toXIndex((int)Math.ceil(unscaledRect.getMinX()));
-    int x2 = toXIndex((int)Math.floor(unscaledRect.getMaxX()));
+    int x2 = toXIndex((int)Math.floor(GeometryUtils.getMaxX(unscaledRect)));
     int y1 = toYIndex((int)Math.ceil(unscaledRect.getMinY()));
-    int y2 = toYIndex((int)Math.floor(unscaledRect.getMaxY()));
+    int y2 = toYIndex((int)Math.floor(GeometryUtils.getMaxY(unscaledRect)));
     List<Rectangle> rectangles = new ArrayList<Rectangle>();
     if (x1 < 0) {
       rectangles.add(new Rectangle(Sizes.MIN_X - 1000, Sizes.MIN_Y - 1000, 1000, Sizes.MAX_Y - Sizes.MIN_Y + 2000));
@@ -337,6 +339,11 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
         if (nonEmpty[x - x1][y - y1] && ! used[x - x1][y - y1]) {
           rectangles.add(new Rectangle(Sizes.MIN_X + x * Sizes.BLOCK, Sizes.MIN_Y + y * Sizes.BLOCK, Sizes.BLOCK, Sizes.BLOCK));
         }
+      }
+    }
+    if (Assert.ASSERT_ENABLED) {
+      for (Rectangle r : rectangles) {
+        assert GeometryUtils.intersects(r, unscaledRect);
       }
     }
     return rectangles;

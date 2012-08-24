@@ -1,9 +1,9 @@
 package kniemkiewicz.jqblocks.ingame;
 
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
+import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.controller.HitResolver;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
-import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import kniemkiewicz.jqblocks.ingame.util.SingleAxisMovement;
 import kniemkiewicz.jqblocks.util.Collections3;
@@ -63,7 +63,7 @@ public class FreeFallController {
   }
 
   // TODO: maybe make this smarter
-  Iterator<QuadTree.HasShape> getSimpleObjects() {
+  Iterator<QuadTree.HasShape> getObjects() {
     List<CanFall> list = new ArrayList<CanFall>();
     for (Pair<CanFall, SingleAxisMovement> p : objects) {
       list.add(p.getFirst());
@@ -76,7 +76,7 @@ public class FreeFallController {
     List<PhysicalObject> objects = collisionController.fullSearch(MovingObjects.OBJECT_TYPES, rect);
     for (PhysicalObject po : objects) {
       if (po instanceof CanFall) {
-        addCanFall((CanFall)po);
+        addCanFall((CanFall) po);
       } else if (!(po instanceof Player) && (po instanceof HasFullXYMovement)) {
         addComplex((HasFullXYMovement)po);
       }

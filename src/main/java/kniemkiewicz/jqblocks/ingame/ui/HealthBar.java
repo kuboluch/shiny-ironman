@@ -1,18 +1,13 @@
 package kniemkiewicz.jqblocks.ingame.ui;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Renderable;
-import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
-import kniemkiewicz.jqblocks.ingame.object.player.Player;
-import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
+import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
+import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 
 /**
  * User: krzysiek

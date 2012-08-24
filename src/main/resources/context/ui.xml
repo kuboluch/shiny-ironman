@@ -10,4 +10,8 @@
     <bean id="sawmillUIRenderer" class="kniemkiewicz.jqblocks.ingame.ui.renderer.Image">
         <constructor-arg value="/images/saw.png"/>
     </bean>
+
+    <bean id="ladderUIRenderer" class="kniemkiewicz.jqblocks.ingame.ui.renderer.Image">
+        <constructor-arg value="/images/fireplace.png"/>
+    </bean>
 </beans>

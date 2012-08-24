@@ -3,10 +3,11 @@ package kniemkiewicz.jqblocks.ingame.level;
 import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
+import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.Tree;
-import kniemkiewicz.jqblocks.ingame.object.bat.Bat;
-import kniemkiewicz.jqblocks.ingame.object.rock.Rock;
+import kniemkiewicz.jqblocks.ingame.content.creature.bat.Bat;
+import kniemkiewicz.jqblocks.ingame.content.item.rock.Rock;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -85,8 +86,14 @@ public class ObjectGenerator {
       }
       if (large != null) {
         Rock rock = new Rock(Sizes.MIN_X + Sizes.BLOCK * i + Sizes.BLOCK / 2, Sizes.MAX_Y - heights[i], large);
-        Assert.executeAndAssert(rock.addTo(renderQueue, movingObjects));
+        Assert.executeAndAssert(addToWorld(rock));
       }
     }
+  }
+
+  private boolean addToWorld(DroppableObject dropObject) {
+    if (!movingObjects.add(dropObject)) return false;
+    renderQueue.add(dropObject);
+    return true;
   }
 }

@@ -63,11 +63,11 @@ public class GeometryUtilsTest {
   @Test
   public void testBoundaryCaseForCircles() {
     // Side by side
-    Shape c1 = new Circle(0 , 0, 1);
-    Shape c2 = new Circle(0 , 2, 1);
+    Shape c1 = new Circle(0 , 0, 10);
+    Shape c2 = new Circle(0 , 20, 10);
     Assert.assertFalse(GeometryUtils.intersects(c1, c2));
 
-    Shape c3 = new Circle(1.9f , 0, 1);
+    Shape c3 = new Circle(19, 0, 10);
     Assert.assertTrue(GeometryUtils.intersects(c1, c3));
     Assert.assertFalse(GeometryUtils.intersects(c2, c3));
   }

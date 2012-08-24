@@ -26,11 +26,11 @@ public class PlaceableWorkplaceObject implements RenderableObject<WorkplaceBackg
 
   SerializableBeanProxy<WorkplaceController> controller;
 
-  public PlaceableWorkplaceObject(Workplace workplace, int x, int y, ImageRenderer renderer, WorkplaceController controller) {
+  public PlaceableWorkplaceObject(WorkplaceDefinition workplaceDefinition, int x, int y, ImageRenderer renderer, WorkplaceController controller) {
     this.renderer = new PlaceableObjectImageRenderer(renderer);
     this.controller = SerializableBeanProxy.getInstance(controller);
     BeanName rendererBeanName = new BeanName(renderer.getClass(), renderer.getBeanName());
-    backgroundElement = new WorkplaceBackgroundElement(workplace, x, y, rendererBeanName);
+    backgroundElement = new WorkplaceBackgroundElement(workplaceDefinition, x, y, rendererBeanName);
   }
 
   public void changeX(int newX) {

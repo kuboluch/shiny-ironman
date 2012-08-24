@@ -6,14 +6,15 @@ import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
+import kniemkiewicz.jqblocks.ingame.content.creature.peon.Peon;
+import kniemkiewicz.jqblocks.ingame.content.creature.peon.PeonController;
+import kniemkiewicz.jqblocks.ingame.content.item.rock.Rock;
+import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.LadderBackground;
 import kniemkiewicz.jqblocks.ingame.object.background.NaturalDirtBackground;
-import kniemkiewicz.jqblocks.ingame.object.peon.Peon;
-import kniemkiewicz.jqblocks.ingame.object.peon.PeonController;
-import kniemkiewicz.jqblocks.ingame.object.rock.Rock;
-import kniemkiewicz.jqblocks.ingame.workplace.Workplace;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
+import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +39,10 @@ public class VillageGenerator {
   WorkplaceController workplaceController;
 
   @Resource
-  Workplace fireplace;
+  WorkplaceDefinition fireplace;
 
   @Resource
-  Workplace sawmill;
+  WorkplaceDefinition sawmill;
 
   @Autowired
   RenderQueue renderQueue;
@@ -85,9 +86,15 @@ public class VillageGenerator {
   void addFallingStars() {
     for (int i = 0; i < 5; i++) {
       Rock rock = new Rock(STARTING_X + Sizes.BLOCK * i, startingY - (20 + 5 * i) * Sizes.BLOCK, false);
-      rock.addTo(renderQueue, movingObjects);
+      addToWorld(rock);
       freeFallController.addCanFall(rock);
     }
+  }
+
+  private boolean addToWorld(DroppableObject dropObject) {
+    if (!movingObjects.add(dropObject)) return false;
+    renderQueue.add(dropObject);
+    return true;
   }
 
   void generateVillage(int villageY) {
@@ -98,7 +105,7 @@ public class VillageGenerator {
     makeHouse(STARTING_X + Sizes.BLOCK * 10, villageY);
     backgrounds.add(sawmill.getPlaceableObject(STARTING_X + Sizes.BLOCK * 10 - sawmill.getBlockWidth() * Sizes.BLOCK / 2, villageY - sawmill.getBlockHeight() * Sizes.BLOCK, workplaceController).getBackgroundElement());
     generateLadders();
-    Assert.executeAndAssert(Peon.createAndRegister(STARTING_X, (int)(villageY - Peon.HEIGHT), peonController) != null);
+    Assert.executeAndAssert(Peon.createAndRegister(STARTING_X, (int) (villageY - Peon.HEIGHT), peonController) != null);
     addFallingStars();
   }
 }
