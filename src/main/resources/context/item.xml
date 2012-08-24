@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+                        http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                        http://www.springframework.org/schema/util
+                        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+    <bean id="constructConstroller" class="kniemkiewicz.jqblocks.ingame.production.ProductionController">
+        <constructor-arg>
+            <list>
+                <ref bean="ladder"/>
+                <ref bean="pickaxe"/>
+                <ref bean="axe"/>
+                <ref bean="bow"/>
+                <ref bean="dirtBlock"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="ladder" class="kniemkiewicz.jqblocks.ingame.item.ItemDefinition">
+        <constructor-arg index="0" value="ladder"/>
+        <constructor-arg index="1" value="Ladder to climb?"/>
+        <constructor-arg index="2" ref="ladderUIRenderer"/>
+        <constructor-arg index="3" ref="ladderItemFactory"/>
+    </bean>
+    <bean id="ladderItemFactory" class="kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderItemFactory"/>
+
+    <bean id="pickaxe" class="kniemkiewicz.jqblocks.ingame.item.ItemDefinition">
+        <constructor-arg index="0" value="pickaxe"/>
+        <constructor-arg index="1" value="Pickaxe"/>
+        <constructor-arg index="2" ref="ladderUIRenderer"/>
+        <constructor-arg index="3" ref="pickaxeItemFactory"/>
+    </bean>
+    <bean id="pickaxeItemFactory" class="kniemkiewicz.jqblocks.ingame.content.item.pickaxe.PickaxeItemFactory"/>
+
+    <bean id="axe" class="kniemkiewicz.jqblocks.ingame.item.ItemDefinition">
+        <constructor-arg index="0" value="rock"/>
+        <constructor-arg index="1" value="Rock to play with"/>
+        <constructor-arg index="2" ref="ladderUIRenderer"/>
+        <constructor-arg index="3" ref="axeItemFactory"/>
+    </bean>
+    <bean id="axeItemFactory" class="kniemkiewicz.jqblocks.ingame.content.item.axe.AxeItemFactory"/>
+
+    <bean id="bow" class="kniemkiewicz.jqblocks.ingame.item.ItemDefinition">
+        <constructor-arg index="0" value="rock"/>
+        <constructor-arg index="1" value="Rock to play with"/>
+        <constructor-arg index="2" ref="ladderUIRenderer"/>
+        <constructor-arg index="3" ref="bowItemFactory"/>
+    </bean>
+    <bean id="bowItemFactory" class="kniemkiewicz.jqblocks.ingame.content.item.bow.BowItemFactory"/>
+
+    <bean id="dirtBlock" class="kniemkiewicz.jqblocks.ingame.item.ItemDefinition">
+        <constructor-arg index="0" value="dirtBlock"/>
+        <constructor-arg index="1" value="Block of dirt, go wild, build yourself a castle :)"/>
+        <constructor-arg index="2" ref="ladderUIRenderer"/>
+        <constructor-arg index="3" ref="dirtBlockItemFactory"/>
+    </bean>
+    <bean id="dirtBlockItemFactory" class="kniemkiewicz.jqblocks.ingame.content.block.dirt.DirtBlockItemFactory"/>
+
+</beans>

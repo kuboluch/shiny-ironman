@@ -1,10 +1,9 @@
 package kniemkiewicz.jqblocks.ingame.resource.renderer;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
-import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
-import kniemkiewicz.jqblocks.ingame.resource.ResourceObject;
+import kniemkiewicz.jqblocks.ingame.resource.item.ResourceObject;
 import kniemkiewicz.jqblocks.ingame.resource.ResourceType;
 import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
 import kniemkiewicz.jqblocks.util.GeometryUtils;

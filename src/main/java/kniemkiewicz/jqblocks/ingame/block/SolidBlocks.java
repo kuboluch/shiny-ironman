@@ -1,14 +1,9 @@
 package kniemkiewicz.jqblocks.ingame.block;
 
 import kniemkiewicz.jqblocks.ingame.*;
-import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
-import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
-import kniemkiewicz.jqblocks.ingame.object.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.ui.info.TimingInfo;
 import kniemkiewicz.jqblocks.util.*;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.XMLPackedSheet;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +13,6 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.*;
 
 /**
  * User: krzysiek

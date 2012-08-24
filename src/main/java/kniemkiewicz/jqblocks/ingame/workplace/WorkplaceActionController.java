@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -42,9 +41,9 @@ public class WorkplaceActionController extends AbstractActionController {
 
   @Override
   protected boolean canPerformAction(int x, int y) {
-    Workplace workplace = findWorkplace(new Rectangle(x, y, Sizes.BLOCK, Sizes.BLOCK));
-    if (workplace == null) return false;
-    return workplace.canInteract();
+    WorkplaceDefinition workplaceDefinition = findWorkplace(new Rectangle(x, y, Sizes.BLOCK, Sizes.BLOCK));
+    if (workplaceDefinition == null) return false;
+    return workplaceDefinition.canInteract();
   }
 
   @Override
@@ -57,8 +56,8 @@ public class WorkplaceActionController extends AbstractActionController {
   protected void startAction() {
     assert completionEffect == null;
     completionEffect = new CompletionEffect(affectedRectangle);
-    Workplace workplace = findWorkplace(affectedRectangle);
-    totalDuration = workplace.getDurationToComplete();
+    WorkplaceDefinition workplaceDefinition = findWorkplace(affectedRectangle);
+    totalDuration = workplaceDefinition.getDurationToComplete();
     remainingDuration = totalDuration;
     renderQueue.add(completionEffect);
   }
@@ -84,8 +83,8 @@ public class WorkplaceActionController extends AbstractActionController {
   @Override
   protected void onAction() {
     if (affectedRectangle != null) {
-      Workplace workplace = findWorkplace(affectedRectangle);
-      workplace.interact();
+      WorkplaceDefinition workplaceDefinition = findWorkplace(affectedRectangle);
+      workplaceDefinition.interact();
     }
   }
 
@@ -102,7 +101,7 @@ public class WorkplaceActionController extends AbstractActionController {
   }
 
   private void handleKeyPressedEvent(KeyPressedEvent event) {
-    if (KeyboardUtils.isInteractKeyPressed(event.getKey())) {
+    if (KeyboardUtils.isInteractKey(event.getKey())) {
       int playerX = Sizes.roundToBlockSizeX(playerController.getPlayer().getShape().getCenterX());
       int playerY = Sizes.roundToBlockSizeY(playerController.getPlayer().getShape().getCenterY());
 
@@ -133,7 +132,7 @@ public class WorkplaceActionController extends AbstractActionController {
     return null;
   }
 
-  private Workplace findWorkplace(Rectangle rect) {
+  private WorkplaceDefinition findWorkplace(Rectangle rect) {
     WorkplaceBackgroundElement wbe = findWorkplaceBackgroundElement(rect);
     if (wbe != null) {
       return wbe.getWorkplace();

@@ -10,7 +10,7 @@ import org.newdawn.slick.Graphics;
  */
 // T should be equal to class implementing this interface. Unfortunately Java does not
 // allow me to force it at compile time.
-public interface RenderableObject<T extends RenderableObject> extends PhysicalObject{
+public interface RenderableObject<T extends RenderableObject> extends PhysicalObject {
 
   enum Layer {
     MINUS_INF,

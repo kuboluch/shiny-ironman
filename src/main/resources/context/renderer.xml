@@ -6,7 +6,6 @@
    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-
     <bean id="pickaxeRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
         <constructor-arg value="images/pickaxe.png"/>
     </bean>
@@ -34,7 +33,7 @@
     <bean id="playerRenderer" class="kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer">
         <constructor-arg ref="playerLeftImage"/>
         <constructor-arg>
-            <util:constant static-field="kniemkiewicz.jqblocks.ingame.object.player.Player.IMAGE_WIDTH"/>
+            <util:constant static-field="kniemkiewicz.jqblocks.ingame.content.player.Player.IMAGE_WIDTH"/>
         </constructor-arg>
     </bean>
 
@@ -44,7 +43,7 @@
 
     <bean id="resourceRenderer" class="kniemkiewicz.jqblocks.ingame.resource.renderer.ResourceRenderer"/>
 
-     <bean id="ladderRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
+    <bean id="ladderRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="ladder"/>
     </bean>

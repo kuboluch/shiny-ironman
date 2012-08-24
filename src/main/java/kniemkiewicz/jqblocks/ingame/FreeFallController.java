@@ -30,6 +30,9 @@ public class FreeFallController {
   @Autowired
   SolidBlocks blocks;
 
+  @Autowired
+  CollisionController collisionController;
+
   public void add(CanFall object) {
     objects.add(Pair.newInstance(object, new SingleAxisMovement(Sizes.MAX_FALL_SPEED, 0, object.getShape().getY(), 0)));
   }
@@ -58,5 +61,14 @@ public class FreeFallController {
       list.add(p.getFirst());
     }
     return list.iterator();
+  }
+
+  public void addObjectsInRectangle(Rectangle rect) {
+    List<PhysicalObject> objects = collisionController.fullSearch(MovingObjects.OBJECT_TYPES, rect);
+    for (PhysicalObject po : objects) {
+      if (po instanceof CanFall) {
+        add((CanFall)po);
+      }
+    }
   }
 }
