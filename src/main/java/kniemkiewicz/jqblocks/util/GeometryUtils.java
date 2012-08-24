@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.util;
 
 import kniemkiewicz.jqblocks.ingame.ui.info.TimingInfo;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
@@ -17,26 +18,54 @@ public final class GeometryUtils {
   }
 
   public static Rectangle getNewBoundingRectangle(Shape shape) {
+    if (shape instanceof Circle) {
+      Circle circle = (Circle) shape;
+      float x = circle.getCenterX();
+      float y = circle.getCenterY();
+      float r = circle.getRadius();
+      return new Rectangle(x - r, y - r, 2 * r, 2 * r);
+    }
+    if (shape instanceof Line) {
+      Line line = (Line) shape;
+      float x1;
+      float x2;
+      if (line.getX2() > line.getX1()) {
+        x1 = line.getX1();
+        x2 = line.getX2();
+      } else {
+        x1 = line.getX2();
+        x2 = line.getX1();
+      }
+      float y1;
+      float y2;
+      if (line.getY2() > line.getY1()) {
+        y1 = line.getY1();
+        y2 = line.getY2();
+      } else {
+        y1 = line.getY2();
+        y2 = line.getY1();
+      }
+      return new Rectangle(x1, y1, x2 - x1, y2 - y1);
+    }
+    if (shape instanceof Rectangle) {
+      Rectangle r = (Rectangle) shape;
+      return new Rectangle(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+    }
+    assert false;
     return new Rectangle(shape.getMinX(), shape.getMinY(), shape.getWidth(), shape.getHeight());
-  }
-
-  public static Rectangle getOpenBoundingRectangle(Shape shape) {
-    // TODO check if width and height can be cutted (shape.width/height <= 2)
-    Rectangle rect = GeometryUtils.getNewBoundingRectangle(shape);
-    rect.setX(rect.getX() + 1);
-    rect.setY(rect.getY() + 1);
-    rect.setWidth(rect.getWidth() - 2);
-    rect.setHeight(rect.getHeight() - 2);
-    return rect;
   }
 
   public static boolean intersects(Shape shape1, Shape shape2) {
     if (!internalIntersects(shape1, shape2)) return false;
+    // This has to be made faster...
+    Rectangle r1 = getBoundingRectangle(shape1);
+    Rectangle r2 = getBoundingRectangle(shape2);
+
     // getX + width is incorrect for lines
-    if (shape1.getMaxX() < shape2.getMinX()) return false;
-    if (shape2.getMaxX() < shape1.getMinX()) return false;
-    if (shape1.getMaxY() < shape2.getMinY()) return false;
-    if (shape2.getMaxY() < shape1.getMinY()) return false;
+    if (getMaxX(r1) < r2.getX()) return false;
+    if (getMaxX(r2) < r1.getX()) return false;
+    if (getMaxY(r1) < r2.getY()) return false;
+    if (getMaxY(r2) < r1.getY()) return false;
     return true;
   }
 
@@ -60,4 +89,13 @@ public final class GeometryUtils {
   public static String toString(Rectangle rect) {
     return "Rect{"+ rect.getX() + "," + rect.getY() + "," + rect.getMaxX() + "," + rect.getMaxY() + "}";
   }
+
+  public static float getMaxX(Rectangle rectangle) {
+    return rectangle.getX() + rectangle.getWidth() - 1;
+  }
+
+  public static float getMaxY(Rectangle rectangle) {
+    return rectangle.getY() + rectangle.getHeight() - 1;
+  }
+
 }

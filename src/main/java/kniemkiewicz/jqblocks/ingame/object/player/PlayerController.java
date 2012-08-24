@@ -73,7 +73,7 @@ public class PlayerController implements InputListener,HealthController<Player> 
       player.setY(player.getY() + delta);
     }
     */
-    Rectangle belowPlayer = new Rectangle(player.getShape().getMinX() + 1, player.getShape().getMaxY() + 2,
+    Rectangle belowPlayer = new Rectangle(player.getShape().getMinX() + 1, GeometryUtils.getMaxY(player.getShape()) + 2,
         player.getShape().getWidth() - 4, 0);
     boolean flying = !blocks.getBlocks().collidesWithNonEmpty(belowPlayer);
     FullXYMovement playerMovement = player.getFullXYMovement();
