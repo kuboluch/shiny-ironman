@@ -1,5 +1,8 @@
 package kniemkiewicz.jqblocks.util;
 
+import kniemkiewicz.jqblocks.ingame.FreeFallController;
+import kniemkiewicz.jqblocks.ingame.HasFullXYMovement;
+
 import java.util.*;
 
 /**
@@ -138,7 +141,7 @@ public final class Collections3 {
     };
   }
 
-  static class MultiIterator {
-
+  public static <T> Iterator<T> iterateOverAll(Iterator<? extends T> it1, Iterator<? extends T> it2) {
+    return iterateOverAllIterators(Arrays.asList(it1, it2).iterator());
   }
 }

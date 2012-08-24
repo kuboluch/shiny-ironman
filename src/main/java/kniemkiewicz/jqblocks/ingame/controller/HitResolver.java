@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.controller;
 
+import kniemkiewicz.jqblocks.ingame.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.object.player.Player;
 import kniemkiewicz.jqblocks.ingame.util.SingleAxisMovement;
@@ -39,17 +40,15 @@ public class HitResolver {
    * TODO: This should be implemented as a common operation on all moving objects
    * Player.getShape has to be partially inside rect. dx and dy give the direction of recent player movement.
    */
-  public static void resolve(Player player, float dx, float dy, Rectangle rect) {
-    //Rectangle shape = GeometryUtils.getOpenBoundingRectangle(player.getShape());
-    Rectangle shape = player.getShape();
-    //if (!GeometryUtils.intersects(rect, shape)) return;
+  public static Decision resolve(HasFullXYMovement ob, float dx, float dy, Rectangle rect) {
+    Rectangle shape = GeometryUtils.getBoundingRectangle(ob.getShape());
     Decision decision = decide(shape, dx, dy, rect);
-    SingleAxisMovement xMovement = player.getFullXYMovement().getXMovement();
-    SingleAxisMovement yMovement = player.getFullXYMovement().getYMovement();
+    SingleAxisMovement xMovement = ob.getFullXYMovement().getXMovement();
+    SingleAxisMovement yMovement = ob.getFullXYMovement().getYMovement();
     switch (decision) {
       case TOP:
         yMovement.setSpeed(0);
-        yMovement.setPos(rect.getMinY() - Player.HEIGHT);
+        yMovement.setPos(rect.getMinY() - rect.getHeight());
         break;
       case BOTTOM:
         yMovement.setSpeed(0);
@@ -57,7 +56,7 @@ public class HitResolver {
         break;
       case LEFT:
         xMovement.setSpeed(0);
-        xMovement.setPos(rect.getMinX() - Player.WIDTH);
+        xMovement.setPos(rect.getMinX() - rect.getWidth());
         break;
       case RIGHT:
         xMovement.setSpeed(0);
@@ -66,10 +65,11 @@ public class HitResolver {
       case IGNORE:
         break;
     }
-    assert xMovement.getPos() > Sizes.MIN_X - Player.WIDTH - 1;
+    assert xMovement.getPos() > Sizes.MIN_X - rect.getWidth() - 1;
     assert xMovement.getPos() < Sizes.MAX_X + 100;
-    assert yMovement.getPos() > Sizes.MIN_Y - Player.HEIGHT - 1;
+    assert yMovement.getPos() > Sizes.MIN_Y - rect.getHeight() - 1;
     assert yMovement.getPos() < Sizes.MAX_Y + 100;
+    return decision;
   }
 
   static Decision decide(Rectangle player, float dx, float dy, Rectangle rect) {

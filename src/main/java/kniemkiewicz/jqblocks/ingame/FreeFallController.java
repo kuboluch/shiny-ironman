@@ -3,7 +3,10 @@ package kniemkiewicz.jqblocks.ingame;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.controller.HitResolver;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
+import kniemkiewicz.jqblocks.ingame.object.player.Player;
+import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import kniemkiewicz.jqblocks.ingame.util.SingleAxisMovement;
+import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import kniemkiewicz.jqblocks.util.Pair;
 import org.newdawn.slick.geom.Rectangle;
@@ -26,6 +29,7 @@ public class FreeFallController {
   }
 
   List<Pair<CanFall, SingleAxisMovement>> objects = new ArrayList<Pair<CanFall, SingleAxisMovement>>();
+  List<HasFullXYMovement> complexObjects = new ArrayList<HasFullXYMovement>();
 
   @Autowired
   SolidBlocks blocks;
@@ -33,8 +37,12 @@ public class FreeFallController {
   @Autowired
   CollisionController collisionController;
 
-  public void add(CanFall object) {
+  public void addCanFall(CanFall object) {
     objects.add(Pair.newInstance(object, new SingleAxisMovement(Sizes.MAX_FALL_SPEED, 0, object.getShape().getY(), 0)));
+  }
+
+  public void addComplex(HasFullXYMovement hasFullXYMovement) {
+    complexObjects.add(hasFullXYMovement);
   }
 
   public void update(int delta) {
@@ -55,19 +63,22 @@ public class FreeFallController {
   }
 
   // TODO: maybe make this smarter
-  Iterator<CanFall> getObjects() {
+  Iterator<QuadTree.HasShape> getSimpleObjects() {
     List<CanFall> list = new ArrayList<CanFall>();
     for (Pair<CanFall, SingleAxisMovement> p : objects) {
       list.add(p.getFirst());
     }
-    return list.iterator();
+    return Collections3.iterateOverAll(list.iterator(), complexObjects.iterator());
   }
+
 
   public void addObjectsInRectangle(Rectangle rect) {
     List<PhysicalObject> objects = collisionController.fullSearch(MovingObjects.OBJECT_TYPES, rect);
     for (PhysicalObject po : objects) {
       if (po instanceof CanFall) {
-        add((CanFall)po);
+        addCanFall((CanFall)po);
+      } else if (!(po instanceof Player) && (po instanceof HasFullXYMovement)) {
+        addComplex((HasFullXYMovement)po);
       }
     }
   }

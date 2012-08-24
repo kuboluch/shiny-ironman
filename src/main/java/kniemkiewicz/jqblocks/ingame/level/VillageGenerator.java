@@ -86,7 +86,7 @@ public class VillageGenerator {
     for (int i = 0; i < 5; i++) {
       Rock rock = new Rock(STARTING_X + Sizes.BLOCK * i, startingY - (20 + 5 * i) * Sizes.BLOCK, false);
       rock.addTo(renderQueue, movingObjects);
-      freeFallController.add(rock);
+      freeFallController.addCanFall(rock);
     }
   }
 
