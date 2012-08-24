@@ -102,7 +102,7 @@ public final class World {
     iters.add(renderQueue.iterateAllObjects());
     iters.add(movingObjects.iterateAll());
     iters.add(updateQueue.iterateAll());
-    iters.add(freeFallController.getObjects());
+    iters.add(freeFallController.getSimpleObjects());
     for (Object ob : Collections3.iterateOverAllIterators(iters.iterator())) {
       // This class is listed in renderQueue but we do not want to serialize it here. It will be saved as part of
       // solidBlocks.
@@ -115,7 +115,7 @@ public final class World {
     stream.writeObject(markIndexes(indexes, renderQueue.iterateAllObjects()));
     stream.writeObject(markIndexes(indexes, movingObjects.iterateAll()));
     stream.writeObject(markIndexes(indexes, updateQueue.iterateAll()));
-    stream.writeObject(markIndexes(indexes, freeFallController.getObjects()));
+    stream.writeObject(markIndexes(indexes, freeFallController.getSimpleObjects()));
     inventory.serializeItems(stream);
     resourceInventory.serializeItems(stream);
     solidBlocks.serializeData(stream);
@@ -162,7 +162,11 @@ public final class World {
         BitSet falling = (BitSet)stream.readObject();
         for (int i = 0; i < falling.size(); i++) {
           if (falling.get(i)) {
-            freeFallController.add((FreeFallController.CanFall) gameObjects.get(i));
+            if (gameObjects.get(i) instanceof FreeFallController.CanFall) {
+              freeFallController.addCanFall((FreeFallController.CanFall) gameObjects.get(i));
+            } else {
+              freeFallController.addComplex((HasFullXYMovement) gameObjects.get(i));
+            }
           }
         }
       }
