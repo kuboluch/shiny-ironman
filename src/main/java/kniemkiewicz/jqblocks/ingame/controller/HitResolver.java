@@ -48,7 +48,7 @@ public class HitResolver {
     switch (decision) {
       case TOP:
         yMovement.setSpeed(0);
-        yMovement.setPos(rect.getY() - shape.getHeight() - 0.01f);
+        yMovement.setPos(rect.getY() - shape.getHeight());
         break;
       case BOTTOM:
         yMovement.setSpeed(0);
@@ -56,7 +56,7 @@ public class HitResolver {
         break;
       case LEFT:
         xMovement.setSpeed(0);
-        xMovement.setPos(rect.getX() - shape.getWidth() - 0.01f);
+        xMovement.setPos(rect.getX() - shape.getWidth());
         break;
       case RIGHT:
         xMovement.setSpeed(0);

@@ -126,6 +126,8 @@ public class PlayerController implements InputListener,HealthController<Player> 
     float newY = yMovement.getPos();
     float dx = newX - x;
     float dy = newY - y;
+    assert Math.abs(dx) < Sizes.BLOCK;
+    assert Math.abs(dy) < Sizes.BLOCK;
     logger.debug(player.toString());
     for (Rectangle r : collidingRectangles) {
       HitResolver.resolve(player, dx, dy, r);

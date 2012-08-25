@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame;
 
 import de.matthiasmann.twl.GUI;
+import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.block.MapView;
 import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.inventory.InventoryController;
@@ -166,7 +167,7 @@ public class MainGameState extends BasicTWLGameState {
   public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
     world.advanceTime(delta);
     // This happens mostly with breakpoints and generally breaks physics.
-    if (delta > 100) return;
+    if (delta > 50) return;
     TimingInfo.Timer t = timingInfo.getTimer("update");
     keyboardInputEventBus.update();
     mouseInputEventBus.update();
