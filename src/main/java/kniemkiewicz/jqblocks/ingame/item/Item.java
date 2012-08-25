@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.item;
 
+import kniemkiewicz.jqblocks.ingame.Renderable;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
@@ -17,7 +18,7 @@ public interface Item extends Serializable {
   // renderItem is used only if getItemRenderer returns false.
   BeanName<? extends ItemRenderer> getItemRenderer();
 
-  public void renderItem(Graphics g, int x, int y, int square_size);
+  BeanName<? extends Renderable> getEquippedItemRenderer();
 
   boolean isLarge();
 

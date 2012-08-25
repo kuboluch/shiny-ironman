@@ -1,5 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.item.rock;
 
+import kniemkiewicz.jqblocks.ingame.ImageRenderer;
+import kniemkiewicz.jqblocks.ingame.Renderable;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
@@ -20,22 +22,19 @@ public class RockItem implements Item {
   }
 
   @Override
-  public void renderItem(Graphics g, int x, int y, int square_size) {
-    int radius = (int) (square_size * 0.4);
-    int diff = square_size / 2 - radius;
-    g.setColor(large ? Rock.LARGE_COLOR : Rock.SMALL_COLOR);
-    g.fillOval(x + diff, y + diff, 2 * radius, 2 * radius);
-    g.setColor(Color.black);
-    g.drawOval(x + diff, y + diff, 2 * radius, 2 * radius);
-  }
-
-  @Override
   public Class<? extends ItemController> getItemController() {
     return RockItemController.class;
   }
 
+  private static final BeanName<ItemRenderer> RENDERER = new BeanName<ItemRenderer>(RockRenderer.class);
+
   @Override
   public BeanName<? extends ItemRenderer> getItemRenderer() {
+    return RENDERER;
+  }
+
+  @Override
+  public BeanName<? extends Renderable> getEquippedItemRenderer() {
     return null;
   }
 

@@ -63,7 +63,8 @@ public class ItemInventory extends AbstractInventory<Item> implements Renderable
 
   final static private String[] ids = {"1", "2","3","4","5","6","7","8","9","0"};
 
-  public void render(Graphics g) {
+
+  private void renderInventory(Graphics g) {
     int x = pointOfView.getWindowWidth() - items.size() * SQUARE_SIZE - (items.size() - 1) * SQUARE_DIST - X_MARGIN;
     int i = 0;
     for (Item item : items) {
@@ -80,17 +81,23 @@ public class ItemInventory extends AbstractInventory<Item> implements Renderable
         g.setColor(Color.lightGray);
       }
       g.drawRoundRect(x, Y_MARGIN, square_size, square_size, SQUARE_ROUNDING);
-      if (item.getItemRenderer() != null) {
-        ItemRenderer<Item> renderer = springBeanProvider.getBean(item.getItemRenderer(), true);
-        renderer.renderItem(item, g, x + SQUARE_ROUNDING, Y_MARGIN + SQUARE_ROUNDING, square_size - 2 * SQUARE_ROUNDING);
-      } else {
-        item.renderItem(g, x + SQUARE_ROUNDING, Y_MARGIN + SQUARE_ROUNDING, square_size - 2 * SQUARE_ROUNDING);
-      }
+      ItemRenderer<Item> renderer = springBeanProvider.getBean(item.getItemRenderer(), true);
+      renderer.renderItem(item, g, x + SQUARE_ROUNDING, Y_MARGIN + SQUARE_ROUNDING, square_size - 2 * SQUARE_ROUNDING);
       g.setColor(Color.black);
       g.drawString(ids[i], x - 5, Y_MARGIN - 4);
       x += SQUARE_DIST + square_size;
       i += 1;
     }
   }
+
+  private void renderEquippedItem(Graphics g) {
+    Item item = getSelectedItem();
+  }
+
+  public void render(Graphics g) {
+    renderInventory(g);
+    renderEquippedItem(g);
+  }
+
 }
 

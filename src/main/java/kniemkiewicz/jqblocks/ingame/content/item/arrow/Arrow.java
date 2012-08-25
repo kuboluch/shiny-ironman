@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.content.item.bow.BowItem;
+import kniemkiewicz.jqblocks.ingame.content.item.bow.BowRenderer;
 import kniemkiewicz.jqblocks.ingame.object.HasSource;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
@@ -48,7 +49,7 @@ public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Ar
 
   @Override
   public void renderObject(Graphics g, PointOfView pov) {
-    g.setColor(BowItem.ARROW_COLOR);
+    g.setColor(BowRenderer.ARROW_COLOR);
     g.setLineWidth(2);
     g.draw(line);
     g.setLineWidth(1);

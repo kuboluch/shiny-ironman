@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.item.axe;
 
 import kniemkiewicz.jqblocks.ingame.ImageRenderer;
+import kniemkiewicz.jqblocks.ingame.Renderable;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
@@ -51,5 +52,7 @@ public class AxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<AxeItem>
   }
 
   @Override
-  public void renderItem(Graphics g, int x, int y, int square_size) {  }
+  public BeanName<? extends Renderable> getEquippedItemRenderer() {
+    return null;
+  }
 }
