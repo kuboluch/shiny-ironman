@@ -99,7 +99,7 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
     if (y0 + height > data[0].length) {
       height = data[0].length - y0;
     }
-    //renderBlocks(g, x0, y0, width, height);
+    renderBlocks(g, x0, y0, width, height);
     renderBorders(g, x0, y0, width, height);
   }
 
