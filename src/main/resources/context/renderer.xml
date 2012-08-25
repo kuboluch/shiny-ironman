@@ -30,6 +30,10 @@
         <constructor-arg value="images/bat.png"/>
     </bean>
 
+    <bean id="batBodyRenderer" class="kniemkiewicz.jqblocks.ingame.ImageRenderer">
+        <constructor-arg value="images/batBody.png"/>
+    </bean>
+
     <bean id="playerRenderer" class="kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer">
         <constructor-arg ref="playerLeftImage"/>
         <constructor-arg>

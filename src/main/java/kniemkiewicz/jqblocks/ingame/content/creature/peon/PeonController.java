@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.World;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
+import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import org.newdawn.slick.Sound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,12 +31,12 @@ public class PeonController implements HealthController<Peon> {
   Sound newPeonSound;
 
   @Override
-  public void killed(Peon object) {
+  public void killed(Peon object, QuadTree.HasShape source) {
     world.killMovingObject(object);
   }
 
   @Override
-  public void damaged(Peon object, Object source, int amount) {
+  public void damaged(Peon object, QuadTree.HasShape source, int amount) {
     //To change body of implemented methods use File | Settings | File Templates.
   }
 

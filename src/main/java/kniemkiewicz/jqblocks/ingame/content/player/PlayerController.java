@@ -9,6 +9,7 @@ import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.LadderBackground;
 import kniemkiewicz.jqblocks.ingame.util.FullXYMovement;
+import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import kniemkiewicz.jqblocks.ingame.util.SingleAxisMovement;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.Collections3;
@@ -126,6 +127,8 @@ public class PlayerController implements InputListener,HealthController<Player> 
     float newY = yMovement.getPos();
     float dx = newX - x;
     float dy = newY - y;
+    //assert Math.abs(dx) < Sizes.BLOCK;
+    //assert Math.abs(dy) < Sizes.BLOCK;
     logger.debug(player.toString());
     for (Rectangle r : collidingRectangles) {
       HitResolver.resolve(player, dx, dy, r);
@@ -161,12 +164,12 @@ public class PlayerController implements InputListener,HealthController<Player> 
   }
 
   @Override
-  public void killed(Player object) {
+  public void killed(Player object, QuadTree.HasShape source) {
     // as for now, Player cannot be killed
   }
 
   @Override
-  public void damaged(Player object, Object source, int amount) {
+  public void damaged(Player object, QuadTree.HasShape source, int amount) {
     if (!underAttackSound.playing()) {
       underAttackSound.play(1, 1);
     }

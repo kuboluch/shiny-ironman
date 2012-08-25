@@ -1,5 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.block.dirt;
 
+import kniemkiewicz.jqblocks.ingame.ImageRenderer;
+import kniemkiewicz.jqblocks.ingame.Renderable;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.block.renderer.DirtBlockTypeRenderer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
@@ -13,23 +15,19 @@ import org.newdawn.slick.Graphics;
  */
 public class DirtBlockItem implements Item, UpdateQueue.ToBeUpdated<DirtBlockItem> {
 
-  public void renderItem(Graphics g, int x, int y, int square_size) {
-    x+= square_size / 10;
-    y+= square_size / 10;
-    square_size = square_size * 9 / 10;
-    g.setColor(DirtBlockTypeRenderer.BROWN);
-    g.fillRoundRect(x, y, square_size, square_size, 5);
-    g.setColor(DirtBlockTypeRenderer.DARK_GREEN);
-    g.drawRoundRect(x, y, square_size, square_size, 5);
-    g.drawRoundRect(x +1, y + 1, square_size - 2, square_size - 2, 5);
-  }
-
   public Class<? extends DirtBlockItemController> getItemController() {
     return DirtBlockItemController.class;
   }
 
+  private static final BeanName<DirtBlockItemRenderer> RENDERER = new BeanName<DirtBlockItemRenderer>(DirtBlockItemRenderer.class);
+
   @Override
   public BeanName<? extends ItemRenderer> getItemRenderer() {
+    return RENDERER;
+  }
+
+  @Override
+  public BeanName<? extends Renderable> getEquippedItemRenderer() {
     return null;
   }
 

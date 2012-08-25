@@ -62,6 +62,9 @@ public final class World {
   @Autowired
   FreeFallController freeFallController;
 
+  @Autowired
+  CollisionController collisionController;
+
   long timestamp = 0;
 
   public void advanceTime(long delta) {
@@ -72,7 +75,7 @@ public final class World {
     return timestamp;
   }
 
-  public void killMovingObject(Object object) {
+  public void killMovingObject(PhysicalObject object) {
     if (object instanceof RenderableObject) {
       renderQueue.remove((RenderableObject) object);
     }
@@ -82,6 +85,7 @@ public final class World {
     if (object instanceof UpdateQueue.ToBeUpdated) {
       updateQueue.remove((UpdateQueue.ToBeUpdated)object);
     }
+    collisionController.remove(MovingObjects.OBJECT_TYPES, object);
   }
 
   BitSet markIndexes(Map<Object, Integer> indexes, Iterator<?> objects) {
@@ -102,7 +106,7 @@ public final class World {
     iters.add(renderQueue.iterateAllObjects());
     iters.add(movingObjects.iterateAll());
     iters.add(updateQueue.iterateAll());
-    iters.add(freeFallController.getObjects());
+    iters.add(freeFallController.getSimpleObjects());
     for (Object ob : Collections3.iterateOverAllIterators(iters.iterator())) {
       // This class is listed in renderQueue but we do not want to serialize it here. It will be saved as part of
       // solidBlocks.
@@ -115,7 +119,7 @@ public final class World {
     stream.writeObject(markIndexes(indexes, renderQueue.iterateAllObjects()));
     stream.writeObject(markIndexes(indexes, movingObjects.iterateAll()));
     stream.writeObject(markIndexes(indexes, updateQueue.iterateAll()));
-    stream.writeObject(markIndexes(indexes, freeFallController.getObjects()));
+    stream.writeObject(markIndexes(indexes, freeFallController.getSimpleObjects()));
     inventory.serializeItems(stream);
     resourceInventory.serializeItems(stream);
     solidBlocks.serializeData(stream);

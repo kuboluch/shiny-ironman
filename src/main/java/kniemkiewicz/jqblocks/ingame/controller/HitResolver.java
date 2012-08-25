@@ -2,7 +2,6 @@ package kniemkiewicz.jqblocks.ingame.controller;
 
 import kniemkiewicz.jqblocks.ingame.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.util.SingleAxisMovement;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.newdawn.slick.geom.Rectangle;
@@ -29,7 +28,7 @@ public class HitResolver {
     return y - shape.getHeight();
   }
 
-  enum Decision {
+  public enum Decision {
     TOP,
     BOTTOM,
     LEFT,
@@ -49,7 +48,7 @@ public class HitResolver {
     switch (decision) {
       case TOP:
         yMovement.setSpeed(0);
-        yMovement.setPos(rect.getY() - rect.getHeight());
+        yMovement.setPos(rect.getY() - shape.getHeight());
         break;
       case BOTTOM:
         yMovement.setSpeed(0);
@@ -57,7 +56,7 @@ public class HitResolver {
         break;
       case LEFT:
         xMovement.setSpeed(0);
-        xMovement.setPos(rect.getX() - rect.getWidth());
+        xMovement.setPos(rect.getX() - shape.getWidth());
         break;
       case RIGHT:
         xMovement.setSpeed(0);

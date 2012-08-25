@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.item;
 
+import kniemkiewicz.jqblocks.ingame.Renderable;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
@@ -18,7 +19,7 @@ public class EmptyItem implements Item {
 
   @Override
   public BeanName<? extends ItemRenderer> getItemRenderer() {
-    return null;
+    return EmptyItemRenderer.RENDERER;
   }
 
   @Override
@@ -29,5 +30,10 @@ public class EmptyItem implements Item {
   @Override
   public boolean isEmpty() {
     return true;
+  }
+
+  @Override
+  public BeanName<? extends Renderable> getEquippedItemRenderer() {
+    return null;
   }
 }

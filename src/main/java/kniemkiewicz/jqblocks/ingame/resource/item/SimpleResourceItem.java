@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.resource.item;
 
+import kniemkiewicz.jqblocks.ingame.Renderable;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.resource.Resource;
@@ -20,9 +21,6 @@ public class SimpleResourceItem implements ResourceItem {
   }
 
   @Override
-  public void renderItem(Graphics g, int x, int y, int square_size) { }
-
-  @Override
   public Class<? extends ItemController> getItemController() {
     return ResourceItemController.class;
   }
@@ -32,6 +30,11 @@ public class SimpleResourceItem implements ResourceItem {
   @Override
   public BeanName<? extends ItemRenderer> getItemRenderer() {
     return RENDERER;
+  }
+
+  @Override
+  public BeanName<? extends Renderable> getEquippedItemRenderer() {
+    return null;
   }
 
   @Override

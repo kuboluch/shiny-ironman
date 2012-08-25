@@ -36,8 +36,9 @@ public class LevelGenerator {
     TimeLog t = new TimeLog();
     Out<Integer> villageY = new Out<Integer>();
     int[] heights = surfaceGenerator.generate(random, villageY);
-    undergroundGenerator.generateRock(random);
     t.logTimeAndRestart("surface generation");
+    undergroundGenerator.generateRock(random);
+    t.logTimeAndRestart("rock generation");
     villageGenerator.generateVillage(villageY.get());
     t.logTimeAndRestart("village generation");
     objectGenerator.generateTrees(random, heights);

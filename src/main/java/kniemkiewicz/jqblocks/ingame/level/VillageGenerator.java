@@ -105,7 +105,7 @@ public class VillageGenerator {
     makeHouse(STARTING_X + Sizes.BLOCK * 10, villageY);
     backgrounds.add(sawmill.getPlaceableObject(STARTING_X + Sizes.BLOCK * 10 - sawmill.getBlockWidth() * Sizes.BLOCK / 2, villageY - sawmill.getBlockHeight() * Sizes.BLOCK, workplaceController).getBackgroundElement());
     generateLadders();
-    Assert.executeAndAssert(Peon.createAndRegister(STARTING_X, (int) (villageY - Peon.HEIGHT), peonController) != null);
+    Assert.executeAndAssert(Peon.createAndRegister(STARTING_X, (int)(villageY - Peon.HEIGHT), peonController) != null);
     addFallingStars();
   }
 }
