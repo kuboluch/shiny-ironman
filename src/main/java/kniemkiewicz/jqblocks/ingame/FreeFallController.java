@@ -46,18 +46,44 @@ public class FreeFallController {
   }
 
   public void update(int delta) {
-    Iterator<Pair<CanFall, SingleAxisMovement>> it = objects.iterator();
-    while (it.hasNext()) {
-      Pair<CanFall, SingleAxisMovement> p = it.next();
-      p.getSecond().setAcceleration(Sizes.G);
-      p.getSecond().update(delta);
-      p.getFirst().setYAndUpdate(p.getSecond().getPos());
-      Rectangle bound = GeometryUtils.getBoundingRectangle(p.getFirst().getShape());
-      List<Rectangle> rectangles = blocks.getBlocks().getIntersectingRectangles(bound);
-      if (rectangles.size() > 0) {
-        float y = HitResolver.resolveSimpleTop(rectangles, p.getFirst().getShape());
-        p.getFirst().setYAndUpdate(y);
-        it.remove();
+    {
+      Iterator<Pair<CanFall, SingleAxisMovement>> it = objects.iterator();
+      while (it.hasNext()) {
+        Pair<CanFall, SingleAxisMovement> p = it.next();
+        p.getSecond().setAcceleration(Sizes.G);
+        p.getSecond().update(delta);
+        p.getFirst().setYAndUpdate(p.getSecond().getPos());
+        Rectangle bound = GeometryUtils.getBoundingRectangle(p.getFirst().getShape());
+        List<Rectangle> rectangles = blocks.getBlocks().getIntersectingRectangles(bound);
+        if (rectangles.size() > 0) {
+          float y = HitResolver.resolveSimpleTop(rectangles, p.getFirst().getShape());
+          p.getFirst().setYAndUpdate(y);
+          it.remove();
+        }
+      }
+    }
+    {
+      Iterator<HasFullXYMovement> it = complexObjects.iterator();
+      while (it.hasNext()) {
+        HasFullXYMovement ob = it.next();
+        ob.getFullXYMovement().getYMovement().setAcceleration(Sizes.G);
+        float x = ob.getFullXYMovement().getX();
+        float y = ob.getFullXYMovement().getY();
+        ob.getFullXYMovement().update(delta);
+        float dx = ob.getFullXYMovement().getX() - x;
+        float dy = ob.getFullXYMovement().getY() - y;
+        ob.updateShape();
+        Rectangle bound = GeometryUtils.getBoundingRectangle(ob.getShape());
+        List<Rectangle> rectangles = blocks.getBlocks().getIntersectingRectangles(bound);
+        boolean deleted = false;
+        for (Rectangle r : rectangles) {
+          HitResolver.Decision decision = HitResolver.resolve(ob, dx, dy, r);
+          ob.updateShape();
+          if (decision == HitResolver.Decision.TOP || !deleted) {
+            it.remove();
+            deleted = true;
+          }
+        }
       }
     }
   }
@@ -75,7 +101,7 @@ public class FreeFallController {
     List<PhysicalObject> objects = collisionController.fullSearch(MovingObjects.OBJECT_TYPES, rect);
     for (PhysicalObject po : objects) {
       if (po instanceof CanFall) {
-        addCanFall((CanFall)po);
+        addCanFall((CanFall) po);
       } else if (!(po instanceof Player) && (po instanceof HasFullXYMovement)) {
         addComplex((HasFullXYMovement)po);
       }

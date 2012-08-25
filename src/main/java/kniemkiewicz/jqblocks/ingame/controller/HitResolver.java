@@ -28,7 +28,7 @@ public class HitResolver {
     return y - shape.getHeight();
   }
 
-  enum Decision {
+  public enum Decision {
     TOP,
     BOTTOM,
     LEFT,

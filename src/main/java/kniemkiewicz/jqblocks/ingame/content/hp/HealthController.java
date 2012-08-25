@@ -1,10 +1,12 @@
 package kniemkiewicz.jqblocks.ingame.content.hp;
 
+import kniemkiewicz.jqblocks.ingame.util.QuadTree;
+
 /**
  * User: krzysiek
  * Date: 19.08.12
  */
 public interface HealthController<T extends HasHealthPoints> {
-  void killed(T object);
-  void damaged(T object, Object source, int amount);
+  void killed(T object, QuadTree.HasShape source);
+  void damaged(T object, QuadTree.HasShape source, int amount);
 }

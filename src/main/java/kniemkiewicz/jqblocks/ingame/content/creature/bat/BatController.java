@@ -1,14 +1,13 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.bat;
 
-import kniemkiewicz.jqblocks.ingame.CollisionController;
-import kniemkiewicz.jqblocks.ingame.MovingObjects;
-import kniemkiewicz.jqblocks.ingame.World;
+import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
-import kniemkiewicz.jqblocks.ingame.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.object.HasSource;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
+import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import kniemkiewicz.jqblocks.ingame.util.SingleAxisMovement;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +31,12 @@ public class BatController implements UpdateQueue.UpdateController<Bat>, HealthC
 
   @Autowired
   World world;
+
+  @Autowired
+  RenderQueue renderQueue;
+
+  @Autowired
+  FreeFallController freeFallController;
 
   public static int BITE_DMG = 20;
 
@@ -64,10 +69,19 @@ public class BatController implements UpdateQueue.UpdateController<Bat>, HealthC
   }
 
   @Override
-  public void killed(Bat object) {
+  public void killed(Bat object, QuadTree.HasShape source) {
     world.killMovingObject(object);
+    float x;
+    if (source instanceof HasSource) {
+      x = ((HasSource) source).getSource().getShape().getCenterX();
+    } else {
+      x = source.getShape().getCenterX();
+    }
+    BatBody body = new BatBody(object.getMovement().getX(), object.getMovement().getY(),
+        (x <  object.getMovement().getX()) ? 1 : -1);
+    body.addTo(renderQueue, freeFallController);
   }
 
   @Override
-  public void damaged(Bat object, Object source, int amount) { }
+  public void damaged(Bat object, QuadTree.HasShape source, int amount) { }
 }

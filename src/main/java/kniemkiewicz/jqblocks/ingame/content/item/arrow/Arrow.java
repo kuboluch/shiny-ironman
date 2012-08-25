@@ -4,8 +4,10 @@ import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.content.item.bow.BowItem;
+import kniemkiewicz.jqblocks.ingame.object.HasSource;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import kniemkiewicz.jqblocks.ingame.util.SingleAxisMovement;
 import kniemkiewicz.jqblocks.util.BeanName;
 import kniemkiewicz.jqblocks.util.SerializationUtils2;
@@ -21,7 +23,7 @@ import java.io.ObjectOutputStream;
  * User: knie
  * Date: 7/21/12
  */
-public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Arrow> {
+public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Arrow>,HasSource {
 
   private static final long serialVersionUID = 1;
 
@@ -29,10 +31,10 @@ public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Ar
   SingleAxisMovement xMovement;
   SingleAxisMovement yMovement;
   //TODO: fix this, we need global object ids or something like that.
-  transient Object source;
+  transient QuadTree.HasShape source;
   private static int LENGTH = Sizes.BLOCK;
 
-  public Arrow(float x, float y, Object source, float xSpeed, float ySpeed) {
+  public Arrow(float x, float y, QuadTree.HasShape source, float xSpeed, float ySpeed) {
     this.line = new Line(x, y, x, y);
     xMovement = new SingleAxisMovement(2 * xSpeed, xSpeed, x, 0);
     yMovement = new SingleAxisMovement(Sizes.MAX_FALL_SPEED, ySpeed, y, 0);
@@ -84,7 +86,7 @@ public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Ar
     return yMovement;
   }
 
-  public Object getSource() {
+  public QuadTree.HasShape getSource() {
     return source;
   }
 

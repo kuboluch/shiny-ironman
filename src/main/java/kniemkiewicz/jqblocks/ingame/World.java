@@ -62,6 +62,9 @@ public final class World {
   @Autowired
   FreeFallController freeFallController;
 
+  @Autowired
+  CollisionController collisionController;
+
   long timestamp = 0;
 
   public void advanceTime(long delta) {
@@ -72,7 +75,7 @@ public final class World {
     return timestamp;
   }
 
-  public void killMovingObject(Object object) {
+  public void killMovingObject(PhysicalObject object) {
     if (object instanceof RenderableObject) {
       renderQueue.remove((RenderableObject) object);
     }
@@ -82,6 +85,7 @@ public final class World {
     if (object instanceof UpdateQueue.ToBeUpdated) {
       updateQueue.remove((UpdateQueue.ToBeUpdated)object);
     }
+    collisionController.remove(MovingObjects.OBJECT_TYPES, object);
   }
 
   BitSet markIndexes(Map<Object, Integer> indexes, Iterator<?> objects) {

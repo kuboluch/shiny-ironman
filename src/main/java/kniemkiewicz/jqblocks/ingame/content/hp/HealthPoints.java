@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.hp;
 
 import kniemkiewicz.jqblocks.ingame.World;
+import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 
 import java.io.Serializable;
 import java.util.WeakHashMap;
@@ -27,11 +28,11 @@ public class HealthPoints implements Serializable {
     this.object = object;
   }
 
-  public void damage(int dmg, Object source, World world) {
+  public void damage(int dmg, QuadTree.HasShape source, World world) {
     currentHp -= dmg;
     if (currentHp <= 0) {
       currentHp = 0;
-      world.getSpringBeanProvider().<HealthController>getBean(object.getHealthController(), true).killed(object);
+      world.getSpringBeanProvider().<HealthController>getBean(object.getHealthController(), true).killed(object, source);
     } else {
       world.getSpringBeanProvider().<HealthController>getBean(object.getHealthController(), true).damaged(object, source, dmg);
     }
@@ -47,7 +48,7 @@ public class HealthPoints implements Serializable {
 
   transient WeakHashMap<Object, Long> attackers;
 
-  public void damageRateLimited(Object attacker, int biteDmg, long delta, World world) {
+  public void damageRateLimited(QuadTree.HasShape attacker, int biteDmg, long delta, World world) {
     if (attackers == null) {
       attackers = new WeakHashMap<Object, Long>();
     }
