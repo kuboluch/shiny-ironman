@@ -100,10 +100,10 @@ public class VillageGenerator {
   void generateVillage(int villageY) {
     startingY = villageY;
     makeHouse(STARTING_X, villageY);
-    backgrounds.add(fireplace.getPlaceableObject(STARTING_X - fireplace.getBlockWidth() * Sizes.BLOCK / 2, villageY - fireplace.getBlockHeight() * Sizes.BLOCK, workplaceController).getBackgroundElement());
+    backgrounds.add(fireplace.getPlaceableObject(STARTING_X - fireplace.getWidth() / 2, villageY - fireplace.getHeight(), workplaceController).getBackgroundElement());
     makeHouse(STARTING_X - Sizes.BLOCK * 10, villageY);
     makeHouse(STARTING_X + Sizes.BLOCK * 10, villageY);
-    backgrounds.add(sawmill.getPlaceableObject(STARTING_X + Sizes.BLOCK * 10 - sawmill.getBlockWidth() * Sizes.BLOCK / 2, villageY - sawmill.getBlockHeight() * Sizes.BLOCK, workplaceController).getBackgroundElement());
+    backgrounds.add(sawmill.getPlaceableObject(STARTING_X + Sizes.BLOCK * 10 - sawmill.getWidth() / 2, villageY - sawmill.getHeight(), workplaceController).getBackgroundElement());
     generateLadders();
     Assert.executeAndAssert(Peon.createAndRegister(STARTING_X, (int)(villageY - Peon.HEIGHT), peonController) != null);
     addFallingStars();

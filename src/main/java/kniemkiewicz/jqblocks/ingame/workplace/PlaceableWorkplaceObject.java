@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.workplace;
 
-import kniemkiewicz.jqblocks.ingame.ImageRenderer;
+import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;

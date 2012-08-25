@@ -2,7 +2,7 @@ package kniemkiewicz.jqblocks.ingame.item;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
-import kniemkiewicz.jqblocks.ingame.Renderable;
+import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.content.block.dirt.DirtBlockItem;
 import kniemkiewicz.jqblocks.ingame.content.item.axe.AxeItem;

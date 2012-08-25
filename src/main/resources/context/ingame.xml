@@ -12,7 +12,6 @@
   <import resource="images.xml"/>
   <import resource="renderer.xml"/>
   <import resource="sounds.xml"/>
-  <import resource="ui.xml"/>
   <import resource="item.xml"/>
   <import resource="workplace.xml"/>
 

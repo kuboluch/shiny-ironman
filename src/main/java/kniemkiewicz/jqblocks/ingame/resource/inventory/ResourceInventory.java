@@ -2,7 +2,7 @@ package kniemkiewicz.jqblocks.ingame.resource.inventory;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
-import kniemkiewicz.jqblocks.ingame.Renderable;
+import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
 import kniemkiewicz.jqblocks.ingame.inventory.AbstractInventory;
 import kniemkiewicz.jqblocks.ingame.inventory.Inventory;
 import kniemkiewicz.jqblocks.ingame.item.EmptyItem;

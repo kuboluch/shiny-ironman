@@ -3,26 +3,28 @@ package kniemkiewicz.jqblocks.ingame.ui.widget;
 import de.matthiasmann.twl.Event;
 import de.matthiasmann.twl.ResizableFrame;
 import de.matthiasmann.twl.renderer.AnimationState;
+import kniemkiewicz.jqblocks.ingame.ui.widget.model.PanelItemModel;
 
 /**
  * User: qba
  * Date: 20.08.12
  */
-public class SelectableObject<T extends Selectable> extends ResizableFrame {
+public class SelectablePanelItem<T extends PanelItemModel> extends ResizableFrame {
 
   public static final AnimationState.StateKey STATE_HOVER = AnimationState.StateKey.get("hover");
   public static final AnimationState.StateKey STATE_SELECTED = AnimationState.StateKey.get("selected");
 
   T object;
-
   Icon icon;
 
-  public SelectableObject(T object) {
+  public SelectablePanelItem(T object, int width, int height) {
     assert object != null;
+    assert width > 0;
+    assert height > 0;
     this.object = object;
     this.setResizableAxis(ResizableFrame.ResizableAxis.NONE);
-    this.icon = new Icon(object.getUIImage());
-    add(icon);
+    this.icon = new Icon(object.getImage(), width, height);
+    add(this.icon);
     setTooltipContent(object.getName() + ": " + object.getDescription());
   }
 
@@ -60,8 +62,8 @@ public class SelectableObject<T extends Selectable> extends ResizableFrame {
       }
 
       if (eventType == Event.Type.MOUSE_CLICKED) {
-        if (getParent() instanceof SelectObjectPanel) {
-          SelectObjectPanel panel = (SelectObjectPanel) getParent();
+        if (getParent() instanceof SelectItemPanel) {
+          SelectItemPanel panel = (SelectItemPanel) getParent();
           panel.select(this);
         }
       }

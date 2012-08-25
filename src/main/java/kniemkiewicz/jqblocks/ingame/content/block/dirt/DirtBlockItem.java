@@ -1,14 +1,12 @@
 package kniemkiewicz.jqblocks.ingame.content.block.dirt;
 
-import kniemkiewicz.jqblocks.ingame.ImageRenderer;
-import kniemkiewicz.jqblocks.ingame.Renderable;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
-import kniemkiewicz.jqblocks.ingame.block.renderer.DirtBlockTypeRenderer;
 import kniemkiewicz.jqblocks.ingame.item.EmptyItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
+import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
 import kniemkiewicz.jqblocks.util.BeanName;
-import org.newdawn.slick.Graphics;
 
 /**
  * User: krzysiek
@@ -20,7 +18,7 @@ public class DirtBlockItem implements Item, UpdateQueue.ToBeUpdated<DirtBlockIte
     return DirtBlockItemController.class;
   }
 
-  private static final BeanName<DirtBlockItemRenderer> RENDERER = new BeanName<DirtBlockItemRenderer>(DirtBlockItemRenderer.class);
+  private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(ImageRenderer.class, "dirtBlockRenderer");
 
   @Override
   public BeanName<? extends ItemRenderer> getItemRenderer() {

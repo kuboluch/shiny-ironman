@@ -4,7 +4,7 @@ import de.matthiasmann.twl.GUI;
 import kniemkiewicz.jqblocks.ingame.MainGameState;
 import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.controller.SaveGameListener;
-import kniemkiewicz.jqblocks.ingame.ui.renderer.Image;
+import kniemkiewicz.jqblocks.ingame.ui.Initializable;
 import kniemkiewicz.jqblocks.twl.BasicTWLGameState;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -82,9 +82,9 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
 
   @Override
   public void onGuiInit(GUI gui) {
-    Map<String, Image> imageMap = stateApplicationContext.getBeansOfType(Image.class);
-    for (Image image : imageMap.values()) {
-      image.init(gui);
+    Map<String, Initializable> initMap = stateApplicationContext.getBeansOfType(Initializable.class);
+    for (Initializable initializable : initMap.values()) {
+      initializable.init(gui);
     }
   }
 

@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.ingame.content.transport.ladder;
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.object.*;
+import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -20,7 +21,7 @@ public class Ladder implements RenderableObject<Ladder>, PickableObject, MovingP
     this.rectangle = new Rectangle(Sizes.roundToBlockSizeX(x), Sizes.roundToBlockSizeY(y), Sizes.BLOCK * 2, Sizes.BLOCK * 2);
   }
 
-  // Do not add objects manually. Using this method makes sure you won't forget any part.
+  // Do not add panelItems manually. Using this method makes sure you won't forget any part.
   public boolean addTo(MovingObjects movingObjects, RenderQueue renderQueue) {
     if (!movingObjects.add(this)) return false;
     renderQueue.add(this);

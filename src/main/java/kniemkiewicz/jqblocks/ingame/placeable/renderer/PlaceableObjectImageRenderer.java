@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.placeable.renderer;
 
-import kniemkiewicz.jqblocks.ingame.ImageRenderer;
+import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.workplace.PlaceableWorkplaceObject;

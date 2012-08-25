@@ -1,13 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.content.item.bow;
 
-import kniemkiewicz.jqblocks.ingame.ImageRenderer;
-import kniemkiewicz.jqblocks.ingame.Renderable;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
 import kniemkiewicz.jqblocks.util.BeanName;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
 
 /**
  * User: knie

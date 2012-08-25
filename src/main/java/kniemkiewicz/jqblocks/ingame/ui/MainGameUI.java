@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.ui;
 
+import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.production.ProductionController;
 import kniemkiewicz.jqblocks.ingame.ui.produce.ProductionUI;
 import kniemkiewicz.jqblocks.ingame.ui.workplace.WorkplaceUI;
@@ -19,6 +20,9 @@ public class MainGameUI {
   @Autowired
   ProductionController productionController;
 
+  @Autowired
+  EventBus eventBus;
+
   private WorkplaceUI workplaceUI;
   private ProductionUI productionUI;
 
@@ -26,7 +30,7 @@ public class MainGameUI {
     this.rootPane = rootPane;
 
     workplaceUI = new WorkplaceUI(workplaceController);
-    productionUI = new ProductionUI(productionController);
+    productionUI = new ProductionUI(productionController, eventBus);
 
     rootPane.add(workplaceUI);
     rootPane.add(productionUI);

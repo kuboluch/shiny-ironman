@@ -347,16 +347,22 @@
         <alias name="nohscrollbar.upbutton.background" ref="none"/>
         <alias name="novscrollbar.upbutton.background" ref="none"/>
 
-        <composed name="selectableobject.background" border="5">
+        <composed name="selectablepanelitem.background" border="5">
             <alias ref="none"/>
             <alias ref="white" if="hover" tint="#80FFFFFF"/>
             <alias ref="white" if="selected" tint="#FFFFFFFF"/>
         </composed>
 
-        <composed name="selectableproduceobject.background" border="5">
+        <composed name="selectablepanelitem-production.background" border="5">
             <alias ref="none"/>
             <alias ref="white" if="hover" tint="#8000FF00"/>
             <alias ref="white" if="selected" tint="#FF00FF00"/>
+        </composed>
+
+        <composed name="resourcerequirementpanelitem.background" border="5">
+            <alias ref="none"/>
+            <alias ref="white" if="fulfilled" tint="#FF00FF00"/>
+            <alias ref="white" if="notfulfilled" tint="#FFFF0000"/>
         </composed>
     </images>
 
@@ -1002,21 +1008,27 @@
         <param name="titleAreaBottom"><int>0</int></param>
     </theme>
 
-    <theme name="selectobjectpanel-title" ref="noframe-title" allowWildcard="true"/>
-    <theme name="selectobjectpanel" ref="noframe" allowWildcard="true"/>
-    <theme name="selectableobject" ref="resizableframe" allowWildcard="true">
-        <param name="background"><image>selectableobject.background</image></param>
+    <theme name="selectitempanel-title" ref="noframe-title" allowWildcard="true"/>
+    <theme name="selectitempanel" ref="noframe" allowWildcard="true"/>
+    <theme name="selectablepanelitem" ref="resizableframe" allowWildcard="true">
+        <param name="background"><image>selectablepanelitem.background</image></param>
     </theme>
 
-    <theme name="workplaceselectpanel" ref="selectobjectpanel" allowWildcard="true"/>
+    <theme name="workplaceselectpanel" ref="selectitempanel" allowWildcard="true"/>
 
-    <theme name="produceselectpanel-title" ref="noframe-title" allowWildcard="true"/>
-    <theme name="produceselectpanel" ref="noframe" allowWildcard="true"/>
-    <theme name="selectableproduceobject" ref="resizableframe" allowWildcard="true">
-        <param name="background"><image>selectableproduceobject.background</image></param>
+    <theme name="productionselectpanel-title" ref="noframe-title" allowWildcard="true"/>
+    <theme name="productionselectpanel" ref="noframe" allowWildcard="true"/>
+    <theme name="selectablepanelitem-production" ref="resizableframe" allowWildcard="true">
+        <param name="background"><image>selectablepanelitem-production.background</image></param>
     </theme>
-    <theme name="selecteditempanel-title" ref="noframe-title" allowWildcard="true"/>
-    <theme name="selecteditempanel" ref="noframe" allowWildcard="true"/>
+    <theme name="selectedproductionpanel-title" ref="noframe-title" allowWildcard="true"/>
+    <theme name="selectedproductionpanel" ref="noframe" allowWildcard="true"/>
+
+    <theme name="productionrequirementspanel-title" ref="noframe-title" allowWildcard="true"/>
+    <theme name="productionrequirementspanel" ref="noframe" allowWildcard="true"/>
+    <theme name="resourcerequirementpanelitem" ref="resizableframe" allowWildcard="true">
+        <param name="background"><image>resourcerequirementpanelitem.background</image></param>
+    </theme>
 
     <theme name="icon" ref="-defaults" allowWildcard="true">
         <!--<param name="background"><image>-borderA</image></param>-->

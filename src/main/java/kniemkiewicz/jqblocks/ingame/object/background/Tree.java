@@ -1,10 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.object.background;
 
-import kniemkiewicz.jqblocks.ingame.ImageRenderer;
+import kniemkiewicz.jqblocks.ingame.content.resource.Wood;
+import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.content.item.axe.AxeItem;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
-import kniemkiewicz.jqblocks.ingame.resource.Wood;
 import kniemkiewicz.jqblocks.util.BeanName;
 
 /**

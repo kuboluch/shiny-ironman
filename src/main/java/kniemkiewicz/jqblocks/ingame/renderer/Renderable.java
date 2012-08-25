@@ -1,4 +1,4 @@
-package kniemkiewicz.jqblocks.ingame;
+package kniemkiewicz.jqblocks.ingame.renderer;
 
 import org.newdawn.slick.Graphics;
 

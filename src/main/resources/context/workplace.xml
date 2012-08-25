@@ -24,33 +24,30 @@
     </bean>
 
     <bean id="fireplace" class="kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition">
-        <constructor-arg value="fireplace"/>
-        <constructor-arg value="Place with fire?"/>
-        <constructor-arg value="4"/>
-        <constructor-arg value="3"/>
-        <constructor-arg ref="fireplaceRenderer"/>
-        <constructor-arg ref="fireplaceUIRenderer"/>
-        <constructor-arg ref="nullActionController"/>
+        <property name="name" value="fireplace"/>
+        <property name="description" value="Place with fire?"/>
+        <property name="blockWidth" value="4"/>
+        <property name="blockHeight" value="3"/>
+        <property name="renderer" ref="fireplaceRenderer"/>
+        <property name="actionController" ref="nullActionController"/>
     </bean>
 
     <bean id="sawmill" class="kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition">
-        <constructor-arg value="sawmill"/>
-        <constructor-arg value="You can cut log into wood"/>
-        <constructor-arg value="4"/>
-        <constructor-arg value="3"/>
-        <constructor-arg ref="sawmillRenderer"/>
-        <constructor-arg ref="sawmillUIRenderer"/>
-        <constructor-arg ref="woodProcessController"/>
+        <property name="name" value="sawmill"/>
+        <property name="description" value="You can cut log into wood"/>
+        <property name="blockWidth" value="4"/>
+        <property name="blockHeight" value="3"/>
+        <property name="renderer" ref="sawmillRenderer"/>
+        <property name="actionController" ref="woodProcessController"/>
     </bean>
 
     <bean id="carpenter" class="kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition">
-        <constructor-arg value="sawmill"/>
-        <constructor-arg value="You can cut log into wood"/>
-        <constructor-arg value="4"/>
-        <constructor-arg value="3"/>
-        <constructor-arg ref="fireplaceRenderer"/>
-        <constructor-arg ref="fireplaceUIRenderer"/>
-        <constructor-arg ref="craftsmanController"/>
+        <property name="name" value="sawmill"/>
+        <property name="description" value="You can cut log into wood"/>
+        <property name="blockWidth" value="4"/>
+        <property name="blockHeight" value="3"/>
+        <property name="renderer" ref="fireplaceRenderer"/>
+        <property name="actionController" ref="craftsmanController"/>
     </bean>
 
     <bean id="fireplace3" parent="fireplace"/>

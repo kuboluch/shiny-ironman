@@ -1,10 +1,14 @@
-package kniemkiewicz.jqblocks.ingame;
+package kniemkiewicz.jqblocks.ingame.renderer;
 
+import de.matthiasmann.twl.GUI;
+import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.util.FlippingImage;
+import kniemkiewicz.jqblocks.ingame.ui.Initializable;
+import kniemkiewicz.jqblocks.ingame.ui.renderer.TwlImage;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.BeanNameAware;

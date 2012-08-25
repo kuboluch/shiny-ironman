@@ -14,6 +14,7 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
+import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemInventory;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObject;
@@ -64,6 +65,14 @@ public class InventoryController implements EventListener {
   @Autowired
   World objectKiller;
 
+  public void addItem(Item item) {
+    if(!inventory.add(item)) {
+      int playerX = (int) playerController.getPlayer().getShape().getCenterX();
+      int playerY = (int) playerController.getPlayer().getShape().getCenterY();
+      dropItem(item, playerX, playerY);
+    }
+  }
+
   @Override
   public List<Class> getEventTypesOfInterest() {
     return Arrays.asList((Class) InputEvent.class, (Class) ScreenMovedEvent.class);
@@ -110,10 +119,10 @@ public class InventoryController implements EventListener {
     }
 
     if (KeyboardUtils.isDownKey(e.getKey())) {
-      PickableObject resourceObject = findNearestPickableObject();
-      if (resourceObject != null) {
-        if (inventory.add(resourceObject.getItem())) {
-          objectKiller.killMovingObject(resourceObject);
+      PickableObject object = findNearestPickableObject();
+      if (object != null) {
+        if (inventory.add(object.getItem())) {
+          objectKiller.killMovingObject(object);
           e.consume();
         }
       }
@@ -122,7 +131,7 @@ public class InventoryController implements EventListener {
 
   private void handleMouseRightClickEvent(MousePressedEvent e) {
     if (!KeyboardUtils.isResourceInventoryKeyPressed(inputContainer.getInput())) {
-      if (dropItem(e.getLevelX(), e.getLevelY())) {
+      if (dropItem(inventory.getSelectedItem(), e.getLevelX(), e.getLevelY())) {
         e.consume();
         return;
       }
@@ -160,13 +169,13 @@ public class InventoryController implements EventListener {
     return true;
   }
 
-  private boolean dropItem(int x, int y) {
-    if (inventory.getSelectedItem() == null) return false;
+  private boolean dropItem(Item item, int x, int y) {
+    if (item == null) return false;
     if (!AbstractActionController.isInRange(x, y, playerController.getPlayer(), DROP_RANGE)) return false;
-    Class<? extends ItemController> clazz = inventory.getSelectedItem().getItemController();
+    Class<? extends ItemController> clazz = item.getItemController();
     if (clazz == null) return false;
     ItemController controller = provider.getBean(clazz, true);
-    DroppableObject dropObject = controller.getObject(inventory.getSelectedItem(), x, y);
+    DroppableObject dropObject = controller.getObject(item, x, y);
     if (dropObject == null) return false;
     dropObject(dropObject);
     inventory.removeSelectedItem();

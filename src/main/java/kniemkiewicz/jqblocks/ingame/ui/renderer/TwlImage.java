@@ -4,6 +4,7 @@ import de.matthiasmann.twl.Color;
 import de.matthiasmann.twl.GUI;
 import de.matthiasmann.twl.renderer.AnimationState;
 import kniemkiewicz.jqblocks.ingame.ui.ImageUtils;
+import kniemkiewicz.jqblocks.ingame.ui.Initializable;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -12,7 +13,7 @@ import javax.annotation.PostConstruct;
  * User: qba
  * Date: 06.08.12
  */
-public class Image implements de.matthiasmann.twl.renderer.Image {
+public class TwlImage implements de.matthiasmann.twl.renderer.Image, Initializable {
 
   private boolean initialized = false;
 
@@ -23,13 +24,15 @@ public class Image implements de.matthiasmann.twl.renderer.Image {
   private int imageWidth = -1;
   private int imageHeight = -1;
 
-  public Image(String imagePath) {
+  public TwlImage(String imagePath) {
     this.imagePath = imagePath;
   }
 
   public void init(GUI gui) {
-    image = ImageUtils.loadImage(gui, imagePath);
-    initialized = true;
+    if (!initialized) {
+      image = ImageUtils.loadImage(gui, imagePath);
+      initialized = true;
+    }
   }
 
   @Override

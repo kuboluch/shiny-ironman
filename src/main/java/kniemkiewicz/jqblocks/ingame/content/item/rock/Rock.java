@@ -17,7 +17,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
- * Rocks are mostly a test subject to check if picking up objects works.
+ * Rocks are mostly a test subject to check if picking up panelItems works.
  * User: knie
  * Date: 7/25/12
  */

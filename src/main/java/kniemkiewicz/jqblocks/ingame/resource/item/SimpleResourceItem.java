@@ -1,12 +1,11 @@
 package kniemkiewicz.jqblocks.ingame.resource.item;
 
-import kniemkiewicz.jqblocks.ingame.Renderable;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
 import kniemkiewicz.jqblocks.ingame.resource.Resource;
 import kniemkiewicz.jqblocks.ingame.resource.renderer.ResourceRenderer;
 import kniemkiewicz.jqblocks.util.BeanName;
-import org.newdawn.slick.Graphics;
 
 /**
  * User: knie

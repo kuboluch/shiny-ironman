@@ -1,7 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.ui.produce;
 
+import de.matthiasmann.twl.Button;
 import de.matthiasmann.twl.ResizableFrame;
 import de.matthiasmann.twl.ScrollPane;
+import kniemkiewicz.jqblocks.ingame.event.Event;
+import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.production.ProductionController;
 
 /**
@@ -12,13 +15,18 @@ public class ProductionUI extends ResizableFrame {
 
   private final static int HEIGHT = 200;
   private final static int GAP_WIDTH = 20;
+  private final static int GAP_HEIGHT = 10;
+  private final static int ICON_SIZE = 40;
 
   private ScrollPane scrollPane;
   private ProductionSelectPanel productionSelectPanel;
-  private SelectedItemPanel selectedItemPanel;
+  private SelectedProductionPanel selectedProductionPanel;
+  private Button productionButton;
+  private ProductionRequirementsPanel productionRequirementsPanel;
 
-  public ProductionUI(ProductionController productionController) {
-    productionSelectPanel = new ProductionSelectPanel(productionController);
+  public ProductionUI(final ProductionController productionController, EventBus eventBus) {
+    // Select item for production
+    productionSelectPanel = new ProductionSelectPanel(productionController.getItemDefinitions());
     scrollPane = new ScrollPane(productionSelectPanel);
     scrollPane.setVisible(true);
     scrollPane.setFixed(ScrollPane.Fixed.HORIZONTAL);
@@ -29,9 +37,32 @@ public class ProductionUI extends ResizableFrame {
     //setTheme("noframe");
     setTheme("resizableframe");
     add(scrollPane);
-    selectedItemPanel = new SelectedItemPanel();
-    productionSelectPanel.addSelectListener(selectedItemPanel);
-    add(selectedItemPanel);
+
+    // Selected item view
+    selectedProductionPanel = new SelectedProductionPanel(ICON_SIZE, ICON_SIZE);
+    add(selectedProductionPanel);
+
+    // Produce button
+    productionButton = new Button();
+    productionButton.setText("Produce");
+    productionButton.addCallback(new Runnable() {
+      @Override
+      public void run() {
+        if (productionController.getSelectedItem() != null) {
+          productionController.produce();
+        }
+      }
+    });
+    add(productionButton);
+
+    // Production requirements
+    productionRequirementsPanel = new ProductionRequirementsPanel();
+    add(productionRequirementsPanel);
+
+    productionSelectPanel.addSelectListener(selectedProductionPanel);
+    productionSelectPanel.addSelectListener(productionController);
+    productionSelectPanel.addSelectListener(productionRequirementsPanel);
+    eventBus.addListener(productionRequirementsPanel);
   }
 
   @Override
@@ -39,13 +70,20 @@ public class ProductionUI extends ResizableFrame {
     super.layout();
     productionSelectPanel.adjustSize();
     scrollPane.setSize(productionSelectPanel.getPreferredWidth(), HEIGHT);
-    selectedItemPanel.adjustSize();
-    selectedItemPanel.setPosition(getInnerX() + productionSelectPanel.getWidth() + GAP_WIDTH, getInnerY() + (HEIGHT - selectedItemPanel.getHeight()) / 2);
+    selectedProductionPanel.adjustSize();
+    selectedProductionPanel.setPosition(getInnerX() + productionSelectPanel.getWidth() + GAP_WIDTH, getInnerY() + (HEIGHT - selectedProductionPanel.getHeight()) / 2);
+    productionButton.adjustSize();
+    productionButton.setPosition(selectedProductionPanel.getX(), selectedProductionPanel.getY() + selectedProductionPanel.getHeight() + GAP_HEIGHT);
+    productionRequirementsPanel.adjustSize();
+    productionRequirementsPanel.setPosition(getInnerX() + productionSelectPanel.getWidth() + GAP_WIDTH + selectedProductionPanel.getWidth() + GAP_WIDTH, getInnerY());
   }
 
   @Override
   public int getPreferredInnerWidth() {
-    return productionSelectPanel.getPreferredWidth() + GAP_WIDTH + selectedItemPanel.getPreferredWidth();
+    int preferredWidth = productionSelectPanel.getPreferredWidth();
+    preferredWidth += GAP_WIDTH + selectedProductionPanel.getPreferredWidth();
+    preferredWidth += GAP_WIDTH + productionRequirementsPanel.getPreferredWidth();
+    return preferredWidth;
   }
 
   @Override

@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame;
 
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
 import kniemkiewicz.jqblocks.util.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;

@@ -13,6 +13,7 @@ import org.newdawn.slick.XMLPackedSheet;
 import org.newdawn.slick.geom.Rectangle;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * User: qba
@@ -21,7 +22,13 @@ import javax.annotation.Resource;
 public class ResourceRenderer implements ItemRenderer<ResourceItem>, ObjectRenderer<ResourceObject> {
 
   @Resource( name="blockSheet" )
-  XMLPackedSheet blockSheet;
+  XMLPackedSheet spriteSheet;
+
+  Map<ResourceType, String> resourceTypeToSprite;
+
+  public ResourceRenderer(Map<ResourceType, String> resourceTypeToSprite) {
+    this.resourceTypeToSprite = resourceTypeToSprite;
+  }
 
   @Override
   public void render(ResourceObject object, Graphics g, PointOfView pov) {
@@ -38,14 +45,7 @@ public class ResourceRenderer implements ItemRenderer<ResourceItem>, ObjectRende
   }
 
   private void render(Graphics g, ResourceType resourceType, float percentage, Rectangle rectangle) {
-    Image image;
-    switch (resourceType) {
-      case WOOD:
-        image = blockSheet.getSprite("wood");
-        break;
-      default:
-        image = blockSheet.getSprite("unknown");
-    }
+    Image image = getImage(resourceType);
 
     float x = rectangle.getCenterX() - ((rectangle.getWidth() * percentage) / 2);
     float y = rectangle.getY() + rectangle.getHeight() * (1.0f - percentage);
@@ -53,5 +53,13 @@ public class ResourceRenderer implements ItemRenderer<ResourceItem>, ObjectRende
     float height = rectangle.getHeight() * percentage;
 
     g.drawImage(image, x, y, x + width, y + height, 0, 0, image.getWidth(), image.getHeight());
+  }
+
+  public Image getImage(ResourceType resourceType) {
+    Image image = spriteSheet.getSprite("unknown");
+    if (resourceTypeToSprite.containsKey(resourceType)) {
+      image = spriteSheet.getSprite(resourceTypeToSprite.get(resourceType));
+    }
+    return image;
   }
 }

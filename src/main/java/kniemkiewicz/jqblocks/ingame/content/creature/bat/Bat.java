@@ -7,6 +7,7 @@ import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
+import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.util.HorizontalMovement;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
@@ -31,7 +32,7 @@ public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat>,H
     rectangle = new Rectangle(x, y, SIZE, SIZE);
   }
 
-  // Do not add objects manually. Using this method makes sure you won't forget any part.
+  // Do not add panelItems manually. Using this method makes sure you won't forget any part.
   public boolean addTo(MovingObjects movingObjects, RenderQueue renderQueue, UpdateQueue updateQueue) {
     if (!movingObjects.add(this)) return false;
     renderQueue.add(this);

@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.object.background;
 
-import kniemkiewicz.jqblocks.ingame.ImageRenderer;
+import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.util.BeanName;

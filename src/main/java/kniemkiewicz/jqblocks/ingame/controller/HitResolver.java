@@ -37,7 +37,7 @@ public class HitResolver {
   }
 
   /**
-   * TODO: This should be implemented as a common operation on all moving objects
+   * TODO: This should be implemented as a common operation on all moving panelItems
    * Player.getShape has to be partially inside rect. dx and dy give the direction of recent player movement.
    */
   public static Decision resolve(HasFullXYMovement ob, float dx, float dy, Rectangle rect) {

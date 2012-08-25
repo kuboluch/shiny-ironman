@@ -1,6 +1,11 @@
 package kniemkiewicz.jqblocks.ingame.resource;
 
+import kniemkiewicz.jqblocks.ingame.content.resource.Stone;
+import kniemkiewicz.jqblocks.ingame.content.resource.Wood;
+import kniemkiewicz.jqblocks.ingame.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.event.resource.ResourceStorageChangeEvent;
 import kniemkiewicz.jqblocks.util.Assert;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -15,12 +20,16 @@ import java.util.Set;
 @Component
 public class ResourceStorageController {
 
+  @Autowired
+  EventBus eventBus;
+
   final Map<ResourceType, Resource> resourceMap = new HashMap<ResourceType, Resource>();
 
   // TODO only for test purposes
   @PostConstruct
   public void init() {
-    fill(new Wood(100));
+    fill(new Wood(1000));
+    fill(new Stone(500));
   }
 
   public void fill(Resource source) {
@@ -30,6 +39,7 @@ public class ResourceStorageController {
     }
     Resource resource = resourceMap.get(source.getType());
     source.transferTo(resource);
+    eventBus.broadcast(new ResourceStorageChangeEvent());
   }
 
   public void empty(Resource target, int amount) {
@@ -39,6 +49,17 @@ public class ResourceStorageController {
     Resource resource = resourceMap.get(target.getType());
     Assert.assertTrue(resource.getAmount() >= amount);
     resource.transferTo(target, amount);
+    eventBus.broadcast(new ResourceStorageChangeEvent());
+  }
+
+  public void empty(ResourceType resourceType, int amount) {
+    if (!resourceMap.containsKey(resourceType)) {
+      return;
+    }
+    Resource resource = resourceMap.get(resourceType);
+    Assert.assertTrue(resource.getAmount() >= amount);
+    resource.removeAmount(amount);
+    eventBus.broadcast(new ResourceStorageChangeEvent());
   }
 
   public boolean hasEnoughResource(Resource neededResource) {

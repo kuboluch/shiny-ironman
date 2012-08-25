@@ -9,15 +9,21 @@ import kniemkiewicz.jqblocks.ingame.ui.widget.SelectListener;
  * User: qba
  * Date: 22.08.12
  */
-public class SelectedItemPanel extends ResizableFrame implements SelectListener<ItemDefinition> {
+public class SelectedProductionPanel extends ResizableFrame implements SelectListener<ItemDefinition> {
 
   final static int MIN_WIDTH = 60;
   final static int MIN_HEIGHT = 40;
 
-  Icon icon;
+  final static int DEFAULT_ICON_SIZE = 40;
 
-  public SelectedItemPanel() {
+  Icon icon;
+  int width;
+  int height;
+
+  public SelectedProductionPanel(int width, int height) {
     this.setResizableAxis(ResizableFrame.ResizableAxis.NONE);
+    this.width = width;
+    this.height = height;
   }
 
   @Override
@@ -41,7 +47,7 @@ public class SelectedItemPanel extends ResizableFrame implements SelectListener<
   @Override
   public void onSelect(ItemDefinition object) {
     removeChild(icon);
-    icon = new Icon(object.getUIImage());
+    icon = new Icon(object.getImage(), width, height);
     add(icon);
   }
 }

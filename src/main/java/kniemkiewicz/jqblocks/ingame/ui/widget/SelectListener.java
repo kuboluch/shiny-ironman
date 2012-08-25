@@ -6,6 +6,6 @@ package kniemkiewicz.jqblocks.ingame.ui.widget;
  */
 public interface SelectListener<T> {
 
-  void onSelect(T object);
+  void onSelect(T selected);
 
 }

@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.ingame.block;
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.renderer.DirtBlockTypeRenderer;
 import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
+import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;

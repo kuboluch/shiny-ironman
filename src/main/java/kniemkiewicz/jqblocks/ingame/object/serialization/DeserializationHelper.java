@@ -22,7 +22,7 @@ public class DeserializationHelper {
     REFS = new ArrayList<SerializableRef>();
     List<Object> objects = (List<Object>) stream.readObject();
     assert objects instanceof ArrayList;
-    // All refs should be already registered, during the deserialization. Time to point them to right objects.
+    // All refs should be already registered, during the deserialization. Time to point them to right panelItems.
     for (SerializableRef ref : REFS) {
       // Any exception here means we are missing something.
       ref.set(objects.get(ref.serializedId));

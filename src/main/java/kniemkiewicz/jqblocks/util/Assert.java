@@ -32,6 +32,12 @@ public class Assert {
     }
   }
 
+  public static void assertTrue(boolean condition, String message) {
+    if (!condition) {
+      throw new AssertionError(message);
+    }
+  }
+
   static private OutputStream noopStream = new OutputStream() {
     @Override
     public void write(int b) throws IOException { }

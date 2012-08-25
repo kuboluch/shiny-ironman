@@ -1,14 +1,11 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.bat;
 
 import kniemkiewicz.jqblocks.ingame.*;
-import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
-import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
-import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.util.FullXYMovement;
-import kniemkiewicz.jqblocks.ingame.util.HorizontalMovement;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;

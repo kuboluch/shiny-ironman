@@ -15,6 +15,7 @@ import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.ui.MainGameUI;
+import kniemkiewicz.jqblocks.ingame.ui.widget.SelectListener;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,7 +27,7 @@ import java.util.List;
  * User: qba
  * Date: 05.08.12
  */
-public class WorkplaceController implements EventListener {
+public class WorkplaceController implements EventListener, SelectListener<WorkplaceDefinition> {
 
   @Autowired
   MainGameUI mainGameUI;
@@ -60,7 +61,8 @@ public class WorkplaceController implements EventListener {
     return new ArrayList<WorkplaceDefinition>(workplaceDefinitions);
   }
 
-  public void changeSelected(WorkplaceDefinition selected) {
+  @Override
+  public void onSelect(WorkplaceDefinition selected) {
     selectedWorkplace = selected;
   }
 

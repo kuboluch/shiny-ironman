@@ -20,8 +20,8 @@ import java.util.*;
  * will be investigated further and intersect methods might get optimized more.
  */
 public class QuadTree<T extends QuadTree.HasShape> {
-  // Leafs containing more than this number of objects will get split into sub leafs. Note that
-  // leaf may still have more than this number of objects if all them would span multiple sub leafs.
+  // Leafs containing more than this number of panelItems will get split into sub leafs. Note that
+  // leaf may still have more than this number of panelItems if all them would span multiple sub leafs.
   static final int ITEMS_PER_LEAF = 5;
 
   public interface HasShape extends Serializable {

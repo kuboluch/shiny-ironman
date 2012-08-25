@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.object.background;
 
-import kniemkiewicz.jqblocks.ingame.ImageRenderer;
+import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition;
 import kniemkiewicz.jqblocks.util.BeanName;
@@ -17,7 +17,7 @@ public class WorkplaceBackgroundElement extends AbstractBackgroundElement<Workpl
   private BeanName rendererBeanName;
 
   public WorkplaceBackgroundElement(WorkplaceDefinition workplaceDefinition, int x, int y, BeanName rendererBeanName) {
-    super(x, y, workplaceDefinition.getBlockWidth() * Sizes.BLOCK, workplaceDefinition.getBlockHeight() * Sizes.BLOCK);
+    super(x, y, workplaceDefinition.getWidth(), workplaceDefinition.getHeight());
     this.workplace = SerializableBeanProxy.getInstance(workplaceDefinition);
     this.rendererBeanName = rendererBeanName;
   }

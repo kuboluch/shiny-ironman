@@ -16,7 +16,7 @@ public class WorkplaceUI extends ResizableFrame {
   private WorkplaceSelectPanel workplaceSelectPanel;
 
   public WorkplaceUI(WorkplaceController workplaceController) {
-    workplaceSelectPanel = new WorkplaceSelectPanel(workplaceController);
+    workplaceSelectPanel = new WorkplaceSelectPanel(workplaceController.getWorkplaceDefinitions());
     scrollPane = new ScrollPane(workplaceSelectPanel);
     scrollPane.setVisible(true);
     scrollPane.setFixed(ScrollPane.Fixed.HORIZONTAL);
@@ -27,6 +27,7 @@ public class WorkplaceUI extends ResizableFrame {
     //setTheme("noframe");
     setTheme("resizableframe");
     add(scrollPane);
+    workplaceSelectPanel.addSelectListener(workplaceController);
   }
 
   @Override

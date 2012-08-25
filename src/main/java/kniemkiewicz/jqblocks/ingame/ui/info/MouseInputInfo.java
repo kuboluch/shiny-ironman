@@ -1,19 +1,12 @@
 package kniemkiewicz.jqblocks.ingame.ui.info;
 
-import kniemkiewicz.jqblocks.ingame.PointOfView;
-import kniemkiewicz.jqblocks.ingame.Renderable;
-import kniemkiewicz.jqblocks.ingame.event.Event;
+import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
-import kniemkiewicz.jqblocks.ingame.event.EventListener;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseMovedEvent;
-import kniemkiewicz.jqblocks.util.Collections3;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Component
 public class MouseInputInfo implements Renderable {

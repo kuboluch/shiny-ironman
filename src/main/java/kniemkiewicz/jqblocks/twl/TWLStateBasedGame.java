@@ -143,7 +143,7 @@ public abstract class TWLStateBasedGame extends StateBasedGame {
             TWLInputForwarder inputForwarder = new TWLInputForwarder(gui, input);
             input.addPrimaryListener(inputForwarder);
         } catch (Throwable e) {
-            throw new SlickException("Could not initialize TWL GUI", e);
+            throw new SlickException("Could not init TWL GUI", e);
         } finally {
             GL11.glPopAttrib();
         }
