@@ -5,6 +5,7 @@ import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.controller.HitResolver;
 import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
+import kniemkiewicz.jqblocks.ingame.controller.SoundController;
 import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.LadderBackground;
@@ -56,6 +57,9 @@ public class PlayerController implements InputListener,HealthController<Player> 
 
   @Resource
   Sound underAttackSound;
+
+  @Autowired
+  SoundController soundController;
 
   /**
    * This is manually invoked by Game to make sure that level is created before.
@@ -170,8 +174,6 @@ public class PlayerController implements InputListener,HealthController<Player> 
 
   @Override
   public void damaged(Player object, QuadTree.HasShape source, int amount) {
-    if (!underAttackSound.playing()) {
-      underAttackSound.play(1, 1);
-    }
+    soundController.playUnique(underAttackSound);
   }
 }

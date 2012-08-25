@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.World;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
+import kniemkiewicz.jqblocks.ingame.controller.SoundController;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import org.newdawn.slick.Sound;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class PeonController implements HealthController<Peon> {
   @Resource
   Sound newPeonSound;
 
+  @Autowired
+  SoundController soundController;
+
   @Override
   public void killed(Peon object, QuadTree.HasShape source) {
     world.killMovingObject(object);
@@ -43,7 +47,7 @@ public class PeonController implements HealthController<Peon> {
   public boolean register(Peon peon) {
     if (!movingObjects.add(peon)) return false;
     renderQueue.add(peon);
-    newPeonSound.play();
+    soundController.play(newPeonSound);
     return true;
   }
 }
