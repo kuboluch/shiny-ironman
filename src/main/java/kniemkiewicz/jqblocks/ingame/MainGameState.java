@@ -162,11 +162,7 @@ public class MainGameState extends BasicTWLGameState {
     t.record();
   }
 
-  @Override
-  public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
-    world.advanceTime(delta);
-    // This happens mostly with breakpoints and generally breaks physics.
-    if (delta > 100) return;
+  public void singleUpdate(GameContainer gameContainer, int delta) {
     TimingInfo.Timer t = timingInfo.getTimer("update");
     keyboardInputEventBus.update();
     mouseInputEventBus.update();
@@ -178,6 +174,19 @@ public class MainGameState extends BasicTWLGameState {
     updateQueue.update(delta);
     freeFallController.update(delta);
     t.record();
+  }
+
+  @Override
+  public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
+    world.advanceTime(delta);
+    // This happens mostly with breakpoints and generally breaks physics.
+    if (delta > 100) return;
+    int maxDelta = 20;
+    while (delta > maxDelta) {
+      singleUpdate(gameContainer, maxDelta);
+      delta -= maxDelta;
+    }
+    singleUpdate(gameContainer, delta);
   }
 
   /* Event handling */
