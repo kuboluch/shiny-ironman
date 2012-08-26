@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeSet;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * User: knie
@@ -25,18 +27,38 @@ public class UndergroundGenerator {
   @Autowired
   Configuration configuration;
 
-  void generateRock(Random random) {
+  void generateRock(final Random random) {
+
     float ROCK_PATCH_DENSITY = configuration.getFloat("UndergroundGenerator.ROCK_PATCH_DENSITY", 0.015f);
-    float ROCK_PATCH_RADIUS = configuration.getFloat("UndergroundGenerator.ROCK_PATCH_RADIUS", 1.5f);
-    float ROCK_PATCH_LENGTH = configuration.getFloat("UndergroundGenerator.ROCK_PATCH_LENGTH", 5f);
+    final float ROCK_PATCH_RADIUS = configuration.getFloat("UndergroundGenerator.ROCK_PATCH_RADIUS", 1.5f);
+    final float ROCK_PATCH_LENGTH = configuration.getFloat("UndergroundGenerator.ROCK_PATCH_LENGTH", 5f);
 
-    int width = (Sizes.MAX_X - Sizes.MIN_X) / Sizes.BLOCK;
-    int height = (Sizes.MAX_Y - Sizes.MIN_Y) / Sizes.BLOCK;
-    int count = (int) (ROCK_PATCH_DENSITY * width * height)/ 10;
-    for (int i = 0; i < 10; i++) {
-      generateSingleThread(random.nextLong(), ROCK_PATCH_RADIUS, ROCK_PATCH_LENGTH, width, height, count, true);
-
-      generateSingleThread(random.nextLong(), ROCK_PATCH_RADIUS, ROCK_PATCH_LENGTH, width, height, count / 3, false);
+    final int width = (Sizes.MAX_X - Sizes.MIN_X) / Sizes.BLOCK;
+    final int height = (Sizes.MAX_Y - Sizes.MIN_Y) / Sizes.BLOCK;
+    final int count = (int) (ROCK_PATCH_DENSITY * width * height)/ 10;
+    ExecutorService executor  = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    final AtomicInteger integer = new AtomicInteger();
+    for (int i = 0; i < 20; i++) {
+      executor.submit(new Runnable() {
+        @Override
+        public void run() {
+          generateSingleThread(random.nextLong(), ROCK_PATCH_RADIUS, ROCK_PATCH_LENGTH, width, height, count, true);
+          integer.incrementAndGet();
+        }
+      });
+      executor.submit(new Runnable() {
+        @Override
+        public void run() {
+          generateSingleThread(random.nextLong(), ROCK_PATCH_RADIUS, ROCK_PATCH_LENGTH, width, height, count, false);
+          integer.incrementAndGet();
+        }
+      });
+    }
+    executor.shutdown();
+    try {
+      executor.awaitTermination(10, TimeUnit.SECONDS);
+    } catch (InterruptedException e) {
+      assert false;
     }
   }
 
