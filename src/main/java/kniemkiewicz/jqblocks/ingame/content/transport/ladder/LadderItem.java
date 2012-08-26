@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.Renderable;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
+import kniemkiewicz.jqblocks.ingame.item.EmptyItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
 import kniemkiewicz.jqblocks.util.BeanName;
@@ -29,7 +30,7 @@ public class LadderItem implements Item, UpdateQueue.ToBeUpdated<LadderItem> {
 
   @Override
   public BeanName<? extends Renderable> getEquippedItemRenderer() {
-    return null;
+    return EmptyItemRenderer.RENDERER;
   }
 
   @Override

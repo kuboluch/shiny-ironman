@@ -11,8 +11,6 @@ import kniemkiewicz.jqblocks.ingame.item.ItemInventory;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.resource.Resource;
 import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
-import kniemkiewicz.jqblocks.ingame.resource.item.SimpleResourceItem;
-import kniemkiewicz.jqblocks.util.BeanName;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -83,7 +81,7 @@ public class ResourceInventory extends AbstractInventory<ResourceItem> implement
       }
       g.drawRoundRect(x, y, square_size, square_size, SQUARE_ROUNDING);
       ItemRenderer<Item> renderer = springBeanProvider.getBean(item.getItemRenderer(), true);
-      renderer.renderItem(item, g, x + SQUARE_ROUNDING, y + SQUARE_ROUNDING, square_size - 2 * SQUARE_ROUNDING);
+      renderer.renderItem(item, g, x + SQUARE_ROUNDING, y + SQUARE_ROUNDING, square_size - 2 * SQUARE_ROUNDING, false);
       g.setColor(Color.black);
       g.drawString(ids[i], x - 5, y - 4);
       x += SQUARE_DIST + square_size;

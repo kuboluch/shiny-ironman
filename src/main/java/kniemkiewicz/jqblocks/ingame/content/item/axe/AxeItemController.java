@@ -125,7 +125,6 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
 
   private ResourceObject<Wood> createAndDropWoodPile(int x, int y) {
     ResourceObject<Wood> woodObject = new ResourceObject<Wood>(new Wood(), x, y);
-    woodObject.addTo(renderQueue, movingObjects);
     resourceInventoryController.dropObject(woodObject);
     return woodObject;
   }

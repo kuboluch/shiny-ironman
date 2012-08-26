@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.util.FlippingImage;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.BeanNameAware;
@@ -18,22 +19,22 @@ public class ImageRenderer implements ItemRenderer<Item>, ObjectRenderer<Rendera
 
   public String beanName;
 
-  Image image;
+  FlippingImage image;
 
   public ImageRenderer(String imagePath) {
     try {
-      this.image = new Image(imagePath);
+      this.image = new FlippingImage(imagePath);
     } catch (SlickException e) {
       throw new RuntimeException("Failed to load image", e);
     }
   }
 
-  public ImageRenderer(Image image) {
+  public ImageRenderer(FlippingImage image) {
     this.image = image;
   }
 
   public ImageRenderer(XMLPackedSheet sheet, String imageName) {
-    this.image = sheet.getSprite(imageName);
+    this.image = new FlippingImage(sheet.getSprite(imageName));
   }
 
   public Image getImage() {
@@ -41,7 +42,10 @@ public class ImageRenderer implements ItemRenderer<Item>, ObjectRenderer<Rendera
   }
 
   @Override
-  public void renderItem(Item item, Graphics g, int x, int y, int square_size) {
+  public void renderItem(Item item, Graphics g, int x, int y, int square_size, boolean drawFlipped) {
+    if (drawFlipped) {
+      image.flipNext();
+    }
     image.draw(x, y, square_size, square_size);
   }
 

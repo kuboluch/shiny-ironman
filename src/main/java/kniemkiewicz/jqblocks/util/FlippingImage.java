@@ -14,6 +14,10 @@ public class FlippingImage extends Image {
     super(ref);
   }
 
+  public FlippingImage(Image ref) {
+    super(ref);
+  }
+
   private boolean flipNext = false;
 
   public void flipNext() {

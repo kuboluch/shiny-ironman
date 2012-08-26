@@ -31,7 +31,7 @@ public class ResourceRenderer implements ItemRenderer<ResourceItem>, ObjectRende
   }
 
   @Override
-  public void renderItem(ResourceItem item, Graphics g, int itemX, int itemY, int square_size) {
+  public void renderItem(ResourceItem item, Graphics g, int itemX, int itemY, int square_size, boolean drawFlipped) {
     float percentage = (float) item.getResource().getAmount() * 1.0f / item.getResource().getMaxPileSize() * 1.0f;
     Rectangle rectangle = new Rectangle(itemX + 3, itemY + 3, square_size - 6, square_size - 6);
     render(g, item.getResource().getType(), percentage, rectangle);

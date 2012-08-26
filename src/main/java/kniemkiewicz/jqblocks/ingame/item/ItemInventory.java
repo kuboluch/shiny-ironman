@@ -3,13 +3,16 @@ package kniemkiewicz.jqblocks.ingame.item;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Renderable;
+import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.content.block.dirt.DirtBlockItem;
 import kniemkiewicz.jqblocks.ingame.content.item.axe.AxeItem;
 import kniemkiewicz.jqblocks.ingame.content.item.bow.BowItem;
 import kniemkiewicz.jqblocks.ingame.content.item.pickaxe.PickaxeItem;
+import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderItem;
 import kniemkiewicz.jqblocks.ingame.inventory.AbstractInventory;
 import kniemkiewicz.jqblocks.util.Assert;
+import kniemkiewicz.jqblocks.util.BeanName;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -34,6 +37,9 @@ public class ItemInventory extends AbstractInventory<Item> implements Renderable
   @Autowired
   SpringBeanProvider springBeanProvider;
 
+  @Autowired
+  PlayerController playerController;
+
   public static int SQUARE_SIZE = 25;
   public static int SQUARE_DIST = 10;
   public static int SQUARE_ROUNDING = 3;
@@ -48,12 +54,12 @@ public class ItemInventory extends AbstractInventory<Item> implements Renderable
     for (int i = 0; i < getSize(); i++) {
       items.add(getEmptyItem());
     }
-    Assert.executeAndAssert(add(new DirtBlockItem()));
+    Assert.executeAndAssert(add(new BowItem()));
     Assert.executeAndAssert(add(new PickaxeItem()));
     Assert.executeAndAssert(add(new AxeItem()));
-    Assert.executeAndAssert(add(new BowItem()));
-    Assert.executeAndAssert(add(new PickaxeItem(1000000)));
     Assert.executeAndAssert(add(new LadderItem()));
+    Assert.executeAndAssert(add(new DirtBlockItem()));
+    Assert.executeAndAssert(add(new PickaxeItem(1000000)));
   }
 
   @Override
@@ -82,7 +88,7 @@ public class ItemInventory extends AbstractInventory<Item> implements Renderable
       }
       g.drawRoundRect(x, Y_MARGIN, square_size, square_size, SQUARE_ROUNDING);
       ItemRenderer<Item> renderer = springBeanProvider.getBean(item.getItemRenderer(), true);
-      renderer.renderItem(item, g, x + SQUARE_ROUNDING, Y_MARGIN + SQUARE_ROUNDING, square_size - 2 * SQUARE_ROUNDING);
+      renderer.renderItem(item, g, x + SQUARE_ROUNDING, Y_MARGIN + SQUARE_ROUNDING, square_size - 2 * SQUARE_ROUNDING, false);
       g.setColor(Color.black);
       g.drawString(ids[i], x - 5, Y_MARGIN - 4);
       x += SQUARE_DIST + square_size;
@@ -92,6 +98,19 @@ public class ItemInventory extends AbstractInventory<Item> implements Renderable
 
   private void renderEquippedItem(Graphics g) {
     Item item = getSelectedItem();
+    if (item == null) return;
+    BeanName<? extends Renderable> renderable = item.getEquippedItemRenderer();
+    if (renderable != null) {
+      springBeanProvider.getBean(renderable, true).render(g);
+    } else {
+      ItemRenderer<Item> renderer = springBeanProvider.getBean(item.getItemRenderer(), true);
+      int squareSize = 2 * Sizes.BLOCK;
+      if (playerController.getPlayer().isLeftFaced()) {
+        renderer.renderItem(item, g, (int)pointOfView.getWindowWidth() / 2 - squareSize + 6 , 2 + (int)pointOfView.getWindowHeight() / 2 - squareSize, squareSize, true);
+      } else {
+        renderer.renderItem(item, g, (int)pointOfView.getWindowWidth() / 2 - 6, 2 + (int)pointOfView.getWindowHeight() / 2 - squareSize, squareSize, false);
+      }
+    }
   }
 
   public void render(Graphics g) {

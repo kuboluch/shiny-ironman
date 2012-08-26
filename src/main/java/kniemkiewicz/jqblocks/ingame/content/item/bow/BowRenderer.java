@@ -16,7 +16,7 @@ public class BowRenderer implements ItemRenderer {
   public static Color ARROW_COLOR = new Color(100.0f/255, 50.0f/255, 0);
 
   @Override
-  public void renderItem(Item item, Graphics g, int x, int y, int square_size) {
+  public void renderItem(Item item, Graphics g, int x, int y, int square_size, boolean drawFlipped) {
     // TODO: Some numbers below work well for current square size and not for others.
     float x1 = x + square_size * 0.1f;
     float y1 = y + square_size * 0.1f;

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DirtBlockItemRenderer implements ItemRenderer<DirtBlockItem> {
   @Override
-  public void renderItem(DirtBlockItem item, Graphics g, int x, int y, int square_size) {
+  public void renderItem(DirtBlockItem item, Graphics g, int x, int y, int square_size, boolean drawFlipped) {
     x+= square_size / 10;
     y+= square_size / 10;
     square_size = square_size * 9 / 10;
