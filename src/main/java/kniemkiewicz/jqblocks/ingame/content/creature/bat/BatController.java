@@ -58,9 +58,10 @@ public class BatController implements UpdateQueue.UpdateController<Bat>, HealthC
     if (solidBlocks.getBlocks().collidesWithNonEmpty(bat.getShape())) return true;
     boolean collided = false;
     for (PhysicalObject p : collisionController.<PhysicalObject>fullSearch(MovingObjects.MOVING, bat.getShape())) {
-      if (p != bat) {
-        collided = true;
+      if (p == bat) {
+        continue;
       }
+      collided = true;
       if (p instanceof Player) {
         ((HasHealthPoints) p).getHp().damageRateLimited(bat, BITE_DMG, 300, world);
       }

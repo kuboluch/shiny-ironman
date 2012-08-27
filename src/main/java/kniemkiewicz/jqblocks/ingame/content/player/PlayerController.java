@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.ingame.content.player;
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
+import kniemkiewicz.jqblocks.ingame.controller.ControllerUtils;
 import kniemkiewicz.jqblocks.ingame.controller.HitResolver;
 import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.controller.SoundController;
@@ -136,10 +137,7 @@ public class PlayerController implements InputListener,HealthController<Player> 
   }
 
   private void listenToControls(Input input, SingleAxisMovement xMovement, SingleAxisMovement yMovement) {
-    Rectangle belowPlayer = new Rectangle(player.getShape().getMinX() + 1, player.getShape().getMaxY() + 2,
-        player.getShape().getWidth() - 4, 0);
-    boolean flying = !blocks.getBlocks().collidesWithNonEmpty(belowPlayer);
-
+    boolean flying = ControllerUtils.isFlying(blocks, player.getShape());
 
     if (KeyboardUtils.isLeftPressed(input)) {
       xMovement.setAcceleration(-Player.X_ACCELERATION);
@@ -188,5 +186,6 @@ public class PlayerController implements InputListener,HealthController<Player> 
   @Override
   public void damaged(Player object, QuadTree.HasShape source, int amount) {
     soundController.playUnique(underAttackSound);
+    ControllerUtils.pushFrom(player, source, Player.MAX_X_SPEED / 2);
   }
 }

@@ -1,13 +1,11 @@
 package kniemkiewicz.jqblocks.ingame.level;
 
-import kniemkiewicz.jqblocks.ingame.FreeFallController;
-import kniemkiewicz.jqblocks.ingame.MovingObjects;
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
-import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
 import kniemkiewicz.jqblocks.ingame.content.creature.peon.Peon;
 import kniemkiewicz.jqblocks.ingame.content.creature.peon.PeonController;
+import kniemkiewicz.jqblocks.ingame.content.creature.zombie.Zombie;
 import kniemkiewicz.jqblocks.ingame.content.item.rock.Rock;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
@@ -55,6 +53,9 @@ public class VillageGenerator {
 
   @Autowired
   FreeFallController freeFallController;
+
+  @Autowired
+  UpdateQueue updateQueue;
 
   public static final int STARTING_X = (Sizes.MIN_X + Sizes.MAX_X) / 2;
 
@@ -107,5 +108,8 @@ public class VillageGenerator {
     generateLadders();
     Assert.executeAndAssert(Peon.createAndRegister(STARTING_X, (int)(villageY - Peon.HEIGHT), peonController) != null);
     addFallingStars();
+    Zombie zombie = new Zombie(STARTING_X - Sizes.BLOCK * 8, villageY - Zombie.HEIGHT - Sizes.BLOCK * 10);
+    zombie.addTo(movingObjects, renderQueue, updateQueue);
+    freeFallController.addComplex(zombie);
   }
 }
