@@ -181,7 +181,7 @@ public class MainGameState extends BasicTWLGameState {
     world.advanceTime(delta);
     // This happens mostly with breakpoints and generally breaks physics.
     if (delta > 1000) return;
-    int maxDelta = 10;
+    int maxDelta = 8;
     while (delta > maxDelta) {
       singleUpdate(gameContainer, maxDelta);
       delta -= maxDelta;

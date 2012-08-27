@@ -26,7 +26,7 @@ public class BowItem implements Item {
 
   @Override
   public BeanName<? extends Renderable> getEquippedItemRenderer() {
-    return null;
+    return RENDERER;
   }
 
   @Override
