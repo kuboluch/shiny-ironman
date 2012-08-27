@@ -22,7 +22,7 @@ public class Zombie implements RenderableObject<Zombie>,UpdateQueue.ToBeUpdated<
 
   private static final int MAX_HP = 50;
   public static final float HEIGHT = Sizes.BLOCK * 3.5f;
-  private static final float WIDTH = Sizes.BLOCK * 2.5f;
+  static final float WIDTH = Sizes.BLOCK * 2.5f;
   private static final float SPEED = Player.MAX_X_SPEED * 2 / 3;
 
   final HealthPoints healthPoints;

@@ -1,8 +1,8 @@
 package kniemkiewicz.jqblocks.ingame.object;
 
-import kniemkiewicz.jqblocks.util.FlippingImage;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Shape;
 
 /**
@@ -15,16 +15,19 @@ public class TwoFacedImageRenderer implements ObjectRenderer<TwoFacedImageRender
     boolean isLeftFaced();
   }
 
-  final private FlippingImage leftImage;
+  final private Image leftImage;
+  final private Image rightImage;
   final private int imageWidth;
 
-  public TwoFacedImageRenderer(FlippingImage leftImage, int imageWidth) {
+  public TwoFacedImageRenderer(Image leftImage, int imageWidth) {
     this.leftImage = leftImage;
+    this.rightImage = leftImage.getFlippedCopy(true, false);
     this.imageWidth = imageWidth;
   }
 
-  public TwoFacedImageRenderer(FlippingImage leftImage) {
+  public TwoFacedImageRenderer(Image leftImage) {
     this.leftImage = leftImage;
+    this.rightImage = leftImage.getFlippedCopy(true, false);
     this.imageWidth = -1;
   }
 
@@ -38,11 +41,10 @@ public class TwoFacedImageRenderer implements ObjectRenderer<TwoFacedImageRender
       }
       leftImage.draw((int)shape.getMinX(), (int)shape.getMinY(), width, shape.getHeight());
     } else {
-      leftImage.flipNext();
       if (imageWidth > 0) {
-        leftImage.draw((int)shape.getMaxX() - imageWidth, (int)shape.getMinY(), imageWidth, shape.getHeight());
+        rightImage.draw((int)shape.getMaxX() - imageWidth, (int)shape.getMinY(), imageWidth, shape.getHeight());
       } else {
-        leftImage.draw((int)shape.getMinX(), (int)shape.getMinY(), shape.getWidth(), shape.getHeight());
+        rightImage.draw((int)shape.getMinX(), (int)shape.getMinY(), shape.getWidth(), shape.getHeight());
       }
     }
   }

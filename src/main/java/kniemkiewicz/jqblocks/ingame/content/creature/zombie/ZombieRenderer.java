@@ -4,7 +4,10 @@ import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * User: knie
@@ -12,9 +15,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ZombieRenderer implements ObjectRenderer<Zombie> {
+
+  @Resource
+  Image zombieImage;
+
   @Override
   public void render(Zombie object, Graphics g, PointOfView pov) {
-    g.setColor(Color.black);
-    g.fill(object.shape);
+    zombieImage.draw(object.getFullXYMovement().getX(), object.getFullXYMovement().getY(),
+        Zombie.WIDTH, Zombie.HEIGHT);
   }
 }

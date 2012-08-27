@@ -4,16 +4,20 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <bean id="playerLeftImage" class="kniemkiewicz.jqblocks.util.FlippingImage">
+    <bean id="playerLeftImage" class="org.newdawn.slick.Image">
         <constructor-arg value="images/supermanLeft.png"/>
     </bean>
 
-    <bean id="peonLeftImage" class="kniemkiewicz.jqblocks.util.FlippingImage">
+    <bean id="peonLeftImage" class="org.newdawn.slick.Image">
         <constructor-arg value="images/peonLeft.png"/>
     </bean>
 
     <bean id="blockSheet" class="org.newdawn.slick.XMLPackedSheet">
         <constructor-arg value="spritesheet/blockSheet"/>
         <constructor-arg value="spritesheet/blockSheet.xml"/>
+    </bean>
+
+    <bean id="zombieImage" class="org.newdawn.slick.Image">
+        <constructor-arg value="images/zombie.gif"/>
     </bean>
 </beans>
