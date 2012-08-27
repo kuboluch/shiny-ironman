@@ -96,6 +96,7 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
   @Override
   public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
     if (endGameController.isGameShouldRestart()) {
+      logger.info("Restarting");
       MainGameState.Settings settings = new MainGameState.Settings();
       try {
         if (endGameController.isGameShouldBeLoaded()) {

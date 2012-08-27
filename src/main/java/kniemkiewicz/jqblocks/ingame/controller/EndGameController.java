@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.controller;
 
 import kniemkiewicz.jqblocks.ingame.InputListener;
+import kniemkiewicz.jqblocks.ingame.World;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.Input;
@@ -23,12 +24,19 @@ public class EndGameController implements InputListener {
   @Autowired
   SaveGameListener saveGameListener;
 
+  @Autowired
+  World world;
+
   public void listen(Input input, int delta) {
+    // Do not try any sudden moves just after start/restart.
+    if (world.getTimestamp() < 1000) return;
     if (KeyboardUtils.isExitKeyPressed(input)) {
       gameShouldEnd = true;
+      logger.info("Exit key pressed");
     }
     if (KeyboardUtils.isRestartKeyPressed(input)) {
       gameShouldRestart = true;
+      logger.info("Restart key pressed");
     }
     if (KeyboardUtils.isLoadKeyPressed(input)) {
       if (saveGameListener.savegameExists()) {
