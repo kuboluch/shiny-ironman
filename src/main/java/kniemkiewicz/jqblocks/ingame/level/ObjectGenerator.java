@@ -3,12 +3,14 @@ package kniemkiewicz.jqblocks.ingame.level;
 import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
+import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.Tree;
 import kniemkiewicz.jqblocks.ingame.content.creature.bat.Bat;
 import kniemkiewicz.jqblocks.ingame.content.item.rock.Rock;
 import kniemkiewicz.jqblocks.util.Assert;
+import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -49,7 +51,10 @@ public class ObjectGenerator {
         okBlocks++;
         if ((okBlocks == REQUIRED_OK_BLOCKS) && (random.nextFloat() < TREE_DENSITY)) {
           okBlocks = -1; // Let the trees have at least one block between them.
-          backgrounds.add(new Tree(Sizes.MIN_X + (i + 1) * Sizes.BLOCK - Tree.WIDTH, Sizes.MAX_Y -  heights[i] - Tree.HEIGHT));
+          int x = Sizes.MIN_X + (i + 1) * Sizes.BLOCK - Tree.WIDTH;
+          int y = Sizes.MAX_Y -  heights[i] - Tree.HEIGHT;
+          backgrounds.add(new Tree(x, y));
+          solidBlocks.getBlocks().setRectUnscaled(new Rectangle(x - Sizes.BLOCK, y + Tree.HEIGHT, Tree.WIDTH + Sizes.BLOCK, Sizes.BLOCK * 2), WallBlockType.DIRT);
         }
       } else {
         okBlocks = 0;

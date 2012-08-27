@@ -13,7 +13,7 @@ import java.util.*;
  * Date: 7/22/12
  */
 @Component
-public class UpdateQueue {
+public final class UpdateQueue {
 
   public interface UpdateController<T> {
     void update(T object, int delta);

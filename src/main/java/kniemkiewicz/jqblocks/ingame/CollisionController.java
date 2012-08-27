@@ -15,7 +15,7 @@ import java.util.List;
  * Date: 8/2/12
  */
 @Component
-public class CollisionController {
+public final class CollisionController {
 
   public <T extends QuadTree.HasShape> List<T> getAll(EnumSet<ObjectType> types) {
     List<T> objects = new ArrayList<T>();
@@ -27,7 +27,8 @@ public class CollisionController {
 
   public enum ObjectType {
     MOVING_OBJECT,
-    PICKABLE
+    PICKABLE,
+    LEVEL_WALLS
   }
 
   EnumMap<ObjectType, QuadTree<QuadTree.HasShape>> quadTrees = new EnumMap<ObjectType, QuadTree<QuadTree.HasShape>>(ObjectType.class);

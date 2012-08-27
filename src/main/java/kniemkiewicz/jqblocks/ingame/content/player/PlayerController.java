@@ -6,7 +6,9 @@ import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.controller.HitResolver;
 import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.controller.SoundController;
+import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
 import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
+import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.LadderBackground;
 import kniemkiewicz.jqblocks.ingame.util.FullXYMovement;
@@ -61,6 +63,9 @@ public class PlayerController implements InputListener,HealthController<Player> 
   @Autowired
   SoundController soundController;
 
+  @Autowired
+  CollisionController collisionController;
+
   /**
    * This is manually invoked by Game to make sure that level is created before.
    */
@@ -73,23 +78,75 @@ public class PlayerController implements InputListener,HealthController<Player> 
   }
 
   public void listen(Input input, int delta) {
-    /*
-    if (KeyboardUtils.isDownPressed(input)) {
-      player.setY(player.getY() + delta);
+    FullXYMovement playerMovement = player.getFullXYMovement();
+    SingleAxisMovement xMovement = playerMovement.getXMovement();
+    SingleAxisMovement yMovement = playerMovement.getYMovement();
+
+    listenToControls(input, xMovement, yMovement);
+
+    float x = xMovement.getPos();
+    float y = yMovement.getPos();
+    player.update(delta);
+    //having a copy of players shape make debugging easier.
+    Rectangle playerShape = GeometryUtils.getNewBoundingRectangle(player.getShape());
+    logger.debug(player.toString());
+    collideWithLevelWalls(playerShape, xMovement.getPos() - x, yMovement.getPos() - y);
+    collideWithBlocks(playerShape, xMovement.getPos() - x, yMovement.getPos() - y);
+
+    // Do not change this without a good reason. May lead to screen flickering in rare conditions.
+    int centerX = (int)xMovement.getPos() + Player.WIDTH / 2;
+    int centerY = (int)yMovement.getPos() + Player.HEIGHT / 2;
+    pointOfView.setCenter(centerX, centerY);
+  }
+
+  private void collideWithLevelWalls(Rectangle playerShape, float dx, float dy) {
+    for (QuadTree.HasShape po : collisionController.fullSearch(LevelGenerator.LEVEL_WALLS, playerShape)) {
+      HitResolver.resolve(player, dx, dy, GeometryUtils.getBoundingRectangle(po.getShape()));
     }
-    */
+  }
+
+  private void collideWithBlocks(Rectangle playerShape, float dx, float dy) {
+    List<Rectangle> collidingRectangles = blocks.getBlocks().getIntersectingRectangles(playerShape);
+
+    for (Rectangle r : collidingRectangles) {
+      if(!GeometryUtils.intersects(r, playerShape)) {
+        blocks.getBlocks().getIntersectingRectangles(playerShape);
+        assert false;
+      }
+    }
+    for (Rectangle r : collidingRectangles) {
+      HitResolver.resolve(player, dx, dy, r);
+      logger.debug(GeometryUtils.toString(r) + " " + player.toString());
+      player.updateShape();
+    }
+    if (Assert.ASSERT_ENABLED) {
+      for (Rectangle r : collidingRectangles) {
+        assert !GeometryUtils.intersects(r, player.getShape());
+      }
+    }
+    if (Assert.ASSERT_ENABLED) {
+      if (blocks.getBlocks().getIntersectingRectangles(player.getShape()).size() > 0) {
+        for (Rectangle r : blocks.getBlocks().getIntersectingRectangles(player.getShape())) {
+          HitResolver.resolve(player, dx, dy, r);
+          player.updateShape();
+        }
+        assert false;
+      }
+    }
+  }
+
+  private void listenToControls(Input input, SingleAxisMovement xMovement, SingleAxisMovement yMovement) {
     Rectangle belowPlayer = new Rectangle(player.getShape().getMinX() + 1, player.getShape().getMaxY() + 2,
         player.getShape().getWidth() - 4, 0);
     boolean flying = !blocks.getBlocks().collidesWithNonEmpty(belowPlayer);
-    FullXYMovement playerMovement = player.getFullXYMovement();
-    SingleAxisMovement xMovement = playerMovement.getXMovement();
+
+
     if (KeyboardUtils.isLeftPressed(input)) {
       xMovement.setAcceleration(-Player.X_ACCELERATION);
     }
     if (KeyboardUtils.isRightPressed(input)) {
       xMovement.setAcceleration(Player.X_ACCELERATION);
     }
-    SingleAxisMovement yMovement = playerMovement.getYMovement();
     // Are we holding a ladder?
     if (Collections3.findFirst(backgrounds.intersects(player.getShape()), LadderBackground.class) != null) {
       // We shouldn't slow down player if he can walk instead of holding ladder.
@@ -113,50 +170,6 @@ public class PlayerController implements InputListener,HealthController<Player> 
         yMovement.setAcceleration(Sizes.G);
       }
     }
-
-    float x = xMovement.getPos();
-    float y = yMovement.getPos();
-    player.update(delta);
-    //having a copy of players shape make debugging easier.
-    Rectangle playerShape = GeometryUtils.getNewBoundingRectangle(player.getShape());
-    List<Rectangle> collidingRectangles = blocks.getBlocks().getIntersectingRectangles(playerShape);
-
-    for (Rectangle r : collidingRectangles) {
-      if(!GeometryUtils.intersects(r, playerShape)) {
-        blocks.getBlocks().getIntersectingRectangles(playerShape);
-        assert false;
-      }
-    }
-    float newX = xMovement.getPos();
-    float newY = yMovement.getPos();
-    float dx = newX - x;
-    float dy = newY - y;
-    //assert Math.abs(dx) < Sizes.BLOCK;
-    //assert Math.abs(dy) < Sizes.BLOCK;
-    logger.debug(player.toString());
-    for (Rectangle r : collidingRectangles) {
-      HitResolver.resolve(player, dx, dy, r);
-      logger.debug(GeometryUtils.toString(r) + " " + player.toString());
-      player.updateShape();
-    }
-    if (Assert.ASSERT_ENABLED) {
-      for (Rectangle r : collidingRectangles) {
-        assert !GeometryUtils.intersects(r, player.getShape());
-      }
-    }
-    if (Assert.ASSERT_ENABLED) {
-      if (blocks.getBlocks().getIntersectingRectangles(player.getShape()).size() > 0) {
-        for (Rectangle r : blocks.getBlocks().getIntersectingRectangles(player.getShape())) {
-          HitResolver.resolve(player, dx, dy, r);
-          player.updateShape();
-        }
-        assert false;
-      }
-    }
-    // Do not change this without a good reason. May lead to screen flickering in rare conditions.
-    int centerX = (int)xMovement.getPos() + Player.WIDTH / 2;
-    int centerY = (int)yMovement.getPos() + Player.HEIGHT / 2;
-    pointOfView.setCenter(centerX, centerY);
   }
 
   public Player getPlayer() {

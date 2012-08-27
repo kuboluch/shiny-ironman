@@ -1,9 +1,12 @@
 package kniemkiewicz.jqblocks.ingame.event;
 
+import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseMovedEvent;
 import kniemkiewicz.jqblocks.util.Collections3;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,9 +20,17 @@ public class EventBus {
 
   List<Event> events = new ArrayList<Event>();
 
+  @Autowired
+  PointOfView pov;
+
   // Used in code to find out where is the mouse currently.
-  // TODO: this is broken until first event is received
-  MouseMovedEvent latestMouseMovedEvent = new MouseMovedEvent(0,0,0,0,0,0,0,0);
+  MouseMovedEvent latestMouseMovedEvent;
+
+  @PostConstruct
+  void init() {
+    // TODO: this is broken until first event is received
+    latestMouseMovedEvent = new MouseMovedEvent(0,0,0,0,0,0,pov.getWindowWidth() / 2, pov.getWindowHeight() / 2);
+  }
 
   public void addListener(EventListener eventListener) {
     listeners.add(eventListener);

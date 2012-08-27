@@ -22,7 +22,7 @@ import java.util.List;
  * Date: 21.08.12
  */
 @Component
-public class FreeFallController {
+public final class FreeFallController {
 
   public interface CanFall extends PhysicalObject{
     void setYAndUpdate(float y);
@@ -79,7 +79,7 @@ public class FreeFallController {
         for (Rectangle r : rectangles) {
           HitResolver.Decision decision = HitResolver.resolve(ob, dx, dy, r);
           ob.updateShape();
-          if (decision == HitResolver.Decision.TOP || !deleted) {
+          if ((decision == HitResolver.Decision.TOP) && !deleted) {
             it.remove();
             deleted = true;
           }

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  * Date: 8/25/12
  */
 @Component
-public class BowRenderer implements ItemRenderer, Renderable {
+public final class BowRenderer implements ItemRenderer, Renderable {
 
   public static Color ARROW_COLOR = new Color(100.0f/255, 50.0f/255, 0);
 
@@ -55,7 +55,7 @@ public class BowRenderer implements ItemRenderer, Renderable {
     float dx = dr.getFirst();
     float dy = dr.getSecond();
     g.setColor(Color.gray);
-    g.drawLine(x0, y0, x0 + dx * 20, y0 + dy * 20);
+    g.drawLine(x0, y0, x0 + dx * 40, y0 + dy * 40);
     g.setColor(ARROW_COLOR);
     g.setLineWidth(2);
     g.drawLine(x0 + dx / 6, y0 + dy / 6, x0 +  dx * 1.2f, y0 +  dy * 1.2f);

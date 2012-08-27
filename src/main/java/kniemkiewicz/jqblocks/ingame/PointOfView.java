@@ -14,7 +14,7 @@ import javax.annotation.PostConstruct;
  * Date: 15.07.12
  */
 @Component
-public class PointOfView {
+public final class PointOfView {
   int shiftX;
   int shiftY;
 
