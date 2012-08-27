@@ -110,6 +110,5 @@ public class VillageGenerator {
     addFallingStars();
     Zombie zombie = new Zombie(STARTING_X - Sizes.BLOCK * 8, villageY - Zombie.HEIGHT - Sizes.BLOCK * 10);
     zombie.addTo(movingObjects, renderQueue, updateQueue);
-    freeFallController.addComplex(zombie);
   }
 }

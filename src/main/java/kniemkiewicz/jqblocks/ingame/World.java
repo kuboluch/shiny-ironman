@@ -193,4 +193,8 @@ public final class World {
   public SpringBeanProvider getSpringBeanProvider() {
     return springBeanProvider;
   }
+
+  public CollisionController getCollisionController() {
+    return collisionController;
+  }
 }

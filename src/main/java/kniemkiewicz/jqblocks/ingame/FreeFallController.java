@@ -66,27 +66,32 @@ public final class FreeFallController {
       Iterator<HasFullXYMovement> it = complexObjects.iterator();
       while (it.hasNext()) {
         HasFullXYMovement ob = it.next();
-        ob.getFullXYMovement().getYMovement().setAcceleration(Sizes.G);
-        float x = ob.getFullXYMovement().getX();
-        float y = ob.getFullXYMovement().getY();
-        ob.getFullXYMovement().update(delta);
-        float dx = ob.getFullXYMovement().getX() - x;
-        float dy = ob.getFullXYMovement().getY() - y;
-        ob.updateShape();
-        Rectangle bound = GeometryUtils.getBoundingRectangle(ob.getShape());
-        List<Rectangle> rectangles = blocks.getBlocks().getIntersectingRectangles(bound);
-        boolean deleted = false;
-        for (Rectangle r : rectangles) {
-          HitResolver.Decision decision = HitResolver.resolve(ob, dx, dy, r);
-          ob.updateShape();
-          if ((decision == HitResolver.Decision.TOP) && !deleted) {
-            it.remove();
-            deleted = true;
-          }
-        }
+        updateComplex(delta, it, ob);
       }
     }
   }
+
+  public void updateComplex(int delta, Iterator<HasFullXYMovement> it, HasFullXYMovement ob) {
+    ob.getFullXYMovement().getYMovement().setAcceleration(Sizes.G);
+    float x = ob.getFullXYMovement().getX();
+    float y = ob.getFullXYMovement().getY();
+    ob.getFullXYMovement().update(delta);
+    float dx = ob.getFullXYMovement().getX() - x;
+    float dy = ob.getFullXYMovement().getY() - y;
+    ob.updateShape();
+    Rectangle bound = GeometryUtils.getBoundingRectangle(ob.getShape());
+    List<Rectangle> rectangles = blocks.getBlocks().getIntersectingRectangles(bound);
+    boolean deleted = false;
+    for (Rectangle r : rectangles) {
+      HitResolver.Decision decision = HitResolver.resolve(ob, dx, dy, r);
+      ob.updateShape();
+      if ((it != null) && (decision == HitResolver.Decision.TOP) && !deleted) {
+        it.remove();
+        deleted = true;
+      }
+    }
+  }
+
 
   // TODO: maybe make this smarter
   Iterator<QuadTree.HasShape> getSimpleObjects() {

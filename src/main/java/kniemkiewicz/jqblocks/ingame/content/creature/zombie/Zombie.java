@@ -8,6 +8,7 @@ import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer;
 import kniemkiewicz.jqblocks.ingame.util.FullXYMovement;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
@@ -18,12 +19,13 @@ import org.newdawn.slick.geom.Shape;
  * User: knie
  * Date: 8/27/12
  */
-public class Zombie implements RenderableObject<Zombie>,UpdateQueue.ToBeUpdated<Zombie>,HasHealthPoints<Zombie>, HasFullXYMovement {
+public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,HasHealthPoints<Zombie>, HasFullXYMovement, TwoFacedImageRenderer.Renderable {
 
   private static final int MAX_HP = 50;
   public static final float HEIGHT = Sizes.BLOCK * 3.5f;
   static final float WIDTH = Sizes.BLOCK * 2.5f;
   private static final float SPEED = Player.MAX_X_SPEED * 2 / 3;
+  public static final float DEFAULT_X_DECELERATION = SPEED / Sizes.TIME_UNIT / 4f;
 
   final HealthPoints healthPoints;
   final Rectangle shape;
@@ -33,6 +35,7 @@ public class Zombie implements RenderableObject<Zombie>,UpdateQueue.ToBeUpdated<
     healthPoints = new HealthPoints(MAX_HP, this);
     shape = new Rectangle(x, y, WIDTH, HEIGHT);
     movement = new FullXYMovement(x, y, SPEED, Sizes.MAX_FALL_SPEED);
+    movement.getXMovement().setDefaultDeceleration(DEFAULT_X_DECELERATION);
   }
 
   public boolean addTo(MovingObjects movingObjects, RenderQueue renderQueue, UpdateQueue updateQueue) {
@@ -55,10 +58,10 @@ public class Zombie implements RenderableObject<Zombie>,UpdateQueue.ToBeUpdated<
     return CONTROLLER;
   }
 
-  private static BeanName<ZombieRenderer> RENDERER = new BeanName<ZombieRenderer>(ZombieRenderer.class);
+  private static BeanName<TwoFacedImageRenderer> RENDERER = new BeanName<TwoFacedImageRenderer>(TwoFacedImageRenderer.class, "zombieRenderer");
 
   @Override
-  public BeanName<? extends ObjectRenderer<? super Zombie>> getRenderer() {
+  public BeanName<? extends ObjectRenderer<? super TwoFacedImageRenderer.Renderable>> getRenderer() {
     return RENDERER;
   }
 
@@ -89,5 +92,10 @@ public class Zombie implements RenderableObject<Zombie>,UpdateQueue.ToBeUpdated<
   public void updateShape() {
     shape.setX(movement.getX());
     shape.setY(movement.getY());
+  }
+
+  @Override
+  public boolean isLeftFaced() {
+    return !movement.getXMovement().getLastDirection();
   }
 }

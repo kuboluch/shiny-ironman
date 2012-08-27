@@ -186,6 +186,6 @@ public class PlayerController implements InputListener,HealthController<Player> 
   @Override
   public void damaged(Player object, QuadTree.HasShape source, int amount) {
     soundController.playUnique(underAttackSound);
-    ControllerUtils.pushFrom(player, source, Player.MAX_X_SPEED / 2);
+    ControllerUtils.pushFrom(player, source, ControllerUtils.DEFAULT_PUSH_BACK);
   }
 }

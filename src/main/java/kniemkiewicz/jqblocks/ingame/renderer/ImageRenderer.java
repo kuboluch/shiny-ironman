@@ -55,7 +55,7 @@ public class ImageRenderer implements ItemRenderer<Item>, ObjectRenderer<Rendera
   @Override
   public void renderItem(Item item, Graphics g, int x, int y, int square_size, boolean drawFlipped) {
     if (drawFlipped) {
-      flippedImage.draw(x, y, square_size, square_size);
+      getFlippedImage().draw(x, y, square_size, square_size);
     } else {
       image.draw(x, y, square_size, square_size);
     }

@@ -54,6 +54,10 @@
         <constructor-arg ref="peonLeftImage"/>
     </bean>
 
+    <bean id="zombieRenderer" class="kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer">
+        <constructor-arg ref="zombieImage"/>
+    </bean>
+
     <bean id="ladderRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer">
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="ladder"/>

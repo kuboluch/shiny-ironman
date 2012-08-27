@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.content.creature.bat;
 
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
+import kniemkiewicz.jqblocks.ingame.controller.ControllerUtils;
 import kniemkiewicz.jqblocks.ingame.object.HasSource;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
@@ -62,7 +63,7 @@ public class BatController implements UpdateQueue.UpdateController<Bat>, HealthC
         continue;
       }
       collided = true;
-      if (p instanceof Player) {
+      if (ControllerUtils.isVillager(p)) {
         ((HasHealthPoints) p).getHp().damageRateLimited(bat, BITE_DMG, 300, world);
       }
     }
