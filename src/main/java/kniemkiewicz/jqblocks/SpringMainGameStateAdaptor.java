@@ -66,7 +66,6 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
     gameState = stateApplicationContext.getBean(MainGameState.class);
     gameState.setSettings(gameSettings);
     endGameController = stateApplicationContext.getBean(EndGameController.class);
-    gameContainer.getInput().removeAllListeners();
     System.gc();
     gameState.init(gameContainer, stateBasedGame);
   }
@@ -106,6 +105,8 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
           settings.savegame = objectInputStream;
         }
         initInternal(gameContainer, stateBasedGame, settings);
+        createRootPane();
+        ((Game) stateBasedGame).changeRootPane(rootPane);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }

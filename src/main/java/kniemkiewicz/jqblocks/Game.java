@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks;
 
+import kniemkiewicz.jqblocks.twl.RootPane;
 import kniemkiewicz.jqblocks.twl.TWLStateBasedGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -28,5 +29,9 @@ public class Game extends TWLStateBasedGame {
   @Override
   protected URL getThemeURL() {
     return Game.class.getResource("/ui/default/simple.xml");
+  }
+
+  public void changeRootPane(RootPane rootPane) throws SlickException {
+    super.setRootPane(rootPane);
   }
 }
