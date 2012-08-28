@@ -12,6 +12,7 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseInputEventBus;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
+import kniemkiewicz.jqblocks.ingame.production.ProductionController;
 import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventoryController;
 import kniemkiewicz.jqblocks.ingame.ui.HealthBar;
 import kniemkiewicz.jqblocks.ingame.ui.MainGameUI;
@@ -95,6 +96,9 @@ public class MainGameState extends BasicTWLGameState {
   WorkplaceActionController workplaceActionController;
 
   @Autowired
+  ProductionController productionController;
+
+  @Autowired
   UIController uiController;
 
   @Autowired
@@ -173,6 +177,7 @@ public class MainGameState extends BasicTWLGameState {
     }
     updateQueue.update(delta);
     freeFallController.update(delta);
+    productionController.update();
     t.record();
   }
 

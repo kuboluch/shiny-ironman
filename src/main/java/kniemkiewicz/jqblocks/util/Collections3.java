@@ -43,31 +43,31 @@ public final class Collections3 {
   }
 
   public static <T> List<T> collect(Collection<? super T> collection, Class<T> clazz) {
-    List result = new ArrayList();
+    List<T> result = new ArrayList<T>();
     for (Object element : collection) {
       if (clazz.equals(element.getClass())) {
-        result.add(element);
+        result.add((T) element);
       }
     }
     return result;
   }
 
   public static <T> List<T> collectSubclasses(Collection<? super T> collection, Class<T> clazz) {
-    List result = new ArrayList();
+    List<T> result = new ArrayList<T>();
     for (Object element : collection) {
       if (clazz.isAssignableFrom(element.getClass())) {
-        result.add(element);
+        result.add((T) element);
       }
     }
     return result;
   }
 
   public static <T> List<T> collect(final Iterator<? super T> it, Class<T> clazz) {
-    List result = new ArrayList();
+    List<T> result = new ArrayList<T>();
     while (it.hasNext()) {
       Object element = it.next();
       if (clazz.equals(element.getClass())) {
-        result.add(element);
+        result.add((T) element);
       }
     }
     return result;
@@ -84,11 +84,11 @@ public final class Collections3 {
   }
 
   public static <T> List<T> collectSubclasses(final Iterator<? super T> it, Class<T> clazz) {
-    List result = new ArrayList();
+    List<T> result = new ArrayList<T>();
     while (it.hasNext()) {
       Object element = it.next();
       if (clazz.isAssignableFrom(element.getClass())) {
-        result.add(element);
+        result.add((T) element);
       }
     }
     return result;

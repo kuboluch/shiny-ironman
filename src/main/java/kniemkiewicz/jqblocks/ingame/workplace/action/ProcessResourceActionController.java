@@ -15,7 +15,7 @@ import java.util.List;
  * User: qba
  * Date: 12.08.12
  */
-public class ProcessResourceController implements Interactive {
+public class ProcessResourceActionController implements Interactive {
 
   private static final int PROCESS_DURATION = 1000;
 
@@ -27,7 +27,7 @@ public class ProcessResourceController implements Interactive {
 
   ResourceType resourceType;
 
-  public ProcessResourceController(ResourceType resourceType) {
+  public ProcessResourceActionController(ResourceType resourceType) {
     this.resourceType = resourceType;
   }
 

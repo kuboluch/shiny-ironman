@@ -6,7 +6,7 @@ import kniemkiewicz.jqblocks.ingame.action.Interactive;
  * User: qba
  * Date: 16.08.12
  */
-public class CraftsmanController implements Interactive {
+public class ProductionActionController implements Interactive {
 
   private static final int CRAFTING_DURATION = 1000;
 

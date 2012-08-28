@@ -42,8 +42,6 @@ public class WorkplaceDefinition implements PanelItemModel, Interactive {
     return blockHeight * Sizes.BLOCK;
   }
 
-
-
   @Override
   public Image getImage() {
     return renderer.getImage();

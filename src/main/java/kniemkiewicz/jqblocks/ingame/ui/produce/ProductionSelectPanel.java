@@ -1,10 +1,15 @@
 package kniemkiewicz.jqblocks.ingame.ui.produce;
 
+import kniemkiewicz.jqblocks.ingame.event.Event;
+import kniemkiewicz.jqblocks.ingame.event.EventListener;
+import kniemkiewicz.jqblocks.ingame.event.production.AvailableItemsChangeEvent;
 import kniemkiewicz.jqblocks.ingame.production.ProductionController;
 import kniemkiewicz.jqblocks.ingame.item.ItemDefinition;
 import kniemkiewicz.jqblocks.ingame.ui.widget.SelectItemPanel;
 import kniemkiewicz.jqblocks.ingame.ui.widget.SelectablePanelItem;
+import kniemkiewicz.jqblocks.util.Collections3;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**

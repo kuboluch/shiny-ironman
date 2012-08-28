@@ -4,10 +4,12 @@ import kniemkiewicz.jqblocks.ingame.production.ItemProductionRequirements;
 import kniemkiewicz.jqblocks.ingame.production.ResourceRequirement;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.ui.widget.model.PanelItemModel;
+import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.Image;
 import org.springframework.beans.factory.annotation.Required;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +23,7 @@ public class ItemDefinition implements PanelItemModel, ItemFactory, ItemProducti
   private ImageRenderer renderer;
   ItemFactory itemFactory;
   ItemProductionRequirements itemProductionRequirements;
+  List<WorkplaceDefinition> itemProductionPlaces = new ArrayList<WorkplaceDefinition>();
 
   protected ItemDefinition() {
   }
@@ -69,6 +72,10 @@ public class ItemDefinition implements PanelItemModel, ItemFactory, ItemProducti
     return itemProductionRequirements.getItemRequirements();
   }
 
+  public List<WorkplaceDefinition> getItemProductionPlaces() {
+    return new ArrayList<WorkplaceDefinition>(itemProductionPlaces);
+  }
+
   // Setters
 
   @Required
@@ -99,5 +106,10 @@ public class ItemDefinition implements PanelItemModel, ItemFactory, ItemProducti
   public void setItemProductionRequirements(ItemProductionRequirements itemProductionRequirements) {
     Assert.assertTrue(this.itemProductionRequirements == null, "Item definition property change is illegal");
     this.itemProductionRequirements = itemProductionRequirements;
+  }
+
+  public void setItemProductionPlaces(List<WorkplaceDefinition> itemProductionPlaces) {
+    Assert.assertTrue(this.itemProductionPlaces == null, "Item definition property change is illegal");
+    this.itemProductionPlaces = itemProductionPlaces;
   }
 }

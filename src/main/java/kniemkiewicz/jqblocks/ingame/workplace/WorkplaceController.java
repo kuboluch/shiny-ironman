@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.ingame.workplace;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
+import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.EventListener;
 import kniemkiewicz.jqblocks.ingame.event.input.InputEvent;
@@ -12,15 +13,18 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseMovedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
+import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
-import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
+import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
 import kniemkiewicz.jqblocks.ingame.ui.MainGameUI;
 import kniemkiewicz.jqblocks.ingame.ui.widget.SelectListener;
 import kniemkiewicz.jqblocks.util.Collections3;
+import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -173,5 +177,25 @@ public class WorkplaceController implements EventListener, SelectListener<Workpl
     if (solidBlocks.getBlocks().collidesWithNonEmpty(placableWorkplaceObject.getShape())) return false;
     if (!solidBlocks.isOnSolidGround(placableWorkplaceObject.getShape())) return false;
     return true;
+  }
+
+  public WorkplaceBackgroundElement findWorkplaceBackgroundElement(Rectangle rect) {
+    BackgroundElement backgroundElement = null;
+    Iterator<BackgroundElement> it = backgrounds.intersects(rect);
+    while (it.hasNext()) {
+      backgroundElement = it.next();
+      if (backgroundElement.isWorkplace()) {
+        return (WorkplaceBackgroundElement) backgroundElement;
+      }
+    }
+    return null;
+  }
+
+  public WorkplaceDefinition findWorkplace(Rectangle rect) {
+    WorkplaceBackgroundElement wbe = findWorkplaceBackgroundElement(rect);
+    if (wbe != null) {
+      return wbe.getWorkplace();
+    }
+    return null;
   }
 }

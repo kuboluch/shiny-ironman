@@ -1,9 +1,16 @@
 package kniemkiewicz.jqblocks.ingame.ui.produce;
 
 import de.matthiasmann.twl.ResizableFrame;
+import kniemkiewicz.jqblocks.ingame.event.Event;
+import kniemkiewicz.jqblocks.ingame.event.EventListener;
+import kniemkiewicz.jqblocks.ingame.event.production.AvailableItemsChangeEvent;
 import kniemkiewicz.jqblocks.ingame.item.ItemDefinition;
 import kniemkiewicz.jqblocks.ingame.ui.widget.Icon;
 import kniemkiewicz.jqblocks.ingame.ui.widget.SelectListener;
+import kniemkiewicz.jqblocks.util.Collections3;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * User: qba
@@ -46,8 +53,12 @@ public class SelectedProductionPanel extends ResizableFrame implements SelectLis
 
   @Override
   public void onSelect(ItemDefinition object) {
-    removeChild(icon);
+    clear();
     icon = new Icon(object.getImage(), width, height);
     add(icon);
+  }
+
+  public void clear() {
+    removeChild(icon);
   }
 }

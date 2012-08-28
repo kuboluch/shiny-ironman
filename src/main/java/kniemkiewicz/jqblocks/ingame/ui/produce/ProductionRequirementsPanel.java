@@ -40,12 +40,16 @@ public class ProductionRequirementsPanel extends Panel<ResourceRequirementPanelI
   @Override
   public void onSelect(ItemDefinition selected) {
     this.selectedItem = selected;
-    removeAllItems();
+    clear();
     for (ResourceRequirement resourceRequirement : selectedItem.getResourceRequirements()) {
       ResourceRequirementPanelItem panelItem = new ResourceRequirementPanelItem(resourceRequirement, ITEM_WIDTH, ITEM_HEIGHT);
       addItem(panelItem);
       panelItem.updateState();
     }
+  }
+
+  public void clear() {
+    removeAllItems();
   }
 
   @Override
