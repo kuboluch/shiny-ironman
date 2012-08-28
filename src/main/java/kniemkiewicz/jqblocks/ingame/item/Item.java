@@ -16,7 +16,7 @@ public interface Item extends Serializable {
   // renderItem is used only if getItemRenderer returns false.
   BeanName<? extends ItemRenderer> getItemRenderer();
 
-  BeanName<? extends Renderable> getEquippedItemRenderer();
+  BeanName<? extends EquippedItemRenderer> getEquippedItemRenderer();
 
   boolean isLarge();
 

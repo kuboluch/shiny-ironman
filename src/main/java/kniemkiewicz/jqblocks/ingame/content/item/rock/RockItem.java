@@ -1,6 +1,9 @@
 package kniemkiewicz.jqblocks.ingame.content.item.rock;
 
+import kniemkiewicz.jqblocks.ingame.content.item.axe.AxeItem;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
+import kniemkiewicz.jqblocks.ingame.item.EmptyItemRenderer;
+import kniemkiewicz.jqblocks.ingame.item.EquippedItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
@@ -31,8 +34,8 @@ public class RockItem implements Item {
   }
 
   @Override
-  public BeanName<? extends Renderable> getEquippedItemRenderer() {
-    return null;
+  public BeanName<? extends EquippedItemRenderer> getEquippedItemRenderer() {
+    return EmptyItemRenderer.RENDERER;
   }
 
   @Override

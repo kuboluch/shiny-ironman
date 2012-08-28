@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.ingame.content.item.pickaxe;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
+import kniemkiewicz.jqblocks.ingame.item.EquippedItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.feature.Strength;
@@ -41,7 +42,7 @@ public class PickaxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<Pick
   }
 
   @Override
-  public BeanName<? extends Renderable> getEquippedItemRenderer() {
+  public BeanName<? extends EquippedItemRenderer<PickaxeItem>> getEquippedItemRenderer() {
     return null;
   }
 

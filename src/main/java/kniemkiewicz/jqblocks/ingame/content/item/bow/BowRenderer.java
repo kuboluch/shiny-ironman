@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.item.EquippedItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Component;
  * Date: 8/25/12
  */
 @Component
-public final class BowRenderer implements ItemRenderer, Renderable {
+public final class BowRenderer implements ItemRenderer, EquippedItemRenderer<BowItem> {
 
   public static Color ARROW_COLOR = new Color(100.0f/255, 50.0f/255, 0);
 
@@ -46,7 +47,7 @@ public final class BowRenderer implements ItemRenderer, Renderable {
   }
 
   @Override
-  public void render(Graphics g) {
+  public void renderEquippedItem(BowItem item, Graphics g) {
     Pair<Float, Float> pos = bowItemController.getScreenBowPosition();
     float x0 = pos.getFirst();
     float y0 = pos.getSecond();
@@ -75,4 +76,7 @@ public final class BowRenderer implements ItemRenderer, Renderable {
       g.drawLine(arcCenterX - arcDy, arcCenterY + arcDx, arcCenterX + arcDy, arcCenterY - arcDx);
     }
   }
+
+  @Override
+  public void resetEquippedItemRenderer() { }
 }

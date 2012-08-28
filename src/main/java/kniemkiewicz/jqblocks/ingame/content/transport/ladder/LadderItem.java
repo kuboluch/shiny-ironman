@@ -28,7 +28,7 @@ public class LadderItem implements Item, UpdateQueue.ToBeUpdated<LadderItem> {
   }
 
   @Override
-  public BeanName<? extends Renderable> getEquippedItemRenderer() {
+  public BeanName<EmptyItemRenderer> getEquippedItemRenderer() {
     return EmptyItemRenderer.RENDERER;
   }
 

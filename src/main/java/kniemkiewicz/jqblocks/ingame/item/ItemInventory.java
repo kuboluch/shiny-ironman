@@ -96,12 +96,20 @@ public class ItemInventory extends AbstractInventory<Item> implements Renderable
     }
   }
 
+  public void setSelectedIndex(int x) {
+    super.setSelectedIndex(x);
+    Item item = getSelectedItem();
+    BeanName<? extends EquippedItemRenderer> equippedItemRenderer = item.getEquippedItemRenderer();
+    if (equippedItemRenderer != null) {
+      springBeanProvider.getBean(equippedItemRenderer, true).resetEquippedItemRenderer();
+    }
+  }
+
   private void renderEquippedItem(Graphics g) {
     Item item = getSelectedItem();
-    if (item == null) return;
-    BeanName<? extends Renderable> renderable = item.getEquippedItemRenderer();
-    if (renderable != null) {
-      springBeanProvider.getBean(renderable, true).render(g);
+    BeanName<? extends EquippedItemRenderer> equippedItemRenderer = item.getEquippedItemRenderer();
+    if (equippedItemRenderer != null) {
+      springBeanProvider.getBean(equippedItemRenderer, true).renderEquippedItem(item, g);
     } else {
       ItemRenderer<Item> renderer = springBeanProvider.getBean(item.getItemRenderer(), true);
       int squareSize = 2 * Sizes.BLOCK;

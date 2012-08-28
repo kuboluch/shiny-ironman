@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.item.bow;
 
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
+import kniemkiewicz.jqblocks.ingame.item.EquippedItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
@@ -25,7 +26,7 @@ public class BowItem implements Item {
   }
 
   @Override
-  public BeanName<? extends Renderable> getEquippedItemRenderer() {
+  public BeanName<? extends EquippedItemRenderer<BowItem>> getEquippedItemRenderer() {
     return RENDERER;
   }
 

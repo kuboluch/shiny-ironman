@@ -1,7 +1,9 @@
 package kniemkiewicz.jqblocks.ingame.content.block.dirt;
 
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.content.item.axe.AxeItem;
 import kniemkiewicz.jqblocks.ingame.item.EmptyItemRenderer;
+import kniemkiewicz.jqblocks.ingame.item.EquippedItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
@@ -26,7 +28,7 @@ public class DirtBlockItem implements Item, UpdateQueue.ToBeUpdated<DirtBlockIte
   }
 
   @Override
-  public BeanName<? extends Renderable> getEquippedItemRenderer() {
+  public BeanName<? extends EquippedItemRenderer> getEquippedItemRenderer() {
     return EmptyItemRenderer.RENDERER;
   }
 

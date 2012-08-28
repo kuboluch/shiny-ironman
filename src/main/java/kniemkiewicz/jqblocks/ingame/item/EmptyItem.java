@@ -33,7 +33,7 @@ public class EmptyItem implements Item {
   }
 
   @Override
-  public BeanName<? extends Renderable> getEquippedItemRenderer() {
+  public BeanName<? extends EquippedItemRenderer> getEquippedItemRenderer() {
     return null;
   }
 }
