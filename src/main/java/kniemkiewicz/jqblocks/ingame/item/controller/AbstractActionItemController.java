@@ -10,18 +10,53 @@ import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
+import kniemkiewicz.jqblocks.util.BeanName;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-// Use of ToBeUpdated in this class is hackish, requesting that Item has to point to this controller
-// as it's update controller is non obvious. TODO: Insert a wrapper around item to the UpdateQueue so that item is not
-// even required to implement ToBeUpdated
-public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpdated<T> & Item> implements ItemController<T>, UpdateQueue.UpdateController<T> {
+public abstract class AbstractActionItemController<T extends Item> implements ItemController<T>, UpdateQueue.UpdateController<AbstractActionItemController.ItemWrapper<T>> {
 
   public static final int RANGE = 16 * Sizes.BLOCK;
+
+  static class ItemWrapper<E extends Item> implements UpdateQueue.ToBeUpdated<ItemWrapper<E>> {
+
+    final E item;
+    final Class<? extends UpdateQueue.UpdateController<ItemWrapper<E>>> beanName;
+
+    ItemWrapper(E item, Class<? extends UpdateQueue.UpdateController<ItemWrapper<E>>> beanName) {
+      this.item = item;
+      this.beanName = beanName;
+    }
+
+    public E getItem() {
+      return item;
+    }
+
+    @Override
+    public Class<? extends UpdateQueue.UpdateController<ItemWrapper<E>>> getUpdateController() {
+      return beanName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+
+      ItemWrapper that = (ItemWrapper) o;
+
+      if (!item.equals(that.item)) return false;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return item.hashCode();
+    }
+  }
 
   @Autowired
   protected UpdateQueue updateQueue;
@@ -101,7 +136,7 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
     if (canPerformAction(x, y)) {
       affectedRectangle = getAffectedRectangle(x, y);
       startAction(item);
-      updateQueue.add(item);
+      updateQueue.add(getWrapper(item));
     }
   }
 
@@ -121,10 +156,14 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
     handleMouseCoordChange(item, x, y);
   }
 
+  private ItemWrapper<T> getWrapper(T item) {
+    return new ItemWrapper<T>(item, (Class<? extends UpdateQueue.UpdateController<ItemWrapper<T>>>)this.getClass());
+  }
+
   private void handleMouseCoordChange(T item, int x, int y) {
     Rectangle rect = new Rectangle(x, y, 1, 1);
     if (affectedRectangle != null && (!affectedRectangle.intersects(rect) || !isInRange(x, y))) {
-      updateQueue.remove(item);
+      updateQueue.remove(getWrapper(item));
       stopAction(item);
       affectedRectangle = null;
     }
@@ -135,7 +174,7 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
     if (affectedRectangle == null && canPerformAction(x, y)) {
       affectedRectangle = getAffectedRectangle(x, y);
       startAction(item);
-      updateQueue.add(item);
+      updateQueue.add(getWrapper(item));
     }
   }
 
@@ -150,7 +189,7 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
       return;
     }
 
-    updateQueue.remove(item);
+    updateQueue.remove(getWrapper(item));
     stopAction(item);
     affectedRectangle = null;
   }
@@ -160,17 +199,17 @@ public abstract class AbstractActionItemController<T extends UpdateQueue.ToBeUpd
   }
 
   @Override
-  public void update(T item, int delta) {
+  public void update(ItemWrapper<T> wrapper, int delta) {
     if (affectedRectangle == null) {
       return;
     }
-    updateAction(item, delta);
+    updateAction(wrapper.getItem(), delta);
     if (isActionCompleted()) {
       if (canPerformAction()) {
         onAction();
       }
-      updateQueue.remove(item);
-      stopAction(item);
+      updateQueue.remove(wrapper);
+      stopAction(wrapper.getItem());
       affectedRectangle = null;
     }
   }

@@ -13,7 +13,7 @@ import kniemkiewicz.jqblocks.util.BeanName;
  * User: qba
  * Date: 15.08.12
  */
-public class LadderItem implements Item, UpdateQueue.ToBeUpdated<LadderItem> {
+public class LadderItem implements Item {
 
   @Override
   public Class<? extends ItemController> getItemController() {
@@ -40,10 +40,5 @@ public class LadderItem implements Item, UpdateQueue.ToBeUpdated<LadderItem> {
   @Override
   public boolean isEmpty() {
     return false;
-  }
-
-  @Override
-  public Class<? extends UpdateQueue.UpdateController<LadderItem>> getUpdateController() {
-    return LadderItemController.class;
   }
 }
