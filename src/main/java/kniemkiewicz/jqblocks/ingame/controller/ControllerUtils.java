@@ -12,6 +12,8 @@ import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,9 +22,24 @@ import java.util.Set;
  * User: knie
  * Date: 8/27/12
  */
+@Component
 public class ControllerUtils {
 
-  public static boolean isFlying(SolidBlocks blocks, Shape shape) {
+  @Autowired
+  SolidBlocks blocks;
+
+  @Autowired
+  World world;
+
+  private Set<Class<? extends HasHealthPoints>> villagerClasses;
+
+  public ControllerUtils() {
+    villagerClasses = new HashSet<Class<? extends HasHealthPoints>>();
+    villagerClasses.add(Player.class);
+    villagerClasses.add(Peon.class);
+  }
+
+  public boolean isFlying(Shape shape) {
     Rectangle belowShape = new Rectangle(shape.getMinX() + 1, shape.getMaxY() + 2,
         shape.getWidth() - 4, 0);
     return !blocks.getBlocks().collidesWithNonEmpty(belowShape);
@@ -30,7 +47,7 @@ public class ControllerUtils {
 
   public static float DEFAULT_PUSH_BACK = Player.MAX_X_SPEED;
 
-  public static void pushFrom(HasFullXYMovement target, QuadTree.HasShape source, float speed) {
+  public void pushFrom(HasFullXYMovement target, QuadTree.HasShape source, float speed) {
     float dx = target.getFullXYMovement().getX() - source.getShape().getCenterX();
     float dy = target.getFullXYMovement().getY() - source.getShape().getCenterY();
     float dd = (float)Math.sqrt(dx * dx + dy * dy);
@@ -40,17 +57,12 @@ public class ControllerUtils {
     target.getFullXYMovement().getYMovement().setSpeed(target.getFullXYMovement().getYMovement().getSpeed() + speedY);
   }
 
-  private static Set<Class<? extends HasHealthPoints>> VILLAGER_CLASSES = new HashSet<Class<? extends HasHealthPoints>>();
-  {
-    VILLAGER_CLASSES.add(Player.class);
-    VILLAGER_CLASSES.add(Peon.class);
+  public boolean isVillager(PhysicalObject po) {
+    assert villagerClasses.size() > 0;
+    return villagerClasses.contains(po.getClass());
   }
 
-  public static boolean isVillager(PhysicalObject po) {
-    return VILLAGER_CLASSES.contains(po.getClass());
-  }
-
-  public static void damageTouchedVillagers(World world, QuadTree.HasShape source, int damage) {
+  public void damageTouchedVillagers(QuadTree.HasShape source, int damage) {
     Shape shape = source.getShape();
     for (PhysicalObject p : world.getCollisionController().<PhysicalObject>fullSearch(MovingObjects.MOVING, shape)) {
       if (p instanceof Player) {

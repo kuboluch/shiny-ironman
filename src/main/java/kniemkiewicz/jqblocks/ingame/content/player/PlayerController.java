@@ -67,6 +67,9 @@ public class PlayerController implements InputListener,HealthController<Player> 
   @Autowired
   CollisionController collisionController;
 
+  @Autowired
+  ControllerUtils controllerUtils;
+
   /**
    * This is manually invoked by Game to make sure that level is created before.
    */
@@ -137,7 +140,7 @@ public class PlayerController implements InputListener,HealthController<Player> 
   }
 
   private void listenToControls(Input input, SingleAxisMovement xMovement, SingleAxisMovement yMovement) {
-    boolean flying = ControllerUtils.isFlying(blocks, player.getShape());
+    boolean flying = controllerUtils.isFlying(player.getShape());
 
     if (KeyboardUtils.isLeftPressed(input)) {
       xMovement.setAcceleration(-Player.X_ACCELERATION);
@@ -186,6 +189,6 @@ public class PlayerController implements InputListener,HealthController<Player> 
   @Override
   public void damaged(Player object, QuadTree.HasShape source, int amount) {
     soundController.playUnique(underAttackSound);
-    ControllerUtils.pushFrom(player, source, ControllerUtils.DEFAULT_PUSH_BACK);
+    controllerUtils.pushFrom(player, source, ControllerUtils.DEFAULT_PUSH_BACK);
   }
 }

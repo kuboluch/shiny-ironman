@@ -39,6 +39,9 @@ public class BatController implements UpdateQueue.UpdateController<Bat>, HealthC
   @Autowired
   FreeFallController freeFallController;
 
+  @Autowired
+  ControllerUtils utils;
+
   public static int BITE_DMG = 20;
 
   @Override
@@ -59,11 +62,11 @@ public class BatController implements UpdateQueue.UpdateController<Bat>, HealthC
     if (solidBlocks.getBlocks().collidesWithNonEmpty(bat.getShape())) return true;
     boolean collided = false;
     for (PhysicalObject p : collisionController.<PhysicalObject>fullSearch(MovingObjects.MOVING, bat.getShape())) {
-      if (p == bat) {
+      if (p instanceof Bat) {
         continue;
       }
       collided = true;
-      if (ControllerUtils.isVillager(p)) {
+      if (utils.isVillager(p)) {
         ((HasHealthPoints) p).getHp().damageRateLimited(bat, BITE_DMG, 300, world);
       }
     }

@@ -22,6 +22,9 @@ public class ZombieController implements HealthController<Zombie>, UpdateQueue.U
   @Autowired
   FreeFallController freeFallController;
 
+  @Autowired
+  ControllerUtils controllerUtils;
+
   private static int TOUCH_DMG = 50;
 
   @Override
@@ -31,12 +34,12 @@ public class ZombieController implements HealthController<Zombie>, UpdateQueue.U
 
   @Override
   public void damaged(Zombie object, QuadTree.HasShape source, int amount) {
-    ControllerUtils.pushFrom(object, source, ControllerUtils.DEFAULT_PUSH_BACK / 2);
+    controllerUtils.pushFrom(object, source, ControllerUtils.DEFAULT_PUSH_BACK / 2);
   }
 
   @Override
   public void update(Zombie object, int delta) {
     freeFallController.updateComplex(delta, null, object);
-    ControllerUtils.damageTouchedVillagers(world, object, TOUCH_DMG);
+    controllerUtils.damageTouchedVillagers(object, TOUCH_DMG);
   }
 }
