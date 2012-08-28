@@ -38,7 +38,7 @@ public class ItemInventory extends AbstractInventory<Item> implements Renderable
   SpringBeanProvider springBeanProvider;
 
   @Autowired
-  PlayerController playerController;
+  DefaultEquippedItemRenderer defaultEquippedItemRenderer;
 
   public static int SQUARE_SIZE = 25;
   public static int SQUARE_DIST = 10;
@@ -111,13 +111,7 @@ public class ItemInventory extends AbstractInventory<Item> implements Renderable
     if (equippedItemRenderer != null) {
       springBeanProvider.getBean(equippedItemRenderer, true).renderEquippedItem(item, g);
     } else {
-      ItemRenderer<Item> renderer = springBeanProvider.getBean(item.getItemRenderer(), true);
-      int squareSize = 2 * Sizes.BLOCK;
-      if (playerController.getPlayer().isLeftFaced()) {
-        renderer.renderItem(item, g, (int)pointOfView.getWindowWidth() / 2 - squareSize + 6 , 2 + (int)pointOfView.getWindowHeight() / 2 - squareSize, squareSize, true);
-      } else {
-        renderer.renderItem(item, g, (int)pointOfView.getWindowWidth() / 2 - 6, 2 + (int)pointOfView.getWindowHeight() / 2 - squareSize, squareSize, false);
-      }
+      defaultEquippedItemRenderer.renderEquippedItem(item, g);
     }
   }
 
