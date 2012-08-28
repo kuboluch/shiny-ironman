@@ -11,7 +11,7 @@ import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
 import kniemkiewicz.jqblocks.util.BeanName;
 
-public class AxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<AxeItem> {
+public class AxeItem implements Item, Strength {
 
   private int strength = Sizes.DEFAULT_AXE_STRENGTH;
 
@@ -26,11 +26,6 @@ public class AxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<AxeItem>
   }
   @Override
   public Class<? extends ItemController> getItemController() {
-    return AxeItemController.class;
-  }
-
-  @Override
-  public Class<AxeItemController> getUpdateController() {
     return AxeItemController.class;
   }
 

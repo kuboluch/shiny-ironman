@@ -14,7 +14,7 @@ import kniemkiewicz.jqblocks.util.BeanName;
  * User: krzysiek
  * Date: 11.07.12
  */
-public class DirtBlockItem implements Item, UpdateQueue.ToBeUpdated<DirtBlockItem> {
+public class DirtBlockItem implements Item {
 
   public Class<? extends DirtBlockItemController> getItemController() {
     return DirtBlockItemController.class;
@@ -40,10 +40,5 @@ public class DirtBlockItem implements Item, UpdateQueue.ToBeUpdated<DirtBlockIte
   @Override
   public boolean isEmpty() {
     return false;
-  }
-
-  @Override
-  public Class<? extends UpdateQueue.UpdateController<DirtBlockItem>> getUpdateController() {
-    return DirtBlockItemController.class;
   }
 }

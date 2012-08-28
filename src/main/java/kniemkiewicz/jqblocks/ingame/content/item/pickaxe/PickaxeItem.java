@@ -15,7 +15,7 @@ import kniemkiewicz.jqblocks.util.BeanName;
  * User: krzysiek
  * Date: 15.07.12
  */
-public class PickaxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<PickaxeItem> {
+public class PickaxeItem implements Item, Strength {
 
   private int strength = Sizes.DEFAULT_PICKAXE_STRENGTH;
 
@@ -44,11 +44,6 @@ public class PickaxeItem implements Item, Strength, UpdateQueue.ToBeUpdated<Pick
   @Override
   public BeanName<? extends EquippedItemRenderer<PickaxeItem>> getEquippedItemRenderer() {
     return null;
-  }
-
-  @Override
-  public Class<PickaxeItemController> getUpdateController() {
-    return PickaxeItemController.class;
   }
 
   @Override
