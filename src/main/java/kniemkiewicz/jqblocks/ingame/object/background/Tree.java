@@ -27,6 +27,11 @@ public class Tree extends AbstractBackgroundElement<Tree> implements ResourceBac
     return true;
   }
 
+  @Override
+  public boolean requiresFoundation() {
+    return true;
+  }
+
   private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(ImageRenderer.class, "treeRenderer");
 
   @Override

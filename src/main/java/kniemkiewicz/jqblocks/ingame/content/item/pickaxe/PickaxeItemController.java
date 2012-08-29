@@ -9,11 +9,14 @@ import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController
 import kniemkiewicz.jqblocks.ingame.object.DigEffect;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
+import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.NaturalDirtBackground;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Iterator;
 
 @Component
 public class PickaxeItemController extends AbstractActionItemController<PickaxeItem> {
@@ -86,12 +89,23 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
   }
 
   private void removeBlock() {
+    digRectangle(affectedRectangle);
+  }
+
+  // This method should be used by other controllers as well.
+  public boolean digRectangle(Rectangle affectedRect) {
+    Rectangle rect = new Rectangle(affectedRectangle.getX(), affectedRectangle.getY() - Sizes.BLOCK / 4,
+        affectedRectangle.getWidth(), affectedRectangle.getHeight());
+    Iterator<BackgroundElement> it = backgrounds.intersects (rect);
+    while (it.hasNext()) {
+      BackgroundElement el = it.next();
+      if (el.requiresFoundation()) return false;
+    }
     blocks.getBlocks().setRectUnscaled(affectedRectangle, WallBlockType.EMPTY);
     backgrounds.add(new NaturalDirtBackground(
         affectedRectangle.getX(), affectedRectangle.getY(), affectedRectangle.getWidth(), affectedRectangle.getHeight()));
-    Rectangle rect = new Rectangle(affectedRectangle.getX(), affectedRectangle.getY() - Sizes.BLOCK / 4,
-        affectedRectangle.getWidth(), affectedRectangle.getHeight());
     freeFallController.addObjectsInRectangle(rect);
+    return true;
   }
 
   @Override

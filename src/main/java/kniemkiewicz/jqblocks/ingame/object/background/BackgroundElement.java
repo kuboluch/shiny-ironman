@@ -9,4 +9,6 @@ public interface BackgroundElement extends PhysicalObject, RenderableObject {
 
   public boolean isWorkplace();
 
+  // If this method returns true, walls below this background cannot be removed.
+  public boolean requiresFoundation();
 }

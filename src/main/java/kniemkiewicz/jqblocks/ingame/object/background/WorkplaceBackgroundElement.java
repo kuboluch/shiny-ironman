@@ -28,6 +28,11 @@ public class WorkplaceBackgroundElement extends AbstractBackgroundElement<Workpl
   }
 
   @Override
+  public boolean requiresFoundation() {
+    return true;
+  }
+
+  @Override
   public BeanName<ImageRenderer> getRenderer() {
     return new BeanName(rendererBeanName.getClazz(), rendererBeanName.getName());
   }

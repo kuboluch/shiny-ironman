@@ -25,6 +25,11 @@ public class LadderBackground extends AbstractBackgroundElement<LadderBackground
     return true;
   }
 
+  @Override
+  public boolean requiresFoundation() {
+    return false;
+  }
+
   private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(ImageRenderer.class, "ladderRenderer");
 
   @Override

@@ -32,4 +32,9 @@ public class NaturalDirtBackground extends AbstractBackgroundElement<NaturalDirt
     g.setColor(BROWN);
     g.fillRect(x, y, width, height);
   }
+
+  @Override
+  public boolean requiresFoundation() {
+    return false;
+  }
 }
