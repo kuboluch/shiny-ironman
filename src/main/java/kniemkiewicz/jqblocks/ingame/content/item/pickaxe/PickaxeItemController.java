@@ -39,7 +39,8 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
 
   @Override
   protected boolean canPerformAction(int x, int y) {
-    return blocks.getBlocks().getValueForUnscaledPoint(x, y) == WallBlockType.DIRT;
+    return (blocks.getBlocks().getValueForUnscaledPoint(x, y) == WallBlockType.DIRT) &&
+        isDigAllowed(getAffectedRectangle(x, y));
   }
 
   WallBlockType getAffectedBlock(int x, int y) {
@@ -92,18 +93,25 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
     digRectangle(affectedRectangle);
   }
 
-  // This method should be used by other controllers as well.
-  public boolean digRectangle(Rectangle affectedRect) {
-    Rectangle rect = new Rectangle(affectedRectangle.getX(), affectedRectangle.getY() - Sizes.BLOCK / 4,
-        affectedRectangle.getWidth(), affectedRectangle.getHeight());
+  public boolean isDigAllowed(Rectangle affectedRect) {
+    Rectangle rect = new Rectangle(affectedRect.getX(), affectedRect.getY() - Sizes.BLOCK / 4,
+        affectedRect.getWidth(), affectedRect.getHeight());
     Iterator<BackgroundElement> it = backgrounds.intersects (rect);
     while (it.hasNext()) {
       BackgroundElement el = it.next();
       if (el.requiresFoundation()) return false;
     }
-    blocks.getBlocks().setRectUnscaled(affectedRectangle, WallBlockType.EMPTY);
+    return true;
+  }
+
+  // This method should be used by other controllers as well.
+  public boolean digRectangle(Rectangle affectedRect) {
+    if (!isDigAllowed(affectedRect)) return false;
+    Rectangle rect = new Rectangle(affectedRect.getX(), affectedRect.getY() - Sizes.BLOCK / 4,
+        affectedRect.getWidth(), affectedRect.getHeight());
+    blocks.getBlocks().setRectUnscaled(affectedRect, WallBlockType.EMPTY);
     backgrounds.add(new NaturalDirtBackground(
-        affectedRectangle.getX(), affectedRectangle.getY(), affectedRectangle.getWidth(), affectedRectangle.getHeight()));
+        affectedRect.getX(), affectedRect.getY(), affectedRect.getWidth(), affectedRect.getHeight()));
     freeFallController.addObjectsInRectangle(rect);
     return true;
   }
