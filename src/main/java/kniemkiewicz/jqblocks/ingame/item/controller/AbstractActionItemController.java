@@ -21,43 +21,6 @@ public abstract class AbstractActionItemController<T extends Item> implements It
 
   public static final int RANGE = 16 * Sizes.BLOCK;
 
-  static class ItemWrapper<E extends Item> implements UpdateQueue.ToBeUpdated<ItemWrapper<E>> {
-
-    final E item;
-    final Class<? extends UpdateQueue.UpdateController<ItemWrapper<E>>> beanName;
-
-    ItemWrapper(E item, Class<? extends UpdateQueue.UpdateController<ItemWrapper<E>>> beanName) {
-      this.item = item;
-      this.beanName = beanName;
-    }
-
-    public E getItem() {
-      return item;
-    }
-
-    @Override
-    public Class<? extends UpdateQueue.UpdateController<ItemWrapper<E>>> getUpdateController() {
-      return beanName;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
-
-      ItemWrapper that = (ItemWrapper) o;
-
-      if (!item.equals(that.item)) return false;
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      return item.hashCode();
-    }
-  }
-
   @Autowired
   protected UpdateQueue updateQueue;
 
@@ -156,10 +119,6 @@ public abstract class AbstractActionItemController<T extends Item> implements It
     handleMouseCoordChange(item, x, y);
   }
 
-  private ItemWrapper<T> getWrapper(T item) {
-    return new ItemWrapper<T>(item, (Class<? extends UpdateQueue.UpdateController<ItemWrapper<T>>>)this.getClass());
-  }
-
   private void handleMouseCoordChange(T item, int x, int y) {
     Rectangle rect = new Rectangle(x, y, 1, 1);
     if (affectedRectangle != null && (!affectedRectangle.intersects(rect) || !isInRange(x, y))) {
@@ -211,6 +170,47 @@ public abstract class AbstractActionItemController<T extends Item> implements It
       updateQueue.remove(wrapper);
       stopAction(wrapper.getItem());
       affectedRectangle = null;
+    }
+  }
+
+  private ItemWrapper<T> getWrapper(T item) {
+    return new ItemWrapper<T>(item, (Class<? extends UpdateQueue.UpdateController<ItemWrapper<T>>>)this.getClass());
+  }
+
+  static class ItemWrapper<E extends Item> implements UpdateQueue.ToBeUpdated<ItemWrapper<E>> {
+
+    final E item;
+    final Class<? extends UpdateQueue.UpdateController<ItemWrapper<E>>> beanName;
+
+    ItemWrapper(E item, Class<? extends UpdateQueue.UpdateController<ItemWrapper<E>>> beanName) {
+      this.item = item;
+      this.beanName = beanName;
+    }
+
+    public E getItem() {
+      return item;
+    }
+
+    @Override
+    public Class<? extends UpdateQueue.UpdateController<ItemWrapper<E>>> getUpdateController() {
+      return beanName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+
+      ItemWrapper that = (ItemWrapper) o;
+
+      if (!item.equals(that.item)) return false;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return item.hashCode();
     }
   }
 }

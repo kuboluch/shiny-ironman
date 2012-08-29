@@ -45,7 +45,6 @@ public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,HasHealthPoints<Z
     return true;
   }
 
-
   @Override
   public HealthPoints getHp() {
     return healthPoints;

@@ -1,13 +1,17 @@
 package kniemkiewicz.jqblocks.ingame.production;
 
+import com.google.common.collect.ImmutableList;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
+import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.event.EventListener;
 import kniemkiewicz.jqblocks.ingame.event.production.AvailableItemsChangeEvent;
 import kniemkiewicz.jqblocks.ingame.inventory.InventoryController;
 import kniemkiewicz.jqblocks.ingame.item.ItemDefinition;
 import kniemkiewicz.jqblocks.ingame.resource.ResourceStorageController;
 import kniemkiewicz.jqblocks.ingame.ui.MainGameUI;
+import kniemkiewicz.jqblocks.ingame.ui.produce.ProductionSelectPanel;
 import kniemkiewicz.jqblocks.ingame.ui.widget.SelectListener;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition;
@@ -16,6 +20,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -51,15 +56,15 @@ public class ProductionController implements SelectListener<ItemDefinition> {
   private ItemDefinition selectedItem;
 
   public ProductionController(List<ItemDefinition> items) {
-    this.items = items;
+    this.items = ImmutableList.copyOf(items);
   }
 
   public List<ItemDefinition> getItemDefinitions() {
-    return new ArrayList<ItemDefinition>(items);
+    return items;
   }
 
   public List<ItemDefinition> getAvailableItemDefinitions() {
-    return new ArrayList<ItemDefinition>(availableItems);
+    return availableItems;
   }
 
   public ItemDefinition getSelectedItem() {
@@ -78,14 +83,15 @@ public class ProductionController implements SelectListener<ItemDefinition> {
     if (activeWorkplace != newWorkplace) {
       activeWorkplace = newWorkplace;
       availableItems.clear();
-      if (activeWorkplace != null) {
-        for (ItemDefinition item : items) {
-          if (!Collections3.collectSubclasses(item.getItemProductionPlaces(), activeWorkplace.getClass()).isEmpty()) {
-            availableItems.add(item);
-          }
+      for (ItemDefinition item : items) {
+        if (item.isGloballyAvailable() || (activeWorkplace != null && item.canBeProducedIn(activeWorkplace))) {
+          availableItems.add(item);
         }
       }
       eventBus.broadcast(new AvailableItemsChangeEvent());
+      if (!availableItems.contains(selectedItem)) {
+        selectedItem = null;
+      }
     }
   }
 

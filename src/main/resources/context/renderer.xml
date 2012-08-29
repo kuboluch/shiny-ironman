@@ -63,6 +63,11 @@
         <constructor-arg value="ladder"/>
     </bean>
 
+    <bean id="torchRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer">
+        <constructor-arg ref="blockSheet"/>
+        <constructor-arg value="torch"/>
+    </bean>
+
     <bean id="unknownRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer">
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="unknown"/>

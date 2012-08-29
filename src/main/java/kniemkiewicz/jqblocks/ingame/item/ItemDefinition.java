@@ -1,11 +1,13 @@
 package kniemkiewicz.jqblocks.ingame.item;
 
+import com.google.common.collect.ImmutableList;
 import kniemkiewicz.jqblocks.ingame.production.ItemProductionRequirements;
 import kniemkiewicz.jqblocks.ingame.production.ResourceRequirement;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.ui.widget.model.PanelItemModel;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition;
 import kniemkiewicz.jqblocks.util.Assert;
+import kniemkiewicz.jqblocks.util.Collections3;
 import org.newdawn.slick.Image;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -18,12 +20,13 @@ import java.util.List;
  */
 public class ItemDefinition implements PanelItemModel, ItemFactory, ItemProductionRequirements {
 
-  private String name;
-  private String description;
-  private ImageRenderer renderer;
+  String name;
+  String description;
+  ImageRenderer renderer;
   ItemFactory itemFactory;
-  ItemProductionRequirements itemProductionRequirements;
-  List<WorkplaceDefinition> itemProductionPlaces = new ArrayList<WorkplaceDefinition>();
+  ItemProductionRequirements productionRequirements;
+  Boolean globallyAvailable;
+  List<WorkplaceDefinition> productionPlaces;
 
   protected ItemDefinition() {
   }
@@ -64,16 +67,27 @@ public class ItemDefinition implements PanelItemModel, ItemFactory, ItemProducti
 
   @Override
   public List<ResourceRequirement> getResourceRequirements() {
-    return itemProductionRequirements.getResourceRequirements();
+    return productionRequirements.getResourceRequirements();
   }
 
   @Override
   public List<Item> getItemRequirements() {
-    return itemProductionRequirements.getItemRequirements();
+    return productionRequirements.getItemRequirements();
   }
 
-  public List<WorkplaceDefinition> getItemProductionPlaces() {
-    return new ArrayList<WorkplaceDefinition>(itemProductionPlaces);
+  public boolean isGloballyAvailable() {
+    if (globallyAvailable == null) {
+      globallyAvailable = false;
+    }
+    return globallyAvailable;
+  }
+
+  public boolean canBeProducedIn(WorkplaceDefinition workplaceDefinition) {
+    if (isGloballyAvailable()) return true;
+    if (productionPlaces != null) {
+      return !Collections3.collectSubclasses(productionPlaces, workplaceDefinition.getClass()).isEmpty();
+    }
+    return false;
   }
 
   // Setters
@@ -103,13 +117,18 @@ public class ItemDefinition implements PanelItemModel, ItemFactory, ItemProducti
   }
 
   @Required
-  public void setItemProductionRequirements(ItemProductionRequirements itemProductionRequirements) {
-    Assert.assertTrue(this.itemProductionRequirements == null, "Item definition property change is illegal");
-    this.itemProductionRequirements = itemProductionRequirements;
+  public void setProductionRequirements(ItemProductionRequirements productionRequirements) {
+    Assert.assertTrue(this.productionRequirements == null, "Item definition property change is illegal");
+    this.productionRequirements = productionRequirements;
   }
 
-  public void setItemProductionPlaces(List<WorkplaceDefinition> itemProductionPlaces) {
-    Assert.assertTrue(this.itemProductionPlaces == null, "Item definition property change is illegal");
-    this.itemProductionPlaces = itemProductionPlaces;
+  public void setGloballyAvailable(boolean globallyAvailable) {
+    Assert.assertTrue(this.globallyAvailable == null, "Item definition property change is illegal");
+    this.globallyAvailable = globallyAvailable;
+  }
+
+  public void setProductionPlaces(List<WorkplaceDefinition> productionPlaces) {
+    Assert.assertTrue(this.productionPlaces == null, "Item definition property change is illegal");
+    this.productionPlaces = ImmutableList.copyOf(productionPlaces);
   }
 }

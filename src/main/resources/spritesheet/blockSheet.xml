@@ -10,5 +10,6 @@
 	<sprite name="grass5" x="192" y="80" width="16" height="16" />
     <sprite name="wood" x="64" y="0" width="16" height="16" />
 	<sprite name="ladder" x="48" y="80" width="16" height="16" />
+    <sprite name="torch" x="256" y="32" width="16" height="16" />
 	<sprite name="unknown" x="368" y="240" width="16" height="16" />
 </sheet>

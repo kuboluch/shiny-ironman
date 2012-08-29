@@ -10,6 +10,10 @@ public class LadderItemFactory implements ItemFactory<LadderItem> {
 
   @Override
   public LadderItem createItem() {
+    return getItem();
+  }
+
+  public static LadderItem getItem() {
     return new LadderItem();
   }
 }

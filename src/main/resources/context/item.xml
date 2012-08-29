@@ -10,9 +10,10 @@
                         http://www.springframework.org/schema/util
                         http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-    <bean id="constructConstroller" class="kniemkiewicz.jqblocks.ingame.production.ProductionController">
+    <bean id="productionConstroller" class="kniemkiewicz.jqblocks.ingame.production.ProductionController">
         <constructor-arg>
             <list>
+                <ref bean="torch"/>
                 <ref bean="ladder"/>
                 <ref bean="pickaxe"/>
                 <ref bean="axe"/>
@@ -22,6 +23,27 @@
         </constructor-arg>
     </bean>
 
+    <bean id="torch" class="kniemkiewicz.jqblocks.ingame.item.ItemDefinition">
+        <property name="name" value="torch"/>
+        <property name="description" value="Let there be light"/>
+        <property name="renderer" ref="torchRenderer"/>
+        <property name="itemFactory">
+            <bean class="kniemkiewicz.jqblocks.ingame.content.item.torch.TorchItemFactory"/>
+        </property>
+        <property name="productionRequirements">
+            <bean class="kniemkiewicz.jqblocks.ingame.production.SimpleItemProductionRequirements">
+                <property name="resourceRequirements">
+                    <list>
+                        <bean class="kniemkiewicz.jqblocks.ingame.content.resource.Wood">
+                            <constructor-arg value="50"/>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="globallyAvailable" value="true"/>
+    </bean>
+
     <bean id="ladder" class="kniemkiewicz.jqblocks.ingame.item.ItemDefinition">
         <property name="name" value="ladder"/>
         <property name="description" value="Ladder to climb?"/>
@@ -29,7 +51,7 @@
         <property name="itemFactory">
             <bean class="kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderItemFactory"/>
         </property>
-        <property name="itemProductionRequirements">
+        <property name="productionRequirements">
             <bean class="kniemkiewicz.jqblocks.ingame.production.SimpleItemProductionRequirements">
                 <property name="resourceRequirements">
                     <list>
@@ -43,6 +65,11 @@
                 </property>
             </bean>
         </property>
+        <property name="productionPlaces">
+            <list>
+                <ref bean="carpenter"/>
+            </list>
+        </property>
     </bean>
 
     <bean id="pickaxe" class="kniemkiewicz.jqblocks.ingame.item.ItemDefinition">
@@ -52,7 +79,7 @@
         <property name="itemFactory">
             <bean class="kniemkiewicz.jqblocks.ingame.content.item.pickaxe.PickaxeItemFactory"/>
         </property>
-        <property name="itemProductionRequirements">
+        <property name="productionRequirements">
             <bean class="kniemkiewicz.jqblocks.ingame.production.SimpleItemProductionRequirements">
                 <property name="resourceRequirements">
                     <list>
@@ -75,7 +102,7 @@
         <property name="itemFactory">
             <bean class="kniemkiewicz.jqblocks.ingame.content.item.axe.AxeItemFactory"/>
         </property>
-        <property name="itemProductionRequirements">
+        <property name="productionRequirements">
             <bean class="kniemkiewicz.jqblocks.ingame.production.SimpleItemProductionRequirements">
                 <property name="resourceRequirements">
                     <list>
@@ -98,7 +125,7 @@
         <property name="itemFactory">
             <bean class="kniemkiewicz.jqblocks.ingame.content.item.bow.BowItemFactory"/>
         </property>
-        <property name="itemProductionRequirements">
+        <property name="productionRequirements">
             <bean class="kniemkiewicz.jqblocks.ingame.production.SimpleItemProductionRequirements">
                 <property name="resourceRequirements">
                     <list>
@@ -118,7 +145,7 @@
         <property name="itemFactory">
             <bean class="kniemkiewicz.jqblocks.ingame.content.block.dirt.DirtBlockItemFactory"/>
         </property>
-        <property name="itemProductionRequirements">
+        <property name="productionRequirements">
             <bean class="kniemkiewicz.jqblocks.ingame.production.SimpleItemProductionRequirements">
                 <property name="resourceRequirements">
                     <list>

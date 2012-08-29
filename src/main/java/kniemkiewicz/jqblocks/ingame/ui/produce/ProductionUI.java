@@ -106,7 +106,6 @@ public class ProductionUI extends ResizableFrame implements EventListener {
     productionSelectPanel.deselectAll();
   }
 
-
   @Override
   public void listen(List<Event> events) {
     List<AvailableItemsChangeEvent> resourceStorageChangeEvents = Collections3.collect(events, AvailableItemsChangeEvent.class);
@@ -120,6 +119,14 @@ public class ProductionUI extends ResizableFrame implements EventListener {
     scrollPane.setContent(productionSelectPanel);
     selectedProductionPanel.clear();
     productionRequirementsPanel.clear();
+
+    productionSelectPanel.addSelectListener(selectedProductionPanel);
+    productionSelectPanel.addSelectListener(productionController);
+    productionSelectPanel.addSelectListener(productionRequirementsPanel);
+
+    if (productionController.getSelectedItem() != null) {
+      productionSelectPanel.select(productionController.getSelectedItem());
+    }
   }
 
   @Override

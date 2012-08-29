@@ -29,7 +29,15 @@ public class SelectItemPanel<T extends PanelItemModel> extends Panel<SelectableP
     }
   }
 
-  public void select(SelectablePanelItem<T> selectablePanelItem) {
+  public void select(T item) {
+    for (SelectablePanelItem<T> panelItem : panelItems) {
+      if (panelItem.getObject().equals(item)) {
+        select(panelItem);
+      }
+    }
+  }
+
+  protected void select(SelectablePanelItem<T> selectablePanelItem) {
     deselectAll();
     selectablePanelItem.select();
     notifyListeners(selectablePanelItem.getObject());

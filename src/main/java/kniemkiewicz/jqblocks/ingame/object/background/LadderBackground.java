@@ -36,9 +36,4 @@ public class LadderBackground extends AbstractBackgroundElement<LadderBackground
   public BeanName<? extends ObjectRenderer<? super LadderBackground>> getRenderer() {
     return RENDERER;
   }
-
-  public void addTo(Backgrounds backgrounds) {
-    backgrounds.add(this);
-
-  }
 }

@@ -10,7 +10,7 @@
                         http://www.springframework.org/schema/util
                         http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-    <bean id="workplaceConstroller" class="kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController">
+    <bean id="workplaceController" class="kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController">
         <constructor-arg>
             <list>
                 <ref bean="fireplace"/>

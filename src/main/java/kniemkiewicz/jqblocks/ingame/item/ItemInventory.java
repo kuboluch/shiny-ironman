@@ -107,6 +107,7 @@ public class ItemInventory extends AbstractInventory<Item> implements Renderable
 
   private void renderEquippedItem(Graphics g) {
     Item item = getSelectedItem();
+    if (item == null) return;
     BeanName<? extends EquippedItemRenderer> equippedItemRenderer = item.getEquippedItemRenderer();
     if (equippedItemRenderer != null) {
       springBeanProvider.getBean(equippedItemRenderer, true).renderEquippedItem(item, g);

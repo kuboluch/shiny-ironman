@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.production;
 
+import com.google.common.collect.ImmutableList;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.resource.Resource;
 import kniemkiewicz.jqblocks.ingame.resource.ResourceStorageController;
@@ -29,7 +30,10 @@ public class SimpleItemProductionRequirements implements ItemProductionRequireme
 
   @Override
   public List<ResourceRequirement> getResourceRequirements() {
-    return new ArrayList<ResourceRequirement>(resourceRequirements);
+    if (resourceRequirements == null) {
+      resourceRequirements = new ArrayList<ResourceRequirement>();
+    }
+    return resourceRequirements;
   }
 
   public void setResourceRequirements(List<Resource> resources) {
@@ -37,10 +41,10 @@ public class SimpleItemProductionRequirements implements ItemProductionRequireme
     for (Resource resource : resources) {
       this.resourceRequirements.add(new ResourceRequirement(resource, resourceRenderer, resourceStorageController));
     }
-    groupResourceRequirementsByType();
+    this.resourceRequirements = ImmutableList.copyOf(groupResourceRequirementsByType());
   }
 
-  private void groupResourceRequirementsByType() {
+  private Collection<ResourceRequirement> groupResourceRequirementsByType() {
     Map<ResourceType, ResourceRequirement> resourceRequirementsMap = new HashMap<ResourceType, ResourceRequirement>();
     for (ResourceRequirement resourceRequirement : resourceRequirements) {
       if (!resourceRequirementsMap.containsKey(resourceRequirement.getResource().getType())) {
@@ -49,7 +53,7 @@ public class SimpleItemProductionRequirements implements ItemProductionRequireme
         resourceRequirement.getResource().transferTo(resourceRequirementsMap.get(resourceRequirement.getResource().getType()).getResource());
       }
     }
-    resourceRequirements = new ArrayList<ResourceRequirement>(resourceRequirementsMap.values());
+    return resourceRequirementsMap.values();
   }
 
   @Override
@@ -57,10 +61,10 @@ public class SimpleItemProductionRequirements implements ItemProductionRequireme
     if (itemRequirements == null) {
       itemRequirements = new ArrayList<Item>();
     }
-    return new ArrayList<Item>(itemRequirements);
+    return itemRequirements;
   }
 
   public void setItemRequirements(List<Item> itemRequirements) {
-    this.itemRequirements = itemRequirements;
+    this.itemRequirements = ImmutableList.copyOf(itemRequirements);
   }
 }

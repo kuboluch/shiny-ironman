@@ -76,11 +76,11 @@ public class VillageGenerator {
   void generateLadders() {
     for (int i = 0; i < 10; i++) {
       int y = startingY - 2 * Sizes.BLOCK * (i + 1);
-      new LadderBackground(STARTING_X + Sizes.BLOCK * 4, y).addTo(backgrounds);
+      backgrounds.add(new LadderBackground(STARTING_X + Sizes.BLOCK * 4, y));
     }
     for (int i = 0; i < 10; i++) {
       int y = startingY - 2 * Sizes.BLOCK * 10;
-      new LadderBackground(STARTING_X + 2 * i * Sizes.BLOCK, y).addTo(backgrounds);
+      backgrounds.add(new LadderBackground(STARTING_X + 2 * i * Sizes.BLOCK, y));
     }
   }
 

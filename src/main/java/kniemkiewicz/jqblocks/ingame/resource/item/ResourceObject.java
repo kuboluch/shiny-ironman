@@ -36,11 +36,6 @@ public class ResourceObject<T extends Resource>
     return new Rectangle(x, y, SIZE, SIZE);
   }
 
-  public void addTo(RenderQueue renderQueue, MovingObjects movingObjects) {
-    renderQueue.add(this);
-    Assert.executeAndAssert(movingObjects.add(this));
-  }
-
   private static final BeanName<ResourceRenderer> RENDERER = new BeanName<ResourceRenderer>(ResourceRenderer.class, "resourceRenderer");
 
   @Override
