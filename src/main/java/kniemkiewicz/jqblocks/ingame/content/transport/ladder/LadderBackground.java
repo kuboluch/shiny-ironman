@@ -1,5 +1,6 @@
-package kniemkiewicz.jqblocks.ingame.object.background;
+package kniemkiewicz.jqblocks.ingame.content.transport.ladder;
 
+import kniemkiewicz.jqblocks.ingame.object.background.AbstractBackgroundElement;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;

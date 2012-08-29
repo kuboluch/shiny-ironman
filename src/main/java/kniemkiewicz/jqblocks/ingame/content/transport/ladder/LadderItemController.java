@@ -5,9 +5,7 @@ import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
-import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
-import kniemkiewicz.jqblocks.ingame.object.background.LadderBackground;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,11 +42,11 @@ public class LadderItemController extends AbstractActionItemController<LadderIte
   }
 
   @Override
-  protected void startAction(LadderItem item) {
+  protected void startAction() {
   }
 
   @Override
-  protected void stopAction(LadderItem item) {
+  protected void stopAction() {
   }
 
   @Override

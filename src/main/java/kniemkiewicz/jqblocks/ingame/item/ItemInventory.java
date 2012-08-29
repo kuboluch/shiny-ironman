@@ -2,6 +2,8 @@ package kniemkiewicz.jqblocks.ingame.item;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
+import kniemkiewicz.jqblocks.ingame.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.event.inventory.SelectedItemChangeEvent;
 import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.content.block.dirt.DirtBlockItem;
@@ -39,6 +41,9 @@ public class ItemInventory extends AbstractInventory<Item> implements Renderable
 
   @Autowired
   DefaultEquippedItemRenderer defaultEquippedItemRenderer;
+
+  @Autowired
+  EventBus eventBus;
 
   public static int SQUARE_SIZE = 25;
   public static int SQUARE_DIST = 10;
@@ -97,6 +102,9 @@ public class ItemInventory extends AbstractInventory<Item> implements Renderable
   }
 
   public void setSelectedIndex(int x) {
+    if (getSelectedIndex() != x) {
+      eventBus.broadcast(new SelectedItemChangeEvent());
+    }
     super.setSelectedIndex(x);
     Item item = getSelectedItem();
     BeanName<? extends EquippedItemRenderer> equippedItemRenderer = item.getEquippedItemRenderer();

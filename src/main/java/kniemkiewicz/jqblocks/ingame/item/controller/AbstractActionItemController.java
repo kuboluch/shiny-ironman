@@ -3,21 +3,29 @@ package kniemkiewicz.jqblocks.ingame.item.controller;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.action.AbstractActionController;
+import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.event.Event;
-import kniemkiewicz.jqblocks.ingame.event.input.mouse.*;
+import kniemkiewicz.jqblocks.ingame.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.event.EventListener;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseDraggedEvent;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseReleasedEvent;
+import kniemkiewicz.jqblocks.ingame.event.inventory.SelectedItemChangeEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
-import kniemkiewicz.jqblocks.util.BeanName;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.PostConstruct;
+import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractActionItemController<T extends Item> implements ItemController<T>, UpdateQueue.UpdateController<AbstractActionItemController.ItemWrapper<T>> {
+public abstract class AbstractActionItemController<T extends Item>
+    implements ItemController<T>, EventListener, UpdateQueue.UpdateController<AbstractActionItemController.ItemWrapper<T>> {
 
   public static final int RANGE = 16 * Sizes.BLOCK;
 
@@ -30,15 +38,25 @@ public abstract class AbstractActionItemController<T extends Item> implements It
   @Autowired
   protected InputContainer inputContainer;
 
+  @Autowired
+  EventBus eventBus;
+
   protected Rectangle affectedRectangle;
+
+  T item;
+
+  @PostConstruct
+  public void init() {
+    eventBus.addListener(this);
+  }
 
   abstract protected boolean canPerformAction(int x, int y);
 
   abstract protected Rectangle getAffectedRectangle(int x, int y);
 
-  abstract protected void startAction(T item);
+  abstract protected void startAction();
 
-  abstract protected void stopAction(T item);
+  abstract protected void stopAction();
 
   abstract protected void updateAction(T item, int delta);
 
@@ -46,10 +64,39 @@ public abstract class AbstractActionItemController<T extends Item> implements It
 
   abstract protected void onAction();
 
+  private void start(T item, int x, int y) {
+    affectedRectangle = getAffectedRectangle(x, y);
+    startAction();
+    updateQueue.add(getWrapper(item));
+    this.item = item;
+  }
+
+  private void stop() {
+    updateQueue.remove(getWrapper(item));
+    this.item = null;
+    stopAction();
+    affectedRectangle = null;
+  }
+
   public boolean canPerformAction() {
     int x = Sizes.roundToBlockSizeX(affectedRectangle.getX());
     int y = Sizes.roundToBlockSizeY(affectedRectangle.getY());
     return canPerformAction(x, y);
+  }
+
+  @Override
+  public List<Class> getEventTypesOfInterest() {
+    return Arrays.asList((Class) SelectedItemChangeEvent.class);
+  }
+
+  @Override
+  public void listen(List<Event> events) {
+    List<SelectedItemChangeEvent> selectedItemChangeEvents = Collections3.collect(events, SelectedItemChangeEvent.class);
+    if (!selectedItemChangeEvents.isEmpty()) {
+      if (affectedRectangle != null) {
+        stop();
+      }
+    }
   }
 
   @Override
@@ -97,9 +144,7 @@ public abstract class AbstractActionItemController<T extends Item> implements It
     if (mpe == null) return;
 
     if (canPerformAction(x, y)) {
-      affectedRectangle = getAffectedRectangle(x, y);
-      startAction(item);
-      updateQueue.add(getWrapper(item));
+      start(item, x, y);
     }
   }
 
@@ -122,18 +167,14 @@ public abstract class AbstractActionItemController<T extends Item> implements It
   private void handleMouseCoordChange(T item, int x, int y) {
     Rectangle rect = new Rectangle(x, y, 1, 1);
     if (affectedRectangle != null && (!affectedRectangle.intersects(rect) || !isInRange(x, y))) {
-      updateQueue.remove(getWrapper(item));
-      stopAction(item);
-      affectedRectangle = null;
+      stop();
     }
     if (!isInRange(x, y)) {
       return;
     }
 
     if (affectedRectangle == null && canPerformAction(x, y)) {
-      affectedRectangle = getAffectedRectangle(x, y);
-      startAction(item);
-      updateQueue.add(getWrapper(item));
+      start(item, x, y);
     }
   }
 
@@ -148,9 +189,7 @@ public abstract class AbstractActionItemController<T extends Item> implements It
       return;
     }
 
-    updateQueue.remove(getWrapper(item));
-    stopAction(item);
-    affectedRectangle = null;
+    stop();
   }
 
   public boolean isInRange(int x, int y) {
@@ -167,9 +206,7 @@ public abstract class AbstractActionItemController<T extends Item> implements It
       if (canPerformAction()) {
         onAction();
       }
-      updateQueue.remove(wrapper);
-      stopAction(wrapper.getItem());
-      affectedRectangle = null;
+      stop();
     }
   }
 

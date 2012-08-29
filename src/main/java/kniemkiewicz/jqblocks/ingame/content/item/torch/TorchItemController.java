@@ -35,11 +35,11 @@ public class TorchItemController extends AbstractActionItemController<TorchItem>
   }
 
   @Override
-  protected void startAction(TorchItem item) {
+  protected void startAction() {
   }
 
   @Override
-  protected void stopAction(TorchItem item) {
+  protected void stopAction() {
   }
 
   @Override

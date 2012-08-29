@@ -34,9 +34,6 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   private RenderQueue renderQueue;
 
   @Autowired
-  private MovingObjects movingObjects;
-
-  @Autowired
   private CollisionController collisionController;
 
   private CompletionEffect completionEffect;
@@ -69,14 +66,14 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   }
 
   @Override
-  protected void startAction(AxeItem item) {
+  protected void startAction() {
     assert completionEffect == null;
     completionEffect = new CompletionEffect(affectedRectangle);
     renderQueue.add(completionEffect);
   }
 
   @Override
-  protected void stopAction(AxeItem item) {
+  protected void stopAction() {
     assert completionEffect != null;
     renderQueue.remove(completionEffect);
     completionEffect = null;

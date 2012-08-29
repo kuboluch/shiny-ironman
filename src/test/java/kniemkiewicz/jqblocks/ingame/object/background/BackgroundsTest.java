@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.object.background;
 
+import kniemkiewicz.jqblocks.ingame.content.block.dirt.NaturalDirtBackground;
 import org.junit.Assert;
 import org.junit.Test;
 import org.newdawn.slick.geom.Rectangle;

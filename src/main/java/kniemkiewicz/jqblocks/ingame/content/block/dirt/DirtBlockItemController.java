@@ -3,7 +3,6 @@ package kniemkiewicz.jqblocks.ingame.content.block.dirt;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
-import kniemkiewicz.jqblocks.ingame.content.block.dirt.DirtBlockItem;
 import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import org.newdawn.slick.geom.Rectangle;
@@ -30,10 +29,10 @@ public class DirtBlockItemController extends AbstractActionItemController<DirtBl
   }
 
   @Override
-  protected void startAction(DirtBlockItem item) { }
+  protected void startAction() { }
 
   @Override
-  protected void stopAction(DirtBlockItem item) { }
+  protected void stopAction() { }
 
   @Override
   protected void updateAction(DirtBlockItem item, int delta) { }

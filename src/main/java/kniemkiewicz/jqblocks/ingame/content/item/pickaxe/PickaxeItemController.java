@@ -5,13 +5,12 @@ import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
+import kniemkiewicz.jqblocks.ingame.content.block.dirt.NaturalDirtBackground;
 import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController;
 import kniemkiewicz.jqblocks.ingame.object.DigEffect;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
-import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
-import kniemkiewicz.jqblocks.ingame.object.background.NaturalDirtBackground;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -53,7 +52,7 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
   }
 
   @Override
-  protected void startAction(PickaxeItem item) {
+  protected void startAction() {
     WallBlockType block = getAffectedBlock();
     blockEndurance = block.getEndurance();
     digEffect = new DigEffect(blockEndurance, affectedRectangle);
@@ -61,7 +60,7 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
   }
 
   @Override
-  protected void stopAction(PickaxeItem item) {
+  protected void stopAction() {
     renderQueue.remove(digEffect);
     digEffect = null;
     blockEndurance = 0;

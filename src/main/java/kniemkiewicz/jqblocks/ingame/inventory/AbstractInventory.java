@@ -39,6 +39,10 @@ public abstract class AbstractInventory<T extends Item> implements Inventory<T> 
     return true;
   }
 
+  public int getSelectedIndex() {
+    return selectedIndex;
+  }
+
   public void setSelectedIndex(int x) {
     assert selectedIndex < size;
     selectedIndex = x;
