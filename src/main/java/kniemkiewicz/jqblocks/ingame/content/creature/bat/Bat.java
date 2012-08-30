@@ -8,7 +8,7 @@ import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
-import kniemkiewicz.jqblocks.ingame.util.HorizontalMovement;
+import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -20,14 +20,14 @@ import org.newdawn.slick.geom.Rectangle;
 public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat>,HasHealthPoints<Bat> {
 
   Rectangle rectangle;
-  HorizontalMovement movement;
+  XYMovement movement;
   public static final float X_SPEED = Player.MAX_X_SPEED / 3;
   public static final int SIZE = 2 * Sizes.BLOCK;
   private static int BAT_BP = 5;
   HealthPoints healthPoints = new HealthPoints(BAT_BP, this);
 
   public Bat(int x, int y) {
-    this.movement = new HorizontalMovement(x, y, X_SPEED);
+    this.movement = new XYMovement(x, y, X_SPEED, 0);
     this.movement.getXMovement().setSpeed(X_SPEED);
     rectangle = new Rectangle(x, y, SIZE, SIZE);
   }
@@ -77,7 +77,7 @@ public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat>,H
     return CONTROLLER;
   }
 
-  public HorizontalMovement getMovement() {
+  public XYMovement getMovement() {
     return movement;
   }
 }

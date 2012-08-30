@@ -5,7 +5,7 @@ import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
-import kniemkiewicz.jqblocks.ingame.util.FullXYMovement;
+import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -16,14 +16,14 @@ import org.newdawn.slick.geom.Rectangle;
  */
 public class BatBody implements RenderableObject<BatBody>, HasFullXYMovement {
 
-  FullXYMovement movement;
+  XYMovement movement;
   Rectangle rectangle;
 
   public static final float X_SPEED = Bat.X_SPEED;
   public static final float Y_INITIAL_SPEED = Player.JUMP_SPEED / 4;
 
   public BatBody(float x, float y, int direction) {
-    movement = new FullXYMovement(x, y, direction * X_SPEED, Sizes.MAX_FALL_SPEED);
+    movement = new XYMovement(x, y, direction * X_SPEED, Sizes.MAX_FALL_SPEED);
     movement.getXMovement().setSpeed(direction * X_SPEED);
     movement.getYMovement().setSpeed(- Y_INITIAL_SPEED);
     rectangle = new Rectangle(x, y, Bat.SIZE, Bat.SIZE);
@@ -57,7 +57,7 @@ public class BatBody implements RenderableObject<BatBody>, HasFullXYMovement {
   }
 
   @Override
-  public FullXYMovement getFullXYMovement() {
+  public XYMovement getFullXYMovement() {
     return movement;
   }
 

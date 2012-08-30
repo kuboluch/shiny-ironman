@@ -8,7 +8,7 @@ import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
-import kniemkiewicz.jqblocks.ingame.util.HorizontalMovement;
+import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -29,7 +29,7 @@ public class Peon implements PhysicalObject,HasHealthPoints<Peon>, TwoFacedImage
   HealthPoints healthPoints = new HealthPoints(PEON_HP, this);
   final Rectangle shape;
 
-  HorizontalMovement movement;
+  XYMovement movement;
 
   public static Peon createAndRegister(int x, int y, PeonController controller) {
     Peon peon = new Peon(x, y);
@@ -38,7 +38,7 @@ public class Peon implements PhysicalObject,HasHealthPoints<Peon>, TwoFacedImage
   }
 
   private Peon(int x, int y) {
-    movement = new HorizontalMovement(x, y, MAX_PEON_SPEED);
+    movement = new XYMovement(x, y, MAX_PEON_SPEED, 0);
     shape = new Rectangle(x, y, WIDTH, HEIGHT);
   }
 

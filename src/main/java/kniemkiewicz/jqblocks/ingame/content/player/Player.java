@@ -7,7 +7,7 @@ import kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer;
 import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
-import kniemkiewicz.jqblocks.ingame.util.FullXYMovement;
+import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -24,7 +24,7 @@ public class Player implements PhysicalObject,HasHealthPoints<Player>, TwoFacedI
   // Used in Spring.
   public static int IMAGE_WIDTH = Sizes.BLOCK * 3;
 
-  FullXYMovement xyMovement;
+  XYMovement xyMovement;
   private Rectangle shape;
   private HealthPoints healthPoints;
 
@@ -37,7 +37,7 @@ public class Player implements PhysicalObject,HasHealthPoints<Player>, TwoFacedI
   public static final float MAX_LADDER_SPEED = Sizes.MAX_FALL_SPEED / 9;
 
   public Player() {
-    xyMovement = new FullXYMovement(0, 0, MAX_X_SPEED, Sizes.MAX_FALL_SPEED);
+    xyMovement = new XYMovement(0, 0, MAX_X_SPEED, Sizes.MAX_FALL_SPEED);
     xyMovement.getXMovement().setDefaultDeceleration(DEFAULT_X_DECELERATION);
     shape = new Rectangle(0, 0, WIDTH, HEIGHT);
     healthPoints = new HealthPoints(INITIAL_HP, this);
@@ -104,7 +104,7 @@ public class Player implements PhysicalObject,HasHealthPoints<Player>, TwoFacedI
   }
 
   @Override
-  public FullXYMovement getFullXYMovement() {
+  public XYMovement getFullXYMovement() {
     return xyMovement;
   }
 }

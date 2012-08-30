@@ -1,15 +1,13 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.zombie;
 
 import kniemkiewicz.jqblocks.ingame.*;
-import kniemkiewicz.jqblocks.ingame.content.creature.bat.Bat;
 import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
-import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer;
-import kniemkiewicz.jqblocks.ingame.util.FullXYMovement;
+import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -29,12 +27,12 @@ public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,HasHealthPoints<Z
 
   final HealthPoints healthPoints;
   final Rectangle shape;
-  final FullXYMovement movement;
+  final XYMovement movement;
 
   public Zombie(float x, float y) {
     healthPoints = new HealthPoints(MAX_HP, this);
     shape = new Rectangle(x, y, WIDTH, HEIGHT);
-    movement = new FullXYMovement(x, y, SPEED, Sizes.MAX_FALL_SPEED);
+    movement = new XYMovement(x, y, SPEED, Sizes.MAX_FALL_SPEED);
     movement.getXMovement().setDefaultDeceleration(DEFAULT_X_DECELERATION);
   }
 
@@ -83,7 +81,7 @@ public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,HasHealthPoints<Z
   }
 
   @Override
-  public FullXYMovement getFullXYMovement() {
+  public XYMovement getFullXYMovement() {
     return movement;
   }
 

@@ -11,9 +11,9 @@ import kniemkiewicz.jqblocks.ingame.controller.SoundController;
 import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
 import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
-import kniemkiewicz.jqblocks.ingame.util.FullXYMovement;
+import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
-import kniemkiewicz.jqblocks.ingame.util.SingleAxisMovement;
+import kniemkiewicz.jqblocks.ingame.util.movement.SingleAxisMovement;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
@@ -81,7 +81,7 @@ public class PlayerController implements InputListener,HealthController<Player> 
   }
 
   public void listen(Input input, int delta) {
-    FullXYMovement playerMovement = player.getFullXYMovement();
+    XYMovement playerMovement = player.getFullXYMovement();
     SingleAxisMovement xMovement = playerMovement.getXMovement();
     SingleAxisMovement yMovement = playerMovement.getYMovement();
 

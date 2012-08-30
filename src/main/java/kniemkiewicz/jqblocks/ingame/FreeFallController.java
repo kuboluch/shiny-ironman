@@ -5,7 +5,7 @@ import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.controller.HitResolver;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
-import kniemkiewicz.jqblocks.ingame.util.SingleAxisMovement;
+import kniemkiewicz.jqblocks.ingame.util.movement.SingleAxisMovement;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import kniemkiewicz.jqblocks.util.Pair;

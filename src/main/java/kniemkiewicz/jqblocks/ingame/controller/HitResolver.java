@@ -2,7 +2,7 @@ package kniemkiewicz.jqblocks.ingame.controller;
 
 import kniemkiewicz.jqblocks.ingame.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.util.SingleAxisMovement;
+import kniemkiewicz.jqblocks.ingame.util.movement.SingleAxisMovement;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
