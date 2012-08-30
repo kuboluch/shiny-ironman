@@ -65,6 +65,9 @@ public class InventoryController implements EventListener {
   @Autowired
   World objectKiller;
 
+  @Autowired
+  FreeFallController freeFallController;
+
   public void addItem(Item item) {
     if(!inventory.add(item)) {
       int playerX = (int) playerController.getPlayer().getShape().getCenterX();
@@ -157,10 +160,8 @@ public class InventoryController implements EventListener {
   }
 
   public void dropObject(DroppableObject dropObject) {
-    Shape shape = dropObject.getShape();
-    dropObject.setY((int) (solidBlocks.getBlocks().getUnscaledDropHeight(shape) - shape.getHeight() - 1));
     addToWorld(dropObject);
-    return;
+    freeFallController.addCanFall(dropObject);
   }
 
   private boolean addToWorld(DroppableObject dropObject) {

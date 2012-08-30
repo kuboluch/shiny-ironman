@@ -66,6 +66,9 @@ public class ResourceInventoryController implements EventListener {
   @Autowired
   World objectKiller;
 
+  @Autowired
+  FreeFallController freeFallController;
+
   @Override
   public List<Class> getEventTypesOfInterest() {
     return Arrays.asList((Class) InputEvent.class, (Class) ScreenMovedEvent.class);
@@ -81,11 +84,10 @@ public class ResourceInventoryController implements EventListener {
     }
 
     List<MousePressedEvent> mousePressedEvents = Collections3.collect(events, MousePressedEvent.class);
-    if (!mousePressedEvents.isEmpty()) {
-      for (MousePressedEvent e : mousePressedEvents) {
-        if (e.getButton() == Button.RIGHT) {
-          handleMouseRightClickEvent(e);
-        }
+
+    for (MousePressedEvent e : mousePressedEvents) {
+      if (e.getButton() == Button.RIGHT) {
+        handleMouseRightClickEvent(e);
       }
     }
 
@@ -139,10 +141,8 @@ public class ResourceInventoryController implements EventListener {
   }
 
   public void dropObject(DroppableObject dropObject) {
-    Shape shape = dropObject.getShape();
-    dropObject.setY((int) (solidBlocks.getBlocks().getUnscaledDropHeight(shape) - shape.getHeight() - 1));
     addToWorld(dropObject);
-    return;
+    freeFallController.addCanFall(dropObject);
   }
 
   private boolean addToWorld(DroppableObject dropObject) {

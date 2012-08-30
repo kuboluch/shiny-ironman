@@ -13,7 +13,7 @@ import org.newdawn.slick.geom.Shape;
  * User: qba
  * Date: 29.08.12
  */
-public class Torch implements RenderableObject<Torch>, PickableObject, MovingPhysicalObject, DroppableObject<Torch> {
+public class Torch implements RenderableObject<Torch>, PickableObject, DroppableObject<Torch> {
 
   Rectangle rectangle;
 
@@ -22,7 +22,7 @@ public class Torch implements RenderableObject<Torch>, PickableObject, MovingPhy
   }
 
   @Override
-  public void setY(int y) {
+  public void setYAndUpdate(float y) {
     rectangle.setY(y);
   }
 

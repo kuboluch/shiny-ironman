@@ -17,7 +17,7 @@ import org.newdawn.slick.geom.Shape;
  * Date: 7/27/12
  */
 public class ResourceObject<T extends Resource>
-    implements RenderableObject<ResourceObject>, PickableObject, MovingPhysicalObject, DroppableObject<ResourceObject> {
+    implements RenderableObject<ResourceObject>, PickableObject, DroppableObject<ResourceObject> {
 
   private static final long serialVersionUID = 1;
 
@@ -67,7 +67,7 @@ public class ResourceObject<T extends Resource>
   }
 
   @Override
-  public void setY(int y) {
+  public void setYAndUpdate(float y) {
     rectangle.setY(y);
   }
 

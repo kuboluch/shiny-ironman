@@ -21,7 +21,7 @@ import java.io.ObjectOutputStream;
  * User: knie
  * Date: 7/25/12
  */
-public class Rock implements RenderableObject<Rock>, PickableObject, MovingPhysicalObject, DroppableObject<Rock>, FreeFallController.CanFall {
+public class Rock implements RenderableObject<Rock>, PickableObject, DroppableObject<Rock> {
 
   private static final long serialVersionUID = 1;
 
@@ -78,7 +78,7 @@ public class Rock implements RenderableObject<Rock>, PickableObject, MovingPhysi
   }
 
   @Override
-  public void setY(int y) {
+  public void setYAndUpdate(float y) {
     circle.setY(y);
   }
 
@@ -93,10 +93,5 @@ public class Rock implements RenderableObject<Rock>, PickableObject, MovingPhysi
     //perform the default serialization for all non-transient, non-static fields
     outputStream.defaultWriteObject();
     SerializationUtils2.serializeCircle(circle, outputStream);
-  }
-
-  @Override
-  public void setYAndUpdate(float y) {
-    circle.setY(y);
   }
 }

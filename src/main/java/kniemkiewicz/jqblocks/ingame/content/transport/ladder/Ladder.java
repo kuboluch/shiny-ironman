@@ -13,7 +13,7 @@ import org.newdawn.slick.geom.Shape;
  * User: qba
  * Date: 15.08.12
  */
-public class Ladder implements RenderableObject<Ladder>, PickableObject, MovingPhysicalObject, DroppableObject<Ladder> {
+public class Ladder implements RenderableObject<Ladder>, PickableObject, DroppableObject<Ladder> {
 
   Rectangle rectangle;
 
@@ -22,7 +22,7 @@ public class Ladder implements RenderableObject<Ladder>, PickableObject, MovingP
   }
 
   @Override
-  public void setY(int y) {
+  public void setYAndUpdate(float y) {
     rectangle.setY(y);
   }
 
