@@ -8,7 +8,9 @@ import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
+import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
+import kniemkiewicz.jqblocks.ingame.util.movement.XYMovementDefinition;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -26,9 +28,14 @@ public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat>,H
   private static int BAT_BP = 5;
   HealthPoints healthPoints = new HealthPoints(BAT_BP, this);
 
+  static XYMovementDefinition BAT_MOVEMENT = new XYMovementDefinition(
+      new MovementDefinition().setMaxSpeed(X_SPEED),
+      new MovementDefinition().setMaxSpeed(0)
+  );
+
+
   public Bat(int x, int y) {
-    this.movement = new XYMovement(x, y, X_SPEED, 0);
-    this.movement.getXMovement().setSpeed(X_SPEED);
+    this.movement = BAT_MOVEMENT.getMovement(x, y).setXSpeed(X_SPEED);
     rectangle = new Rectangle(x, y, SIZE, SIZE);
   }
 

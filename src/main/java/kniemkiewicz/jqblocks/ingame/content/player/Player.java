@@ -7,7 +7,9 @@ import kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer;
 import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
+import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
+import kniemkiewicz.jqblocks.ingame.util.movement.XYMovementDefinition;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -36,9 +38,14 @@ public class Player implements PhysicalObject,HasHealthPoints<Player>, TwoFacedI
   public static final float JUMP_SPEED = Sizes.MAX_FALL_SPEED / 3;
   public static final float MAX_LADDER_SPEED = Sizes.MAX_FALL_SPEED / 9;
 
+  static XYMovementDefinition PLAYER_MOVEMENT = new XYMovementDefinition(
+      new MovementDefinition().setMaxSpeed(MAX_X_SPEED).setDefaultDeceleration(DEFAULT_X_DECELERATION),
+      new MovementDefinition().setMaxSpeed(Sizes.MAX_FALL_SPEED)
+  );
+
+
   public Player() {
-    xyMovement = new XYMovement(0, 0, MAX_X_SPEED, Sizes.MAX_FALL_SPEED);
-    xyMovement.getXMovement().setDefaultDeceleration(DEFAULT_X_DECELERATION);
+    xyMovement = PLAYER_MOVEMENT.getMovement(0, 0);
     shape = new Rectangle(0, 0, WIDTH, HEIGHT);
     healthPoints = new HealthPoints(INITIAL_HP, this);
   }
@@ -100,7 +107,7 @@ public class Player implements PhysicalObject,HasHealthPoints<Player>, TwoFacedI
 
   @Override
   public boolean isLeftFaced() {
-    return !xyMovement.getXMovement().getLastDirection();
+    return !xyMovement.getXMovement().getDirection();
   }
 
   @Override

@@ -8,7 +8,9 @@ import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
+import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
+import kniemkiewicz.jqblocks.ingame.util.movement.XYMovementDefinition;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -31,6 +33,11 @@ public class Peon implements PhysicalObject,HasHealthPoints<Peon>, TwoFacedImage
 
   XYMovement movement;
 
+  static XYMovementDefinition PEON_MOVEMENT = new XYMovementDefinition(
+      new MovementDefinition().setMaxSpeed(MAX_PEON_SPEED),
+      new MovementDefinition().setMaxSpeed(Sizes.MAX_FALL_SPEED)
+  );
+
   public static Peon createAndRegister(int x, int y, PeonController controller) {
     Peon peon = new Peon(x, y);
     if (!controller.register(peon)) return null;
@@ -38,7 +45,7 @@ public class Peon implements PhysicalObject,HasHealthPoints<Peon>, TwoFacedImage
   }
 
   private Peon(int x, int y) {
-    movement = new XYMovement(x, y, MAX_PEON_SPEED, 0);
+    movement = PEON_MOVEMENT.getMovement(x, y);
     shape = new Rectangle(x, y, WIDTH, HEIGHT);
   }
 
@@ -56,7 +63,7 @@ public class Peon implements PhysicalObject,HasHealthPoints<Peon>, TwoFacedImage
 
   @Override
   public boolean isLeftFaced() {
-    return !movement.getXMovement().getLastDirection();
+    return !movement.getXMovement().getDirection();
   }
 
   private static final BeanName<TwoFacedImageRenderer> RENDERER = new BeanName<TwoFacedImageRenderer>(TwoFacedImageRenderer.class, "peonRenderer");

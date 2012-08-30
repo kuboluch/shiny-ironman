@@ -12,17 +12,19 @@ public class SingleAxisMovement implements Serializable{
 
   float pos;
   float speed;
-  float maxSpeed;
   float acceleration = 0;
-  float defaultDeceleration;
-  boolean lastDirection;
+  // True means it is facing towards positive infinity.
+  boolean direction = true;
+  MovementDefinition definition;
 
-  public SingleAxisMovement(float maxSpeed, float speed, float x, float defaultDeceleration) {
-    this.maxSpeed = maxSpeed;
+
+  SingleAxisMovement(float speed, float x, MovementDefinition definition) {
     this.speed = speed;
     this.pos = x;
-    this.defaultDeceleration = defaultDeceleration;
-    this.lastDirection = speed >= 0;
+    this.definition = definition;
+    if (definition.autoDirection) {
+      direction = (speed >= 0);
+    }
   }
 
   final public float getPos() {
@@ -49,23 +51,20 @@ public class SingleAxisMovement implements Serializable{
     if (acceleration != 0) {
       speed += acceleration * delta;
       acceleration = 0;
-      if (speed > maxSpeed) {
-        speed = maxSpeed;
-      } else if (speed < -maxSpeed) {
-        speed = -maxSpeed;  
-      }
     } else {
-      if (Math.abs(speed) < defaultDeceleration * delta) {
+      if (Math.abs(speed) < definition.defaultDeceleration * delta) {
         speed = 0;
       } else if (speed > 0) {
-        speed -= defaultDeceleration * delta;
+        speed -= definition.defaultDeceleration * delta;
       } else {
-        speed += defaultDeceleration * delta;
+        speed += definition.defaultDeceleration * delta;
       }
     }
     pos += speed * delta;
-    if (speed != 0) {
-      lastDirection = speed >= 0;
+    if (definition.autoDirection) {
+      if (speed != 0) {
+        direction = speed >= 0;
+      }
     }
   }
 
@@ -88,11 +87,11 @@ public class SingleAxisMovement implements Serializable{
     }
   }
 
-  final public boolean getLastDirection() {
-    return lastDirection;
+  final public boolean getDirection() {
+    return direction;
   }
 
-  public void setDefaultDeceleration(float defaultDeceleration) {
-    this.defaultDeceleration = defaultDeceleration;
+  final public void setDirection(boolean  b) {
+    this.direction = b;
   }
 }

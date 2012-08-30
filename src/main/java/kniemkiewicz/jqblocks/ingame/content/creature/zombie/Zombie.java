@@ -7,7 +7,9 @@ import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer;
+import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
+import kniemkiewicz.jqblocks.ingame.util.movement.XYMovementDefinition;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -25,6 +27,11 @@ public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,HasHealthPoints<Z
   private static final float SPEED = Player.MAX_X_SPEED * 2 / 3;
   public static final float DEFAULT_X_DECELERATION = SPEED / Sizes.TIME_UNIT / 4f;
 
+  static XYMovementDefinition ZOMBIE_MOVEMENT = new XYMovementDefinition(
+      new MovementDefinition().setMaxSpeed(SPEED).setDefaultDeceleration(DEFAULT_X_DECELERATION),
+      new MovementDefinition().setMaxSpeed(Sizes.MAX_FALL_SPEED)
+  );
+
   final HealthPoints healthPoints;
   final Rectangle shape;
   final XYMovement movement;
@@ -32,8 +39,7 @@ public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,HasHealthPoints<Z
   public Zombie(float x, float y) {
     healthPoints = new HealthPoints(MAX_HP, this);
     shape = new Rectangle(x, y, WIDTH, HEIGHT);
-    movement = new XYMovement(x, y, SPEED, Sizes.MAX_FALL_SPEED);
-    movement.getXMovement().setDefaultDeceleration(DEFAULT_X_DECELERATION);
+    movement = ZOMBIE_MOVEMENT.getMovement(x, y);
   }
 
   public boolean addTo(MovingObjects movingObjects, RenderQueue renderQueue, UpdateQueue updateQueue) {
@@ -93,6 +99,6 @@ public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,HasHealthPoints<Z
 
   @Override
   public boolean isLeftFaced() {
-    return !movement.getXMovement().getLastDirection();
+    return !movement.getXMovement().getDirection();
   }
 }

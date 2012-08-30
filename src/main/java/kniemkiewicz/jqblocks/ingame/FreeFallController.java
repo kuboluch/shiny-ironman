@@ -5,6 +5,7 @@ import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.controller.HitResolver;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
+import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.movement.SingleAxisMovement;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
@@ -37,8 +38,10 @@ public final class FreeFallController {
   @Autowired
   CollisionController collisionController;
 
+  public static MovementDefinition FALL_MOVEMENT = new MovementDefinition().setMaxSpeed(Sizes.MAX_FALL_SPEED);
+
   public void addCanFall(CanFall object) {
-    objects.add(Pair.newInstance(object, new SingleAxisMovement(Sizes.MAX_FALL_SPEED, 0, object.getShape().getY(), 0)));
+    objects.add(Pair.newInstance(object, FALL_MOVEMENT.getMovement(object.getShape().getY(), 0)));
   }
 
   public void addComplex(HasFullXYMovement hasFullXYMovement) {

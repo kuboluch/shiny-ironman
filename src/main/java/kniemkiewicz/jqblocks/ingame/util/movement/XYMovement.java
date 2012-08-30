@@ -11,9 +11,9 @@ public class XYMovement implements Serializable {
   final SingleAxisMovement yMovement;
 
 
-  public XYMovement(float x, float y, float maxXSpeed, float maxYSpeed) {
-    this.xMovement = new SingleAxisMovement(maxXSpeed, 0, x, 0);
-    this.yMovement = new SingleAxisMovement(maxYSpeed, 0, y, 0);
+  XYMovement(SingleAxisMovement xMovement, SingleAxisMovement yMovement) {
+    this.xMovement = xMovement;
+    this.yMovement = yMovement;
   }
 
   final public SingleAxisMovement getXMovement() {
@@ -32,6 +32,16 @@ public class XYMovement implements Serializable {
 
   final public float getY() {
     return yMovement.getPos();
+  }
+
+  final public XYMovement setXSpeed(float speed) {
+    xMovement.setSpeed(speed);
+    return this;
+  }
+
+  final public XYMovement setYSpeed(float speed) {
+    yMovement.setSpeed(speed);
+    return this;
   }
 
   public void update(int delta) {
