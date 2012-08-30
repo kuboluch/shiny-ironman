@@ -29,8 +29,8 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
   transient EnumMap<T, RenderableBlockType.Renderer> rendererCache;
 
   public RawEnumTable(T emptyType, T outsideTable) {
-    int width = (Sizes.MAX_X - Sizes.MIN_X) / Sizes.BLOCK;
-    int height = (Sizes.MAX_Y - Sizes.MIN_Y) / Sizes.BLOCK;
+    int width = Sizes.LEVEL_SIZE_X / Sizes.BLOCK;
+    int height = Sizes.LEVEL_SIZE_Y / Sizes.BLOCK;
     data = new Object[width][height];
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {
@@ -195,7 +195,7 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
 
   @Override
   public Shape getShape() {
-    return new Rectangle(Sizes.MIN_X, Sizes.MIN_Y, Sizes.MAX_X - Sizes.MIN_X, Sizes.MAX_Y - Sizes.MIN_Y);
+    return new Rectangle(Sizes.MIN_X, Sizes.MIN_Y, Sizes.LEVEL_SIZE_X, Sizes.LEVEL_SIZE_Y);
   }
 
   public void setRectUnscaled(Rectangle shape, T type) {
@@ -273,19 +273,19 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
     int y2 = toYIndex((int)Math.floor(GeometryUtils.getMaxY(unscaledRect)));
     List<Rectangle> rectangles = new ArrayList<Rectangle>();
     if (x1 < 0) {
-      rectangles.add(new Rectangle(Sizes.MIN_X - 1000, Sizes.MIN_Y - 1000, 1000, Sizes.MAX_Y - Sizes.MIN_Y + 2000));
+      rectangles.add(new Rectangle(Sizes.MIN_X - 1000, Sizes.MIN_Y - 1000, 1000, Sizes.LEVEL_SIZE_Y + 2000));
       x1 = 0;
     }
     if (x2 >= data.length) {
-      rectangles.add(new Rectangle(Sizes.MAX_X, Sizes.MIN_Y - 1000, 1000, Sizes.MAX_Y - Sizes.MIN_Y + 2000));
+      rectangles.add(new Rectangle(Sizes.MAX_X, Sizes.MIN_Y - 1000, 1000, Sizes.LEVEL_SIZE_Y + 2000));
       x2 = data.length - 1;
     }
     if (y1 < 0) {
-      rectangles.add(new Rectangle(Sizes.MIN_X - 1000, Sizes.MIN_Y - 1000, Sizes.MAX_X - Sizes.MIN_X + 2000, 1000));
+      rectangles.add(new Rectangle(Sizes.MIN_X - 1000, Sizes.MIN_Y - 1000, Sizes.LEVEL_SIZE_X + 2000, 1000));
       y1 = 0;
     }
     if (y2 >= data[0].length) {
-      rectangles.add(new Rectangle(Sizes.MIN_X - 1000, Sizes.MAX_Y, Sizes.MAX_X - Sizes.MIN_X + 2000, 1000));
+      rectangles.add(new Rectangle(Sizes.MIN_X - 1000, Sizes.MAX_Y, Sizes.LEVEL_SIZE_X + 2000, 1000));
       y2 = data[0].length - 1;
     }
     boolean[][] nonEmpty = new boolean[x2 - x1 + 1][y2 - y1 + 1];

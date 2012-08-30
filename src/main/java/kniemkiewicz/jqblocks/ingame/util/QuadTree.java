@@ -87,10 +87,8 @@ public class QuadTree<T extends QuadTree.HasShape> {
   Map<T, Leaf<T>> objectLeafMap = new HashMap<T, Leaf<T>>();
 
 
-  private static int CENTER_X = (Sizes.MAX_X + Sizes.MIN_X) / 2;
-  private static int CENTER_Y = (Sizes.MAX_Y + Sizes.MIN_Y) / 2;
-  private static int DIFF_X = (Sizes.MAX_X - Sizes.MIN_X) / 4;
-  private static int DIFF_Y = (Sizes.MAX_Y - Sizes.MIN_Y) / 4;
+  private static int DIFF_X = Sizes.LEVEL_SIZE_X / 4;
+  private static int DIFF_Y = Sizes.LEVEL_SIZE_Y / 4;
 
   final void splitLeaf(Leaf<T> leaf, float cx, float cy) {
     List<T> oldObjects = leaf.objects;
@@ -145,8 +143,8 @@ public class QuadTree<T extends QuadTree.HasShape> {
 
   public final boolean add(T object) {
     Leaf<T> leaf = root;
-    float cx = CENTER_X;
-    float cy = CENTER_Y;
+    float cx = Sizes.CENTER_X;
+    float cy = Sizes.CENTER_Y;
     float dx = DIFF_X;
     float dy = DIFF_Y;
     Rectangle rect = GeometryUtils.getBoundingRectangle(object.getShape());
@@ -219,7 +217,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
 
   public final List<T> fullSearch(Shape shape, List<T> objects) {
     List<Leaf<T>> leafs = new ArrayList<Leaf<T>>();
-    root.fillInterestingLeafs(CENTER_X, CENTER_Y, DIFF_X, DIFF_Y, shape, leafs);
+    root.fillInterestingLeafs(Sizes.CENTER_X, Sizes.CENTER_Y, DIFF_X, DIFF_Y, shape, leafs);
     for (Leaf<T> leaf : leafs) {
       for (T ob : leaf.objects) {
         if (GeometryUtils.intersects(ob.getShape(), shape)) {
@@ -232,7 +230,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
 
   public final IterableIterator<T> intersects(final Shape shape) {
     final List<Leaf<T>> leafs = new ArrayList<Leaf<T>>();
-    root.fillInterestingLeafs(CENTER_X, CENTER_Y, DIFF_X, DIFF_Y, shape, leafs);
+    root.fillInterestingLeafs(Sizes.CENTER_X, Sizes.CENTER_Y, DIFF_X, DIFF_Y, shape, leafs);
     if (leafs.size() == 0) return Collections3.getIterable(Collections.<T>emptyList().iterator());
     return new IterableIterator<T>() {
       Iterator<Leaf<T>> leafIterator = leafs.iterator();
@@ -281,7 +279,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
 
   public final IterableIterator<T> intersectsUnique(final Shape shape) {
     final List<Leaf<T>> leafs = new ArrayList<Leaf<T>>();
-    root.fillInterestingLeafs(CENTER_X, CENTER_Y, DIFF_X, DIFF_Y, shape, leafs);
+    root.fillInterestingLeafs(Sizes.CENTER_X, Sizes.CENTER_Y, DIFF_X, DIFF_Y, shape, leafs);
     if (leafs.size() == 0) return Collections3.getIterable(Collections.<T>emptyList().iterator());
     final Set<T> returnedObjects = new HashSet<T>();
     return new IterableIterator<T>() {
@@ -355,7 +353,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
   // This is only for debug.
   public final List<Rectangle> getRects() {
     List<Rectangle> rectangles = new ArrayList<Rectangle>();
-    root.fillRectangles(rectangles, CENTER_X, CENTER_Y, DIFF_X, DIFF_Y);
+    root.fillRectangles(rectangles, Sizes.CENTER_X, Sizes.CENTER_Y, DIFF_X, DIFF_Y);
     return rectangles;
   }
 

@@ -25,7 +25,7 @@ public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,HasHealthPoints<Z
   public static final float HEIGHT = Sizes.BLOCK * 3.5f;
   static final float WIDTH = Sizes.BLOCK * 2.5f;
   private static final float SPEED = Player.MAX_X_SPEED * 2 / 3;
-  public static final float DEFAULT_X_DECELERATION = SPEED / Sizes.TIME_UNIT / 4f;
+  public static final float DEFAULT_X_DECELERATION = SPEED / 4f;
 
   static XYMovementDefinition ZOMBIE_MOVEMENT = new XYMovementDefinition(
       new MovementDefinition().setMaxSpeed(SPEED).setDefaultDeceleration(DEFAULT_X_DECELERATION),

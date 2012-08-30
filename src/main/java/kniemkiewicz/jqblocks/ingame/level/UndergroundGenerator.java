@@ -33,8 +33,8 @@ public class UndergroundGenerator {
     final float ROCK_PATCH_RADIUS = configuration.getFloat("UndergroundGenerator.ROCK_PATCH_RADIUS", 1.5f);
     final float ROCK_PATCH_LENGTH = configuration.getFloat("UndergroundGenerator.ROCK_PATCH_LENGTH", 5f);
 
-    final int width = (Sizes.MAX_X - Sizes.MIN_X) / Sizes.BLOCK;
-    final int height = (Sizes.MAX_Y - Sizes.MIN_Y) / Sizes.BLOCK;
+    final int width = Sizes.LEVEL_SIZE_X / Sizes.BLOCK;
+    final int height = Sizes.LEVEL_SIZE_Y / Sizes.BLOCK;
     final int count = (int) (ROCK_PATCH_DENSITY * width * height)/ 10;
     ExecutorService executor  = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     final AtomicInteger integer = new AtomicInteger();

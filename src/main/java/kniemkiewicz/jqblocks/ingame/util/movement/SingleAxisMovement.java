@@ -1,5 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.util.movement;
 
+import kniemkiewicz.jqblocks.ingame.Sizes;
+
 import java.io.Serializable;
 
 /**
@@ -47,7 +49,9 @@ public class SingleAxisMovement implements Serializable{
     this.speed = speed;
   }
 
-  final public void update(int delta) {
+  final public void update(int unscaledDelta) {
+    float delta = unscaledDelta / Sizes.TIME_UNIT;
+
     if (acceleration != 0) {
       speed += acceleration * delta;
       acceleration = 0;
@@ -60,12 +64,25 @@ public class SingleAxisMovement implements Serializable{
         speed += definition.defaultDeceleration * delta;
       }
     }
-    pos += speed * delta;
     if (definition.autoDirection) {
       if (speed != 0) {
         direction = speed >= 0;
       }
     }
+    if (direction) {
+      if (speed < - definition.maxSpeedBackward) {
+        speed = - definition.maxSpeedBackward;
+      } else if (speed > definition.maxSpeedForward) {
+        speed = definition.maxSpeedForward;
+      }
+    } else {
+      if (speed < - definition.maxSpeedForward) {
+        speed = - definition.maxSpeedForward;
+      } else if (speed > definition.maxSpeedBackward) {
+        speed = definition.maxSpeedBackward;
+      }
+    }
+    pos += speed * delta;
   }
 
   final public void setPos(float pos) {

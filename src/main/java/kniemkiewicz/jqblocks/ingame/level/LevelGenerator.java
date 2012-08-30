@@ -70,21 +70,21 @@ public class LevelGenerator {
       // Left.
       float width = pointOfView.getWindowWidth() / 2 + Sizes.BLOCK * 2;
       Rectangle rect = new Rectangle(Sizes.MIN_X + pointOfView.getWindowWidth() / 2 + Sizes.BLOCK * 2,
-          Sizes.MIN_Y - 100, width, Sizes.MAX_Y - Sizes.MIN_Y + 200);
+          Sizes.MIN_Y - 100, width, Sizes.LEVEL_SIZE_Y + 200);
       Assert.executeAndAssert(collisionController.add(LEVEL_WALLS, new LevelWall(rect), false));
     }
     {
       // Right.
       float width = pointOfView.getWindowWidth() / 2 + Sizes.BLOCK * 2;
       Rectangle rect = new Rectangle(Sizes.MAX_X - width,
-          Sizes.MIN_Y - 100, width, Sizes.MAX_Y - Sizes.MIN_Y + 200);
+          Sizes.MIN_Y - 100, width, Sizes.LEVEL_SIZE_Y + 200);
       Assert.executeAndAssert(collisionController.add(LEVEL_WALLS, new LevelWall(rect), false));
     }
     {
       // Bottom.
       float width = pointOfView.getWindowHeight() / 2 + Sizes.BLOCK * 2;
       Rectangle rect = new Rectangle(Sizes.MIN_X - 100,
-          Sizes.MAX_Y - width, Sizes.MAX_X - Sizes.MIN_X + 200, width);
+          Sizes.MAX_Y - width, Sizes.LEVEL_SIZE_X + 200, width);
       Assert.executeAndAssert(collisionController.add(LEVEL_WALLS, new LevelWall(rect), false));
     }
   }

@@ -34,7 +34,7 @@ public class SurfaceGenerator {
 
   Random random;
 
-  int[] heights = new int[(Sizes.MAX_X - Sizes.MIN_X) / Sizes.BLOCK];
+  int[] heights = new int[Sizes.LEVEL_SIZE_X / Sizes.BLOCK];
 
   int[] generate(Random random, Out<Integer> villageY) {
     this.random = random;
@@ -70,7 +70,7 @@ public class SurfaceGenerator {
   private void prepareBlocks(SolidBlocks blocks) {
     RawEnumTable<WallBlockType> table = blocks.getBlocks();
     for (int i = 0; i < heights.length; i++) {
-      int j0 = (Sizes.MAX_Y - Sizes.MIN_Y- heights[i]) / Sizes.BLOCK;
+      int j0 = (Sizes.LEVEL_SIZE_Y- heights[i]) / Sizes.BLOCK;
       for (int j = j0; j < table.getHeight(); j++) {
         table.set(i, j, WallBlockType.DIRT);
       }
@@ -78,7 +78,7 @@ public class SurfaceGenerator {
   }
 
   private void generateFlat() {
-    int y = Sizes.roundToBlockSize(4 * (Sizes.MAX_Y - Sizes.MIN_Y) / 5);
+    int y = Sizes.roundToBlockSize(4 * (Sizes.LEVEL_SIZE_Y) / 5);
     int i = 0;
     while (i < heights.length) {
       int dx = random.nextInt(10);
@@ -98,7 +98,7 @@ public class SurfaceGenerator {
     int MIN_HILL_HEIGHT = configuration.getInt("SurfaceGenerator.MIN_HILL_HEIGHT", 4);
     int MAX_HILL_HEIGHT = configuration.getInt("SurfaceGenerator.MAX_HILL_HEIGHT", 16);
     int HILL_RND_HEIGHT = configuration.getInt("SurfaceGenerator.HILL_RND_HEIGHT", 3);
-    int numberOfHills = (int)(2 * (Sizes.MAX_X - Sizes.MIN_X) / (MIN_HILL_SIZE + MAX_HILL_SIZE) * HILL_DENSITY);
+    int numberOfHills = (int)(2 * (Sizes.LEVEL_SIZE_X) / (MIN_HILL_SIZE + MAX_HILL_SIZE) * HILL_DENSITY);
     for (int i = 0; i < numberOfHills; i++) {
       int width = random.nextInt(MAX_HILL_SIZE - MIN_HILL_SIZE) + MIN_HILL_SIZE;
       int x = random.nextInt(heights.length - width - 1);
