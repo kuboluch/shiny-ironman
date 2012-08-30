@@ -5,12 +5,13 @@ import kniemkiewicz.jqblocks.util.SerializationUtils2;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
  * User: krzysiek
  * Date: 21.08.12
  */
-public class SerializableRef<T> {
+public class SerializableRef<T> implements Serializable {
   transient T object = null;
   Integer serializedId = null;
 
