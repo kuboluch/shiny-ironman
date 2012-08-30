@@ -111,4 +111,24 @@ public class SingleAxisMovement implements Serializable{
   final public void setDirection(boolean  b) {
     this.direction = b;
   }
+
+  final public void acceleratePositive() {
+    assert definition.maxSpeedForward != Float.MAX_VALUE;
+    assert definition.maxSpeedBackward != Float.MAX_VALUE;
+    if (direction) {
+      acceleration = definition.maxSpeedForward / definition.defaultAccelerationTime;
+    } else {
+      acceleration = definition.maxSpeedBackward / definition.defaultAccelerationTime;
+    }
+  }
+
+  final public void accelerateNegative() {
+    assert definition.maxSpeedForward != Float.MAX_VALUE;
+    assert definition.maxSpeedBackward != Float.MAX_VALUE;
+    if (direction) {
+      acceleration = - definition.maxSpeedBackward / definition.defaultAccelerationTime;
+    } else {
+      acceleration = - definition.maxSpeedForward / definition.defaultAccelerationTime;
+    }
+  }
 }

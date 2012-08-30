@@ -11,7 +11,7 @@ public class MovementDefinition implements Serializable{
   float maxSpeedForward = Float.MAX_VALUE;
   float maxSpeedBackward = Float.MAX_VALUE;
   float defaultDeceleration = 0;
-  float defaultAccelerationTime = 0;
+  float defaultAccelerationTime = 3.75f;
   boolean autoDirection = true;
 
   public MovementDefinition() {  }

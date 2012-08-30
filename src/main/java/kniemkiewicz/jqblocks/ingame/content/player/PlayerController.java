@@ -8,6 +8,8 @@ import kniemkiewicz.jqblocks.ingame.controller.ControllerUtils;
 import kniemkiewicz.jqblocks.ingame.controller.HitResolver;
 import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.controller.SoundController;
+import kniemkiewicz.jqblocks.ingame.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseMovedEvent;
 import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
 import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
@@ -68,6 +70,9 @@ public class PlayerController implements InputListener,HealthController<Player> 
 
   @Autowired
   ControllerUtils controllerUtils;
+
+  @Autowired
+  EventBus eventBus;
 
   /**
    * This is manually invoked by Game to make sure that level is created before.
@@ -139,13 +144,14 @@ public class PlayerController implements InputListener,HealthController<Player> 
   }
 
   private void listenToControls(Input input, SingleAxisMovement xMovement, SingleAxisMovement yMovement) {
+    MouseMovedEvent mme = eventBus.getLatestMouseMovedEvent();
+    xMovement.setDirection(mme.getNewScreenX() >= pointOfView.getWindowWidth() / 2);
     boolean flying = controllerUtils.isFlying(player.getShape());
-
     if (KeyboardUtils.isLeftPressed(input)) {
-      xMovement.setAcceleration(-Player.X_ACCELERATION);
+      xMovement.accelerateNegative();
     }
     if (KeyboardUtils.isRightPressed(input)) {
-      xMovement.setAcceleration(Player.X_ACCELERATION);
+      xMovement.acceleratePositive();
     }
     // Are we holding a ladder?
     if (Collections3.findFirst(backgrounds.intersects(player.getShape()), LadderBackground.class) != null) {
