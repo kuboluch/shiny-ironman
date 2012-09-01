@@ -19,7 +19,7 @@ public class DeserializationHelper {
     REFS.add(ref);
   }
 
-  static List<? extends Object> deserializeObjects(ObjectInputStream stream) throws ClassNotFoundException, IOException {
+  public static List<? extends Object> deserializeObjects(ObjectInputStream stream) throws ClassNotFoundException, IOException {
     assert REFS == null;
     REFS = new ArrayList<SerializableRef>();
     List<Object> objects = new ArrayList<Object>();

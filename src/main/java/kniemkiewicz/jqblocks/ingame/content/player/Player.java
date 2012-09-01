@@ -38,7 +38,7 @@ public class Player implements PhysicalObject,HasHealthPoints<Player>, TwoFacedI
   public static final float MAX_LADDER_SPEED = Sizes.MAX_FALL_SPEED / 9;
 
   static XYMovementDefinition PLAYER_MOVEMENT = new XYMovementDefinition(
-      new MovementDefinition().setMaxSpeed(MAX_X_SPEED).setDefaultDeceleration(DEFAULT_X_DECELERATION).setAutoDirection(false),
+      new MovementDefinition().setMaxSpeed(MAX_X_SPEED).setDefaultDeceleration(DEFAULT_X_DECELERATION).setAutoDirection(false).setMaxSpeedBackward(MAX_X_SPEED / 2),
       new MovementDefinition().setMaxSpeed(Sizes.MAX_FALL_SPEED)
   );
 
@@ -51,7 +51,7 @@ public class Player implements PhysicalObject,HasHealthPoints<Player>, TwoFacedI
 
   void addTo(RenderQueue rq, MovingObjects movingObjects) {
     rq.add(this);
-    movingObjects.add(this);
+    movingObjects.add(this, true);
   }
 
   private static final BeanName<TwoFacedImageRenderer> RENDERER = new BeanName<TwoFacedImageRenderer>(TwoFacedImageRenderer.class, "playerRenderer");
@@ -110,7 +110,7 @@ public class Player implements PhysicalObject,HasHealthPoints<Player>, TwoFacedI
   }
 
   @Override
-  public XYMovement getFullXYMovement() {
+  public XYMovement getXYMovement() {
     return xyMovement;
   }
 }

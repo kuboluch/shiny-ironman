@@ -48,6 +48,8 @@ public class SerializableRef<T> implements Serializable {
   private void readObject(ObjectInputStream inputStream) throws ClassNotFoundException, IOException {
     //always perform the default de-serialization first
     inputStream.defaultReadObject();
-    DeserializationHelper.registerRef(this);
+    if (serializedId != null) {
+      DeserializationHelper.registerRef(this);
+    }
   }
 }

@@ -8,7 +8,7 @@ import kniemkiewicz.jqblocks.ingame.util.QuadTree;
  * Date: 19.08.12
  */
 public interface HasFullXYMovement extends QuadTree.HasShape{
-  XYMovement getFullXYMovement();
+  XYMovement getXYMovement();
 
   void updateShape();
 }

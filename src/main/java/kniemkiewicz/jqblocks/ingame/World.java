@@ -7,7 +7,10 @@ import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
+import kniemkiewicz.jqblocks.ingame.object.serialization.DeserializationHelper;
+import kniemkiewicz.jqblocks.ingame.object.serialization.SerializationHelper;
 import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventory;
+import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.apache.commons.logging.Log;
@@ -110,12 +113,17 @@ public final class World {
     for (Object ob : Collections3.iterateOverAllIterators(iters.iterator())) {
       // This class is listed in renderQueue but we do not want to serialize it here. It will be saved as part of
       // solidBlocks.
-      if (!(ob instanceof RawEnumTable)) {
+      if (!(ob instanceof RawEnumTable) && !indexes.containsKey(ob)) {
         indexes.put(ob, gameObjects.size());
         gameObjects.add(ob);
       }
     }
-    stream.writeObject(gameObjects);
+    SerializationHelper.startSerialization();
+    for (Object ob : gameObjects) {
+      SerializationHelper.add(ob);
+    }
+    logger.debug(gameObjects);
+    SerializationHelper.flushData(stream);
     stream.writeObject(markIndexes(indexes, renderQueue.iterateAllObjects()));
     stream.writeObject(markIndexes(indexes, movingObjects.iterateAll()));
     stream.writeObject(markIndexes(indexes, updateQueue.iterateAll()));
@@ -130,7 +138,8 @@ public final class World {
   public void loadGameData(ObjectInputStream stream) {
     Player player = null;
     try {
-      List<Object> gameObjects = (List<Object>)stream.readObject();
+      List<?> gameObjects = DeserializationHelper.deserializeObjects(stream);
+      logger.debug(gameObjects);
       for (Object ob : gameObjects) {
         if (ob instanceof Player) {
           player = (Player) ob;
@@ -150,7 +159,7 @@ public final class World {
         BitSet movingObjectsSet = (BitSet)stream.readObject();
         for (int i = 0; i < movingObjectsSet.size(); i++) {
           if (movingObjectsSet.get(i)) {
-            movingObjects.add((PhysicalObject) gameObjects.get(i));
+            Assert.executeAndAssert(movingObjects.add((PhysicalObject) gameObjects.get(i), false));
           }
         }
       }

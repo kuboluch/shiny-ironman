@@ -1,5 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.util.movement;
 
+import org.newdawn.slick.geom.Vector2f;
+
 import java.io.Serializable;
 
 /**
@@ -47,5 +49,10 @@ public class XYMovement implements Serializable {
   public void update(int delta) {
     xMovement.update(delta);
     yMovement.update(delta);
+  }
+
+  public void applyAcceleration(Vector2f accelerationVector) {
+    xMovement.setAcceleration(accelerationVector.getX());
+    yMovement.setAcceleration(accelerationVector.getY());
   }
 }

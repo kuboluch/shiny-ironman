@@ -21,7 +21,7 @@ public class BatBody implements RenderableObject<BatBody>, HasFullXYMovement {
   XYMovement movement;
   Rectangle rectangle;
 
-  public static final float X_SPEED = Bat.X_SPEED;
+  public static final float X_SPEED = Bat.SPEED;
   public static final float Y_INITIAL_SPEED = Player.JUMP_SPEED / 4;
 
   static XYMovementDefinition BAT_BODY_MOVEMENT = new XYMovementDefinition(
@@ -62,7 +62,7 @@ public class BatBody implements RenderableObject<BatBody>, HasFullXYMovement {
   }
 
   @Override
-  public XYMovement getFullXYMovement() {
+  public XYMovement getXYMovement() {
     return movement;
   }
 

@@ -29,11 +29,11 @@ public class MovingObjects {
   static public final EnumSet<CollisionController.ObjectType> MOVING =
       EnumSet.of(CollisionController.ObjectType.MOVING_OBJECT);
 
-  public boolean add(PhysicalObject object) {
+  public boolean add(PhysicalObject object, boolean checkCollisions) {
     if (object instanceof PickableObject) {
       Assert.executeAndAssert(collisionController.add(PICKABLE, object, true));
     } else {
-      if (collisionController.intersects(MOVING, object.getShape())) return false;
+      if (checkCollisions && collisionController.intersects(MOVING, object.getShape())) return false;
       Assert.executeAndAssert(collisionController.add(MOVING, object, true));
     }
     return true;

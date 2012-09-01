@@ -80,13 +80,13 @@ public class PlayerController implements InputListener,HealthController<Player> 
   public void initPlayer() {
     player = new Player();
     player.addTo(renderQueue, movingObjects);
-    player.getFullXYMovement().getXMovement().setPos(VillageGenerator.STARTING_X);
-    player.getFullXYMovement().getYMovement().setPos(villageGenerator.getStartingY() - Player.HEIGHT - 2);
+    player.getXYMovement().getXMovement().setPos(VillageGenerator.STARTING_X);
+    player.getXYMovement().getYMovement().setPos(villageGenerator.getStartingY() - Player.HEIGHT - 2);
     player.updateShape();
   }
 
   public void listen(Input input, int delta) {
-    XYMovement playerMovement = player.getFullXYMovement();
+    XYMovement playerMovement = player.getXYMovement();
     SingleAxisMovement xMovement = playerMovement.getXMovement();
     SingleAxisMovement yMovement = playerMovement.getYMovement();
 

@@ -93,7 +93,7 @@ public class VillageGenerator {
   }
 
   private boolean addToWorld(DroppableObject dropObject) {
-    if (!movingObjects.add(dropObject)) return false;
+    if (!movingObjects.add(dropObject, true)) return false;
     renderQueue.add(dropObject);
     return true;
   }

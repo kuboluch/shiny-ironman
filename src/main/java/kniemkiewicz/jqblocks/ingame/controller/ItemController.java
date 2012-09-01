@@ -3,9 +3,6 @@ package kniemkiewicz.jqblocks.ingame.controller;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
-import kniemkiewicz.jqblocks.ingame.object.MovingPhysicalObject;
-import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
-import org.newdawn.slick.geom.Shape;
 
 import java.util.List;
 

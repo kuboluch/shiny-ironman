@@ -8,6 +8,7 @@ import kniemkiewicz.jqblocks.ingame.content.item.bow.BowRenderer;
 import kniemkiewicz.jqblocks.ingame.object.HasSource;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.ingame.object.serialization.SerializableRef;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.movement.SingleAxisMovement;
@@ -35,15 +36,14 @@ public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Ar
   );
 
   transient Line line;
-  XYMovement movement;
-  //TODO: fix this, we need global object ids or something like that.
-  transient QuadTree.HasShape source;
+  final XYMovement movement;
+  final private SerializableRef<QuadTree.HasShape> source;
   private static int LENGTH = Sizes.BLOCK;
 
   public Arrow(float x, float y, QuadTree.HasShape source, float xSpeed, float ySpeed) {
     this.line = new Line(x, y, x, y);
     this.movement = ARROW_MOVEMENT.getMovement(x, y).setXSpeed(xSpeed).setYSpeed(ySpeed);
-    this.source = source;
+    this.source = new SerializableRef<QuadTree.HasShape>(source);
   }
 
   @Override
@@ -90,7 +90,7 @@ public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Ar
   }
 
   public QuadTree.HasShape getSource() {
-    return source;
+    return source.get();
   }
 
   @Override

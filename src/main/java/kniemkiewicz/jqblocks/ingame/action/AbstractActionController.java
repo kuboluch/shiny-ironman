@@ -152,8 +152,8 @@ public abstract class AbstractActionController implements EventListener {
   }
 
   public static boolean isInRange(int x, int y, Player player, int range) {
-    float px = player.getFullXYMovement().getX();
-    float py = player.getFullXYMovement().getY();
+    float px = player.getXYMovement().getX();
+    float py = player.getXYMovement().getY();
     return  (px - x) * (px - x) + (py - y) * (py - y) < range * range;
   }
 

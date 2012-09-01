@@ -75,12 +75,12 @@ public final class FreeFallController {
   }
 
   public void updateComplex(int delta, Iterator<HasFullXYMovement> it, HasFullXYMovement ob) {
-    ob.getFullXYMovement().getYMovement().setAcceleration(Sizes.G);
-    float x = ob.getFullXYMovement().getX();
-    float y = ob.getFullXYMovement().getY();
-    ob.getFullXYMovement().update(delta);
-    float dx = ob.getFullXYMovement().getX() - x;
-    float dy = ob.getFullXYMovement().getY() - y;
+    ob.getXYMovement().getYMovement().setAcceleration(Sizes.G);
+    float x = ob.getXYMovement().getX();
+    float y = ob.getXYMovement().getY();
+    ob.getXYMovement().update(delta);
+    float dx = ob.getXYMovement().getX() - x;
+    float dy = ob.getXYMovement().getY() - y;
     ob.updateShape();
     Rectangle bound = GeometryUtils.getBoundingRectangle(ob.getShape());
     List<Rectangle> rectangles = blocks.getBlocks().getIntersectingRectangles(bound);

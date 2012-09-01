@@ -43,8 +43,8 @@ public class HitResolver {
   public static Decision resolve(HasFullXYMovement ob, float dx, float dy, Rectangle rect) {
     Rectangle shape = GeometryUtils.getBoundingRectangle(ob.getShape());
     Decision decision = decide(shape, dx, dy, rect);
-    SingleAxisMovement xMovement = ob.getFullXYMovement().getXMovement();
-    SingleAxisMovement yMovement = ob.getFullXYMovement().getYMovement();
+    SingleAxisMovement xMovement = ob.getXYMovement().getXMovement();
+    SingleAxisMovement yMovement = ob.getXYMovement().getYMovement();
     switch (decision) {
       case TOP:
         yMovement.setSpeed(0);

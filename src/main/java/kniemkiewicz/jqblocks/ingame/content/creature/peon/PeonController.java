@@ -45,7 +45,7 @@ public class PeonController implements HealthController<Peon> {
   }
 
   public boolean register(Peon peon) {
-    if (!movingObjects.add(peon)) return false;
+    if (!movingObjects.add(peon, true)) return false;
     renderQueue.add(peon);
     soundController.play(newPeonSound);
     return true;

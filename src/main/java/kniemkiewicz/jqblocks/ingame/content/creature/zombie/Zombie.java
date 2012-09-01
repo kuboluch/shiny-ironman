@@ -43,7 +43,7 @@ public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,HasHealthPoints<Z
   }
 
   public boolean addTo(MovingObjects movingObjects, RenderQueue renderQueue, UpdateQueue updateQueue) {
-    if (!movingObjects.add(this)) return false;
+    if (!movingObjects.add(this, true)) return false;
     renderQueue.add(this);
     updateQueue.add(this);
     return true;
@@ -87,7 +87,7 @@ public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,HasHealthPoints<Z
   }
 
   @Override
-  public XYMovement getFullXYMovement() {
+  public XYMovement getXYMovement() {
     return movement;
   }
 
