@@ -1,13 +1,15 @@
-package kniemkiewicz.jqblocks.ingame.workplace;
+package kniemkiewicz.jqblocks.ingame.production;
 
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
+import com.google.common.base.Optional;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.action.AbstractActionController;
 import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.event.Event;
+import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.event.input.keyboard.KeyPressedEvent;
-import kniemkiewicz.jqblocks.ingame.object.CompletionEffect;
+import kniemkiewicz.jqblocks.ingame.event.production.ProductionCompleteEvent;
 import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
+import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.newdawn.slick.geom.Rectangle;
@@ -17,30 +19,29 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * User: qba
- * Date: 12.08.12
+ * Date: 01.09.12
  */
 @Component
-public class WorkplaceActionController extends AbstractActionController {
+public class ProductionActionController extends AbstractActionController {
 
   @Autowired
-  private WorkplaceController workplaceController;
+  WorkplaceController workplaceController;
 
   @Autowired
-  private RenderQueue renderQueue;
+  ProductionAssignmentController productionAssignmentController;
 
-  private CompletionEffect completionEffect;
-
-  private int totalDuration;
-
-  private int remainingDuration;
+  @Autowired
+  EventBus eventBus;
 
   @Override
   protected boolean canPerformAction(int x, int y) {
-    WorkplaceDefinition workplaceDefinition = workplaceController.findWorkplace(new Rectangle(x, y, Sizes.BLOCK, Sizes.BLOCK));
-    if (workplaceDefinition == null) return false;
-    return workplaceDefinition.canInteract();
+    WorkplaceBackgroundElement wbe = workplaceController.findWorkplaceBackgroundElement(new Rectangle(x, y, Sizes.BLOCK, Sizes.BLOCK));
+    if (wbe == null) return false;
+    return productionAssignmentController.hasAssigment(wbe);
   }
 
   @Override
@@ -51,37 +52,37 @@ public class WorkplaceActionController extends AbstractActionController {
 
   @Override
   protected void startAction() {
-    assert completionEffect == null;
-    completionEffect = new CompletionEffect(affectedRectangle);
-    WorkplaceDefinition workplaceDefinition = workplaceController.findWorkplace(affectedRectangle);
-    totalDuration = workplaceDefinition.getActionDuration();
-    remainingDuration = totalDuration;
-    renderQueue.add(completionEffect);
   }
 
   @Override
   protected void stopAction() {
-    renderQueue.remove(completionEffect);
-    completionEffect = null;
-    remainingDuration = 0;
   }
 
   @Override
   protected void updateAction(int delta) {
-    remainingDuration -= delta;
-    completionEffect.setPercentage(((totalDuration - remainingDuration) * 100) / totalDuration);
+    WorkplaceBackgroundElement wbe = workplaceController.findWorkplaceBackgroundElement(affectedRectangle);
+    Optional<ProductionAssignment> assignment = productionAssignmentController.getActiveAssignment(checkNotNull(wbe));
+    if (assignment.isPresent()) {
+      assignment.get().update(delta);
+    }
   }
 
   @Override
   protected boolean isActionCompleted() {
-    return remainingDuration <= 0;
+    WorkplaceBackgroundElement wbe = workplaceController.findWorkplaceBackgroundElement(affectedRectangle);
+    Optional<ProductionAssignment> assignment = productionAssignmentController.getActiveAssignment(checkNotNull(wbe));
+    return assignment.isPresent() && assignment.get().isCompleted();
   }
 
   @Override
   protected void onAction() {
     if (affectedRectangle != null) {
-      WorkplaceDefinition workplaceDefinition = workplaceController.findWorkplace(affectedRectangle);
-      workplaceDefinition.interact();
+      WorkplaceBackgroundElement wbe = workplaceController.findWorkplaceBackgroundElement(affectedRectangle);
+      Optional<ProductionAssignment> assignment = productionAssignmentController.getActiveAssignment(checkNotNull(wbe));
+      if (assignment.isPresent() && assignment.get().isCompleted()) {
+        productionAssignmentController.removeActiveAssigment(wbe);
+        eventBus.broadcast(new ProductionCompleteEvent(wbe, assignment.get()));
+      }
     }
   }
 

@@ -1,6 +1,5 @@
 package kniemkiewicz.jqblocks.ingame.content.item.arrow;
 
-import kniemkiewicz.jqblocks.ingame.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
@@ -47,7 +46,7 @@ public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Ar
   }
 
   @Override
-  public BeanName<? extends ObjectRenderer<Arrow>> getRenderer() {
+  public BeanName<? extends ObjectRenderer> getRenderer() {
     return null;
   }
 

@@ -12,6 +12,8 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseInputEventBus;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
+import kniemkiewicz.jqblocks.ingame.production.ProductionActionController;
+import kniemkiewicz.jqblocks.ingame.production.ProductionAssignmentController;
 import kniemkiewicz.jqblocks.ingame.production.ProductionController;
 import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventoryController;
 import kniemkiewicz.jqblocks.ingame.ui.HealthBar;
@@ -99,6 +101,12 @@ public class MainGameState extends BasicTWLGameState {
   ProductionController productionController;
 
   @Autowired
+  ProductionAssignmentController productionAssignmentController;
+
+  @Autowired
+  ProductionActionController productionActionController;
+
+  @Autowired
   UIController uiController;
 
   @Autowired
@@ -142,7 +150,8 @@ public class MainGameState extends BasicTWLGameState {
     eventBus.addListener(workplaceController);
     eventBus.addListener(workplaceActionController);
     eventBus.addListener(inventoryController);
-    eventBus.addListener(resourceInventoryController);
+    eventBus.addListener(productionController);
+    eventBus.addListener(productionActionController);
     renderQueue.add(timingInfo);
     renderQueue.add(mouseInputInfo);
     renderQueue.add(resourceInfo);
@@ -172,11 +181,13 @@ public class MainGameState extends BasicTWLGameState {
     mouseInputEventBus.update();
     eventBus.update();
     workplaceActionController.update(delta);
+    productionActionController.update(delta);
     for (InputListener l : inputListeners) {
       l.listen(gameContainer.getInput(), delta);
     }
     updateQueue.update(delta);
     freeFallController.update(delta);
+    productionAssignmentController.update();
     productionController.update();
     t.record();
   }

@@ -1,12 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.content.transport.ladder;
 
-import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
-import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.item.EmptyItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
-import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
+import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
 import kniemkiewicz.jqblocks.util.BeanName;
 
 /**
@@ -20,11 +18,9 @@ public class LadderItem implements Item {
     return LadderItemController.class;
   }
 
-  private static final BeanName<ItemRenderer> RENDERER = new BeanName<ItemRenderer>(ImageRenderer.class, "ladderRenderer");
-
   @Override
   public BeanName<? extends ItemRenderer> getItemRenderer() {
-    return RENDERER;
+    return LadderDefinition.RENDERER;
   }
 
   @Override

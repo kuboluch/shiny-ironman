@@ -106,10 +106,12 @@ public class ItemInventory extends AbstractInventory<Item> implements Renderable
       eventBus.broadcast(new SelectedItemChangeEvent());
     }
     super.setSelectedIndex(x);
-    Item item = getSelectedItem();
-    BeanName<? extends EquippedItemRenderer> equippedItemRenderer = item.getEquippedItemRenderer();
-    if (equippedItemRenderer != null) {
-      springBeanProvider.getBean(equippedItemRenderer, true).resetEquippedItemRenderer();
+    Item selectedItem = getSelectedItem();
+    if (selectedItem != null) {
+      BeanName<? extends EquippedItemRenderer> equippedItemRenderer = selectedItem.getEquippedItemRenderer();
+      if (equippedItemRenderer != null) {
+        springBeanProvider.getBean(equippedItemRenderer, true).resetEquippedItemRenderer();
+      }
     }
   }
 
@@ -124,10 +126,15 @@ public class ItemInventory extends AbstractInventory<Item> implements Renderable
     }
   }
 
+  @Override
   public void render(Graphics g) {
     renderInventory(g);
     renderEquippedItem(g);
   }
 
+  @Override
+  public boolean isDisposable() {
+    return false;
+  }
 }
 

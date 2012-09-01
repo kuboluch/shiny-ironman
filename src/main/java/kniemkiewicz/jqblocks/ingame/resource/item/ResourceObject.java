@@ -39,7 +39,7 @@ public class ResourceObject<T extends Resource>
   private static final BeanName<ResourceRenderer> RENDERER = new BeanName<ResourceRenderer>(ResourceRenderer.class, "resourceRenderer");
 
   @Override
-  public BeanName<? extends ObjectRenderer<ResourceObject>> getRenderer() {
+  public BeanName<? extends ObjectRenderer> getRenderer() {
     return RENDERER;
   }
 

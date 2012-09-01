@@ -57,7 +57,7 @@ public class Player implements PhysicalObject,HasHealthPoints<Player>, TwoFacedI
   private static final BeanName<TwoFacedImageRenderer> RENDERER = new BeanName<TwoFacedImageRenderer>(TwoFacedImageRenderer.class, "playerRenderer");
 
   @Override
-  public BeanName<? extends ObjectRenderer<TwoFacedImageRenderer.Renderable>> getRenderer() {
+  public BeanName<? extends ObjectRenderer> getRenderer() {
     return RENDERER;
   }
 

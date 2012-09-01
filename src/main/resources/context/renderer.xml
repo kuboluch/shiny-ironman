@@ -15,31 +15,31 @@
         </constructor-arg>
     </bean>
 
-    <bean id="pickaxeRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer">
+    <bean id="pickaxeRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
         <constructor-arg value="images/pickaxe.png"/>
     </bean>
 
-    <bean id="axeRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer">
+    <bean id="axeRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
         <constructor-arg value="images/axe.png"/>
     </bean>
 
-    <bean id="fireplaceRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer">
+    <bean id="fireplaceRenderer" class="kniemkiewicz.jqblocks.ingame.workplace.renderer.WorkplaceImageRenderer">
         <constructor-arg value="images/fireplace.png"/>
     </bean>
 
-    <bean id="sawmillRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer">
+    <bean id="sawmillRenderer" class="kniemkiewicz.jqblocks.ingame.workplace.renderer.WorkplaceImageRenderer">
         <constructor-arg value="images/saw.png"/>
     </bean>
 
-    <bean id="treeRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer">
+    <bean id="treeRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
         <constructor-arg value="images/tree.png"/>
     </bean>
 
-    <bean id="batRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer">
+    <bean id="batRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
         <constructor-arg value="images/bat.png"/>
     </bean>
 
-    <bean id="batBodyRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer">
+    <bean id="batBodyRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
         <constructor-arg value="images/batBody.png"/>
     </bean>
 
@@ -58,22 +58,22 @@
         <constructor-arg ref="zombieImage"/>
     </bean>
 
-    <bean id="ladderRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer">
+    <bean id="ladderRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="ladder"/>
     </bean>
 
-    <bean id="torchRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer">
+    <bean id="torchRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="torch"/>
     </bean>
 
-    <bean id="unknownRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer">
+    <bean id="unknownRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="unknown"/>
     </bean>
 
-    <bean id="dirtBlockRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer">
+    <bean id="dirtBlockRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="dirt"/>
     </bean>

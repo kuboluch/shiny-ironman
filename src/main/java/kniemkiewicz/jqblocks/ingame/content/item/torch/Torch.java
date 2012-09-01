@@ -37,7 +37,7 @@ public class Torch implements RenderableObject<Torch>, PickableObject, Droppable
   }
 
   @Override
-  public BeanName<? extends ObjectRenderer<? super Torch>> getRenderer() {
+  public BeanName<? extends ObjectRenderer> getRenderer() {
     return TorchDefinition.RENDERER;
   }
 

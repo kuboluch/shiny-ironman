@@ -63,7 +63,7 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
   }
 
   @Override
-  public BeanName<? extends ObjectRenderer<? super RawEnumTable>> getRenderer() {
+  public BeanName<? extends ObjectRenderer> getRenderer() {
     return null;
   }
 

@@ -1,6 +1,5 @@
 package kniemkiewicz.jqblocks.ingame.content.item.rock;
 
-import kniemkiewicz.jqblocks.ingame.FreeFallController;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.item.Item;
@@ -45,7 +44,7 @@ public class Rock implements RenderableObject<Rock>, PickableObject, DroppableOb
   }
 
   @Override
-  public BeanName<? extends ObjectRenderer<Rock>> getRenderer() {
+  public BeanName<? extends ObjectRenderer> getRenderer() {
     return null;
   }
 

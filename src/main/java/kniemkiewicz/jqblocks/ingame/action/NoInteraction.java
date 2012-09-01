@@ -4,7 +4,7 @@ package kniemkiewicz.jqblocks.ingame.action;
  * User: qba
  * Date: 12.08.12
  */
-public class NullActionController implements Interactive {
+public class NoInteraction implements Interactive {
 
   @Override
   public boolean canInteract() {
@@ -15,7 +15,7 @@ public class NullActionController implements Interactive {
   public void interact() { }
 
   @Override
-  public int getDurationToComplete() {
+  public int getActionDuration() {
     return 0;
   }
 }

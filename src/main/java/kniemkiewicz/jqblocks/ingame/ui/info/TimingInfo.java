@@ -125,4 +125,9 @@ public class TimingInfo implements Renderable {
       y += 14;
     }
   }
+
+  @Override
+  public boolean isDisposable() {
+    return false;
+  }
 }

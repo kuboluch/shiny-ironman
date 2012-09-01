@@ -10,6 +10,7 @@ import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.serialization.SerializableRef;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
+import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
 import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovementDefinition;
@@ -55,10 +56,10 @@ public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat>,H
     return true;
   }
 
-  private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(ImageRenderer.class, "batRenderer");
+  private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(ImageRendererImpl.class, "batRenderer");
 
   @Override
-  public BeanName<? extends ObjectRenderer<? super Bat>> getRenderer() {
+  public BeanName<? extends ObjectRenderer> getRenderer() {
     return RENDERER;
   }
 

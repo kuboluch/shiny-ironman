@@ -21,4 +21,9 @@ public class MouseInputInfo implements Renderable {
     g.drawString("mouseX : " + ev.getNewLevelX(), 4, 25);
     g.drawString("mouseY : " + ev.getNewLevelY(), 4, 38);
   }
+
+  @Override
+  public boolean isDisposable() {
+    return false;
+  }
 }

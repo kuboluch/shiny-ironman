@@ -21,7 +21,7 @@ public class DebugRenderableShape implements RenderableObject<DebugRenderableSha
   }
 
   @Override
-  public BeanName<? extends ObjectRenderer<DebugRenderableShape>> getRenderer() {
+  public BeanName<? extends ObjectRenderer> getRenderer() {
     return null;
   }
 

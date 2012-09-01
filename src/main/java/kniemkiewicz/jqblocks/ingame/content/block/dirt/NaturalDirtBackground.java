@@ -24,7 +24,7 @@ public class NaturalDirtBackground extends AbstractBackgroundElement<NaturalDirt
   }
 
   @Override
-  public BeanName<? extends ObjectRenderer<NaturalDirtBackground>> getRenderer() {
+  public BeanName<? extends ObjectRenderer> getRenderer() {
     return null;
   }
 

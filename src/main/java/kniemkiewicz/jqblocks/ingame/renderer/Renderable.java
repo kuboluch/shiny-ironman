@@ -7,5 +7,6 @@ import org.newdawn.slick.Graphics;
  * Date: 10.07.12
  */
 public interface Renderable {
-  public void render(Graphics g);
+  void render(Graphics g);
+  boolean isDisposable();
 }

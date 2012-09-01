@@ -1,13 +1,11 @@
 package kniemkiewicz.jqblocks.ingame.content.block.dirt;
 
-import kniemkiewicz.jqblocks.ingame.UpdateQueue;
-import kniemkiewicz.jqblocks.ingame.content.item.axe.AxeItem;
 import kniemkiewicz.jqblocks.ingame.item.EmptyItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.EquippedItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
-import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
+import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
 import kniemkiewicz.jqblocks.util.BeanName;
 
 /**
@@ -20,11 +18,9 @@ public class DirtBlockItem implements Item {
     return DirtBlockItemController.class;
   }
 
-  private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(ImageRenderer.class, "dirtBlockRenderer");
-
   @Override
   public BeanName<? extends ItemRenderer> getItemRenderer() {
-    return RENDERER;
+    return DirtBlockDefinition.RENDERER;
   }
 
   @Override

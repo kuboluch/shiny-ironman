@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.object.*;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
+import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -18,7 +19,7 @@ public class Ladder implements RenderableObject<Ladder>, PickableObject, Droppab
   Rectangle rectangle;
 
   public Ladder(int x, int y) {
-    this.rectangle = new Rectangle(Sizes.roundToBlockSizeX(x), Sizes.roundToBlockSizeY(y), Sizes.BLOCK * 2, Sizes.BLOCK * 2);
+    this.rectangle = new Rectangle(Sizes.roundToBlockSizeX(x), Sizes.roundToBlockSizeY(y), LadderDefinition.WIDTH, LadderDefinition.HEIGHT);
   }
 
   @Override
@@ -36,11 +37,9 @@ public class Ladder implements RenderableObject<Ladder>, PickableObject, Droppab
     return PickableObjectType.ACTION;
   }
 
-  private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(ImageRenderer.class, "ladderRenderer");
-
   @Override
-  public BeanName<? extends ObjectRenderer<? super Ladder>> getRenderer() {
-    return RENDERER;
+  public BeanName<? extends ObjectRenderer> getRenderer() {
+    return LadderDefinition.RENDERER;
   }
 
   @Override

@@ -27,7 +27,7 @@ public class TorchBackground extends AbstractBackgroundElement<TorchBackground> 
   }
 
   @Override
-  public BeanName<? extends ObjectRenderer<? super TorchBackground>> getRenderer() {
+  public BeanName<? extends ObjectRenderer> getRenderer() {
     return TorchDefinition.RENDERER;
   }
 }

@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.object.background.AbstractBackgroundElement;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
+import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
 import kniemkiewicz.jqblocks.util.BeanName;
 
 /**
@@ -14,11 +15,8 @@ public class LadderBackground extends AbstractBackgroundElement<LadderBackground
 
   private static final long serialVersionUID = 1;
 
-  public static int HEIGHT = 2 * Sizes.BLOCK;
-  public static int WIDTH = 2 * Sizes.BLOCK;
-
   public LadderBackground(int x, int y) {
-    super(x, y, WIDTH, HEIGHT);
+    super(x, y, LadderDefinition.WIDTH, LadderDefinition.HEIGHT);
   }
 
   @Override
@@ -31,10 +29,10 @@ public class LadderBackground extends AbstractBackgroundElement<LadderBackground
     return false;
   }
 
-  private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(ImageRenderer.class, "ladderRenderer");
+  private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(ImageRendererImpl.class, "ladderRenderer");
 
   @Override
-  public BeanName<? extends ObjectRenderer<? super LadderBackground>> getRenderer() {
+  public BeanName<? extends ObjectRenderer> getRenderer() {
     return RENDERER;
   }
 }

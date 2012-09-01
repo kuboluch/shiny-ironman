@@ -29,7 +29,7 @@
         <property name="blockWidth" value="4"/>
         <property name="blockHeight" value="3"/>
         <property name="renderer" ref="fireplaceRenderer"/>
-        <property name="actionController" ref="nullActionController"/>
+        <property name="actionController" ref="noInteraction"/>
     </bean>
 
     <bean id="sawmill" class="kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition">
@@ -46,8 +46,8 @@
         <property name="description" value="You can cut log into wood"/>
         <property name="blockWidth" value="4"/>
         <property name="blockHeight" value="3"/>
-        <property name="renderer" ref="fireplaceRenderer"/>
-        <property name="actionController" ref="craftsmanController"/>
+        <property name="renderer" ref="sawmillRenderer"/>
+        <property name="actionController" ref="noInteraction"/>
     </bean>
 
     <bean id="fireplace3" parent="fireplace"/>
@@ -55,13 +55,11 @@
     <bean id="fireplace5" parent="fireplace"/>
     <bean id="fireplace6" parent="fireplace"/>
 
-    <bean id="nullActionController" class="kniemkiewicz.jqblocks.ingame.action.NullActionController"/>
+    <bean id="noInteraction" class="kniemkiewicz.jqblocks.ingame.action.NoInteraction"/>
     <bean id="woodProcessController" class="kniemkiewicz.jqblocks.ingame.workplace.action.ProcessResourceActionController">
         <constructor-arg>
             <util:constant static-field="kniemkiewicz.jqblocks.ingame.resource.ResourceType.WOOD"/>
         </constructor-arg>
-    </bean>
-    <bean id="craftsmanController" class="kniemkiewicz.jqblocks.ingame.workplace.action.ProductionActionController">
     </bean>
 
 </beans>

@@ -36,4 +36,9 @@ public class ResourceInfo implements Renderable {
       y += 18;
     }
   }
+
+  @Override
+  public boolean isDisposable() {
+    return false;
+  }
 }

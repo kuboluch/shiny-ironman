@@ -64,7 +64,7 @@ public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,HasHealthPoints<Z
   private static BeanName<TwoFacedImageRenderer> RENDERER = new BeanName<TwoFacedImageRenderer>(TwoFacedImageRenderer.class, "zombieRenderer");
 
   @Override
-  public BeanName<? extends ObjectRenderer<? super TwoFacedImageRenderer.Renderable>> getRenderer() {
+  public BeanName<? extends ObjectRenderer> getRenderer() {
     return RENDERER;
   }
 

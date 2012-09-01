@@ -1,6 +1,5 @@
 package kniemkiewicz.jqblocks.ingame.workplace;
 
-import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
@@ -9,6 +8,7 @@ import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
 import kniemkiewicz.jqblocks.ingame.placeable.Placeable;
 import kniemkiewicz.jqblocks.ingame.placeable.renderer.PlaceableObjectImageRenderer;
+import kniemkiewicz.jqblocks.ingame.renderer.BeanAwareImageRenderer;
 import kniemkiewicz.jqblocks.util.BeanName;
 import kniemkiewicz.jqblocks.util.SerializableBeanProxy;
 import org.newdawn.slick.Graphics;
@@ -22,11 +22,12 @@ public class PlaceableWorkplaceObject implements RenderableObject<WorkplaceBackg
 
   WorkplaceBackgroundElement backgroundElement;
 
-  ObjectRenderer renderer;
+  PlaceableObjectImageRenderer renderer;
 
   SerializableBeanProxy<WorkplaceController> controller;
 
-  public PlaceableWorkplaceObject(WorkplaceDefinition workplaceDefinition, int x, int y, ImageRenderer renderer, WorkplaceController controller) {
+  public PlaceableWorkplaceObject(WorkplaceDefinition workplaceDefinition, int x, int y,
+                                  BeanAwareImageRenderer renderer, WorkplaceController controller) {
     this.renderer = new PlaceableObjectImageRenderer(renderer);
     this.controller = SerializableBeanProxy.getInstance(controller);
     BeanName rendererBeanName = new BeanName(renderer.getClass(), renderer.getBeanName());
@@ -44,7 +45,7 @@ public class PlaceableWorkplaceObject implements RenderableObject<WorkplaceBackg
   }
 
   @Override
-  public BeanName<? extends ObjectRenderer<? super WorkplaceBackgroundElement>> getRenderer() {
+  public BeanName<? extends ObjectRenderer> getRenderer() {
     return null;
   }
 

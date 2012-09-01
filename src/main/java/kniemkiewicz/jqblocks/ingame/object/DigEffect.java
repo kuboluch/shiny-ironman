@@ -26,7 +26,7 @@ public class DigEffect implements RenderableObject<DigEffect> {
   }
 
   @Override
-  public BeanName<? extends ObjectRenderer<DigEffect>> getRenderer() {
+  public BeanName<? extends ObjectRenderer> getRenderer() {
     return null;
   }
 

@@ -62,6 +62,7 @@ public class ResourceInventory extends AbstractInventory<ResourceItem> implement
 
   final static private String[] ids = {"F1", "F2", "F3"};
 
+  @Override
   public void render(Graphics g) {
     int x = pointOfView.getWindowWidth() - items.size() * LARGE_SQUARE_SIZE - (items.size() - 1) * SQUARE_DIST - X_MARGIN;
     int y = ItemInventory.SQUARE_SIZE + 3 * Y_MARGIN;
@@ -87,5 +88,10 @@ public class ResourceInventory extends AbstractInventory<ResourceItem> implement
       x += SQUARE_DIST + square_size;
       i += 1;
     }
+  }
+
+  @Override
+  public boolean isDisposable() {
+    return false;
   }
 }

@@ -27,7 +27,7 @@ public interface RenderableObject<T extends RenderableObject> extends PhysicalOb
   // that this object will handle rendering itself, using renderObject method.
   // Note that AFAIK all "?" in templates around this interface are required for
   // our code to compile. Enjoy!
-  BeanName<? extends ObjectRenderer<? super T>> getRenderer();
+  BeanName<? extends ObjectRenderer> getRenderer();
 
   // Graphics are shifted by pov before a call to this method.
   public void renderObject(Graphics g, PointOfView pov);

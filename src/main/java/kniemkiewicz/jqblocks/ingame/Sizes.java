@@ -27,6 +27,7 @@ public class Sizes {
   public static int DEFAULT_PICKAXE_STRENGTH = 1;
   public static int DEFAULT_AXE_STRENGTH = 1;
   public static int DEFAULT_RESOURCE_RICHNESS = 1;
+  public static int DEFAULT_PRODUCTION_DURATION = 1000;
 
   static public int roundToBlockSizeX(int x) {
     return (x - MIN_X) / BLOCK * BLOCK + MIN_X;

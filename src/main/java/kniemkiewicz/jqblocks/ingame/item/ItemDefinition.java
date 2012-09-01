@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.item;
 
 import com.google.common.collect.ImmutableList;
+import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.production.ItemProductionRequirements;
 import kniemkiewicz.jqblocks.ingame.production.ResourceRequirement;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
@@ -11,7 +12,6 @@ import kniemkiewicz.jqblocks.util.Collections3;
 import org.newdawn.slick.Image;
 import org.springframework.beans.factory.annotation.Required;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +27,7 @@ public class ItemDefinition implements PanelItemModel, ItemFactory, ItemProducti
   ItemProductionRequirements productionRequirements;
   Boolean globallyAvailable;
   List<WorkplaceDefinition> productionPlaces;
+  Integer productionDuration;
 
   protected ItemDefinition() {
   }
@@ -73,6 +74,13 @@ public class ItemDefinition implements PanelItemModel, ItemFactory, ItemProducti
   @Override
   public List<Item> getItemRequirements() {
     return productionRequirements.getItemRequirements();
+  }
+
+  public int getProductionDuration() {
+    if (productionDuration == null) {
+      return Sizes.DEFAULT_PRODUCTION_DURATION;
+    }
+    return productionDuration;
   }
 
   public boolean isGloballyAvailable() {
@@ -130,5 +138,10 @@ public class ItemDefinition implements PanelItemModel, ItemFactory, ItemProducti
   public void setProductionPlaces(List<WorkplaceDefinition> productionPlaces) {
     Assert.assertTrue(this.productionPlaces == null, "Item definition property change is illegal");
     this.productionPlaces = ImmutableList.copyOf(productionPlaces);
+  }
+
+  public void setProductionDuration(Integer productionDuration) {
+    Assert.assertTrue(this.productionDuration == null, "Item definition property change is illegal");
+    this.productionDuration = productionDuration;
   }
 }

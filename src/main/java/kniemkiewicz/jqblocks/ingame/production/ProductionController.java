@@ -7,11 +7,12 @@ import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.event.EventListener;
 import kniemkiewicz.jqblocks.ingame.event.production.AvailableItemsChangeEvent;
+import kniemkiewicz.jqblocks.ingame.event.production.ProductionCompleteEvent;
 import kniemkiewicz.jqblocks.ingame.inventory.InventoryController;
 import kniemkiewicz.jqblocks.ingame.item.ItemDefinition;
+import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
 import kniemkiewicz.jqblocks.ingame.resource.ResourceStorageController;
 import kniemkiewicz.jqblocks.ingame.ui.MainGameUI;
-import kniemkiewicz.jqblocks.ingame.ui.produce.ProductionSelectPanel;
 import kniemkiewicz.jqblocks.ingame.ui.widget.SelectListener;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition;
@@ -27,7 +28,7 @@ import java.util.List;
  * User: qba
  * Date: 20.08.12
  */
-public class ProductionController implements SelectListener<ItemDefinition> {
+public class ProductionController implements SelectListener<ItemDefinition>, EventListener {
 
   @Autowired
   WorkplaceController workplaceController;
@@ -45,6 +46,9 @@ public class ProductionController implements SelectListener<ItemDefinition> {
   InventoryController inventoryController;
 
   @Autowired
+  ProductionAssignmentController productionAssignmentController;
+
+  @Autowired
   EventBus eventBus;
 
   List<ItemDefinition> items = new ArrayList<ItemDefinition>();
@@ -57,10 +61,6 @@ public class ProductionController implements SelectListener<ItemDefinition> {
 
   public ProductionController(List<ItemDefinition> items) {
     this.items = ImmutableList.copyOf(items);
-  }
-
-  public List<ItemDefinition> getItemDefinitions() {
-    return items;
   }
 
   public List<ItemDefinition> getAvailableItemDefinitions() {
@@ -95,7 +95,7 @@ public class ProductionController implements SelectListener<ItemDefinition> {
     }
   }
 
-  public boolean produce() {
+  public boolean assignProduction() {
     List<ResourceRequirement> resourceRequirements = selectedItem.getResourceRequirements();
     for (ResourceRequirement resourceRequirement : resourceRequirements) {
       if (!resourceStorageController.hasEnoughResource(resourceRequirement.getResource())) {
@@ -111,7 +111,29 @@ public class ProductionController implements SelectListener<ItemDefinition> {
 
     // TODO item destroy
 
-    inventoryController.addItem(selectedItem.createItem());
+    int playerX = Sizes.roundToBlockSizeX(playerController.getPlayer().getShape().getCenterX());
+    int playerY = Sizes.roundToBlockSizeY(playerController.getPlayer().getShape().getCenterY());
+    WorkplaceBackgroundElement wbe = workplaceController.findWorkplaceBackgroundElement(new Rectangle(playerX, playerY, 1, 1));
+    productionAssignmentController.assign(wbe, new ProductionAssignment(selectedItem));
     return true;
+  }
+
+  @Override
+  public void listen(List<Event> events) {
+    List<ProductionCompleteEvent> productionCompleteEvents = Collections3.collect(events, ProductionCompleteEvent.class);
+    if (!productionCompleteEvents.isEmpty()) {
+      for (ProductionCompleteEvent e : productionCompleteEvents) {
+        handleProductionCompleteEvent(e);
+      }
+    }
+  }
+
+  private void handleProductionCompleteEvent(ProductionCompleteEvent e) {
+    inventoryController.addItem(e.getAssignment().getItem().createItem());
+  }
+
+  @Override
+  public List<Class> getEventTypesOfInterest() {
+    return Arrays.asList((Class) ProductionCompleteEvent.class);
   }
 }

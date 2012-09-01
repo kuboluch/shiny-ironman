@@ -10,6 +10,6 @@ public interface Interactive {
 
   void interact();
 
-  int getDurationToComplete();
+  int getActionDuration();
 
 }

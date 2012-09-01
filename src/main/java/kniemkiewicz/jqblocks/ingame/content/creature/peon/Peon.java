@@ -69,7 +69,7 @@ public class Peon implements PhysicalObject,HasHealthPoints<Peon>, TwoFacedImage
   private static final BeanName<TwoFacedImageRenderer> RENDERER = new BeanName<TwoFacedImageRenderer>(TwoFacedImageRenderer.class, "peonRenderer");
 
   @Override
-  public BeanName<? extends ObjectRenderer<? super TwoFacedImageRenderer.Renderable>> getRenderer() {
+  public BeanName<? extends ObjectRenderer> getRenderer() {
     return RENDERER;
   }
 

@@ -1,9 +1,11 @@
 package kniemkiewicz.jqblocks.ingame.workplace;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
+import kniemkiewicz.jqblocks.ingame.renderer.BeanAwareImageRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.action.Interactive;
-import kniemkiewicz.jqblocks.ingame.ui.renderer.TwlImage;
+import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
 import kniemkiewicz.jqblocks.ingame.ui.widget.model.PanelItemModel;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.Image;
@@ -19,7 +21,7 @@ public class WorkplaceDefinition implements PanelItemModel, Interactive {
   private String description;
   private int blockWidth = -1;
   private int blockHeight = -1;
-  private ImageRenderer renderer;
+  private BeanAwareImageRenderer renderer;
   private Interactive actionController;
 
   public WorkplaceDefinition() {}
@@ -66,8 +68,8 @@ public class WorkplaceDefinition implements PanelItemModel, Interactive {
   }
 
   @Override
-  public int getDurationToComplete() {
-    return actionController.getDurationToComplete();
+  public int getActionDuration() {
+    return actionController.getActionDuration();
   }
 
   // Setters
@@ -99,9 +101,9 @@ public class WorkplaceDefinition implements PanelItemModel, Interactive {
   }
 
   @Required
-  public void setRenderer(ImageRenderer renderer) throws IllegalAccessException {
+  public void setRenderer(ImageRenderer renderer) {
     Assert.assertTrue(this.renderer == null, "Workplace definition property change is illegal");
-    this.renderer = renderer;
+    this.renderer = (BeanAwareImageRenderer) renderer;
   }
 
   @Required

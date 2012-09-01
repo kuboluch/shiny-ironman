@@ -1,14 +1,12 @@
 package kniemkiewicz.jqblocks.ingame.content.item.pickaxe;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.item.EquippedItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.feature.Strength;
-import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
-import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
+import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
 import kniemkiewicz.jqblocks.util.BeanName;
 
 /**
@@ -34,7 +32,7 @@ public class PickaxeItem implements Item, Strength {
     return PickaxeItemController.class;
   }
 
-  private static final BeanName<ItemRenderer> RENDERER = new BeanName<ItemRenderer>(ImageRenderer.class, "pickaxeRenderer");
+  private static final BeanName<ItemRenderer> RENDERER = new BeanName<ItemRenderer>(ImageRendererImpl.class, "pickaxeRenderer");
 
   @Override
   public BeanName<? extends ItemRenderer> getItemRenderer() {

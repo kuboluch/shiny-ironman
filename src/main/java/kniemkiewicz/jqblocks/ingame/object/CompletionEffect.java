@@ -17,7 +17,7 @@ public class CompletionEffect implements RenderableObject<CompletionEffect> {
   }
 
   @Override
-  public BeanName<? extends ObjectRenderer<CompletionEffect>> getRenderer() {
+  public BeanName<? extends ObjectRenderer> getRenderer() {
     return null;
   }
 

@@ -17,7 +17,7 @@ import java.util.*;
  * Date: 08.07.12
  */
 @Component
-public class RenderQueue implements Renderable {
+public class RenderQueue {
 
   @Autowired
   PointOfView pointOfView;
@@ -27,7 +27,7 @@ public class RenderQueue implements Renderable {
 
   EnumMap<RenderableObject.Layer, Set<RenderableObject>> renderableObjects = new EnumMap<RenderableObject.Layer, Set<RenderableObject>>(RenderableObject.Layer.class);
   Set<Renderable> renderables = new HashSet<Renderable>();
-  
+
   public static final Color SKY = new Color(26f/255, 100f/255, 191f/255);
 
   RenderQueue() {
@@ -67,8 +67,13 @@ public class RenderQueue implements Renderable {
       }
     }
     g.translate(pointOfView.getShiftX(), pointOfView.getShiftY());
-    for (Renderable r : renderables) {
+    Iterator<Renderable> iter = renderables.iterator();
+    while (iter.hasNext()) {
+      Renderable r = iter.next();
       r.render(g);
+      if (r.isDisposable()) {
+        iter.remove();
+      }
     }
   }
 

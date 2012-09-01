@@ -59,7 +59,7 @@ public class ProcessResourceActionController implements Interactive {
   }
 
   @Override
-  public int getDurationToComplete() {
+  public int getActionDuration() {
     return PROCESS_DURATION;
   }
 }

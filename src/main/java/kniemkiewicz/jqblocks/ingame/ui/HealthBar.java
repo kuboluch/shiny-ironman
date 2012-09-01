@@ -30,4 +30,9 @@ public class HealthBar implements Renderable {
     g.setColor(Color.black);
     g.drawRoundRect(10, pov.getWindowHeight() - 30, 200, 15, 3);
   }
+
+  @Override
+  public boolean isDisposable() {
+    return false;
+  }
 }

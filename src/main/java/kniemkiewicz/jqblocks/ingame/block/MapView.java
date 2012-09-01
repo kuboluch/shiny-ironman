@@ -61,4 +61,9 @@ public class MapView implements InputListener, Renderable {
       framesLeft -= 1;
     }
   }
+
+  @Override
+  public boolean isDisposable() {
+    return false;
+  }
 }

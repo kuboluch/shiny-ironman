@@ -59,7 +59,7 @@ public class ProductionUI extends ResizableFrame implements EventListener {
       @Override
       public void run() {
         if (productionController.getSelectedItem() != null) {
-          productionController.produce();
+          productionController.assignProduction();
         }
       }
     });
