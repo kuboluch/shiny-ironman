@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.event.production;
 
 import kniemkiewicz.jqblocks.ingame.event.AbstractEvent;
 import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
+import kniemkiewicz.jqblocks.ingame.production.CanProduce;
 import kniemkiewicz.jqblocks.ingame.production.ProductionAssignment;
 
 /**
@@ -10,16 +11,17 @@ import kniemkiewicz.jqblocks.ingame.production.ProductionAssignment;
  */
 public class ProductionCompleteEvent extends AbstractEvent {
 
-  WorkplaceBackgroundElement workplace;
+  CanProduce source;
 
   ProductionAssignment assignment;
 
-  public ProductionCompleteEvent(WorkplaceBackgroundElement workplace, ProductionAssignment assignment) {
+  public ProductionCompleteEvent(CanProduce source, ProductionAssignment assignment) {
+    this.source = source;
     this.assignment = assignment;
   }
 
-  public WorkplaceBackgroundElement getWorkplace() {
-    return workplace;
+  public CanProduce getSource() {
+    return source;
   }
 
   public ProductionAssignment getAssignment() {

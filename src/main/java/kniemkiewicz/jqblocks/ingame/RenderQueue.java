@@ -26,9 +26,9 @@ public class RenderQueue {
   SpringBeanProvider beanProvider;
 
   EnumMap<RenderableObject.Layer, Set<RenderableObject>> renderableObjects = new EnumMap<RenderableObject.Layer, Set<RenderableObject>>(RenderableObject.Layer.class);
-  Set<Renderable> renderables = new HashSet<Renderable>();
+  List<Renderable> renderables = new ArrayList<Renderable>();
 
-  public static final Color SKY = new Color(26f/255, 100f/255, 191f/255);
+  public static final Color SKY = new Color(26f / 255, 100f / 255, 191f / 255);
 
   RenderQueue() {
     for (RenderableObject.Layer l : RenderableObject.Layer.values()) {
@@ -48,7 +48,7 @@ public class RenderQueue {
   public void doRender(RenderableObject r, Graphics g, PointOfView pov) {
     BeanName renderer = r.getRenderer();
     if (renderer != null) {
-      ((ObjectRenderer)beanProvider.getBean(renderer, true)).render(r, g,  pov);
+      ((ObjectRenderer) beanProvider.getBean(renderer, true)).render(r, g, pov);
     } else {
       r.renderObject(g, pov);
     }

@@ -1,14 +1,18 @@
-package kniemkiewicz.jqblocks.ingame.production;
+package kniemkiewicz.jqblocks.ingame.production.action;
 
 import com.google.common.base.Optional;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.action.AbstractActionController;
+import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.event.input.keyboard.KeyPressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.production.ProductionCompleteEvent;
 import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
+import kniemkiewicz.jqblocks.ingame.production.CanProduce;
+import kniemkiewicz.jqblocks.ingame.production.ProductionAssignment;
+import kniemkiewicz.jqblocks.ingame.production.ProductionAssignmentController;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
@@ -25,11 +29,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * User: qba
  * Date: 01.09.12
  */
-@Component
-public class ProductionActionController extends AbstractActionController {
-
-  @Autowired
-  WorkplaceController workplaceController;
+public abstract class ProductionActionController extends AbstractActionController {
 
   @Autowired
   ProductionAssignmentController productionAssignmentController;
@@ -37,17 +37,21 @@ public class ProductionActionController extends AbstractActionController {
   @Autowired
   EventBus eventBus;
 
+  public abstract CanProduce getProductionPlace(Rectangle rectangle);
+
   @Override
   protected boolean canPerformAction(int x, int y) {
-    WorkplaceBackgroundElement wbe = workplaceController.findWorkplaceBackgroundElement(new Rectangle(x, y, Sizes.BLOCK, Sizes.BLOCK));
-    if (wbe == null) return false;
-    return productionAssignmentController.hasAssigment(wbe);
+    Rectangle rectangle = new Rectangle(x, y, Sizes.BLOCK, Sizes.BLOCK);
+    CanProduce productionPlace = getProductionPlace(rectangle);
+    if (productionPlace == null) return false;
+    return productionAssignmentController.hasAssigment(productionPlace);
   }
 
   @Override
   protected Rectangle getAffectedRectangle(int x, int y) {
-    WorkplaceBackgroundElement wbe = workplaceController.findWorkplaceBackgroundElement(new Rectangle(x, y, Sizes.BLOCK, Sizes.BLOCK));
-    return GeometryUtils.getBoundingRectangle(wbe.getShape());
+    Rectangle rectangle = new Rectangle(x, y, Sizes.BLOCK, Sizes.BLOCK);
+    CanProduce productionPlace = getProductionPlace(rectangle);
+    return GeometryUtils.getBoundingRectangle(checkNotNull(productionPlace).getShape());
   }
 
   @Override
@@ -60,8 +64,8 @@ public class ProductionActionController extends AbstractActionController {
 
   @Override
   protected void updateAction(int delta) {
-    WorkplaceBackgroundElement wbe = workplaceController.findWorkplaceBackgroundElement(affectedRectangle);
-    Optional<ProductionAssignment> assignment = productionAssignmentController.getActiveAssignment(checkNotNull(wbe));
+    CanProduce productionPlace = getProductionPlace(affectedRectangle);
+    Optional<ProductionAssignment> assignment = productionAssignmentController.getActiveAssignment(checkNotNull(productionPlace));
     if (assignment.isPresent()) {
       assignment.get().update(delta);
     }
@@ -69,19 +73,19 @@ public class ProductionActionController extends AbstractActionController {
 
   @Override
   protected boolean isActionCompleted() {
-    WorkplaceBackgroundElement wbe = workplaceController.findWorkplaceBackgroundElement(affectedRectangle);
-    Optional<ProductionAssignment> assignment = productionAssignmentController.getActiveAssignment(checkNotNull(wbe));
+    CanProduce productionPlace = getProductionPlace(affectedRectangle);
+    Optional<ProductionAssignment> assignment = productionAssignmentController.getActiveAssignment(checkNotNull(productionPlace));
     return assignment.isPresent() && assignment.get().isCompleted();
   }
 
   @Override
   protected void onAction() {
     if (affectedRectangle != null) {
-      WorkplaceBackgroundElement wbe = workplaceController.findWorkplaceBackgroundElement(affectedRectangle);
-      Optional<ProductionAssignment> assignment = productionAssignmentController.getActiveAssignment(checkNotNull(wbe));
+      CanProduce productionPlace = getProductionPlace(affectedRectangle);
+      Optional<ProductionAssignment> assignment = productionAssignmentController.getActiveAssignment(checkNotNull(productionPlace));
       if (assignment.isPresent() && assignment.get().isCompleted()) {
-        productionAssignmentController.removeActiveAssigment(wbe);
-        eventBus.broadcast(new ProductionCompleteEvent(wbe, assignment.get()));
+        productionAssignmentController.removeActiveAssigment(productionPlace);
+        eventBus.broadcast(new ProductionCompleteEvent(productionPlace, assignment.get()));
       }
     }
   }
@@ -109,6 +113,7 @@ public class ProductionActionController extends AbstractActionController {
           stopAction();
           affectedRectangle = null;
         }
+        event.consume();
       }
       if (affectedRectangle == null && canPerformAction(playerX, playerY)) {
         affectedRectangle = getAffectedRectangle(playerX, playerY);

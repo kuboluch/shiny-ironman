@@ -97,25 +97,45 @@ public class ProductionController implements SelectListener<ItemDefinition>, Eve
 
   public boolean assignProduction() {
     List<ResourceRequirement> resourceRequirements = selectedItem.getResourceRequirements();
-    for (ResourceRequirement resourceRequirement : resourceRequirements) {
-      if (!resourceStorageController.hasEnoughResource(resourceRequirement.getResource())) {
-        return false;
-      }
+    if (hasEnoughResources(resourceRequirements)) {
+      return false;
     }
 
     // TODO item requiremnts check
 
-    for (ResourceRequirement resourceRequirement : resourceRequirements) {
-      resourceStorageController.empty(resourceRequirement.getResource().getType(), resourceRequirement.getResource().getAmount());
+    if (selectedItem.isGloballyAvailable()) {
+      productionAssignmentController.assign(playerController.getPlayer(), ProductionAssignment.on(selectedItem));
+      consumeResources(resourceRequirements);
+      // TODO item consume
+      return true;
     }
-
-    // TODO item destroy
 
     int playerX = Sizes.roundToBlockSizeX(playerController.getPlayer().getShape().getCenterX());
     int playerY = Sizes.roundToBlockSizeY(playerController.getPlayer().getShape().getCenterY());
     WorkplaceBackgroundElement wbe = workplaceController.findWorkplaceBackgroundElement(new Rectangle(playerX, playerY, 1, 1));
-    productionAssignmentController.assign(wbe, new ProductionAssignment(selectedItem));
-    return true;
+    if (selectedItem.canBeProducedIn(wbe.getWorkplace())) {
+      productionAssignmentController.assign(wbe, ProductionAssignment.on(selectedItem));
+      consumeResources(resourceRequirements);
+      // TODO item consume
+      return true;
+    }
+
+    return false;
+  }
+
+  private void consumeResources(List<ResourceRequirement> resourceRequirements) {
+    for (ResourceRequirement resourceRequirement : resourceRequirements) {
+      resourceStorageController.empty(resourceRequirement.getResource().getType(), resourceRequirement.getResource().getAmount());
+    }
+  }
+
+  private boolean hasEnoughResources(List<ResourceRequirement> resourceRequirements) {
+    for (ResourceRequirement resourceRequirement : resourceRequirements) {
+      if (!resourceStorageController.hasEnoughResource(resourceRequirement.getResource())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override
