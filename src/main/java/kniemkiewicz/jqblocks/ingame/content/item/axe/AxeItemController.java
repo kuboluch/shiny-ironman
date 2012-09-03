@@ -6,7 +6,7 @@ import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.content.resource.Wood;
 import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController;
-import kniemkiewicz.jqblocks.ingame.object.CompletionEffect;
+import kniemkiewicz.jqblocks.ingame.object.ProgressBar;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
@@ -36,7 +36,7 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   @Autowired
   private CollisionController collisionController;
 
-  private CompletionEffect completionEffect;
+  private ProgressBar completionEffect;
 
   Wood wood = new Wood();
 
@@ -68,7 +68,7 @@ public class AxeItemController extends AbstractActionItemController<AxeItem> {
   @Override
   protected void startAction() {
     assert completionEffect == null;
-    completionEffect = new CompletionEffect(affectedRectangle);
+    completionEffect = new ProgressBar(affectedRectangle);
     renderQueue.add(completionEffect);
   }
 

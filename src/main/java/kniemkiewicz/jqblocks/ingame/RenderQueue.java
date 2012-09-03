@@ -1,6 +1,8 @@
 package kniemkiewicz.jqblocks.ingame;
 
+import com.sun.javaws.progress.Progress;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
+import kniemkiewicz.jqblocks.ingame.object.ProgressBar;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
 import kniemkiewicz.jqblocks.util.*;

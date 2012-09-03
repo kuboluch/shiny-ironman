@@ -5,6 +5,7 @@ import com.google.common.base.Optional;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.item.ItemDefinition;
+import kniemkiewicz.jqblocks.ingame.object.ProgressBar;
 import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
 import kniemkiewicz.jqblocks.ingame.production.ProductionAssignment;
 import kniemkiewicz.jqblocks.ingame.production.ProductionAssignmentController;
@@ -73,13 +74,12 @@ public class WorkplaceImageRenderer extends BeanAwareImageRendererImpl<Workplace
       int queueSize = assignmentQueue.getAssignmentQueue().size();
       for (int i = queueSize - 1; i >= 0; i--) {
         g.setColor(Color.gray);
-        g.fillRoundRect(x + i, y + i, ASSIGNMENT_IMAGE_SIZE, ASSIGNMENT_IMAGE_SIZE, ASSIGNMENT_IMAGE_ROUNDING);
+        g.fillRoundRect(x + i, y - i, ASSIGNMENT_IMAGE_SIZE, ASSIGNMENT_IMAGE_SIZE, ASSIGNMENT_IMAGE_ROUNDING);
         g.setColor(Color.lightGray);
-        g.drawRoundRect(x + i, y + i, ASSIGNMENT_IMAGE_SIZE, ASSIGNMENT_IMAGE_SIZE, ASSIGNMENT_IMAGE_ROUNDING);
+        g.drawRoundRect(x + i, y - i, ASSIGNMENT_IMAGE_SIZE, ASSIGNMENT_IMAGE_SIZE, ASSIGNMENT_IMAGE_ROUNDING);
       }
       item.getRenderer().renderItem(item.createItem(), g, x + ASSIGNMENT_IMAGE_ROUNDING, y + ASSIGNMENT_IMAGE_ROUNDING, ASSIGNMENT_IMAGE_SIZE - 2 * ASSIGNMENT_IMAGE_ROUNDING, false);
-      g.setColor(Color.black);
-      g.drawString((int)(activeAssignment.getProgress() * 100) + "%", x - 5, y - 4);
+      ProgressBar.render(g, x - 3, y + ASSIGNMENT_IMAGE_SIZE - 3, ASSIGNMENT_IMAGE_SIZE + 6, 6, activeAssignment.getProgress());
     }
 
     @Override

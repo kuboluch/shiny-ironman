@@ -6,7 +6,7 @@ import kniemkiewicz.jqblocks.ingame.action.AbstractActionController;
 import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.input.keyboard.KeyPressedEvent;
-import kniemkiewicz.jqblocks.ingame.object.CompletionEffect;
+import kniemkiewicz.jqblocks.ingame.object.ProgressBar;
 import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
@@ -30,7 +30,7 @@ public class WorkplaceActionController extends AbstractActionController {
   @Autowired
   private RenderQueue renderQueue;
 
-  private CompletionEffect completionEffect;
+  private ProgressBar completionEffect;
 
   private int totalDuration;
 
@@ -52,7 +52,7 @@ public class WorkplaceActionController extends AbstractActionController {
   @Override
   protected void startAction() {
     assert completionEffect == null;
-    completionEffect = new CompletionEffect(affectedRectangle);
+    completionEffect = new ProgressBar(affectedRectangle);
     WorkplaceDefinition workplaceDefinition = workplaceController.findWorkplace(affectedRectangle);
     totalDuration = workplaceDefinition.getActionDuration();
     remainingDuration = totalDuration;
