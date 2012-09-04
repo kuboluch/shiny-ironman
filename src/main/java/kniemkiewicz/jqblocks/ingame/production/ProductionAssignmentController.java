@@ -3,7 +3,6 @@ package kniemkiewicz.jqblocks.ingame.production;
 import com.google.common.base.Optional;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.event.production.ProductionCompleteEvent;
-import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,53 +19,53 @@ public class ProductionAssignmentController {
   @Autowired
   EventBus eventBus;
 
-  Map<WorkplaceBackgroundElement, ProductionAssignmentQueue> assignmentsMap = new HashMap<WorkplaceBackgroundElement, ProductionAssignmentQueue>();
+  Map<CanProduce, ProductionAssignmentQueue> assignmentsMap = new HashMap<CanProduce, ProductionAssignmentQueue>();
 
-  public boolean hasAssigment(WorkplaceBackgroundElement workplace) {
-    if (!assignmentsMap.containsKey(workplace)) {
+  public boolean hasAssigment(CanProduce source) {
+    if (!assignmentsMap.containsKey(source)) {
       return false;
     }
-    return assignmentsMap.get(workplace).hasAssigment();
+    return assignmentsMap.get(source).hasAssigment();
   }
 
-  public boolean canAssign(WorkplaceBackgroundElement workplace) {
-    if (!assignmentsMap.containsKey(workplace)) {
+  public boolean canAssign(CanProduce source) {
+    if (!assignmentsMap.containsKey(source)) {
       return true;
     }
-    return assignmentsMap.get(workplace).canAssign();
+    return assignmentsMap.get(source).canAssign();
   }
 
-  public void assign(WorkplaceBackgroundElement workplace, ProductionAssignment assignment) {
-    if (!assignmentsMap.containsKey(workplace)) {
-      assignmentsMap.put(workplace, new ProductionAssignmentQueue());
+  public void assign(CanProduce source, ProductionAssignment assignment) {
+    if (!assignmentsMap.containsKey(source)) {
+      assignmentsMap.put(source, new ProductionAssignmentQueue());
     }
-    assignmentsMap.get(workplace).add(assignment);
+    assignmentsMap.get(source).add(assignment);
   }
 
-  public Optional<ProductionAssignment> getActiveAssignment(WorkplaceBackgroundElement workplace) {
-    if (!assignmentsMap.containsKey(workplace)) {
+  public Optional<ProductionAssignment> getActiveAssignment(CanProduce source) {
+    if (!assignmentsMap.containsKey(source)) {
       return Optional.absent();
     }
-    return assignmentsMap.get(workplace).getActiveAssigment();
+    return assignmentsMap.get(source).getActiveAssigment();
   }
 
-  public Optional<ProductionAssignmentQueue> getAssigments(WorkplaceBackgroundElement workplace) {
-    if (!assignmentsMap.containsKey(workplace)) {
+  public Optional<ProductionAssignmentQueue> getAssigments(CanProduce source) {
+    if (!assignmentsMap.containsKey(source)) {
       return Optional.absent();
     }
-    return Optional.of(assignmentsMap.get(workplace));
+    return Optional.of(assignmentsMap.get(source));
   }
 
-  public void removeActiveAssigment(WorkplaceBackgroundElement workplace) {
-    if (!assignmentsMap.containsKey(workplace)) {
+  public void removeActiveAssigment(CanProduce source) {
+    if (!assignmentsMap.containsKey(source)) {
       return;
     }
-    ProductionAssignmentQueue assignmentQueue = assignmentsMap.get(workplace);
+    ProductionAssignmentQueue assignmentQueue = assignmentsMap.get(source);
     assignmentQueue.remove(assignmentQueue.getActiveAssigment().get());
   }
 
   public void update() {
-    for (Map.Entry<WorkplaceBackgroundElement, ProductionAssignmentQueue> entry : assignmentsMap.entrySet()) {
+    for (Map.Entry<CanProduce, ProductionAssignmentQueue> entry : assignmentsMap.entrySet()) {
       for (ProductionAssignment assignment : entry.getValue().getAssignmentQueue()) {
         if (assignment.isCompleted()) {
           entry.getValue().remove(assignment);

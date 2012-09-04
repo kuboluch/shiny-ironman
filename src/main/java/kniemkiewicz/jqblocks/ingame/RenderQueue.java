@@ -1,8 +1,6 @@
 package kniemkiewicz.jqblocks.ingame;
 
-import com.sun.javaws.progress.Progress;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
-import kniemkiewicz.jqblocks.ingame.object.ProgressBar;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
 import kniemkiewicz.jqblocks.util.*;
@@ -30,7 +28,7 @@ public class RenderQueue {
   EnumMap<RenderableObject.Layer, Set<RenderableObject>> renderableObjects = new EnumMap<RenderableObject.Layer, Set<RenderableObject>>(RenderableObject.Layer.class);
   Set<Renderable> renderables = new HashSet<Renderable>();
 
-  public static final Color SKY = new Color(26f/255, 100f/255, 191f/255);
+  public static final Color SKY = new Color(26f / 255, 100f / 255, 191f / 255);
 
   RenderQueue() {
     for (RenderableObject.Layer l : RenderableObject.Layer.values()) {

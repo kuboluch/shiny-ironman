@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.object.background;
 
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
+import kniemkiewicz.jqblocks.ingame.production.CanProduce;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition;
 import kniemkiewicz.jqblocks.util.BeanName;
 import kniemkiewicz.jqblocks.util.SerializableBeanProxy;
@@ -9,7 +10,8 @@ import kniemkiewicz.jqblocks.util.SerializableBeanProxy;
  * User: qba
  * Date: 05.08.12
  */
-public class WorkplaceBackgroundElement extends AbstractBackgroundElement<WorkplaceBackgroundElement> {
+public class WorkplaceBackgroundElement extends AbstractBackgroundElement<WorkplaceBackgroundElement>
+    implements CanProduce {
 
   private SerializableBeanProxy<WorkplaceDefinition> workplace;
 

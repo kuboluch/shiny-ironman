@@ -7,6 +7,7 @@ import kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer;
 import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
+import kniemkiewicz.jqblocks.ingame.production.CanProduce;
 import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovementDefinition;
@@ -18,7 +19,8 @@ import org.newdawn.slick.geom.Rectangle;
  * User: krzysiek
  * Date: 08.07.12
  */
-public class Player implements PhysicalObject,HasHealthPoints<Player>, TwoFacedImageRenderer.Renderable, HasFullXYMovement {
+public class Player implements PhysicalObject, HasHealthPoints<Player>, TwoFacedImageRenderer.Renderable,
+    HasFullXYMovement, CanProduce {
 
   private static final long serialVersionUID = 1;
 

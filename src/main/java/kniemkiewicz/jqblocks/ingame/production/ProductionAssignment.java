@@ -2,6 +2,8 @@ package kniemkiewicz.jqblocks.ingame.production;
 
 import kniemkiewicz.jqblocks.ingame.item.ItemDefinition;
 
+import static com.google.common.base.Preconditions.*;
+
 /**
  * User: qba
  * Date: 01.09.12
@@ -14,6 +16,10 @@ public class ProductionAssignment {
 
   public ProductionAssignment(ItemDefinition item) {
     this.item = item;
+  }
+
+  public static ProductionAssignment on(ItemDefinition item) {
+    return new ProductionAssignment(checkNotNull(item));
   }
 
   public ItemDefinition getItem() {
