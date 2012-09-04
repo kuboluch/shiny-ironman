@@ -12,6 +12,7 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseInputEventBus;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
+import kniemkiewicz.jqblocks.ingame.level.enemies.RoamingEnemiesController;
 import kniemkiewicz.jqblocks.ingame.production.ProductionActionController;
 import kniemkiewicz.jqblocks.ingame.production.ProductionAssignmentController;
 import kniemkiewicz.jqblocks.ingame.production.ProductionController;
@@ -119,6 +120,9 @@ public class MainGameState extends BasicTWLGameState {
   FreeFallController freeFallController;
 
   @Autowired
+  RoamingEnemiesController roamingEnemiesController;
+
+  @Autowired
   World world;
 
   private Settings settings;
@@ -182,6 +186,7 @@ public class MainGameState extends BasicTWLGameState {
     eventBus.update();
     workplaceActionController.update(delta);
     productionActionController.update(delta);
+    roamingEnemiesController.update(delta);
     for (InputListener l : inputListeners) {
       l.listen(gameContainer.getInput(), delta);
     }

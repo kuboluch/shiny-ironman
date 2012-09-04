@@ -46,6 +46,10 @@ public class HealthPoints implements Serializable {
     return maxHp;
   }
 
+  public boolean isDead() {
+    return currentHp <= 0;
+  }
+
   transient WeakHashMap<Object, Long> attackers;
 
   public void damageRateLimited(QuadTree.HasShape attacker, int biteDmg, long delta, World world) {

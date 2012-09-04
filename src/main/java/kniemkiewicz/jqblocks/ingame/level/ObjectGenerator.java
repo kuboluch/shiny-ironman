@@ -65,6 +65,7 @@ public class ObjectGenerator {
 
   void generateBats(Random random, int[] heights) {
     float DENSITY = configuration.getFloat("ObjectGenerator.BAT_DENSITY", 0.05f);
+    if (DENSITY <= 0) return;
     int ALTITUDE = configuration.getInt("ObjectGenerator.BAT_ALTITUDE", 5);
     for (int i = 0; i < heights.length; i++) {
       if (random.nextFloat() < DENSITY) {
