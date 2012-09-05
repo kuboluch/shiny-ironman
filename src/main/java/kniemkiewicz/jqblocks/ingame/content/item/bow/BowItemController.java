@@ -8,6 +8,7 @@ import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.util.Collections3;
@@ -54,7 +55,12 @@ public class BowItemController implements ItemController<BowItem> {
 
   private void handlePressedEvent(List<MousePressedEvent> pressedEvents) {
     assert pressedEvents.size() > 0;
-    shotArrow();
+    for (MousePressedEvent event : pressedEvents) {
+      if (event.getButton().equals(Button.LEFT)) {
+        shotArrow();
+        return;
+      }
+    }
   }
 
   // Returns pair dx,dy of vector with given radius, pointing where the bow should be pointed.

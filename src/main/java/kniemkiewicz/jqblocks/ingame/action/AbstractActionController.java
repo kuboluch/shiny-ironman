@@ -53,6 +53,10 @@ public abstract class AbstractActionController implements EventListener {
 
   abstract protected void onAction();
 
+  public Button getActionButton() {
+    return Button.LEFT;
+  }
+
   public boolean canPerformAction() {
     int x = Sizes.roundToBlockSizeX(affectedRectangle.getX());
     int y = Sizes.roundToBlockSizeY(affectedRectangle.getY());
@@ -93,7 +97,7 @@ public abstract class AbstractActionController implements EventListener {
   public void handleMousePressedEvent(MousePressedEvent event) {
     int x = Sizes.roundToBlockSizeX(event.getLevelX());
     int y = Sizes.roundToBlockSizeY(event.getLevelY());
-    if (isInRange(x, y) && event.getButton() == Button.LEFT) {
+    if (isInRange(x, y) && event.getButton().equals(getActionButton())) {
       if (canPerformAction(x, y)) {
         affectedRectangle = getAffectedRectangle(x, y);
         startAction();
@@ -103,7 +107,7 @@ public abstract class AbstractActionController implements EventListener {
   }
 
   public void handleMouseDraggedEvent(MouseDraggedEvent event) {
-    if (event.getButton() != Button.LEFT) return;
+    if (!event.getButton().equals(getActionButton())) return;
     int x = Sizes.roundToBlockSizeX(event.getNewLevelX());
     int y = Sizes.roundToBlockSizeY(event.getNewLevelY());
     handleMouseCoordChange(x, y);
@@ -140,7 +144,7 @@ public abstract class AbstractActionController implements EventListener {
     if (affectedRectangle == null) {
       return;
     }
-    if (event.getButton() != Button.LEFT) return;
+    if (!event.getButton().equals(getActionButton())) return;
     int x = Sizes.roundToBlockSizeX(event.getLevelX());
     int y = Sizes.roundToBlockSizeY(event.getLevelY());
     if (!isInRange(x, y)) {
