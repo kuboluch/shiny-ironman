@@ -8,6 +8,7 @@ import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.event.input.keyboard.KeyPressedEvent;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
 import kniemkiewicz.jqblocks.ingame.event.production.ProductionCompleteEvent;
 import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
 import kniemkiewicz.jqblocks.ingame.production.CanProduce;
@@ -88,6 +89,11 @@ public abstract class ProductionActionController extends AbstractActionControlle
         eventBus.broadcast(new ProductionCompleteEvent(productionPlace, assignment.get()));
       }
     }
+  }
+
+  @Override
+  public Button getActionButton() {
+    return Button.RIGHT;
   }
 
   @Override
