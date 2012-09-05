@@ -20,6 +20,7 @@ import kniemkiewicz.jqblocks.util.Collections3;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -63,6 +64,11 @@ public class ProductionController implements SelectListener<ItemDefinition>, Eve
     this.items = ImmutableList.copyOf(items);
   }
 
+  @PostConstruct
+  public void init() {
+    updateAvailableItems();
+  }
+
   public List<ItemDefinition> getAvailableItemDefinitions() {
     return availableItems;
   }
@@ -82,16 +88,20 @@ public class ProductionController implements SelectListener<ItemDefinition>, Eve
     WorkplaceDefinition newWorkplace = workplaceController.findWorkplace(new Rectangle(playerX, playerY, 1, 1));
     if (activeWorkplace != newWorkplace) {
       activeWorkplace = newWorkplace;
-      availableItems.clear();
-      for (ItemDefinition item : items) {
-        if (item.isGloballyAvailable() || (activeWorkplace != null && item.canBeProducedIn(activeWorkplace))) {
-          availableItems.add(item);
-        }
+      updateAvailableItems();
+    }
+  }
+
+  private void updateAvailableItems() {
+    availableItems.clear();
+    for (ItemDefinition item : items) {
+      if (item.isGloballyAvailable() || (activeWorkplace != null && item.canBeProducedIn(activeWorkplace))) {
+        availableItems.add(item);
       }
-      eventBus.broadcast(new AvailableItemsChangeEvent());
-      if (!availableItems.contains(selectedItem)) {
-        selectedItem = null;
-      }
+    }
+    eventBus.broadcast(new AvailableItemsChangeEvent());
+    if (!availableItems.contains(selectedItem)) {
+      selectedItem = null;
     }
   }
 

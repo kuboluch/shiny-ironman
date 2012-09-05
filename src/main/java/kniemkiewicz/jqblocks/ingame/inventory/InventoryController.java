@@ -135,6 +135,7 @@ public class InventoryController implements EventListener {
   private void handleMouseRightClickEvent(MousePressedEvent e) {
     if (!KeyboardUtils.isResourceInventoryKeyPressed(inputContainer.getInput())) {
       if (dropItem(inventory.getSelectedItem(), e.getLevelX(), e.getLevelY())) {
+        inventory.removeSelectedItem();
         e.consume();
         return;
       }
@@ -179,7 +180,6 @@ public class InventoryController implements EventListener {
     DroppableObject dropObject = controller.getObject(item, x, y);
     if (dropObject == null) return false;
     dropObject(dropObject);
-    inventory.removeSelectedItem();
     return true;
   }
 }
