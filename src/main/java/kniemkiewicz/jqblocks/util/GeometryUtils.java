@@ -98,4 +98,12 @@ public final class GeometryUtils {
     return rectangle.getY() + rectangle.getHeight() - 1;
   }
 
+  public static Rectangle getRectangleCenteredOn(Shape shape, float width, float height) {
+    Rectangle rect = getNewBoundingRectangle(shape);
+    rect.setX(rect.getX() - width / 2 + rect.getWidth() / 2);
+    rect.setY(rect.getY() - height / 2 + rect.getHeight() / 2);
+    rect.setWidth(width);
+    rect.setHeight(height);
+    return rect;
+  }
 }

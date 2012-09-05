@@ -21,6 +21,7 @@ import kniemkiewicz.jqblocks.ingame.production.action.WorkplaceProductionActionC
 import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventoryController;
 import kniemkiewicz.jqblocks.ingame.ui.HealthBar;
 import kniemkiewicz.jqblocks.ingame.ui.MainGameUI;
+import kniemkiewicz.jqblocks.ingame.ui.info.BiomeInfo;
 import kniemkiewicz.jqblocks.ingame.ui.info.MouseInputInfo;
 import kniemkiewicz.jqblocks.ingame.ui.info.ResourceInfo;
 import kniemkiewicz.jqblocks.ingame.ui.info.TimingInfo;
@@ -87,6 +88,9 @@ public class MainGameState extends BasicTWLGameState {
 
   @Autowired
   MouseInputInfo mouseInputInfo;
+
+  @Autowired
+  BiomeInfo biomeInfo;
 
   @Autowired
   ResourceInfo resourceInfo;
@@ -167,6 +171,7 @@ public class MainGameState extends BasicTWLGameState {
     renderQueue.add(resourceInfo);
     renderQueue.add(healthBar);
     renderQueue.add(mapView);
+    renderQueue.add(biomeInfo);
     if (settings.savegame != null) {
       world.loadGameData(settings.savegame);
     } else {

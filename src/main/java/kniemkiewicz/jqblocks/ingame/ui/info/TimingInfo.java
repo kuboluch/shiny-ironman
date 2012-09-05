@@ -111,7 +111,7 @@ public class TimingInfo implements Renderable {
 
   @Override
   public final void render(Graphics g) {
-    int y = 65;
+    int y = 77;
     g.setColor(Color.white);
     if (!timers.containsKey(RENDER_TIMER)) return;
     float frameCount = (float)timers.get(RENDER_TIMER).displayCount;

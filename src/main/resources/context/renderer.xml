@@ -31,6 +31,11 @@
         <constructor-arg value="images/saw.png"/>
     </bean>
 
+    <bean id="unknownWorkplaceRenderer" class="kniemkiewicz.jqblocks.ingame.workplace.renderer.WorkplaceImageRenderer">
+        <constructor-arg ref="blockSheet"/>
+        <constructor-arg value="unknown"/>
+    </bean>
+
     <bean id="treeRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
         <constructor-arg value="images/tree.png"/>
     </bean>

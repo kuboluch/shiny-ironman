@@ -16,15 +16,14 @@
                 <ref bean="fireplace"/>
                 <ref bean="sawmill"/>
                 <ref bean="carpenter"/>
-                <ref bean="fireplace4"/>
-                <ref bean="fireplace5"/>
-                <ref bean="fireplace6"/>
+                <ref bean="unknownWorkplace3"/>
+                <ref bean="unknownWorkplace4"/>
+                <ref bean="unknownWorkplace5"/>
             </list>
         </constructor-arg>
     </bean>
 
     <bean id="fireplace" class="kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition">
-        <property name="name" value="fireplace"/>
         <property name="description" value="Place with fire?"/>
         <property name="blockWidth" value="4"/>
         <property name="blockHeight" value="3"/>
@@ -33,7 +32,6 @@
     </bean>
 
     <bean id="sawmill" class="kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition">
-        <property name="name" value="sawmill"/>
         <property name="description" value="You can cut log into wood"/>
         <property name="blockWidth" value="4"/>
         <property name="blockHeight" value="3"/>
@@ -42,18 +40,17 @@
     </bean>
 
     <bean id="carpenter" class="kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition">
-        <property name="name" value="sawmill"/>
-        <property name="description" value="You can cut log into wood"/>
+        <property name="description" value="?"/>
         <property name="blockWidth" value="4"/>
         <property name="blockHeight" value="3"/>
-        <property name="renderer" ref="sawmillRenderer"/>
+        <property name="renderer" ref="unknownWorkplaceRenderer"/>
         <property name="actionController" ref="noInteraction"/>
     </bean>
 
-    <bean id="fireplace3" parent="fireplace"/>
-    <bean id="fireplace4" parent="fireplace"/>
-    <bean id="fireplace5" parent="fireplace"/>
-    <bean id="fireplace6" parent="fireplace"/>
+    <bean id="unknownWorkplace3" parent="carpenter"/>
+    <bean id="unknownWorkplace4" parent="carpenter"/>
+    <bean id="unknownWorkplace5" parent="carpenter"/>
+    <bean id="unknownWorkplace6" parent="carpenter"/>
 
     <bean id="noInteraction" class="kniemkiewicz.jqblocks.ingame.action.NoInteraction"/>
     <bean id="woodProcessController" class="kniemkiewicz.jqblocks.ingame.workplace.action.ProcessResourceActionController">

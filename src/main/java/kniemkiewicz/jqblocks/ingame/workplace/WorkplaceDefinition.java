@@ -9,15 +9,16 @@ import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
 import kniemkiewicz.jqblocks.ingame.ui.widget.model.PanelItemModel;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.Image;
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.annotation.Required;
 
 /**
  * User: qba
  * Date: 05.08.12
  */
-public class WorkplaceDefinition implements PanelItemModel, Interactive {
+public class WorkplaceDefinition implements PanelItemModel, Interactive, BeanNameAware {
 
-  private String name;
+  private String beanName;
   private String description;
   private int blockWidth = -1;
   private int blockHeight = -1;
@@ -28,7 +29,7 @@ public class WorkplaceDefinition implements PanelItemModel, Interactive {
 
   @Override
   public String getName() {
-    return name;
+    return beanName;
   }
 
   @Override
@@ -75,12 +76,6 @@ public class WorkplaceDefinition implements PanelItemModel, Interactive {
   // Setters
 
   @Required
-  public void setName(String name) {
-    Assert.assertTrue(this.name == null, "Workplace definition property change is illegal");
-    this.name = name;
-  }
-
-  @Required
   public void setDescription(String description) {
     Assert.assertTrue(this.description == null, "Workplace definition property change is illegal");
     this.description = description;
@@ -110,5 +105,15 @@ public class WorkplaceDefinition implements PanelItemModel, Interactive {
   public void setActionController(Interactive actionController) {
     Assert.assertTrue(this.actionController == null, "Workplace definition property change is illegal");
     this.actionController = actionController;
+  }
+
+  @Override
+  public void setBeanName(String name) {
+    Assert.assertTrue(this.beanName == null, "Workplace definition property change is illegal");
+    beanName = name;
+  }
+
+  public String getBeanName() {
+    return beanName;
   }
 }

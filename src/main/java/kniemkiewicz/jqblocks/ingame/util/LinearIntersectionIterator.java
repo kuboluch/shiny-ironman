@@ -7,7 +7,7 @@ import org.newdawn.slick.geom.Shape;
 
 import java.util.Iterator;
 
-public class LinearIntersectionIterator<T extends PhysicalObject> extends IterableIterator<T>{
+public final class LinearIntersectionIterator<T extends PhysicalObject> extends IterableIterator<T>{
   Iterator<T> it;
   Shape shape;
   T next = null;
