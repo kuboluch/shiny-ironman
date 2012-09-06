@@ -35,8 +35,7 @@ public class WorkplaceBackgroundElement extends AbstractBackgroundElement<Workpl
 
   @Override
   public BeanName<? extends ObjectRenderer> getRenderer() {
-    //TODO: why copying a BeanName? This makes bean resolving much slower.
-    return new BeanName(rendererBeanName.getClazz(), rendererBeanName.getName());
+    return rendererBeanName;
   }
 
   @Override

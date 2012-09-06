@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * User: krzysiek
@@ -25,7 +26,7 @@ public final class SpringBeanProvider implements ApplicationContextAware {
     CURRENT_PROVIDER = this;
   }
 
-  Map<BeanName, Object>  cache = new HashMap<BeanName, Object>();
+  Map<BeanName, Object>  cache = new WeakHashMap<BeanName, Object>();
 
   public <T> T getBean(Class<T> clazz, boolean doCache) {
     return getBean(new BeanName<T>(clazz), doCache);
