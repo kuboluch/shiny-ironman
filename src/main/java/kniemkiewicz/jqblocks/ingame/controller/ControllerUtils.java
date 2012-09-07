@@ -55,9 +55,17 @@ public class ControllerUtils {
     float dy = target.getXYMovement().getY() - source.getShape().getCenterY();
     float dd = (float)Math.sqrt(dx * dx + dy * dy);
     float speedX = dx / dd * speed;
-    target.getXYMovement().getXMovement().setSpeed(target.getXYMovement().getXMovement().getSpeed() + speedX);
+    if (Math.abs(target.getXYMovement().getXMovement().getSpeed() + speedX) > Math.abs(speedX)) {
+      target.getXYMovement().getXMovement().setSpeed(speedX);
+    } else {
+      target.getXYMovement().getXMovement().setSpeed(target.getXYMovement().getXMovement().getSpeed() + speedX);
+    }
     float speedY = dy / dd * speed;
-    target.getXYMovement().getYMovement().setSpeed(target.getXYMovement().getYMovement().getSpeed() + speedY);
+    if (Math.abs(target.getXYMovement().getYMovement().getSpeed() + speedY) > Math.abs(speedY)) {
+      target.getXYMovement().getYMovement().setSpeed(speedY);
+    } else {
+      target.getXYMovement().getYMovement().setSpeed(target.getXYMovement().getYMovement().getSpeed() + speedY);
+    }
   }
 
   public boolean isVillager(PhysicalObject po) {

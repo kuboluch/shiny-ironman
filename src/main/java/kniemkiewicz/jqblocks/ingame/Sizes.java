@@ -14,8 +14,8 @@ public class Sizes {
   public static int DEFAULT_WINDOW_HEIGHT = 720;
 
   // This should be 2^x * BLOCK
-  public static int MIN_X = -512  * BLOCK;
-  public static int MAX_X = 512 * BLOCK;
+  public static int MIN_X = 2 * -512  * BLOCK;
+  public static int MAX_X = 2 * 512 * BLOCK;
   public static int MIN_Y = 0;
   public static int MAX_Y = 512 * BLOCK;
   public static int CENTER_X = (MAX_X + MIN_X) / 2;
