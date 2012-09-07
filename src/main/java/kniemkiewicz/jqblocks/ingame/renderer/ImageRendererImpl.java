@@ -43,6 +43,11 @@ public class ImageRendererImpl<T extends RenderableObject> implements ItemRender
     return image;
   }
 
+  @Override
+  public Image getImage(Item item) {
+    return image;
+  }
+
   private Image getFlippedImage() {
     if (flippedImage == null) {
       flippedImage = image.getFlippedCopy(true, false);

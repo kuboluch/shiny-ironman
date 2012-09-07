@@ -20,6 +20,7 @@ public class UIController implements EventListener {
 
   boolean buildKeyBlock = false;
   boolean constructKeyBlock = false;
+  boolean inventoryKeyBlock = false;
 
   @Override
   public List<Class> getEventTypesOfInterest() {
@@ -65,6 +66,17 @@ public class UIController implements EventListener {
         constructKeyBlock = true;
       }
     }
+
+    if (KeyboardUtils.isInventoryKey(e.getKey())) {
+      if (!inventoryKeyBlock) {
+        if (mainGameUI.isInventoryWidgetVisible()) {
+          mainGameUI.hideInventoryWidget();
+        } else {
+          mainGameUI.showInventoryWidget();
+        }
+        inventoryKeyBlock = true;
+      }
+    }
   }
 
   private void handleKeyReleasedEvent(KeyReleasedEvent e) {
@@ -74,6 +86,10 @@ public class UIController implements EventListener {
 
     if (KeyboardUtils.isProduceMenuKey(e.getKey())) {
       constructKeyBlock = false;
+    }
+
+    if (KeyboardUtils.isInventoryKey(e.getKey())) {
+      inventoryKeyBlock = false;
     }
   }
 }

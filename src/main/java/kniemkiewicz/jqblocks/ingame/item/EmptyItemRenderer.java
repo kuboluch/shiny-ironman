@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.content.item.axe.AxeItem;
 import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,11 +17,19 @@ public class EmptyItemRenderer implements ItemRenderer<Item>, EquippedItemRender
   public static final BeanName<EmptyItemRenderer> RENDERER = new BeanName<EmptyItemRenderer>(EmptyItemRenderer.class);
 
   @Override
-  public void renderItem(Item item, Graphics g, int x, int y, int square_size, boolean drawFlipped) { }
+  public void renderItem(Item item, Graphics g, int x, int y, int square_size, boolean drawFlipped) {
+  }
 
   @Override
-  public void renderEquippedItem(Item item, Graphics g) { }
+  public void renderEquippedItem(Item item, Graphics g) {
+  }
 
   @Override
-  public void resetEquippedItemRenderer() { }
+  public void resetEquippedItemRenderer() {
+  }
+
+  @Override
+  public Image getImage(Item item) {
+    return null;
+  }
 }

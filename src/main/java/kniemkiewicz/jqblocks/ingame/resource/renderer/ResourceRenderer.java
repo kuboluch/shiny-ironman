@@ -55,6 +55,11 @@ public class ResourceRenderer implements ItemRenderer<ResourceItem>, ObjectRende
     g.drawImage(image, x, y, x + width, y + height, 0, 0, image.getWidth(), image.getHeight());
   }
 
+  @Override
+  public Image getImage(ResourceItem item) {
+    return getImage(item.getResource().getType());
+  }
+
   public Image getImage(ResourceType resourceType) {
     Image image = spriteSheet.getSprite("unknown");
     if (resourceTypeToSprite.containsKey(resourceType)) {

@@ -2,12 +2,15 @@ package kniemkiewicz.jqblocks.ingame.ui;
 
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.production.ProductionController;
+import kniemkiewicz.jqblocks.ingame.ui.inventory.InventoryUI;
 import kniemkiewicz.jqblocks.ingame.ui.produce.ProductionUI;
 import kniemkiewicz.jqblocks.ingame.ui.workplace.WorkplaceUI;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
 import kniemkiewicz.jqblocks.twl.RootPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 @Component
 public class MainGameUI {
@@ -23,17 +26,24 @@ public class MainGameUI {
   @Autowired
   EventBus eventBus;
 
+  @Autowired
   private WorkplaceUI workplaceUI;
+
+  @Autowired
   private ProductionUI productionUI;
+
+  @Autowired
+  private InventoryUI inventoryUI;
 
   public void createUI(RootPane rootPane) {
     this.rootPane = rootPane;
+    init();
+  }
 
-    workplaceUI = new WorkplaceUI(workplaceController);
-    productionUI = new ProductionUI(productionController, eventBus);
-
+  public void init() {
     rootPane.add(workplaceUI);
     rootPane.add(productionUI);
+    rootPane.add(inventoryUI);
   }
 
   public void layoutUI() {
@@ -43,6 +53,8 @@ public class MainGameUI {
     productionUI.adjustSize();
     //productionUI.setPosition((rootPane.getWidth() - productionUI.getWidth()) / 2, (rootPane.getHeight() - productionUI.getHeight()) / 2);
     productionUI.setPosition(rootPane.getWidth() - productionUI.getWidth() - 5, rootPane.getHeight() - HEIGHT - 40);
+    inventoryUI.adjustSize();
+    inventoryUI.setPosition((rootPane.getWidth() - inventoryUI.getWidth()) / 2, (rootPane.getHeight() - inventoryUI.getHeight()) / 2);
   }
 
   public boolean isWorkplaceWidgetVisible() {
@@ -71,5 +83,17 @@ public class MainGameUI {
 
   public void hideConstructWidget() {
     productionUI.setVisible(false);
+  }
+
+  public boolean isInventoryWidgetVisible() {
+    return inventoryUI.isVisible();
+  }
+
+  public void showInventoryWidget() {
+    inventoryUI.setVisible(true);
+  }
+
+  public void hideInventoryWidget() {
+    inventoryUI.setVisible(false);
   }
 }

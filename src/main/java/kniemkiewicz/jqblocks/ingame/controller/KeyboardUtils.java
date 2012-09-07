@@ -53,6 +53,10 @@ public class KeyboardUtils {
     return (key == Input.KEY_V);
   }
 
+  public static boolean isInventoryKey(int key) {
+    return (key == Input.KEY_I);
+  }
+
 
   public static boolean isDebugDisplayKeyPressed(Input input) {
     return (input.isKeyDown(Input.KEY_P));

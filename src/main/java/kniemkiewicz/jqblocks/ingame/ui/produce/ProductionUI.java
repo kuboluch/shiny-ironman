@@ -9,7 +9,10 @@ import kniemkiewicz.jqblocks.ingame.event.EventListener;
 import kniemkiewicz.jqblocks.ingame.event.production.AvailableItemsChangeEvent;
 import kniemkiewicz.jqblocks.ingame.production.ProductionController;
 import kniemkiewicz.jqblocks.util.Collections3;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,6 +20,7 @@ import java.util.List;
  * User: qba
  * Date: 20.08.12
  */
+@Component
 public class ProductionUI extends ResizableFrame implements EventListener {
 
   private final static int HEIGHT = 200;
@@ -24,7 +28,11 @@ public class ProductionUI extends ResizableFrame implements EventListener {
   private final static int GAP_HEIGHT = 10;
   private final static int ICON_SIZE = 40;
 
+  @Autowired
   ProductionController productionController;
+
+  @Autowired
+  EventBus eventBus;
 
   private ScrollPane scrollPane;
   private ProductionSelectPanel productionSelectPanel;
@@ -32,9 +40,11 @@ public class ProductionUI extends ResizableFrame implements EventListener {
   private Button productionButton;
   private ProductionRequirementsPanel productionRequirementsPanel;
 
-  public ProductionUI(final ProductionController productionController, EventBus eventBus) {
-    this.productionController = productionController;
+  public ProductionUI() {
+  }
 
+  @PostConstruct
+  public void init() {
     // Select item for production
     productionSelectPanel = new ProductionSelectPanel(productionController.getAvailableItemDefinitions());
     scrollPane = new ScrollPane(productionSelectPanel);
@@ -45,7 +55,7 @@ public class ProductionUI extends ResizableFrame implements EventListener {
     setVisible(false);
     setResizableAxis(ResizableFrame.ResizableAxis.NONE);
     //setTheme("noframe");
-    setTheme("resizableframe");
+    setTheme("panel");
     add(scrollPane);
 
     // Selected item view

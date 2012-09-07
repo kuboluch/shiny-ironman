@@ -11,6 +11,7 @@ import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
 import kniemkiewicz.jqblocks.util.Pair;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Component;
  * Date: 8/25/12
  */
 @Component
-public final class BowRenderer implements ItemRenderer, EquippedItemRenderer<BowItem> {
+public final class BowRenderer implements ItemRenderer<BowItem>, EquippedItemRenderer<BowItem> {
 
   public static Color ARROW_COLOR = new Color(100.0f/255, 50.0f/255, 0);
 
@@ -30,7 +31,7 @@ public final class BowRenderer implements ItemRenderer, EquippedItemRenderer<Bow
   BowItemController bowItemController;
 
   @Override
-  public void renderItem(Item item, Graphics g, int x, int y, int square_size, boolean drawFlipped) {
+  public void renderItem(BowItem item, Graphics g, int x, int y, int square_size, boolean drawFlipped) {
     // TODO: Some numbers below work well for current square size and not for others.
     float x1 = x + square_size * 0.1f;
     float y1 = y + square_size * 0.1f;
@@ -79,4 +80,10 @@ public final class BowRenderer implements ItemRenderer, EquippedItemRenderer<Bow
 
   @Override
   public void resetEquippedItemRenderer() { }
+
+  @Override
+  public Image getImage(BowItem item) {
+    // TODO
+    return null;
+  }
 }

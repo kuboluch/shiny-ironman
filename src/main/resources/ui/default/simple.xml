@@ -366,6 +366,26 @@
         </composed>
     </images>
 
+    <images file="panel.png" format="RGBA" filter="linear">
+        <area name="panel.background" border="27,10,10,10" xywh="1,1,20,29" splitx="L5,R5" splity="T19,B5"/>
+
+        <composed name="panelglass.background" border="5">
+            <alias ref="panel.background" tint="#CCFFFFFF"/>
+        </composed>
+
+        <area name="-innerframe.background" splitx="2,3" splity="2,3" xywh="22,1,5,5"/>
+        <select name="innerframe.background" border="2">
+            <alias ref="-innerframe.background" if="disabled" tint="#888"/>
+            <alias ref="-innerframe.background"/>
+        </select>
+
+        <composed name="itemslot.background" border="5" sizeOverwriteH="40" sizeOverwriteV="40">
+            <alias ref="-innerframe.background"/>
+            <alias ref="white" if="dropOk" tint="#80FFFFFF"/>
+            <alias ref="white" if="dropBlocked" tint="#80FF0000"/>
+        </composed>
+    </images>
+
     <include filename="cursors.xml"/>
     
     <fontDef name="normal" filename="font.fnt" color="black">
@@ -930,7 +950,7 @@
         <param name="background"><image>-borderA</image></param>
         <param name="border"><border>background.border</border></param>
         <param name="hasCloseButton"><bool>false</bool></param>
-        <param name="titleAreaBottom"><int>4</int></param>
+        <param name="titleAreaBottom"><int>0</int></param>
     </theme>
     <theme name="resizableframe-resizeHandle" ref="resizableframe-title" allowWildcard="true">
         <param name="hasResizeHandle"><bool>true</bool></param>
@@ -1030,12 +1050,24 @@
         <param name="background"><image>resourcerequirementpanelitem.background</image></param>
     </theme>
 
+    <theme name="panel" ref="resizableframe" allowWildcard="true">
+        <param name="background"><image>panelglass.background</image></param>
+    </theme>
+
     <theme name="icon" ref="-defaults" allowWildcard="true">
         <!--<param name="background"><image>-borderA</image></param>-->
         <!--<param name="border"><border>background.border</border></param>-->
         <param name="icons"><map>
             <param name=""><image>icon.*</image></param>
         </map></param>
+    </theme>
+
+    <theme name="inventorypanel" ref="-defaults" allowWildcard="true">
+        <param name="slotSpacing"><int>5</int></param>
+    </theme>
+
+    <theme name="itemslot" ref="-defaults" allowWildcard="true">
+        <param name="background"><image>itemslot.background</image></param>
     </theme>
 
     <theme name="nohscrollbar" ref="-defaults" allowWildcard="true">
