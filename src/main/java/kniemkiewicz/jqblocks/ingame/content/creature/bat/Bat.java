@@ -44,7 +44,7 @@ public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat>, 
   );
 
 
-  public Bat(int x, int y) {
+  public Bat(float x, float y) {
     this.movement = BAT_MOVEMENT.getMovement(x, y).setXSpeed(SPEED);
     rectangle = new Rectangle(x, y, SIZE, SIZE);
   }

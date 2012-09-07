@@ -56,12 +56,11 @@ public final class RoamingEnemiesController {
 
   static final float MAX_PURSUIT_DISTANCE_SCREENS = 1;
   int MAX_ACTIVE_ENEMIES = -1;
-  float TOWN_RADIUS_FROM_FIREPLACE = -1;
+  static final float TOWN_RADIUS_FROM_FIREPLACE = 500;
 
   @PostConstruct
   void init() {
     MAX_ACTIVE_ENEMIES = configuration.getInt("RoamingEnemiesController.MAX_ACTIVE_ENEMIES", 10);
-    TOWN_RADIUS_FROM_FIREPLACE = configuration.getFloat("RoamingEnemiesController.TOWN_RADIUS_FROM_FIREPLACE", 500);
   }
 
   List<KillablePhysicalObject> activeEnemies = new LinkedList<KillablePhysicalObject>();
@@ -77,22 +76,27 @@ public final class RoamingEnemiesController {
     return cachedBiome;
   }
 
-  private Biome calculateCurrentBiome() {
-    assert TOWN_RADIUS_FROM_FIREPLACE >= 0;
-    // "fireplace" should be a valid bean name
-    assert world.getSpringBeanProvider().getBean(new BeanName<WorkplaceDefinition>(WorkplaceDefinition.class, "fireplace"), false) != null;
-    Rectangle aroundPlayer = GeometryUtils.getRectangleCenteredOn(playerController.getPlayer().getShape(),
+  static boolean isNearFireplace(Shape shape, Backgrounds backgrounds) {
+    Rectangle aroundShape = GeometryUtils.getRectangleCenteredOn(shape,
         2 * TOWN_RADIUS_FROM_FIREPLACE, 2 * TOWN_RADIUS_FROM_FIREPLACE);
-    Iterator<BackgroundElement> it = backgrounds.intersects(aroundPlayer);
+    Iterator<BackgroundElement> it = backgrounds.intersects(aroundShape);
     while (it.hasNext()) {
       BackgroundElement el = it.next();
       if (el instanceof WorkplaceBackgroundElement) {
         WorkplaceBackgroundElement wbe = (WorkplaceBackgroundElement) el;
         if (wbe.getWorkplace().getBeanName().equals("fireplace")) {
-          return townBiome;
+          return true;
         }
       }
     }
+    return false;
+  }
+
+  private Biome calculateCurrentBiome() {
+    assert TOWN_RADIUS_FROM_FIREPLACE >= 0;
+    // "fireplace" should be a valid bean name
+    assert world.getSpringBeanProvider().getBean(new BeanName<WorkplaceDefinition>(WorkplaceDefinition.class, "fireplace"), false) != null;
+    if (isNearFireplace(playerController.getPlayer().getShape(), backgrounds)) return townBiome;
     return grassBiome;
   }
 
