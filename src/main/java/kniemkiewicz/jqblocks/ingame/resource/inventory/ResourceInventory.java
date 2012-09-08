@@ -22,6 +22,8 @@ import javax.annotation.PostConstruct;
 @Component
 public class ResourceInventory extends AbstractInventory<ResourceItem> implements Inventory<ResourceItem>, Renderable {
 
+  public static final int SIZE = 2;
+
   @Autowired
   RenderQueue renderQueue;
 
@@ -48,9 +50,8 @@ public class ResourceInventory extends AbstractInventory<ResourceItem> implement
 
   @PostConstruct
   void init() {
-    size = 2;
     renderQueue.add(this);
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < getSize(); i++) {
       items.add(getEmptyItem());
     }
   }
@@ -58,6 +59,11 @@ public class ResourceInventory extends AbstractInventory<ResourceItem> implement
   @Override
   protected ResourceItem getEmptyItem() {
     return emptyItem;
+  }
+
+  @Override
+  public int getSize() {
+    return SIZE;
   }
 
   final static private String[] ids = {"F1", "F2", "F3"};

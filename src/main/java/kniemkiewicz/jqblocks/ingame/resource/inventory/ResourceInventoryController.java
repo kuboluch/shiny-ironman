@@ -164,7 +164,7 @@ public class ResourceInventoryController implements EventListener {
     if (conflictingObjectExists(dropObject.getShape())) return false;
     if (!solidBlocks.isOnSolidGround(dropObject.getShape())) return false;
     dropObject(dropObject);
-    inventory.removeSelectedItem();
+    inventory.removeSelected();
     return true;
   }
 

@@ -6,7 +6,6 @@ import kniemkiewicz.jqblocks.ingame.resource.ResourceStorageController;
 import kniemkiewicz.jqblocks.ingame.resource.ResourceType;
 import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventory;
 import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
-import kniemkiewicz.jqblocks.ingame.resource.item.SimpleResourceItem;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -54,7 +53,7 @@ public class ProcessResourceActionController implements Interactive {
     if (itemIndex >= 0) {
       Resource resource = items.get(itemIndex).getResource();
       resourceStorageController.fill(resource);
-      inventory.removeItem(itemIndex);
+      inventory.remove(itemIndex);
     }
   }
 

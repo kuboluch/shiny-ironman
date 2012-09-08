@@ -22,7 +22,6 @@ import kniemkiewicz.jqblocks.ingame.object.PickableObjectType;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
-import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,7 +38,10 @@ public class InventoryController implements EventListener {
   private static int DROP_RANGE = 16 * Sizes.BLOCK;
 
   @Autowired
-  ItemInventory inventory;
+  ItemInventory itemInventory;
+
+  @Autowired
+  BackpackInventory backpackInventory;
 
   @Autowired
   SpringBeanProvider provider;
@@ -69,11 +71,12 @@ public class InventoryController implements EventListener {
   FreeFallController freeFallController;
 
   public void addItem(Item item) {
-    if(!inventory.add(item)) {
-      int playerX = (int) playerController.getPlayer().getShape().getCenterX();
-      int playerY = (int) playerController.getPlayer().getShape().getCenterY();
-      dropItem(item, playerX, playerY);
-    }
+    if (itemInventory.add(item)) return;
+    if (backpackInventory.add(item)) return;
+
+    int playerX = (int) playerController.getPlayer().getShape().getCenterX();
+    int playerY = (int) playerController.getPlayer().getShape().getCenterY();
+    dropItem(item, playerX, playerY);
   }
 
   @Override
@@ -100,11 +103,11 @@ public class InventoryController implements EventListener {
     }
 
     // TODO add and move to PlayerEquipmentController
-    if (inventory.getSelectedItem() != null) {
-      Class<? extends ItemController> clazz = inventory.getSelectedItem().getItemController();
+    if (itemInventory.getSelectedItem() != null) {
+      Class<? extends ItemController> clazz = itemInventory.getSelectedItem().getItemController();
       if (clazz != null) {
         ItemController controller = provider.getBean(clazz, true);
-        controller.listen(inventory.getSelectedItem(), events);
+        controller.listen(itemInventory.getSelectedItem(), events);
       }
     }
   }
@@ -113,10 +116,10 @@ public class InventoryController implements EventListener {
     if (KeyboardUtils.isNumericKeyPressed(e.getKey())) {
       int k = KeyboardUtils.getPressedNumericKey(e.getKey());
       if (k == 0) {
-        inventory.setSelectedIndex(9);
+        itemInventory.setSelectedIndex(9);
         e.consume();
-      } else if (k > 0 && k <= inventory.getSize()) {
-        inventory.setSelectedIndex(k - 1);
+      } else if (k > 0 && k <= itemInventory.getSize()) {
+        itemInventory.setSelectedIndex(k - 1);
         e.consume();
       }
     }
@@ -124,7 +127,7 @@ public class InventoryController implements EventListener {
     if (KeyboardUtils.isDownKey(e.getKey())) {
       PickableObject object = findNearestPickableObject();
       if (object != null) {
-        if (inventory.add(object.getItem())) {
+        if (itemInventory.add(object.getItem())) {
           objectKiller.killMovingObject(object);
           e.consume();
         }
@@ -134,8 +137,8 @@ public class InventoryController implements EventListener {
 
   private void handleMouseRightClickEvent(MousePressedEvent e) {
     if (!KeyboardUtils.isResourceInventoryKeyPressed(inputContainer.getInput())) {
-      if (dropItem(inventory.getSelectedItem(), e.getLevelX(), e.getLevelY())) {
-        inventory.removeSelectedItem();
+      if (dropItem(itemInventory.getSelectedItem(), e.getLevelX(), e.getLevelY())) {
+        itemInventory.removeSelected();
         e.consume();
         return;
       }
@@ -171,7 +174,7 @@ public class InventoryController implements EventListener {
     return true;
   }
 
-  private boolean dropItem(Item item, int x, int y) {
+  public boolean dropItem(Item item, int x, int y) {
     if (item == null) return false;
     if (!AbstractActionController.isInRange(x, y, playerController.getPlayer(), DROP_RANGE)) return false;
     Class<? extends ItemController> clazz = item.getItemController();

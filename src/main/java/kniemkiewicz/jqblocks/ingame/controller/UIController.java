@@ -4,7 +4,9 @@ import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.EventListener;
 import kniemkiewicz.jqblocks.ingame.event.input.keyboard.KeyPressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.keyboard.KeyReleasedEvent;
+import kniemkiewicz.jqblocks.ingame.event.inventory.InventoryChangeEvent;
 import kniemkiewicz.jqblocks.ingame.ui.MainGameUI;
+import kniemkiewicz.jqblocks.ingame.ui.inventory.InventoryPanel;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,13 +20,16 @@ public class UIController implements EventListener {
   @Autowired
   MainGameUI mainGameUI;
 
+  @Autowired
+  InventoryPanel inventoryPanel;
+
   boolean buildKeyBlock = false;
   boolean constructKeyBlock = false;
   boolean inventoryKeyBlock = false;
 
   @Override
   public List<Class> getEventTypesOfInterest() {
-    return Arrays.asList((Class) KeyPressedEvent.class, (Class) KeyReleasedEvent.class);
+    return Arrays.asList((Class) KeyPressedEvent.class, (Class) KeyReleasedEvent.class, (Class) InventoryChangeEvent.class);
   }
 
   @Override
@@ -40,6 +45,16 @@ public class UIController implements EventListener {
     if (!keyReleasedEvents.isEmpty()) {
       for (KeyReleasedEvent e : keyReleasedEvents) {
         handleKeyReleasedEvent(e);
+      }
+    }
+
+    List<InventoryChangeEvent> inventoryChangeEvents = Collections3.collectSubclasses(events, InventoryChangeEvent.class);
+    if (!inventoryChangeEvents.isEmpty()) {
+      for (InventoryChangeEvent e : inventoryChangeEvents) {
+        if (inventoryPanel.getModel().equals(e.getInventory())) {
+          inventoryPanel.update();
+          break;
+        }
       }
     }
   }

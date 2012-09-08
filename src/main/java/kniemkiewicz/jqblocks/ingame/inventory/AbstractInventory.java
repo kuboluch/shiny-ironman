@@ -18,12 +18,10 @@ public abstract class AbstractInventory<T extends Item> implements Inventory<T> 
 
   protected int selectedIndex = 0;
 
-  protected int size = SIZE;
-
   public boolean add(T item) {
     assert Assert.validateSerializable(item);
     int newIndex = -1;
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < getSize(); i++) {
       if (items.get(i).isEmpty()) {
         newIndex = i;
         break;
@@ -39,12 +37,25 @@ public abstract class AbstractInventory<T extends Item> implements Inventory<T> 
     return true;
   }
 
+  public boolean add(int index, T item) {
+    assert Assert.validateSerializable(item);
+    if (!items.get(index).isEmpty()) {
+      return false;
+    }
+
+    items.set(index, item);
+    if (items.get(selectedIndex).isEmpty()) {
+      selectedIndex = index;
+    }
+    return true;
+  }
+
   public int getSelectedIndex() {
     return selectedIndex;
   }
 
   public void setSelectedIndex(int x) {
-    assert selectedIndex < size;
+    assert selectedIndex < getSize();
     selectedIndex = x;
   }
 
@@ -56,7 +67,7 @@ public abstract class AbstractInventory<T extends Item> implements Inventory<T> 
   }
 
   public int getSize() {
-    return size;
+    return SIZE;
   }
 
   @Override
@@ -64,11 +75,11 @@ public abstract class AbstractInventory<T extends Item> implements Inventory<T> 
     return new ArrayList<T>((Collection<? extends T>) items);
   }
 
-  public void removeSelectedItem() {
+  public void removeSelected() {
     items.set(selectedIndex, getEmptyItem());
   }
 
-  public void removeItem(int index) {
+  public void remove(int index) {
     items.set(index, getEmptyItem());
   }
 

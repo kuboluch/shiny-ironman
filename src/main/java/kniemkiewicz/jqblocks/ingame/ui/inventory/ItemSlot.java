@@ -42,7 +42,7 @@ public class ItemSlot extends Widget {
     return item;
   }
 
-  public void changeItem(Item item) {
+  public void setItem(Item item) {
     this.item = item;
     this.icon = null;
     if (this.item != null) {
@@ -51,7 +51,7 @@ public class ItemSlot extends Widget {
   }
 
   public boolean canDrop() {
-    return item == null;
+    return item == null || item.isEmpty();
   }
 
   public void setListener(DragListener listener) {

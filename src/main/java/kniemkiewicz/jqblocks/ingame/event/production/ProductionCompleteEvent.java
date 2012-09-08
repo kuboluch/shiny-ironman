@@ -10,9 +10,7 @@ import kniemkiewicz.jqblocks.ingame.production.ProductionAssignment;
  * Date: 01.09.12
  */
 public class ProductionCompleteEvent extends AbstractEvent {
-
   CanProduce source;
-
   ProductionAssignment assignment;
 
   public ProductionCompleteEvent(CanProduce source, ProductionAssignment assignment) {

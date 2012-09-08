@@ -10,15 +10,17 @@ public interface Inventory<T> {
 
   public boolean add(T item);
 
+  public boolean add(int index, T item);
+
   public void setSelectedIndex(int index);
 
   public T getSelectedItem();
 
   public int getSize();
 
-  public void removeSelectedItem();
+  public void removeSelected();
 
-  public void removeItem(int index);
+  public void remove(int index);
 
   public List<T> getItems();
 

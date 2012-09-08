@@ -2,17 +2,15 @@ package kniemkiewicz.jqblocks.ingame.item;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
-import kniemkiewicz.jqblocks.ingame.event.EventBus;
-import kniemkiewicz.jqblocks.ingame.event.inventory.SelectedItemChangeEvent;
-import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
-import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.content.block.dirt.DirtBlockItem;
 import kniemkiewicz.jqblocks.ingame.content.item.axe.AxeItem;
 import kniemkiewicz.jqblocks.ingame.content.item.bow.BowItem;
 import kniemkiewicz.jqblocks.ingame.content.item.pickaxe.PickaxeItem;
-import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderItem;
+import kniemkiewicz.jqblocks.ingame.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.event.inventory.SelectedItemChangeEvent;
 import kniemkiewicz.jqblocks.ingame.inventory.AbstractInventory;
+import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.BeanName;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
@@ -72,7 +70,7 @@ public class ItemInventory extends AbstractInventory<Item> implements Renderable
     return emptyItem;
   }
 
-  final static private String[] ids = {"1", "2","3","4","5","6","7","8","9","0"};
+  final static private String[] ids = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
 
 
   private void renderInventory(Graphics g) {

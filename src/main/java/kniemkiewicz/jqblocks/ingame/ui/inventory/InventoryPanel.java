@@ -1,10 +1,15 @@
 package kniemkiewicz.jqblocks.ingame.ui.inventory;
 
+import com.google.common.base.Objects;
 import de.matthiasmann.twl.Event;
 import de.matthiasmann.twl.ThemeInfo;
 import de.matthiasmann.twl.Widget;
-import kniemkiewicz.jqblocks.ingame.content.item.axe.AxeItem;
-import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderItem;
+import kniemkiewicz.jqblocks.ingame.PointOfView;
+import kniemkiewicz.jqblocks.ingame.inventory.BackpackInventory;
+import kniemkiewicz.jqblocks.ingame.inventory.Inventory;
+import kniemkiewicz.jqblocks.ingame.inventory.InventoryController;
+import kniemkiewicz.jqblocks.ingame.item.Item;
+import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,6 +29,15 @@ public class InventoryPanel extends Widget {
   @Autowired
   SpringBeanProvider springBeanProvider;
 
+  @Autowired
+  PointOfView pointOfView;
+
+  @Autowired
+  InventoryController inventoryController;
+
+  @Autowired
+  BackpackInventory backpackInventory;
+
   private ItemSlot[] slot;
 
   private int slotSpacing;
@@ -36,6 +50,8 @@ public class InventoryPanel extends Widget {
 
   @PostConstruct
   public void init() {
+    Assert.assertTrue(backpackInventory.getSize() == NUM_SLOTS_X * NUM_SLOTS_Y);
+
     this.slot = new ItemSlot[NUM_SLOTS_X * NUM_SLOTS_Y];
 
     ItemSlot.DragListener listener = new ItemSlot.DragListener() {
@@ -58,8 +74,20 @@ public class InventoryPanel extends Widget {
       add(slot[i]);
     }
 
-    slot[0].changeItem(new AxeItem());
-    slot[2].changeItem(new LadderItem());
+    update();
+  }
+
+  public Inventory<Item> getModel() {
+    return backpackInventory;
+  }
+
+  public void update() {
+    for (int i = 0; i < slot.length; i++) {
+      Item item = backpackInventory.getItems().get(i);
+      if (!Objects.equal(slot[i].getItem(), item)) {
+        slot[i].setItem(item);
+      }
+    }
   }
 
   @Override
@@ -100,7 +128,7 @@ public class InventoryPanel extends Widget {
     }
   }
 
-  void dragging(ItemSlot slot, Event evt) {
+  void dragging(ItemSlot itemSlot, Event evt) {
     if (dragSlot != null) {
       Widget w = getWidgetAt(evt.getMouseX(), evt.getMouseY());
       if (w instanceof ItemSlot) {
@@ -111,27 +139,47 @@ public class InventoryPanel extends Widget {
     }
   }
 
-  void dragStopped(ItemSlot slot, Event evt) {
+  void dragStopped(ItemSlot itemSlot, Event evt) {
     if (dragSlot != null) {
-      dragging(slot, evt);
-      if (dropSlot != null && dropSlot.canDrop() && dropSlot != dragSlot) {
-        dropSlot.changeItem(dragSlot.getItem());
-        dragSlot.changeItem(null);
+      dragging(itemSlot, evt);
+      if (dropSlot != null) {
+        if (dropSlot.canDrop() && dropSlot != dragSlot) {
+          int dragItemIndex = getSlotIndex(dragSlot);
+          int dropItemIndex = getSlotIndex(dropSlot);
+          backpackInventory.move(dragItemIndex, dropItemIndex);
+        }
+        setDropSlot(null);
+      } else {
+        int levelX = evt.getMouseX() + pointOfView.getShiftX();
+        int levelY = evt.getMouseY() + pointOfView.getShiftY();
+        if (inventoryController.dropItem(itemSlot.getItem(), levelX, levelY)) {
+          int dragItemIndex = getSlotIndex(dragSlot);
+          backpackInventory.remove(dragItemIndex);
+        }
       }
-      setDropSlot(null);
+
       dragSlot = null;
     }
   }
 
-  private void setDropSlot(ItemSlot slot) {
-    if (slot != dropSlot) {
+  private void setDropSlot(ItemSlot itemSlot) {
+    if (itemSlot != dropSlot) {
       if (dropSlot != null) {
         dropSlot.setDropState(false, false);
       }
-      dropSlot = slot;
+      dropSlot = itemSlot;
       if (dropSlot != null) {
         dropSlot.setDropState(true, dropSlot == dragSlot || dropSlot.canDrop());
       }
     }
+  }
+
+  private int getSlotIndex(ItemSlot itemSlot) {
+    for (int i = 0; i < slot.length; i++) {
+      if (Objects.equal(slot[i], itemSlot)) {
+        return i;
+      }
+    }
+    return -1;
   }
 }
