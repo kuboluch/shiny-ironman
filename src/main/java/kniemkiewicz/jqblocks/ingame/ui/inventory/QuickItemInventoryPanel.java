@@ -2,7 +2,7 @@ package kniemkiewicz.jqblocks.ingame.ui.inventory;
 
 import kniemkiewicz.jqblocks.ingame.inventory.Inventory;
 import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.item.ItemInventory;
+import kniemkiewicz.jqblocks.ingame.item.QuickItemInventory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ public class QuickItemInventoryPanel extends InventoryPanel {
   public static final int NUM_SLOTS_Y = 1;
 
   @Autowired
-  ItemInventory itemInventory;
+  QuickItemInventory itemInventory;
 
   public QuickItemInventoryPanel() {
     super(NUM_SLOTS_X, NUM_SLOTS_Y);

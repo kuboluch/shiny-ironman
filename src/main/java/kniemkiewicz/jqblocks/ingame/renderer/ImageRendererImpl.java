@@ -42,11 +42,6 @@ public class ImageRendererImpl<T extends RenderableObject> implements ItemRender
     return image;
   }
 
-  @Override
-  public Image getImage(Item item) {
-    return image;
-  }
-
   private Image getFlippedImage() {
     if (flippedImage == null) {
       flippedImage = image.getFlippedCopy(true, false);
@@ -55,7 +50,7 @@ public class ImageRendererImpl<T extends RenderableObject> implements ItemRender
   }
 
   @Override
-  public void renderItem(Item item, Graphics g, int x, int y, int square_size, boolean drawFlipped) {
+  public void renderItem(Item item, int x, int y, int square_size, boolean drawFlipped) {
     if (drawFlipped) {
       getFlippedImage().draw(x, y, square_size, square_size);
     } else {

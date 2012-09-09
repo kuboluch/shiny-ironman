@@ -2,7 +2,7 @@ package kniemkiewicz.jqblocks.ingame.content.player.renderer;
 
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.item.ItemInventory;
+import kniemkiewicz.jqblocks.ingame.item.QuickItemInventory;
 import kniemkiewicz.jqblocks.ingame.item.renderer.DefaultEquippedItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.renderer.EquippedItemRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
@@ -25,7 +25,7 @@ public class PlayerEquippmentRenderer implements Renderable {
   RenderQueue renderQueue;
 
   @Autowired
-  ItemInventory itemInventory;
+  QuickItemInventory itemInventory;
 
   @Autowired
   SpringBeanProvider springBeanProvider;

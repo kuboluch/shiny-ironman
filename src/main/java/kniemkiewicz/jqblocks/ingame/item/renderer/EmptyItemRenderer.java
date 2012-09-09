@@ -16,15 +16,10 @@ public class EmptyItemRenderer implements ItemRenderer<Item>, EquippedItemRender
   public static final BeanName<EmptyItemRenderer> RENDERER = new BeanName<EmptyItemRenderer>(EmptyItemRenderer.class);
 
   @Override
-  public void renderItem(Item item, Graphics g, int x, int y, int square_size, boolean drawFlipped) {
+  public void renderItem(Item item, int x, int y, int square_size, boolean drawFlipped) {
   }
 
   @Override
   public void renderEquippedItem(Item item, Graphics g) {
-  }
-
-  @Override
-  public Image getImage(Item item) {
-    return null;
   }
 }

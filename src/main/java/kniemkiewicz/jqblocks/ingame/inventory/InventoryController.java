@@ -15,7 +15,7 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.item.ItemInventory;
+import kniemkiewicz.jqblocks.ingame.item.QuickItemInventory;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObjectType;
@@ -38,7 +38,7 @@ public class InventoryController implements EventListener {
   private static int DROP_RANGE = 16 * Sizes.BLOCK;
 
   @Autowired
-  ItemInventory itemInventory;
+  QuickItemInventory itemInventory;
 
   @Autowired
   BackpackInventory backpackInventory;

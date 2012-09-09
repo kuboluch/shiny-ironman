@@ -89,7 +89,7 @@ public class ResourceInventory extends AbstractInventory<ResourceItem> implement
       }
       g.drawRoundRect(x, y, square_size, square_size, SQUARE_ROUNDING);
       ItemRenderer<Item> renderer = springBeanProvider.getBean(item.getItemRenderer(), true);
-      renderer.renderItem(item, g, x + SQUARE_ROUNDING, y + SQUARE_ROUNDING, square_size - 2 * SQUARE_ROUNDING, false);
+      renderer.renderItem(item, x + SQUARE_ROUNDING, y + SQUARE_ROUNDING, square_size - 2 * SQUARE_ROUNDING, false);
       g.setColor(Color.black);
       g.drawString(ids[i], x - 5, y - 4);
       x += SQUARE_DIST + square_size;

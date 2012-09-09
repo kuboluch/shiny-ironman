@@ -19,14 +19,14 @@ import javax.annotation.PostConstruct;
  * Date: 10.07.12
  */
 @Component
-public class ItemInventory extends AbstractInventory<Item> {
+public class QuickItemInventory extends AbstractInventory<Item> {
 
   @Autowired
   EventBus eventBus;
 
   protected static final Item emptyItem = new EmptyItem();
 
-  public ItemInventory() {
+  public QuickItemInventory() {
     super();
   }
 

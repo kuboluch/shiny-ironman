@@ -44,6 +44,6 @@ public class DefaultEquippedItemRenderer implements EquippedItemRenderer<Item> {
   public void renderEquippedItem(Item item, Graphics g) {
     ItemRenderer<Item> renderer = springBeanProvider.getBean(item.getItemRenderer(), true);
     Pair<Integer, Integer> xy = getDefaultXY();
-    renderer.renderItem(item, g, xy.getFirst(), xy.getSecond(), SIZE, isLeftFaced());
+    renderer.renderItem(item, xy.getFirst(), xy.getSecond(), SIZE, isLeftFaced());
   }
 }

@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.ingame.resource.renderer;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
+import kniemkiewicz.jqblocks.ingame.renderer.GraphicsContainer;
 import kniemkiewicz.jqblocks.ingame.resource.item.ResourceObject;
 import kniemkiewicz.jqblocks.ingame.resource.ResourceType;
 import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
@@ -11,6 +12,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.XMLPackedSheet;
 import org.newdawn.slick.geom.Rectangle;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -26,6 +28,9 @@ public class ResourceRenderer implements ItemRenderer<ResourceItem>, ObjectRende
 
   Map<ResourceType, String> resourceTypeToSprite;
 
+  @Autowired
+  GraphicsContainer graphicsContainer;
+
   public ResourceRenderer(Map<ResourceType, String> resourceTypeToSprite) {
     this.resourceTypeToSprite = resourceTypeToSprite;
   }
@@ -38,10 +43,10 @@ public class ResourceRenderer implements ItemRenderer<ResourceItem>, ObjectRende
   }
 
   @Override
-  public void renderItem(ResourceItem item, Graphics g, int itemX, int itemY, int square_size, boolean drawFlipped) {
+  public void renderItem(ResourceItem item, int itemX, int itemY, int square_size, boolean drawFlipped) {
     float percentage = (float) item.getResource().getAmount() * 1.0f / item.getResource().getMaxPileSize() * 1.0f;
     Rectangle rectangle = new Rectangle(itemX + 3, itemY + 3, square_size - 6, square_size - 6);
-    render(g, item.getResource().getType(), percentage, rectangle);
+    render(graphicsContainer.getGraphics(), item.getResource().getType(), percentage, rectangle);
   }
 
   private void render(Graphics g, ResourceType resourceType, float percentage, Rectangle rectangle) {
@@ -53,11 +58,6 @@ public class ResourceRenderer implements ItemRenderer<ResourceItem>, ObjectRende
     float height = rectangle.getHeight() * percentage;
 
     g.drawImage(image, x, y, x + width, y + height, 0, 0, image.getWidth(), image.getHeight());
-  }
-
-  @Override
-  public Image getImage(ResourceItem item) {
-    return getImage(item.getResource().getType());
   }
 
   public Image getImage(ResourceType resourceType) {

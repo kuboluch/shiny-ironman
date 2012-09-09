@@ -10,7 +10,6 @@ import org.newdawn.slick.Image;
  */
 public interface ItemRenderer<T extends Item> {
 
-  void renderItem(T item, Graphics g, int x, int y, int square_size, boolean drawFlipped);
+  void renderItem(T item, int x, int y, int square_size, boolean drawFlipped);
 
-  Image getImage(T item);
 }

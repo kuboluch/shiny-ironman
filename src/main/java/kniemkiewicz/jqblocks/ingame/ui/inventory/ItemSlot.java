@@ -5,9 +5,12 @@ import de.matthiasmann.twl.GUI;
 import de.matthiasmann.twl.Widget;
 import de.matthiasmann.twl.renderer.AnimationState;
 import kniemkiewicz.jqblocks.ingame.item.Item;
+import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.opengl.TextureImpl;
+import org.newdawn.slick.opengl.renderer.Renderer;
+import org.newdawn.slick.opengl.renderer.SGL;
 import org.newdawn.slick.tests.xml.Inventory;
 
 /**
@@ -36,7 +39,6 @@ public class ItemSlot extends Widget {
   InventoryPanel panel;
 
   private Item item;
-  private Image icon;
   private DragListener listener;
   private boolean dragActive;
   private boolean selected = false;
@@ -56,10 +58,6 @@ public class ItemSlot extends Widget {
 
   public void setItem(Item item) {
     this.item = item;
-    this.icon = null;
-    if (this.item != null) {
-      this.icon = springBeanProvider.getBean(item.getItemRenderer(), true).getImage(item);
-    }
   }
 
   public boolean isSelected() {
@@ -119,19 +117,19 @@ public class ItemSlot extends Widget {
 
   @Override
   protected void paintWidget(GUI gui) {
-    if (!dragActive && icon != null) {
+    if (!dragActive) {
       TextureImpl.unbind();
-      icon.draw(getInnerX() + MARGIN, getInnerY() + MARGIN, getInnerWidth() - 2 * MARGIN, getInnerHeight() - 2 * MARGIN);
+      ItemRenderer<Item> itemRenderer = springBeanProvider.getBean(item.getItemRenderer(), true);
+      itemRenderer.renderItem(item, getInnerX() + MARGIN, getInnerY() + MARGIN, getInnerWidth() - 2 * MARGIN, false);
+      Renderer.get().glEnable(SGL.GL_TEXTURE_2D);
     }
   }
 
   @Override
   protected void paintDragOverlay(GUI gui, int mouseX, int mouseY, int modifier) {
-    if (icon != null) {
-      final int innerWidth = getInnerWidth();
-      final int innerHeight = getInnerHeight();
-      TextureImpl.unbind();
-      icon.draw(mouseX - innerWidth / 2, mouseY - innerHeight / 2, innerWidth, innerHeight);
-    }
+    TextureImpl.unbind();
+    ItemRenderer<Item> itemRenderer = springBeanProvider.getBean(item.getItemRenderer(), true);
+    itemRenderer.renderItem(item, mouseX - getInnerWidth() / 2, mouseY - getInnerHeight() / 2, getInnerWidth(), false);
+    Renderer.get().glEnable(SGL.GL_TEXTURE_2D);
   }
 }
