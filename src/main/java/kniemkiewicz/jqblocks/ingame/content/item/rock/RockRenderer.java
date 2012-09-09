@@ -1,7 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.content.item.rock;
 
-import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;

@@ -2,11 +2,10 @@ package kniemkiewicz.jqblocks.ingame.renderer;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Shape;
-import org.springframework.beans.factory.BeanNameAware;
 
 /**
  * User: knie

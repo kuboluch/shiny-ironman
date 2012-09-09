@@ -1,10 +1,9 @@
 package kniemkiewicz.jqblocks.ingame.content.transport.ladder;
 
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
-import kniemkiewicz.jqblocks.ingame.item.EmptyItemRenderer;
+import kniemkiewicz.jqblocks.ingame.item.renderer.EmptyItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
-import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
+import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.util.BeanName;
 
 /**

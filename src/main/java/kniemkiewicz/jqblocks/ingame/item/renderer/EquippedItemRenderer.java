@@ -1,5 +1,6 @@
-package kniemkiewicz.jqblocks.ingame.item;
+package kniemkiewicz.jqblocks.ingame.item.renderer;
 
+import kniemkiewicz.jqblocks.ingame.item.Item;
 import org.newdawn.slick.Graphics;
 
 /**
@@ -10,6 +11,4 @@ public interface EquippedItemRenderer<T extends Item> {
 
   void renderEquippedItem(T item, Graphics g);
 
-  // Called when new item is chosen.
-  void resetEquippedItemRenderer();
 }

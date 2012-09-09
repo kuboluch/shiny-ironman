@@ -2,9 +2,9 @@ package kniemkiewicz.jqblocks.ingame.content.item.pickaxe;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
-import kniemkiewicz.jqblocks.ingame.item.EquippedItemRenderer;
+import kniemkiewicz.jqblocks.ingame.item.renderer.EquippedItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.feature.Strength;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
 import kniemkiewicz.jqblocks.util.BeanName;

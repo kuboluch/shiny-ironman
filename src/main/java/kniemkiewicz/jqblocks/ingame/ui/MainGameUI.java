@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.ingame.ui;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.production.ProductionController;
 import kniemkiewicz.jqblocks.ingame.ui.inventory.InventoryUI;
+import kniemkiewicz.jqblocks.ingame.ui.inventory.QuickItemInventoryUI;
 import kniemkiewicz.jqblocks.ingame.ui.produce.ProductionUI;
 import kniemkiewicz.jqblocks.ingame.ui.workplace.WorkplaceUI;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
@@ -33,6 +34,9 @@ public class MainGameUI {
   private ProductionUI productionUI;
 
   @Autowired
+  private QuickItemInventoryUI quickItemInventoryUI;
+
+  @Autowired
   private InventoryUI inventoryUI;
 
   public void createUI(RootPane rootPane) {
@@ -43,6 +47,7 @@ public class MainGameUI {
   public void init() {
     rootPane.add(workplaceUI);
     rootPane.add(productionUI);
+    rootPane.add(quickItemInventoryUI);
     rootPane.add(inventoryUI);
   }
 
@@ -53,6 +58,8 @@ public class MainGameUI {
     productionUI.adjustSize();
     //productionUI.setPosition((rootPane.getWidth() - productionUI.getWidth()) / 2, (rootPane.getHeight() - productionUI.getHeight()) / 2);
     productionUI.setPosition(rootPane.getWidth() - productionUI.getWidth() - 5, rootPane.getHeight() - HEIGHT - 40);
+    quickItemInventoryUI.adjustSize();
+    quickItemInventoryUI.setPosition(rootPane.getWidth() - quickItemInventoryUI.getWidth() - 5, 5);
     inventoryUI.adjustSize();
     inventoryUI.setPosition((rootPane.getWidth() - inventoryUI.getWidth()) / 2, (rootPane.getHeight() - inventoryUI.getHeight()) / 2);
   }

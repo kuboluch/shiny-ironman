@@ -2,12 +2,8 @@ package kniemkiewicz.jqblocks.ingame.content.item.bow;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
-import kniemkiewicz.jqblocks.ingame.event.EventBus;
-import kniemkiewicz.jqblocks.ingame.item.EquippedItemRenderer;
-import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
-import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
+import kniemkiewicz.jqblocks.ingame.item.renderer.EquippedItemRenderer;
+import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.util.Pair;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -77,9 +73,6 @@ public final class BowRenderer implements ItemRenderer<BowItem>, EquippedItemRen
       g.drawLine(arcCenterX - arcDy, arcCenterY + arcDx, arcCenterX + arcDy, arcCenterY - arcDx);
     }
   }
-
-  @Override
-  public void resetEquippedItemRenderer() { }
 
   @Override
   public Image getImage(BowItem item) {

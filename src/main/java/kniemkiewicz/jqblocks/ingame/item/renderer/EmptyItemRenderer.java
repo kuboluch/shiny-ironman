@@ -1,7 +1,6 @@
-package kniemkiewicz.jqblocks.ingame.item;
+package kniemkiewicz.jqblocks.ingame.item.renderer;
 
-import kniemkiewicz.jqblocks.ingame.content.item.axe.AxeItem;
-import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
+import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -22,10 +21,6 @@ public class EmptyItemRenderer implements ItemRenderer<Item>, EquippedItemRender
 
   @Override
   public void renderEquippedItem(Item item, Graphics g) {
-  }
-
-  @Override
-  public void resetEquippedItemRenderer() {
   }
 
   @Override

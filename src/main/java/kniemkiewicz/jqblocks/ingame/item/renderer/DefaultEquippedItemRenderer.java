@@ -1,8 +1,9 @@
-package kniemkiewicz.jqblocks.ingame.item;
+package kniemkiewicz.jqblocks.ingame.item.renderer;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
+import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.util.Pair;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.newdawn.slick.Graphics;
@@ -45,7 +46,4 @@ public class DefaultEquippedItemRenderer implements EquippedItemRenderer<Item> {
     Pair<Integer, Integer> xy = getDefaultXY();
     renderer.renderItem(item, g, xy.getFirst(), xy.getSecond(), SIZE, isLeftFaced());
   }
-
-  @Override
-  public void resetEquippedItemRenderer() { }
 }
