@@ -4,10 +4,14 @@ import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.content.creature.bat.Bat;
+import kniemkiewicz.jqblocks.ingame.content.creature.zombie.Zombie;
 import kniemkiewicz.jqblocks.ingame.content.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
+import kniemkiewicz.jqblocks.util.Pair;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +24,19 @@ import java.util.Random;
  */
 @Component
 public class GrassBiome implements Biome{
+
+  public static Log logger = LogFactory.getLog(GrassBiome.class);
+
+  enum MonsterType {
+    ZOMBIE,
+    BAT
+  }
+
+  enum Direction {
+    LEFT,RIGHT
+  }
+
+  WeightedPicker<Pair<MonsterType, Direction>> monsterPicker;
 
   @Autowired
   MovingObjects movingObjects;
@@ -42,53 +59,98 @@ public class GrassBiome implements Biome{
   @Autowired
   Backgrounds backgrounds;
 
-  Random random = new Random();
+  @Autowired
+  VillageGenerator villageGenerator;
 
-  float BAT_EVERY_N_SEC = -1;
+  Random random = new Random();
 
   @PostConstruct
   void init() {
-    BAT_EVERY_N_SEC = configuration.getFloat("GrassBiome.BAT_EVERY_N_SEC", 3);
+    monsterPicker = new WeightedPicker<Pair<MonsterType, Direction>>();
+    configurePickerFor(MonsterType.BAT, "GrassBiome.BAT_EVERY_N_SEC", 5);
+    configurePickerFor(MonsterType.ZOMBIE, "GrassBiome.ZOMBIE_EVERY_N_SEC", 15);
+  }
+
+  private void configurePickerFor(MonsterType type, String propertyName, float defaultEveryNSec) {
+    float EVERY_N_SEC = configuration.getFloat(propertyName, defaultEveryNSec);
+    assert EVERY_N_SEC >= 0;
+    if (EVERY_N_SEC > 0) {
+      monsterPicker.addChoice(0.5f / 1000 / EVERY_N_SEC, Pair.newInstance(type, Direction.LEFT));
+      monsterPicker.addChoice(0.5f / 1000 / EVERY_N_SEC, Pair.newInstance(type, Direction.RIGHT));
+    }
   }
 
   @Override
   public KillablePhysicalObject maybeGenerateNewEnemy(int delta, Player player) {
-    assert BAT_EVERY_N_SEC >= 0;
-    if (BAT_EVERY_N_SEC == 0) return null;
-    float probability = delta / 1000f / BAT_EVERY_N_SEC;
-    float rnd = random.nextFloat();
-    if (rnd < probability) {
-      return generateBat(player, rnd < probability / 2);
+    Pair<MonsterType, Direction> p = monsterPicker.pick(delta);
+    if (p != null) {
+      switch (p.getFirst()) {
+        case BAT:
+          return generateBat(player, p.getSecond());
+        case ZOMBIE:
+          return generateZombie(player, p.getSecond());
+        default:
+          assert false;
+      }
     }
     return null;
   }
 
-  Bat generateBat(Player player, boolean rightSide) {
-    float distance = pointOfView.getWindowWidth() / 2 + Sizes.BLOCK * 5;
-    float x = player.getXYMovement().getX() + (rightSide ? distance : - distance);
-    float height = 5 * Sizes.BLOCK;
+  Bat generateBat(Player player, Direction direction) {
     // This is an approximation, won't work underground.
-    Bat bat = new Bat(x, Sizes.MIN_Y);
-    float y = solidBlocks.getBlocks().getUnscaledDropHeight(bat.getShape()) - height;
-    bat.getXYMovement().getYMovement().setPos(y);
-    bat.updateShape();
-
-    while (RoamingEnemiesController.isNearFireplace(bat.getShape(), backgrounds)) {
-      float dx = pointOfView.getWindowWidth();
-      if (player.getShape().getCenterX() < VillageGenerator.STARTING_X) {
-        dx = -dx;
-      }
-      bat.getXYMovement().getXMovement().setPos(bat.getXYMovement().getX() + dx);
-      y = solidBlocks.getBlocks().getUnscaledDropHeight(bat.getShape()) - height;
-      bat.getXYMovement().getYMovement().setPos(y);
-      bat.updateShape();
-    }
-    // By default bat go right, but that should not be the case here.
-    if (rightSide) {
+    Bat bat = new Bat(getMonsterX(player, direction), villageGenerator.getStartingY());
+    moveAwayFromVillage(player, bat);
+    updateBatY(player, bat);
+    // By default bat goes right, but that should not be the case here.
+    if (direction == Direction.RIGHT) {
       bat.getXYMovement().getXMovement().setSpeed(-bat.getXYMovement().getXMovement().getSpeed());
     }
     if (bat.addTo(movingObjects, renderQueue, updateQueue)) {
       return bat;
+    } else {
+      return null;
+    }
+  }
+
+  private float getMonsterX(Player player, Direction direction) {
+    float distance = pointOfView.getWindowWidth() / 2;
+    return player.getXYMovement().getX() + (direction == Direction.RIGHT ? distance : - distance);
+  }
+
+  private void updateBatY(Player player, Bat bat) {
+    float height = 2 * Sizes.BLOCK;
+    bat.getXYMovement().setYSpeed(Sizes.MIN_Y);
+    float y = solidBlocks.getBlocks().getUnscaledDropHeight(bat.getShape()) - height;
+    if (y > player.getXYMovement().getY()) {
+      y = player.getXYMovement().getY();
+    }
+    // Exponential distribution.
+    float randomHeight = (float) (- Math.log(1 - random.nextFloat()) * 4 * Sizes.BLOCK);
+    y -= randomHeight;
+    bat.getXYMovement().getYMovement().setPos(y);
+    bat.updateShape();
+  }
+
+  private void moveAwayFromVillage(Player player, HasFullXYMovement monster) {
+    while (RoamingEnemiesController.isNearFireplace(monster.getShape(), backgrounds)) {
+      float dx = pointOfView.getWindowWidth();
+      if (player.getShape().getCenterX() < VillageGenerator.STARTING_X) {
+        dx = -dx;
+      }
+      monster.getXYMovement().getXMovement().setPos(monster.getXYMovement().getX() + dx);
+      monster.updateShape();
+    }
+  }
+
+  Zombie generateZombie(Player player, Direction direction) {
+    Zombie zombie = new Zombie(getMonsterX(player, direction), villageGenerator.getStartingY());
+    moveAwayFromVillage(player, zombie);
+    zombie.getXYMovement().getYMovement().setPos(Sizes.MIN_Y);
+    zombie.updateShape();
+    zombie.getXYMovement().getYMovement().setPos(solidBlocks.getBlocks().getUnscaledDropHeight(zombie.getShape()) - Sizes.BLOCK * 3);
+    zombie.updateShape();
+    if (zombie.addTo(movingObjects, renderQueue, updateQueue)) {
+      return zombie;
     } else {
       return null;
     }

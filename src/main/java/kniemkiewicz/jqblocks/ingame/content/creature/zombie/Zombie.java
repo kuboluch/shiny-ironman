@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
+import kniemkiewicz.jqblocks.ingame.content.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer;
@@ -19,7 +20,7 @@ import org.newdawn.slick.geom.Shape;
  * User: knie
  * Date: 8/27/12
  */
-public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,HasHealthPoints<Zombie>, HasFullXYMovement, TwoFacedImageRenderer.Renderable {
+public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,KillablePhysicalObject<Zombie>, HasFullXYMovement, TwoFacedImageRenderer.Renderable {
 
   private static final int MAX_HP = 50;
   public static final float HEIGHT = Sizes.BLOCK * 3.5f;
