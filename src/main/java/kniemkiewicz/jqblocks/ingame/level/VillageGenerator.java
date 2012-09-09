@@ -108,7 +108,5 @@ public class VillageGenerator {
     generateLadders();
     Assert.executeAndAssert(Peon.createAndRegister(STARTING_X, (int)(villageY - Peon.HEIGHT), peonController) != null);
     addFallingStars();
-    Zombie zombie = new Zombie(STARTING_X - Sizes.BLOCK * 40, villageY -  Sizes.BLOCK * 20);
-    zombie.addTo(movingObjects, renderQueue, updateQueue);
   }
 }
