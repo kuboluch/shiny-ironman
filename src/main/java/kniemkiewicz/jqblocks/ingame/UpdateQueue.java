@@ -30,11 +30,21 @@ public final class UpdateQueue {
 
   Set<ToBeUpdated> toBeRemoved = new HashSet<ToBeUpdated>();
 
-  void update(int delta) {
+  Set<ToBeUpdated> toBeAdded = new HashSet<ToBeUpdated>();
+
+  void updateSets() {
     for (ToBeUpdated o : toBeRemoved) {
       objects.remove(o);
     }
     toBeRemoved.clear();
+    for (ToBeUpdated o : toBeAdded) {
+      objects.add(o);
+    }
+    toBeAdded.clear();
+  }
+
+  void update(int delta) {
+    updateSets();
     for (ToBeUpdated o : objects) {
       if (toBeRemoved.size() > 0) {
         // Given object may have been already deleted.
@@ -52,17 +62,18 @@ public final class UpdateQueue {
 
   public void add(ToBeUpdated ob) {
     assert Assert.validateSerializable(ob);
-    objects.add(ob);
+    toBeAdded.add(ob);
     toBeRemoved.remove(ob);
   }
 
   public void remove(ToBeUpdated ob) {
     // This often happens during iteration so we cannot just remove.
     toBeRemoved.add(ob);
+    toBeAdded.remove(ob);
   }
 
   public Iterator<ToBeUpdated> iterateAll() {
-    assert toBeRemoved.size() == 0;
+    updateSets();
     return objects.iterator();
   }
 }

@@ -19,6 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
  * User: knie
@@ -98,6 +102,22 @@ public class VillageGenerator {
     return true;
   }
 
+  void makeCage(int x, int y) {
+    backgrounds.add(new NaturalDirtBackground(x - Sizes.BLOCK * 3, y - Sizes.BLOCK * 4, Sizes.BLOCK * 6, Sizes.BLOCK * 4));
+    // bottom
+    Assert.executeAndAssert(solidBlocks.add(new Rectangle(x - Sizes.BLOCK * 3, y, Sizes.BLOCK * 6, Sizes.BLOCK), WallBlockType.DIRT));
+    // left
+    Assert.executeAndAssert(solidBlocks.add(new Rectangle(x - Sizes.BLOCK * 4, y - Sizes.BLOCK * 7, Sizes.BLOCK, Sizes.BLOCK * 8), WallBlockType.DIRT));
+    // right, smaller
+    Assert.executeAndAssert(solidBlocks.add(new Rectangle(x + Sizes.BLOCK * 3, y  - Sizes.BLOCK * 7, Sizes.BLOCK, Sizes.BLOCK * 4), WallBlockType.DIRT));
+  }
+
+  private void addZombieCage(int villageY) {
+    makeCage(STARTING_X - Sizes.BLOCK * 10, villageY - Sizes.BLOCK * 10);
+    Zombie zombie = new Zombie(STARTING_X - Sizes.BLOCK * 10, villageY - Sizes.BLOCK * 14);
+    zombie.addTo(movingObjects, renderQueue, updateQueue);
+  }
+
   void generateVillage(int villageY) {
     startingY = villageY;
     makeHouse(STARTING_X, villageY);
@@ -108,5 +128,14 @@ public class VillageGenerator {
     generateLadders();
     Assert.executeAndAssert(Peon.createAndRegister(STARTING_X, (int)(villageY - Peon.HEIGHT), peonController) != null);
     addFallingStars();
+    addZombieCage(villageY);
+  }
+
+  public void saveToStream(ObjectOutputStream stream) throws IOException {
+    stream.writeObject(new Integer(startingY));
+  }
+
+  public void loadFromStream(ObjectInputStream stream) throws ClassNotFoundException, IOException {
+    this.startingY = (Integer) stream.readObject();
   }
 }

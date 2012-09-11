@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.util.movement;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.object.serialization.SerializableRef;
 
 import java.io.Serializable;
 
@@ -17,13 +18,13 @@ public class SingleAxisMovement implements Serializable{
   float acceleration = 0;
   // True means it is facing towards positive infinity.
   boolean direction = true;
-  MovementDefinition definition;
+  final SerializableRef<MovementDefinition> serializableDefinition;
 
 
   SingleAxisMovement(float speed, float x, MovementDefinition definition) {
     this.speed = speed;
     this.pos = x;
-    this.definition = definition;
+    this.serializableDefinition = new SerializableRef<MovementDefinition>(definition);
     if (definition.autoDirection) {
       direction = (speed >= 0);
     }
@@ -51,7 +52,7 @@ public class SingleAxisMovement implements Serializable{
 
   final public void update(int unscaledDelta) {
     float delta = unscaledDelta / Sizes.TIME_UNIT;
-
+    MovementDefinition definition = serializableDefinition.get();
     if (acceleration != 0) {
       speed += acceleration * delta;
       acceleration = 0;
@@ -113,6 +114,7 @@ public class SingleAxisMovement implements Serializable{
   }
 
   final public void acceleratePositive() {
+    MovementDefinition definition = serializableDefinition.get();
     assert definition.maxSpeedForward != Float.MAX_VALUE;
     assert definition.maxSpeedBackward != Float.MAX_VALUE;
     if (direction) {
@@ -123,6 +125,7 @@ public class SingleAxisMovement implements Serializable{
   }
 
   final public void accelerateNegative() {
+    MovementDefinition definition = serializableDefinition.get();
     assert definition.maxSpeedForward != Float.MAX_VALUE;
     assert definition.maxSpeedBackward != Float.MAX_VALUE;
     if (direction) {

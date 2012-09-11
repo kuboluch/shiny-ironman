@@ -47,4 +47,8 @@ public class Backgrounds {
   public Iterator<BackgroundElement> intersects(Rectangle rect) {
     return new LinearIntersectionIterator<BackgroundElement>(backgrounds.iterator(), rect);
   }
+
+  public Iterator<BackgroundElement> iterateAll() {
+    return backgrounds.iterator();
+  }
 }

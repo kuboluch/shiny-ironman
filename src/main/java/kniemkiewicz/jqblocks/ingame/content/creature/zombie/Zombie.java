@@ -22,10 +22,10 @@ import org.newdawn.slick.geom.Shape;
  */
 public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,KillablePhysicalObject<Zombie>, HasFullXYMovement, TwoFacedImageRenderer.Renderable {
 
-  private static final int MAX_HP = 50;
+  private static final int MAX_HP = 20; //50?
   public static final float HEIGHT = Sizes.BLOCK * 3.5f;
   static final float WIDTH = Sizes.BLOCK * 2.5f;
-  private static final float SPEED = Player.MAX_X_SPEED * 2 / 3;
+  static final float SPEED = Player.MAX_X_SPEED * 2 / 3;
   public static final float DEFAULT_X_DECELERATION = SPEED / 4f;
 
   static XYMovementDefinition ZOMBIE_MOVEMENT = new XYMovementDefinition(

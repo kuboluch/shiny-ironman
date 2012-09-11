@@ -20,4 +20,10 @@
     <bean id="zombieImage" class="org.newdawn.slick.Image">
         <constructor-arg value="images/zombie.gif"/>
     </bean>
+
+    <bean id="zombieDeathSheet" class="org.newdawn.slick.SpriteSheet">
+        <constructor-arg value="spritesheet/zombie_death.png"/>
+        <constructor-arg value="60"/>
+        <constructor-arg value="60"/>
+    </bean>
 </beans>
