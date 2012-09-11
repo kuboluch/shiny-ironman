@@ -9,6 +9,7 @@ import kniemkiewicz.jqblocks.ingame.content.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
+import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.Pair;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -105,6 +106,7 @@ public class GrassBiome implements Biome{
     if (direction == Direction.RIGHT) {
       bat.getXYMovement().getXMovement().setSpeed(-bat.getXYMovement().getXMovement().getSpeed());
     }
+    assert !solidBlocks.getBlocks().collidesWithNonEmpty(bat.getShape());
     if (bat.addTo(movingObjects, renderQueue, updateQueue)) {
       return bat;
     } else {
@@ -119,13 +121,15 @@ public class GrassBiome implements Biome{
 
   private void updateBatY(Player player, Bat bat) {
     float height = 2 * Sizes.BLOCK;
-    bat.getXYMovement().setYSpeed(Sizes.MIN_Y);
+    bat.getXYMovement().getYMovement().setPos(Sizes.MIN_Y + Bat.SIZE);
+    bat.updateShape();
     float y = solidBlocks.getBlocks().getUnscaledDropHeight(bat.getShape()) - height;
     if (y > player.getXYMovement().getY()) {
       y = player.getXYMovement().getY();
     }
     // Exponential distribution.
     float randomHeight = (float) (- Math.log(1 - random.nextFloat()) * 4 * Sizes.BLOCK);
+    assert randomHeight >= 0;
     y -= randomHeight;
     bat.getXYMovement().getYMovement().setPos(y);
     bat.updateShape();
@@ -138,6 +142,13 @@ public class GrassBiome implements Biome{
         dx = -dx;
       }
       monster.getXYMovement().getXMovement().setPos(monster.getXYMovement().getX() + dx);
+      monster.updateShape();
+    }
+    if (monster.getXYMovement().getX() < Sizes.MIN_X + 300) {
+      monster.getXYMovement().getXMovement().setPos(monster.getXYMovement().getX() + pointOfView.getWindowWidth());
+      monster.updateShape();
+    } else if (monster.getXYMovement().getX() > Sizes.MAX_X - 300) {
+      monster.getXYMovement().getXMovement().setPos(monster.getXYMovement().getX() - pointOfView.getWindowWidth());
       monster.updateShape();
     }
   }

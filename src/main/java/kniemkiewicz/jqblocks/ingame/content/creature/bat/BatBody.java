@@ -29,7 +29,7 @@ public class BatBody extends SimpleBody {
   );
 
   public BatBody(float x, float y, int direction) {
-    super(BAT_BODY_MOVEMENT.getMovement(x, y).setXSpeed(direction * X_SPEED).setYSpeed(- Y_INITIAL_SPEED));
+    super(BAT_BODY_MOVEMENT.getMovement(x, y).setXSpeed(direction * X_SPEED).setYSpeed(- Y_INITIAL_SPEED), Bat.SIZE);
   }
 
   private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(ImageRendererImpl.class, "batBodyRenderer");

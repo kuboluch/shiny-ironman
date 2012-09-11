@@ -55,7 +55,7 @@ public class ZombieController implements HealthController<Zombie>, UpdateQueue.U
         rect = new Rectangle(zombie.getShape().getMaxX(), zombie.getShape().getMaxY() - 5, DETECTION_RECT_WIDTH, 0);
       }
       if (solidBlocks.getBlocks().collidesWithNonEmpty(rect)) {
-        zombie.getXYMovement().setYSpeed(- Player.JUMP_SPEED / 2);
+        zombie.getXYMovement().setYSpeed(- Player.JUMP_SPEED * 0.7f);
       }
     }
   });
@@ -86,8 +86,10 @@ public class ZombieController implements HealthController<Zombie>, UpdateQueue.U
     Player player = playerController.getPlayer();
     if (player.getShape().getCenterX() < zombie.getShape().getCenterX()) {
       zombie.getXYMovement().getXMovement().accelerateNegative();
+      zombie.getXYMovement().getXMovement().setDirection(false);
     } else {
       zombie.getXYMovement().getXMovement().acceleratePositive();
+      zombie.getXYMovement().getXMovement().setDirection(true);
     }
     tryJumpClosure.maybeRunWith(zombie);
   }

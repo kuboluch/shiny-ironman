@@ -25,6 +25,8 @@ public class XYMovementDefinition  implements Serializable {
     XYMovement newMovement = this.getMovement(movement.getX(), movement.getY());
     newMovement.setXSpeed(movement.getXMovement().getSpeed());
     newMovement.setYSpeed(movement.getYMovement().getSpeed());
+    newMovement.getXMovement().setDirection(movement.getXMovement().getDirection());
+    newMovement.getYMovement().setDirection(movement.getYMovement().getDirection());
     return newMovement;
   }
 }

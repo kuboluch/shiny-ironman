@@ -19,14 +19,14 @@ import kniemkiewicz.jqblocks.util.BeanName;
 public class ZombieBody extends SimpleBody implements UpdateQueue.ToBeUpdated<ZombieBody> {
 
   static XYMovementDefinition BAT_BODY_MOVEMENT = new XYMovementDefinition(
-      new MovementDefinition().setMaxSpeed(Zombie.SPEED),
+      new MovementDefinition().setMaxSpeed(Zombie.SPEED).setAutoDirection(false),
       new MovementDefinition().setMaxSpeed(Sizes.MAX_FALL_SPEED)
   );
 
   int age = 0;
 
   public ZombieBody(XYMovement movement) {
-    super(BAT_BODY_MOVEMENT.getMovement(movement));
+    super(BAT_BODY_MOVEMENT.getMovement(movement), Zombie.WIDTH);
   }
 
   private static final BeanName<ZombieBodyRenderer> RENDERER = new BeanName<ZombieBodyRenderer>(ZombieBodyRenderer.class);

@@ -18,11 +18,11 @@ import org.newdawn.slick.geom.Rectangle;
  * Date: 10.09.12
  */
 public abstract class SimpleBody implements RenderableObject<BatBody>,HasFullXYMovement {
-  final XYMovement movement;
+  protected final XYMovement movement;
   final Rectangle rectangle;
 
-  public SimpleBody(XYMovement movement) {
-    rectangle = new Rectangle(movement.getX(), movement.getY(), Bat.SIZE, Bat.SIZE);
+  public SimpleBody(XYMovement movement, float size) {
+    rectangle = new Rectangle(movement.getX(), movement.getY(), size, size);
     this.movement = movement;
   }
 
