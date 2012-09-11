@@ -1,9 +1,9 @@
 package kniemkiewicz.jqblocks.ingame.content.item.torch;
 
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
-import kniemkiewicz.jqblocks.ingame.item.EmptyItemRenderer;
+import kniemkiewicz.jqblocks.ingame.item.renderer.EmptyItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.util.BeanName;
 
 /**

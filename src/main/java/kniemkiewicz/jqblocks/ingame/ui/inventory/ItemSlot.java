@@ -5,9 +5,13 @@ import de.matthiasmann.twl.GUI;
 import de.matthiasmann.twl.Widget;
 import de.matthiasmann.twl.renderer.AnimationState;
 import kniemkiewicz.jqblocks.ingame.item.Item;
+import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.opengl.TextureImpl;
+import org.newdawn.slick.opengl.renderer.Renderer;
+import org.newdawn.slick.opengl.renderer.SGL;
+import org.newdawn.slick.tests.xml.Inventory;
 
 /**
  * User: qba
@@ -15,9 +19,12 @@ import org.newdawn.slick.opengl.TextureImpl;
  */
 public class ItemSlot extends Widget {
 
+  public static final AnimationState.StateKey STATE_SELECTED = AnimationState.StateKey.get("selected");
   public static final AnimationState.StateKey STATE_DRAG_ACTIVE = AnimationState.StateKey.get("dragActive");
   public static final AnimationState.StateKey STATE_DROP_OK = AnimationState.StateKey.get("dropOk");
   public static final AnimationState.StateKey STATE_DROP_BLOCKED = AnimationState.StateKey.get("dropBlocked");
+
+  private static final int MARGIN = 5;
 
   public interface DragListener {
     public void dragStarted(ItemSlot slot, Event evt);
@@ -29,13 +36,20 @@ public class ItemSlot extends Widget {
 
   SpringBeanProvider springBeanProvider;
 
+  InventoryPanel panel;
+
   private Item item;
-  private Image icon;
   private DragListener listener;
   private boolean dragActive;
+  private boolean selected = false;
 
-  public ItemSlot(SpringBeanProvider springBeanProvider) {
+  public ItemSlot(InventoryPanel panel, SpringBeanProvider springBeanProvider) {
+    this.panel = panel;
     this.springBeanProvider = springBeanProvider;
+  }
+
+  public InventoryPanel getPanel() {
+    return panel;
   }
 
   public Item getItem() {
@@ -44,10 +58,22 @@ public class ItemSlot extends Widget {
 
   public void setItem(Item item) {
     this.item = item;
-    this.icon = null;
-    if (this.item != null) {
-      this.icon = springBeanProvider.getBean(item.getItemRenderer(), true).getImage(item);
-    }
+  }
+
+  public boolean isSelected() {
+    return selected;
+  }
+
+  public void select() {
+    selected = true;
+    de.matthiasmann.twl.AnimationState as = getAnimationState();
+    as.setAnimationState(STATE_SELECTED, true);
+  }
+
+  public void deselect() {
+    selected = false;
+    de.matthiasmann.twl.AnimationState as = getAnimationState();
+    as.setAnimationState(STATE_SELECTED, false);
   }
 
   public boolean canDrop() {
@@ -91,19 +117,19 @@ public class ItemSlot extends Widget {
 
   @Override
   protected void paintWidget(GUI gui) {
-    if (!dragActive && icon != null) {
+    if (!dragActive) {
       TextureImpl.unbind();
-      icon.draw(getInnerX(), getInnerY(), getInnerWidth(), getInnerHeight());
+      ItemRenderer<Item> itemRenderer = springBeanProvider.getBean(item.getItemRenderer(), true);
+      itemRenderer.renderItem(item, getInnerX() + MARGIN, getInnerY() + MARGIN, getInnerWidth() - 2 * MARGIN, false);
+      Renderer.get().glEnable(SGL.GL_TEXTURE_2D);
     }
   }
 
   @Override
   protected void paintDragOverlay(GUI gui, int mouseX, int mouseY, int modifier) {
-    if (icon != null) {
-      final int innerWidth = getInnerWidth();
-      final int innerHeight = getInnerHeight();
-      TextureImpl.unbind();
-      icon.draw(mouseX - innerWidth / 2, mouseY - innerHeight / 2, innerWidth, innerHeight);
-    }
+    TextureImpl.unbind();
+    ItemRenderer<Item> itemRenderer = springBeanProvider.getBean(item.getItemRenderer(), true);
+    itemRenderer.renderItem(item, mouseX - getInnerWidth() / 2, mouseY - getInnerHeight() / 2, getInnerWidth(), false);
+    Renderer.get().glEnable(SGL.GL_TEXTURE_2D);
   }
 }

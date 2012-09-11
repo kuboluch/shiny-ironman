@@ -18,6 +18,7 @@ import kniemkiewicz.jqblocks.ingame.production.ProductionAssignmentController;
 import kniemkiewicz.jqblocks.ingame.production.ProductionController;
 import kniemkiewicz.jqblocks.ingame.production.action.PlayerProductionActionController;
 import kniemkiewicz.jqblocks.ingame.production.action.WorkplaceProductionActionController;
+import kniemkiewicz.jqblocks.ingame.renderer.GraphicsContainer;
 import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventoryController;
 import kniemkiewicz.jqblocks.ingame.ui.HealthBar;
 import kniemkiewicz.jqblocks.ingame.ui.MainGameUI;
@@ -97,6 +98,9 @@ public class MainGameState extends BasicTWLGameState {
 
   @Autowired
   InputContainer inputContainer;
+
+  @Autowired
+  GraphicsContainer graphicsContainer;
 
   @Autowired
   WorkplaceController workplaceController;
@@ -185,6 +189,7 @@ public class MainGameState extends BasicTWLGameState {
 
   @Override
   public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
+    graphicsContainer.setGraphics(graphics);
     TimingInfo.Timer t = timingInfo.getTimer(TimingInfo.RENDER_TIMER);
     renderQueue.render(graphics);
     t.record();

@@ -37,7 +37,7 @@ public class ProductionAssigmentRenderer implements Renderable {
       g.setColor(Color.lightGray);
       g.drawRoundRect(x + i, y - i, ASSIGNMENT_IMAGE_SIZE, ASSIGNMENT_IMAGE_SIZE, ASSIGNMENT_IMAGE_ROUNDING);
     }
-    item.getRenderer().renderItem(item.createItem(), g, x + ASSIGNMENT_IMAGE_ROUNDING, y + ASSIGNMENT_IMAGE_ROUNDING, ASSIGNMENT_IMAGE_SIZE - 2 * ASSIGNMENT_IMAGE_ROUNDING, false);
+    item.getRenderer().renderItem(item.createItem(), x + ASSIGNMENT_IMAGE_ROUNDING, y + ASSIGNMENT_IMAGE_ROUNDING, ASSIGNMENT_IMAGE_SIZE - 2 * ASSIGNMENT_IMAGE_ROUNDING, false);
     ProgressBar.render(g, x - 3, y + ASSIGNMENT_IMAGE_SIZE - 3, ASSIGNMENT_IMAGE_SIZE + 6, 6, activeAssignment.getProgress());
   }
 

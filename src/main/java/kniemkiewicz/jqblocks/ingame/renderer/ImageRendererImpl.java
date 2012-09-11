@@ -2,11 +2,10 @@ package kniemkiewicz.jqblocks.ingame.renderer;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Shape;
-import org.springframework.beans.factory.BeanNameAware;
 
 /**
  * User: knie
@@ -43,11 +42,6 @@ public class ImageRendererImpl<T extends RenderableObject> implements ItemRender
     return image;
   }
 
-  @Override
-  public Image getImage(Item item) {
-    return image;
-  }
-
   private Image getFlippedImage() {
     if (flippedImage == null) {
       flippedImage = image.getFlippedCopy(true, false);
@@ -56,7 +50,7 @@ public class ImageRendererImpl<T extends RenderableObject> implements ItemRender
   }
 
   @Override
-  public void renderItem(Item item, Graphics g, int x, int y, int square_size, boolean drawFlipped) {
+  public void renderItem(Item item, int x, int y, int square_size, boolean drawFlipped) {
     if (drawFlipped) {
       getFlippedImage().draw(x, y, square_size, square_size);
     } else {

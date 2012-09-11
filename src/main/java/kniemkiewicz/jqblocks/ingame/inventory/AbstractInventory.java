@@ -1,7 +1,11 @@
 package kniemkiewicz.jqblocks.ingame.inventory;
 
+import kniemkiewicz.jqblocks.ingame.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.event.inventory.ItemAddedEvent;
+import kniemkiewicz.jqblocks.ingame.event.inventory.ItemRemovedEvent;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.util.Assert;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,9 +18,18 @@ public abstract class AbstractInventory<T extends Item> implements Inventory<T> 
 
   public static final int SIZE = 10;
 
+  @Autowired
+  EventBus eventBus;
+
   protected List<Item> items = new ArrayList<Item>();
 
   protected int selectedIndex = 0;
+
+  protected AbstractInventory() {
+    for (int i = 0; i < getSize(); i++) {
+      items.add(getEmptyItem());
+    }
+  }
 
   public boolean add(T item) {
     assert Assert.validateSerializable(item);
@@ -34,6 +47,7 @@ public abstract class AbstractInventory<T extends Item> implements Inventory<T> 
     if (items.get(selectedIndex).isEmpty()) {
       selectedIndex = newIndex;
     }
+    eventBus.broadcast(new ItemAddedEvent(this, item));
     return true;
   }
 
@@ -47,6 +61,7 @@ public abstract class AbstractInventory<T extends Item> implements Inventory<T> 
     if (items.get(selectedIndex).isEmpty()) {
       selectedIndex = index;
     }
+    eventBus.broadcast(new ItemAddedEvent(this, item));
     return true;
   }
 
@@ -76,10 +91,12 @@ public abstract class AbstractInventory<T extends Item> implements Inventory<T> 
   }
 
   public void removeSelected() {
+    eventBus.broadcast(new ItemRemovedEvent(this, getSelectedItem()));
     items.set(selectedIndex, getEmptyItem());
   }
 
   public void remove(int index) {
+    eventBus.broadcast(new ItemRemovedEvent(this, getItems().get(index)));
     items.set(index, getEmptyItem());
   }
 

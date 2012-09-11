@@ -37,12 +37,16 @@ public class PlayerRenderer extends TwoFacedImageRenderer {
 
   @Override
   public void render(Renderable p, Graphics g, PointOfView pov) {
-   Optional<ProductionAssignmentQueue> assignmentQueue = productionAssignmentController.getAssigments(playerController.getPlayer());
+    super.render(p, g, pov);
+    renderProductionAssigments(pov);
+  }
+
+  private void renderProductionAssigments(PointOfView pov) {
+    Optional<ProductionAssignmentQueue> assignmentQueue = productionAssignmentController.getAssigments(playerController.getPlayer());
     if (assignmentQueue.isPresent() && assignmentQueue.get().getActiveAssigment().isPresent()) {
       int assignmentImageX = (int) (playerController.getPlayer().getShape().getCenterX() - ProductionAssigmentRenderer.ASSIGNMENT_IMAGE_SIZE / 2) - pov.getShiftX();
       int assignmentImageY = (int) (playerController.getPlayer().getShape().getY() - ProductionAssigmentRenderer.ASSIGNMENT_IMAGE_SIZE - 12) - pov.getShiftY();
       renderQueue.add(new ProductionAssigmentRenderer(assignmentQueue.get(), assignmentImageX, assignmentImageY));
     }
-    super.render(p, g, pov);
   }
 }

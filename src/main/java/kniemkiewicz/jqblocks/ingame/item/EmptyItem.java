@@ -1,9 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.item;
 
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
-import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
+import kniemkiewicz.jqblocks.ingame.item.renderer.EmptyItemRenderer;
+import kniemkiewicz.jqblocks.ingame.item.renderer.EquippedItemRenderer;
+import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.util.BeanName;
-import org.newdawn.slick.Graphics;
 
 /**
  * User: krzysiek

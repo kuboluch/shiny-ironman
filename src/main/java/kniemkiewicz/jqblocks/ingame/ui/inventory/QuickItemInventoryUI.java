@@ -8,28 +8,28 @@ import javax.annotation.PostConstruct;
 
 /**
  * User: qba
- * Date: 05.09.12
+ * Date: 09.09.12
  */
 @Component
-public class InventoryUI extends ResizableFrame {
+public class QuickItemInventoryUI extends ResizableFrame {
 
   @Autowired
-  BackpackInventoryPanel backpackInventoryPanel;
+  QuickItemInventoryPanel quickItemInventoryPanel;
 
-  public InventoryUI() {
+  public QuickItemInventoryUI() {
   }
 
   @PostConstruct
   public void init() {
-    setVisible(false);
+    setVisible(true);
     setResizableAxis(ResizableFrame.ResizableAxis.NONE);
-    add(backpackInventoryPanel);
+    add(quickItemInventoryPanel);
     setTheme("panel");
   }
 
   @Override
   protected void layout() {
     super.layout();
-    backpackInventoryPanel.adjustSize();
+    quickItemInventoryPanel.adjustSize();
   }
 }

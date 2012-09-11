@@ -2,13 +2,12 @@ package kniemkiewicz.jqblocks.ingame.resource.inventory;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
+import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
 import kniemkiewicz.jqblocks.ingame.inventory.AbstractInventory;
 import kniemkiewicz.jqblocks.ingame.inventory.Inventory;
 import kniemkiewicz.jqblocks.ingame.item.EmptyItem;
 import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.item.ItemInventory;
-import kniemkiewicz.jqblocks.ingame.item.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.resource.Resource;
 import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
@@ -33,10 +32,11 @@ public class ResourceInventory extends AbstractInventory<ResourceItem> implement
   @Autowired
   SpringBeanProvider springBeanProvider;
 
+  public static int SQUARE_SIZE = 25;
   public static int LARGE_SQUARE_SIZE = 40;
   public static int SQUARE_DIST = 10;
   public static int SQUARE_ROUNDING = 3;
-  public static int Y_MARGIN = 5;
+  public static int Y_MARGIN = 10;
   public static int X_MARGIN = 10;
 
   private static class ResourceEmptyItem extends EmptyItem implements ResourceItem {
@@ -46,14 +46,15 @@ public class ResourceInventory extends AbstractInventory<ResourceItem> implement
     }
   }
 
-  protected final ResourceItem emptyItem = new ResourceEmptyItem();
+  protected static final ResourceItem emptyItem = new ResourceEmptyItem();
+
+  public ResourceInventory() {
+    super();
+  }
 
   @PostConstruct
   void init() {
     renderQueue.add(this);
-    for (int i = 0; i < getSize(); i++) {
-      items.add(getEmptyItem());
-    }
   }
 
   @Override
@@ -71,7 +72,7 @@ public class ResourceInventory extends AbstractInventory<ResourceItem> implement
   @Override
   public void render(Graphics g) {
     int x = pointOfView.getWindowWidth() - items.size() * LARGE_SQUARE_SIZE - (items.size() - 1) * SQUARE_DIST - X_MARGIN;
-    int y = ItemInventory.SQUARE_SIZE + 3 * Y_MARGIN;
+    int y = SQUARE_SIZE + 3 * Y_MARGIN;
     int i = 0;
     for (Item item : items) {
       int square_size = LARGE_SQUARE_SIZE;
@@ -88,7 +89,7 @@ public class ResourceInventory extends AbstractInventory<ResourceItem> implement
       }
       g.drawRoundRect(x, y, square_size, square_size, SQUARE_ROUNDING);
       ItemRenderer<Item> renderer = springBeanProvider.getBean(item.getItemRenderer(), true);
-      renderer.renderItem(item, g, x + SQUARE_ROUNDING, y + SQUARE_ROUNDING, square_size - 2 * SQUARE_ROUNDING, false);
+      renderer.renderItem(item, x + SQUARE_ROUNDING, y + SQUARE_ROUNDING, square_size - 2 * SQUARE_ROUNDING, false);
       g.setColor(Color.black);
       g.drawString(ids[i], x - 5, y - 4);
       x += SQUARE_DIST + square_size;

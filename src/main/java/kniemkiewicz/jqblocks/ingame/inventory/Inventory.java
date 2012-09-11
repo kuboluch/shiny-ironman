@@ -12,6 +12,8 @@ public interface Inventory<T> {
 
   public boolean add(int index, T item);
 
+  public int getSelectedIndex();
+
   public void setSelectedIndex(int index);
 
   public T getSelectedItem();
