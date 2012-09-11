@@ -6,6 +6,7 @@ import kniemkiewicz.jqblocks.ingame.content.item.arrow.Arrow;
 import kniemkiewicz.jqblocks.ingame.content.item.arrow.ArrowController;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
+import kniemkiewicz.jqblocks.ingame.controller.SoundController;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
@@ -13,10 +14,12 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.Pair;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -37,6 +40,12 @@ public class BowItemController implements ItemController<BowItem> {
 
   @Autowired
   EventBus eventBus;
+
+  @Resource
+  Sound bowSound;
+
+  @Autowired
+  SoundController soundController;
 
   private static float SPEED = Sizes.MAX_FALL_SPEED / 1.5f;
 
@@ -114,5 +123,6 @@ public class BowItemController implements ItemController<BowItem> {
     Pair<Float, Float> pos = getLevelBowPosition();
     Pair<Float, Float> speed = getCurrentDirection(SPEED);
     arrowController.add(new Arrow(pos.getFirst(), pos.getSecond(), playerController.getPlayer(), speed.getFirst(), speed.getSecond()));
+    soundController.play(bowSound, 0.7f);
   }
 }

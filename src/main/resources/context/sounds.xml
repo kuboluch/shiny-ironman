@@ -11,4 +11,8 @@
     <bean id="newPeonSound" class="org.newdawn.slick.Sound">
         <constructor-arg value="sounds/new_peon.ogg"/>
     </bean>
+
+    <bean id="bowSound" class="org.newdawn.slick.Sound">
+        <constructor-arg value="sounds/bow.wav"/>
+    </bean>
 </beans>
