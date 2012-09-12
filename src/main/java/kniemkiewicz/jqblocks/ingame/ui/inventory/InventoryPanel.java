@@ -5,6 +5,7 @@ import de.matthiasmann.twl.ThemeInfo;
 import de.matthiasmann.twl.Widget;
 import kniemkiewicz.jqblocks.ingame.inventory.Inventory;
 import kniemkiewicz.jqblocks.ingame.item.Item;
+import kniemkiewicz.jqblocks.ingame.ui.inventory.slot.ItemSlot;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public abstract class InventoryPanel extends Widget {
     this.slot = new ItemSlot[xSlotsNumber * ySlotsNumber];
 
     for (int i = 0; i < slot.length; i++) {
-      slot[i] = new ItemSlot(this, springBeanProvider);
+      slot[i] = new ItemSlot(i, getInventory(), springBeanProvider);
       slot[i].setListener(itemDragController);
       add(slot[i]);
     }
@@ -59,8 +60,8 @@ public abstract class InventoryPanel extends Widget {
     deselectAll();
     for (int i = 0; i < slot.length; i++) {
       Item item = getInventory().getItems().get(i);
-      if (!Objects.equal(slot[i].getItem(), item)) {
-        slot[i].setItem(item);
+      if (!Objects.equal(slot[i].getModel(), item)) {
+        slot[i].setModel(item);
       }
       if (i == getInventory().getSelectedIndex()) {
         slot[i].select();
@@ -105,12 +106,12 @@ public abstract class InventoryPanel extends Widget {
     slotSpacing = themeInfo.getParameter("slotSpacing", 5);
   }
 
-  public int getSlotIndex(ItemSlot itemSlot) {
-    for (int i = 0; i < slot.length; i++) {
-      if (Objects.equal(slot[i], itemSlot)) {
-        return i;
-      }
+  @Override
+  public void setVisible(boolean visible) {
+    super.setVisible(visible);
+    for (int i = 0, n = getNumChildren(); i < n; i++) {
+      Widget child = getChild(i);
+      child.setVisible(visible);
     }
-    return -1;
   }
 }

@@ -100,6 +100,11 @@ public abstract class AbstractInventory<T extends Item> implements Inventory<T> 
     items.set(index, getEmptyItem());
   }
 
+  @Override
+  public int indexOf(T item) {
+    return items.indexOf(item);
+  }
+
   abstract protected T getEmptyItem();
 
   public void serializeItems(ObjectOutputStream stream) throws IOException {

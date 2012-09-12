@@ -1063,19 +1063,19 @@
         </map></param>
     </theme>
 
+    <theme name="itemslot" ref="-defaults" allowWildcard="true">
+        <param name="background"><image>itemslot.background</image></param>
+    </theme>
+
     <theme name="quickiteminventorypanel" ref="-defaults" allowWildcard="true">
         <param name="slotSpacing"><int>5</int></param>
     </theme>
 
-    <theme name="quickitemslot" ref="itemslot" allowWildcard="true">
-        <param name="background"><image>itemslot.background</image></param>
-    </theme>
-
-    <theme name="inventorypanel" ref="-defaults" allowWildcard="true">
+    <theme name="backpackinventorypanel" ref="-defaults" allowWildcard="true">
         <param name="slotSpacing"><int>5</int></param>
     </theme>
 
-    <theme name="itemslot" ref="-defaults" allowWildcard="true">
+    <theme name="pickupitemslot" ref="itemslot" allowWildcard="true">
         <param name="background"><image>itemslot.background</image></param>
     </theme>
 

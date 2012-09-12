@@ -8,22 +8,24 @@ import java.util.List;
  */
 public interface Inventory<T> {
 
-  public boolean add(T item);
+  boolean add(T item);
 
-  public boolean add(int index, T item);
+  boolean add(int index, T item);
 
-  public int getSelectedIndex();
+  int getSelectedIndex();
 
-  public void setSelectedIndex(int index);
+  void setSelectedIndex(int index);
 
-  public T getSelectedItem();
+  T getSelectedItem();
 
-  public int getSize();
+  int getSize();
 
-  public void removeSelected();
+  void removeSelected();
 
-  public void remove(int index);
+  void remove(int index);
 
-  public List<T> getItems();
+  int indexOf(T item);
+
+  List<T> getItems();
 
 }
