@@ -51,6 +51,10 @@ public class MainGameUI {
     rootPane.add(inventoryUI);
   }
 
+  public RootPane getRootPane() {
+    return rootPane;
+  }
+
   public void layoutUI() {
     final int HEIGHT = 200;
     workplaceUI.adjustSize();

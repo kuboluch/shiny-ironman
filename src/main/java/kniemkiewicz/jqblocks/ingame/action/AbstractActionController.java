@@ -64,6 +64,11 @@ public abstract class AbstractActionController implements EventListener {
   }
 
   @Override
+  public List<Class> getEventTypesOfInterest() {
+    return Arrays.asList((Class) InputEvent.class, (Class) ScreenMovedEvent.class);
+  }
+
+  @Override
   public void listen(List<Event> events) {
     List<MousePressedEvent> mousePressedEvents = Collections3.collect(events, MousePressedEvent.class);
     if (!mousePressedEvents.isEmpty()) {
@@ -177,10 +182,5 @@ public abstract class AbstractActionController implements EventListener {
       stopAction();
       affectedRectangle = null;
     }
-  }
-
-  @Override
-  public List<Class> getEventTypesOfInterest() {
-    return Arrays.asList((Class) InputEvent.class, (Class) ScreenMovedEvent.class);
   }
 }

@@ -10,6 +10,7 @@ import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.event.input.keyboard.KeyboardInputEventBus;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseInputEventBus;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
+import kniemkiewicz.jqblocks.ingame.inventory.action.PickupItemActionController;
 import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 
@@ -65,6 +66,9 @@ public class MainGameState extends BasicTWLGameState {
 
   @Autowired
   ResourceInventoryController resourceInventoryController;
+
+  @Autowired
+  PickupItemActionController pickupItemActionController;
 
   @Autowired
   RenderQueue renderQueue;
@@ -167,6 +171,7 @@ public class MainGameState extends BasicTWLGameState {
     eventBus.addListener(workplaceController);
     eventBus.addListener(workplaceActionController);
     eventBus.addListener(inventoryController);
+    eventBus.addListener(pickupItemActionController);
     eventBus.addListener(productionController);
     eventBus.addListener(playerProductionActionController);
     eventBus.addListener(workplaceProductionActionController);
