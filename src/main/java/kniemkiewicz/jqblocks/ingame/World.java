@@ -3,10 +3,13 @@ package kniemkiewicz.jqblocks.ingame;
 import kniemkiewicz.jqblocks.ingame.block.RawEnumTable;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.item.QuickItemInventory;
+import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
+import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
+import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.serialization.DeserializationHelper;
 import kniemkiewicz.jqblocks.ingame.object.serialization.SerializationHelper;
 import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventory;
@@ -68,6 +71,12 @@ public final class World {
   @Autowired
   CollisionController collisionController;
 
+  @Autowired
+  Backgrounds backgrounds;
+
+  @Autowired
+  VillageGenerator villageGenerator;
+
   long timestamp = 0;
 
   public void advanceTime(long delta) {
@@ -110,6 +119,7 @@ public final class World {
     iters.add(movingObjects.iterateAll());
     iters.add(updateQueue.iterateAll());
     iters.add(freeFallController.getSimpleObjects());
+    iters.add(backgrounds.iterateAll());
     for (Object ob : Collections3.iterateOverAllIterators(iters.iterator())) {
       // This class is listed in renderQueue but we do not want to serialize it here. It will be saved as part of
       // solidBlocks.
@@ -122,15 +132,16 @@ public final class World {
     for (Object ob : gameObjects) {
       SerializationHelper.add(ob);
     }
-    logger.debug(gameObjects);
     SerializationHelper.flushData(stream);
     stream.writeObject(markIndexes(indexes, renderQueue.iterateAllObjects()));
     stream.writeObject(markIndexes(indexes, movingObjects.iterateAll()));
     stream.writeObject(markIndexes(indexes, updateQueue.iterateAll()));
     stream.writeObject(markIndexes(indexes, freeFallController.getSimpleObjects()));
+    stream.writeObject(markIndexes(indexes, backgrounds.iterateAll()));
     inventory.serializeItems(stream);
     resourceInventory.serializeItems(stream);
     solidBlocks.serializeData(stream);
+    villageGenerator.saveToStream(stream);
     stream.writeObject(new Long(timestamp));
     stream.close();
   }
@@ -183,10 +194,19 @@ public final class World {
           }
         }
       }
+      {
+        BitSet background = (BitSet)stream.readObject();
+        for (int i = 0; i < background.size(); i++) {
+          if (background.get(i)) {
+            backgrounds.add((BackgroundElement)gameObjects.get(i));
+          }
+        }
+      }
 
       inventory.loadSerializedItems(stream);
       resourceInventory.loadSerializedItems(stream);
       solidBlocks.deserializeData(stream);
+      villageGenerator.loadFromStream(stream);
       timestamp = (Long)stream.readObject();
     } catch (Exception e) {
       throw new GameLoadException(e);

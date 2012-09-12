@@ -6,7 +6,6 @@ import java.io.Serializable;
  * User: knie
  * Date: 8/30/12
  */
-// TODO: do it in such a way that serialization does not make billion copies of this class
 public class MovementDefinition implements Serializable{
   float maxSpeedForward = Float.MAX_VALUE;
   float maxSpeedBackward = Float.MAX_VALUE;

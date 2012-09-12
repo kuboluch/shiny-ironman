@@ -1,9 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.zombie;
 
-import kniemkiewicz.jqblocks.ingame.FreeFallController;
-import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.UpdateQueue;
-import kniemkiewicz.jqblocks.ingame.World;
+import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
@@ -37,6 +34,12 @@ public class ZombieController implements HealthController<Zombie>, UpdateQueue.U
   @Autowired
   SolidBlocks solidBlocks;
 
+  @Autowired
+  RenderQueue renderQueue;
+
+  @Autowired
+  UpdateQueue updateQueue;
+
   private static float DETECTION_RECT_WIDTH = Sizes.BLOCK * 2;
 
   private OnceXTimes<Zombie> tryJumpClosure = new OnceXTimes<Zombie>(10, true, new OnceXTimes.Closure<Zombie>() {
@@ -52,7 +55,7 @@ public class ZombieController implements HealthController<Zombie>, UpdateQueue.U
         rect = new Rectangle(zombie.getShape().getMaxX(), zombie.getShape().getMaxY() - 5, DETECTION_RECT_WIDTH, 0);
       }
       if (solidBlocks.getBlocks().collidesWithNonEmpty(rect)) {
-        zombie.getXYMovement().setYSpeed(- Player.JUMP_SPEED / 2);
+        zombie.getXYMovement().setYSpeed(- Player.JUMP_SPEED * 0.7f);
       }
     }
   });
@@ -62,6 +65,9 @@ public class ZombieController implements HealthController<Zombie>, UpdateQueue.U
   @Override
   public void killed(Zombie object, QuadTree.HasShape source) {
     world.killMovingObject(object);
+    ZombieBody body = new ZombieBody(object.getXYMovement());
+    body.addTo(renderQueue, freeFallController, updateQueue);
+    controllerUtils.pushFrom(body, source, ControllerUtils.DEFAULT_PUSH_BACK / 2);
   }
 
   @Override
@@ -80,8 +86,10 @@ public class ZombieController implements HealthController<Zombie>, UpdateQueue.U
     Player player = playerController.getPlayer();
     if (player.getShape().getCenterX() < zombie.getShape().getCenterX()) {
       zombie.getXYMovement().getXMovement().accelerateNegative();
+      zombie.getXYMovement().getXMovement().setDirection(false);
     } else {
       zombie.getXYMovement().getXMovement().acceleratePositive();
+      zombie.getXYMovement().getXMovement().setDirection(true);
     }
     tryJumpClosure.maybeRunWith(zombie);
   }

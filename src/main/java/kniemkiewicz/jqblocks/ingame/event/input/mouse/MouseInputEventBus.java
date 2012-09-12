@@ -47,7 +47,8 @@ public class MouseInputEventBus {
   }
 
   public void mousePressed(int button, int x, int y) {
-    if (blockMousePressedEvent) return;
+//    Problem when dragging item from level, release is not invoked so block remains forever
+//    if (blockMousePressedEvent) return;
     if (mousePressedTimestamp + INPUT_DELAY > System.currentTimeMillis()) return;
     synchronized (lock) {
       mousePressedTimestamp = System.currentTimeMillis();

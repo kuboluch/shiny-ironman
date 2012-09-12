@@ -24,13 +24,17 @@ public class SoundController {
     soundsVolume = configuration.getFloat("SOUNDS_VOLUME", 1);
   }
 
-  public void playUnique(Sound sound) {
+  final public void playUnique(Sound sound) {
     if (!sound.playing()) {
       sound.play(1, soundsVolume);
     }
   }
 
-  public void play(Sound sound) {
-    sound.play(1, soundsVolume);
+  final public void play(Sound sound) {
+    play(sound, 1);
+  }
+
+  final public void play(Sound sound, float volume) {
+    sound.play(1, soundsVolume * volume);
   }
 }

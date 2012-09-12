@@ -20,4 +20,13 @@ public class XYMovementDefinition  implements Serializable {
   public XYMovement getMovement(float x, float y) {
     return new XYMovement(xDefinition.getMovement(x, 0), yDefinition.getMovement(y, 0));
   }
+
+  public XYMovement getMovement(XYMovement movement) {
+    XYMovement newMovement = this.getMovement(movement.getX(), movement.getY());
+    newMovement.setXSpeed(movement.getXMovement().getSpeed());
+    newMovement.setYSpeed(movement.getYMovement().getSpeed());
+    newMovement.getXMovement().setDirection(movement.getXMovement().getDirection());
+    newMovement.getYMovement().setDirection(movement.getYMovement().getDirection());
+    return newMovement;
+  }
 }

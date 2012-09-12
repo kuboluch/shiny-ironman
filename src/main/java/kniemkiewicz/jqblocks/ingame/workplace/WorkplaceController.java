@@ -68,6 +68,10 @@ public class WorkplaceController implements EventListener, SelectListener<Workpl
   @Override
   public void onSelect(WorkplaceDefinition selected) {
     selectedWorkplace = selected;
+    if (placableWorkplaceObject != null) {
+      renderQueue.remove(placableWorkplaceObject);
+      placableWorkplaceObject = null;
+    }
   }
 
   @Override
