@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.content.block.dirt.DirtBlockItem;
 import kniemkiewicz.jqblocks.ingame.content.item.axe.AxeItem;
 import kniemkiewicz.jqblocks.ingame.content.item.bow.BowItem;
 import kniemkiewicz.jqblocks.ingame.content.item.pickaxe.PickaxeItem;
+import kniemkiewicz.jqblocks.ingame.content.item.spell.FastTravelItem;
 import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderItem;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.event.inventory.SelectedItemChangeEvent;
@@ -38,6 +39,7 @@ public class QuickItemInventory extends AbstractInventory<Item> {
     Assert.executeAndAssert(add(new LadderItem()));
     Assert.executeAndAssert(add(new DirtBlockItem()));
     Assert.executeAndAssert(add(new PickaxeItem(1000000)));
+    Assert.executeAndAssert(add(new FastTravelItem()));
   }
 
   @Override
