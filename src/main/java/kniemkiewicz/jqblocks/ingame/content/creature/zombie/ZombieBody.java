@@ -2,11 +2,8 @@ package kniemkiewicz.jqblocks.ingame.content.creature.zombie;
 
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.content.creature.SimpleBody;
-import kniemkiewicz.jqblocks.ingame.content.creature.bat.Bat;
-import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
-import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
-import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
+import kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer;
 import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovementDefinition;
@@ -29,7 +26,7 @@ public class ZombieBody extends SimpleBody implements UpdateQueue.ToBeUpdated<Zo
     super(BAT_BODY_MOVEMENT.getMovement(movement), Zombie.WIDTH);
   }
 
-  private static final BeanName<ZombieBodyRenderer> RENDERER = new BeanName<ZombieBodyRenderer>(ZombieBodyRenderer.class);
+  private static final BeanName<AnimationRenderer> RENDERER = new BeanName<AnimationRenderer>(AnimationRenderer.class);
 
   @Override
   public BeanName<? extends ObjectRenderer> getRenderer() {

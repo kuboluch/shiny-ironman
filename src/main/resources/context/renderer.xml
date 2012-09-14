@@ -63,6 +63,18 @@
         <constructor-arg ref="zombieImage"/>
     </bean>
 
+    <bean id="zombieBodyRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer">
+        <constructor-arg>
+            <bean class="kniemkiewicz.jqblocks.util.slick.HorizontalSpriteSheetAnimation">
+                <constructor-arg ref="zombieDeathSheet"/>
+            </bean>
+        </constructor-arg>
+        <property name="width" value="44"/>
+        <property name="shiftTop" value="-7"/>
+        <property name="shiftHeight" value="12"/>
+        <property name="repeated" value="false"/>
+    </bean>
+
     <bean id="ladderRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="ladder"/>
