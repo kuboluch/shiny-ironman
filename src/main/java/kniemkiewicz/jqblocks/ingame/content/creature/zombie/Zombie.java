@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.zombie;
 
 import kniemkiewicz.jqblocks.ingame.*;
+import kniemkiewicz.jqblocks.ingame.content.creature.SimpleBody;
 import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
@@ -8,6 +9,7 @@ import kniemkiewicz.jqblocks.ingame.content.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer;
+import kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer;
 import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovementDefinition;
@@ -20,7 +22,7 @@ import org.newdawn.slick.geom.Shape;
  * User: knie
  * Date: 8/27/12
  */
-public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,KillablePhysicalObject<Zombie>, HasFullXYMovement, TwoFacedImageRenderer.Renderable {
+public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,KillablePhysicalObject<Zombie>, AnimationRenderer.AnimationCompatible<SimpleBody> {
 
   private static final int MAX_HP = 50;
   public static final float HEIGHT = Sizes.BLOCK * 3.5f;
@@ -32,6 +34,8 @@ public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,KillablePhysicalO
       new MovementDefinition().setMaxSpeed(SPEED).setDefaultDeceleration(DEFAULT_X_DECELERATION).setAutoDirection(false),
       new MovementDefinition().setMaxSpeed(Sizes.MAX_FALL_SPEED)
   );
+
+  int age = 0;
 
   final HealthPoints healthPoints;
   final Rectangle shape;
@@ -62,10 +66,10 @@ public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,KillablePhysicalO
     return CONTROLLER;
   }
 
-  private static BeanName<TwoFacedImageRenderer> RENDERER = new BeanName<TwoFacedImageRenderer>(TwoFacedImageRenderer.class, "zombieRenderer");
+  private static final BeanName<AnimationRenderer> RENDERER = new BeanName<AnimationRenderer>(AnimationRenderer.class, "zombieRenderer");
 
   @Override
-  public BeanName<? extends ObjectRenderer> getRenderer() {
+  public BeanName<AnimationRenderer> getRenderer() {
     return RENDERER;
   }
 
@@ -99,7 +103,11 @@ public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,KillablePhysicalO
   }
 
   @Override
-  public boolean isLeftFaced() {
-    return !movement.getXMovement().getDirection();
+  public int getAge() {
+    return age;
+  }
+
+  public void setAge(int age) {
+    this.age = age;
   }
 }

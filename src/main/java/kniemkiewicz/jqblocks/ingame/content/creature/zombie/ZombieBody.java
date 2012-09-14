@@ -13,7 +13,7 @@ import kniemkiewicz.jqblocks.util.BeanName;
  * User: knie
  * Date: 7/24/12
  */
-public class ZombieBody extends SimpleBody implements UpdateQueue.ToBeUpdated<ZombieBody> {
+public class ZombieBody extends SimpleBody implements UpdateQueue.ToBeUpdated<ZombieBody>, AnimationRenderer.AnimationCompatible<SimpleBody> {
 
   static XYMovementDefinition BAT_BODY_MOVEMENT = new XYMovementDefinition(
       new MovementDefinition().setMaxSpeed(Zombie.SPEED).setAutoDirection(false),
@@ -26,10 +26,10 @@ public class ZombieBody extends SimpleBody implements UpdateQueue.ToBeUpdated<Zo
     super(BAT_BODY_MOVEMENT.getMovement(movement), Zombie.WIDTH);
   }
 
-  private static final BeanName<AnimationRenderer> RENDERER = new BeanName<AnimationRenderer>(AnimationRenderer.class);
+  private static final BeanName<AnimationRenderer> RENDERER = new BeanName<AnimationRenderer>(AnimationRenderer.class, "zombieBodyRenderer");
 
   @Override
-  public BeanName<? extends ObjectRenderer> getRenderer() {
+  public BeanName<AnimationRenderer> getRenderer() {
     return RENDERER;
   }
 

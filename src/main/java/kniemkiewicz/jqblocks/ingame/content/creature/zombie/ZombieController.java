@@ -47,7 +47,7 @@ public class ZombieController implements HealthController<Zombie>, UpdateQueue.U
     public void run(Zombie zombie) {
       if (controllerUtils.isFlying(zombie.getShape())) return;
       Rectangle rect = null;
-      if (zombie.isLeftFaced()) {
+      if (!zombie.getXYMovement().getXMovement().getDirection()) {
         // We use max here as precision is of minor importance.
         // this rect is meant to be on the height of zombie legs and stretching in direction of its movement.
         rect = new Rectangle(zombie.getShape().getX() - DETECTION_RECT_WIDTH, zombie.getShape().getMaxY() - 5, DETECTION_RECT_WIDTH, 0);
@@ -80,6 +80,7 @@ public class ZombieController implements HealthController<Zombie>, UpdateQueue.U
     followPlayer(object);
     freeFallController.updateComplex(delta, null, object);
     controllerUtils.damageTouchedVillagers(object, TOUCH_DMG);
+    object.setAge(object.getAge() + delta);
   }
 
   public void followPlayer(Zombie zombie) {
