@@ -107,6 +107,9 @@ public class MainGameState extends BasicTWLGameState {
   GraphicsContainer graphicsContainer;
 
   @Autowired
+  CollisionController collisionController;
+
+  @Autowired
   WorkplaceController workplaceController;
 
   @Autowired
@@ -217,6 +220,7 @@ public class MainGameState extends BasicTWLGameState {
     freeFallController.update(delta);
     productionAssignmentController.update();
     productionController.update();
+    collisionController.update();
     t.record();
   }
 
