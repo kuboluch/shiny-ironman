@@ -37,6 +37,9 @@ public class ItemDragController implements DragListener<Item>, Initializable {
   QuickItemInventoryPanel quickItemInventoryPanel;
 
   @Autowired
+  ResourceInventoryPanel resourceInventoryPanel;
+
+  @Autowired
   BackpackInventoryPanel backpackInventoryPanel;
 
   @Autowired
@@ -89,16 +92,12 @@ public class ItemDragController implements DragListener<Item>, Initializable {
   @Override
   public void dragging(DraggableSlot slot, Event evt) {
     if (dragSlot != null) {
-      ItemSlot dropItemSlot = null;
-      Widget w = quickItemInventoryPanel.getWidgetAt(evt.getMouseX(), evt.getMouseY());
-      if (w instanceof ItemSlot) {
-        dropItemSlot = (ItemSlot) w;
+      ItemSlot dropItemSlot = getItemSlotAt(quickItemInventoryPanel, evt.getMouseX(), evt.getMouseY());
+      if (dropItemSlot == null) {
+         dropItemSlot = getItemSlotAt(resourceInventoryPanel, evt.getMouseX(), evt.getMouseY());
       }
       if (dropItemSlot == null) {
-        w = backpackInventoryPanel.getWidgetAt(evt.getMouseX(), evt.getMouseY());
-        if (w instanceof ItemSlot) {
-          dropItemSlot = (ItemSlot) w;
-        }
+         dropItemSlot = getItemSlotAt(backpackInventoryPanel, evt.getMouseX(), evt.getMouseY());
       }
 
       if (dropItemSlot != null) {
@@ -109,12 +108,21 @@ public class ItemDragController implements DragListener<Item>, Initializable {
     }
   }
 
+  private ItemSlot getItemSlotAt(AbstractInventoryPanel inventory, int x, int y) {
+    ItemSlot itemSlot = null;
+    Widget w = inventory.getWidgetAt(x, y);
+    if (w instanceof ItemSlot) {
+      itemSlot = (ItemSlot) w;
+    }
+    return itemSlot;
+  }
+
   @Override
   public void dragStopped(DraggableSlot<Item> slot, Event evt) {
     if (dragSlot != null) {
       dragging(slot, evt);
       if (dropSlot != null) {
-        if (dropSlot.canDrop() && dropSlot != dragSlot) {
+        if (dropSlot.canDrop(dragSlot.getModel()) && dropSlot != dragSlot) {
           Item draggedItem = dragSlot.getModel();
           if (dragSlot instanceof PickupItemSlot) {
             objectKiller.killMovingObject(checkNotNull(pickableObject));

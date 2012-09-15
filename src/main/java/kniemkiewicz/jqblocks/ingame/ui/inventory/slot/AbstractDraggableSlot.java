@@ -23,7 +23,7 @@ public abstract class AbstractDraggableSlot<T> extends Widget implements Draggab
   protected DragListener listener;
   protected boolean dragActive;
 
-  public abstract boolean canDrop();
+  public abstract boolean canDrop(T item);
 
   public void setListener(DragListener listener) {
     this.listener = listener;
@@ -41,7 +41,7 @@ public abstract class AbstractDraggableSlot<T> extends Widget implements Draggab
 
   public boolean dropFrom(DraggableSlot<T> slot) {
     de.matthiasmann.twl.AnimationState as = getAnimationState();
-    boolean dropValid = (this == slot || canDrop());
+    boolean dropValid = (this == slot || canDrop(slot.getModel()));
     as.setAnimationState(STATE_DROP_OK, dropValid);
     as.setAnimationState(STATE_DROP_BLOCKED, !dropValid);
     return dropValid;

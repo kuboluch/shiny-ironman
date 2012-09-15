@@ -57,7 +57,6 @@ public class KeyboardUtils {
     return (key == Input.KEY_I);
   }
 
-
   public static boolean isDebugDisplayKeyPressed(Input input) {
     return (input.isKeyDown(Input.KEY_P));
   }

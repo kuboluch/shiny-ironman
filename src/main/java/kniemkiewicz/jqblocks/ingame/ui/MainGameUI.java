@@ -2,16 +2,15 @@ package kniemkiewicz.jqblocks.ingame.ui;
 
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.production.ProductionController;
-import kniemkiewicz.jqblocks.ingame.ui.inventory.InventoryUI;
+import kniemkiewicz.jqblocks.ingame.ui.inventory.BackpackInventoryUI;
 import kniemkiewicz.jqblocks.ingame.ui.inventory.QuickItemInventoryUI;
+import kniemkiewicz.jqblocks.ingame.ui.inventory.ResourceInventoryUI;
 import kniemkiewicz.jqblocks.ingame.ui.produce.ProductionUI;
 import kniemkiewicz.jqblocks.ingame.ui.workplace.WorkplaceUI;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
 import kniemkiewicz.jqblocks.twl.RootPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 
 @Component
 public class MainGameUI {
@@ -28,16 +27,19 @@ public class MainGameUI {
   EventBus eventBus;
 
   @Autowired
-  private WorkplaceUI workplaceUI;
+  WorkplaceUI workplaceUI;
 
   @Autowired
-  private ProductionUI productionUI;
+  ProductionUI productionUI;
 
   @Autowired
-  private QuickItemInventoryUI quickItemInventoryUI;
+  QuickItemInventoryUI quickItemInventoryUI;
 
   @Autowired
-  private InventoryUI inventoryUI;
+  BackpackInventoryUI backpackInventoryUI;
+
+  @Autowired
+  ResourceInventoryUI resourceInventoryUI;
 
   public void createUI(RootPane rootPane) {
     this.rootPane = rootPane;
@@ -48,7 +50,8 @@ public class MainGameUI {
     rootPane.add(workplaceUI);
     rootPane.add(productionUI);
     rootPane.add(quickItemInventoryUI);
-    rootPane.add(inventoryUI);
+    rootPane.add(backpackInventoryUI);
+    rootPane.add(resourceInventoryUI);
   }
 
   public RootPane getRootPane() {
@@ -64,8 +67,10 @@ public class MainGameUI {
     productionUI.setPosition(rootPane.getWidth() - productionUI.getWidth() - 5, rootPane.getHeight() - HEIGHT - 40);
     quickItemInventoryUI.adjustSize();
     quickItemInventoryUI.setPosition(rootPane.getWidth() - quickItemInventoryUI.getWidth() - 5, 5);
-    inventoryUI.adjustSize();
-    inventoryUI.setPosition((rootPane.getWidth() - inventoryUI.getWidth()) / 2, (rootPane.getHeight() - inventoryUI.getHeight()) / 2);
+    backpackInventoryUI.adjustSize();
+    backpackInventoryUI.setPosition((rootPane.getWidth() - backpackInventoryUI.getWidth()) / 2, (rootPane.getHeight() - backpackInventoryUI.getHeight()) / 2);
+    resourceInventoryUI.adjustSize();
+    resourceInventoryUI.setPosition(rootPane.getWidth() - resourceInventoryUI.getWidth() - 5, 5 + quickItemInventoryUI.getHeight() + 5);
   }
 
   public boolean isWorkplaceWidgetVisible() {
@@ -97,14 +102,14 @@ public class MainGameUI {
   }
 
   public boolean isInventoryWidgetVisible() {
-    return inventoryUI.isVisible();
+    return backpackInventoryUI.isVisible();
   }
 
   public void showInventoryWidget() {
-    inventoryUI.setVisible(true);
+    backpackInventoryUI.setVisible(true);
   }
 
   public void hideInventoryWidget() {
-    inventoryUI.setVisible(false);
+    backpackInventoryUI.setVisible(false);
   }
 }

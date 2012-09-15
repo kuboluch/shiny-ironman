@@ -12,12 +12,12 @@ import javax.annotation.PostConstruct;
  * Date: 05.09.12
  */
 @Component
-public class InventoryUI extends ResizableFrame {
+public class BackpackInventoryUI extends ResizableFrame {
 
   @Autowired
   BackpackInventoryPanel backpackInventoryPanel;
 
-  public InventoryUI() {
+  public BackpackInventoryUI() {
   }
 
   @PostConstruct

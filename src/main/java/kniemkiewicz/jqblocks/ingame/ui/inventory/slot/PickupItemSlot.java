@@ -25,7 +25,7 @@ public class PickupItemSlot extends AbstractDraggableSlot<Item> {
   }
 
   @Override
-  public boolean canDrop() {
+  public boolean canDrop(Item item) {
     return false;
   }
 

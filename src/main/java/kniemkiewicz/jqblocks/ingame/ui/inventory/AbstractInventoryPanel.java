@@ -6,6 +6,7 @@ import de.matthiasmann.twl.Widget;
 import kniemkiewicz.jqblocks.ingame.inventory.Inventory;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.ui.inventory.slot.ItemSlot;
+import kniemkiewicz.jqblocks.ingame.ui.inventory.slot.ItemValidator;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import javax.annotation.PostConstruct;
  * Date: 07.09.12
  */
 @Component
-public abstract class InventoryPanel extends Widget {
+public abstract class AbstractInventoryPanel<T extends Item> extends Widget {
 
   @Autowired
   SpringBeanProvider springBeanProvider;
@@ -33,7 +34,7 @@ public abstract class InventoryPanel extends Widget {
 
   int slotSpacing;
 
-  public InventoryPanel(int xSlotsNumber, int ySlotsNumber) {
+  public AbstractInventoryPanel(int xSlotsNumber, int ySlotsNumber) {
     this.xSlotsNumber = xSlotsNumber;
     this.ySlotsNumber = ySlotsNumber;
   }
@@ -46,15 +47,20 @@ public abstract class InventoryPanel extends Widget {
     this.slot = new ItemSlot[xSlotsNumber * ySlotsNumber];
 
     for (int i = 0; i < slot.length; i++) {
-      slot[i] = new ItemSlot(i, getInventory(), springBeanProvider);
+      slot[i] = new ItemSlot(getInventory(), i, springBeanProvider);
       slot[i].setListener(itemDragController);
+      if (getItemValidator() != null) {
+        slot[i].setItemValidator(getItemValidator());
+      }
       add(slot[i]);
     }
 
     update();
   }
 
-  public abstract Inventory<Item> getInventory();
+  public abstract Inventory<T> getInventory();
+
+  public abstract ItemValidator getItemValidator();
 
   public void update() {
     deselectAll();
@@ -83,6 +89,18 @@ public abstract class InventoryPanel extends Widget {
   @Override
   public int getPreferredInnerHeight() {
     return (slot[0].getPreferredHeight() + slotSpacing) * ySlotsNumber - slotSpacing;
+  }
+
+  public int getXSlotsNumber() {
+    return xSlotsNumber;
+  }
+
+  public int getYSlotsNumber() {
+    return ySlotsNumber;
+  }
+
+  public int getSlotSpacing() {
+    return slotSpacing;
   }
 
   @Override

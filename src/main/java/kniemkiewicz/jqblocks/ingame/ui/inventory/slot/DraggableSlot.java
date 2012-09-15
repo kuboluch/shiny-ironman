@@ -1,6 +1,5 @@
 package kniemkiewicz.jqblocks.ingame.ui.inventory.slot;
 
-import com.google.common.base.Optional;
 import kniemkiewicz.jqblocks.ingame.inventory.Inventory;
 
 /**
@@ -9,7 +8,7 @@ import kniemkiewicz.jqblocks.ingame.inventory.Inventory;
  */
 public interface DraggableSlot<T> {
 
-  boolean canDrop();
+  boolean canDrop(T item);
 
   void resetDropState();
 

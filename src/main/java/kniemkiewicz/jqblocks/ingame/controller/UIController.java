@@ -7,8 +7,8 @@ import kniemkiewicz.jqblocks.ingame.event.input.keyboard.KeyReleasedEvent;
 import kniemkiewicz.jqblocks.ingame.event.inventory.InventoryChangeEvent;
 import kniemkiewicz.jqblocks.ingame.ui.MainGameUI;
 import kniemkiewicz.jqblocks.ingame.ui.inventory.BackpackInventoryPanel;
-import kniemkiewicz.jqblocks.ingame.ui.inventory.InventoryPanel;
 import kniemkiewicz.jqblocks.ingame.ui.inventory.QuickItemInventoryPanel;
+import kniemkiewicz.jqblocks.ingame.ui.inventory.ResourceInventoryPanel;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,6 +27,9 @@ public class UIController implements EventListener {
 
   @Autowired
   BackpackInventoryPanel backpackInventoryPanel;
+
+  @Autowired
+  ResourceInventoryPanel resourceInventoryPanel;
 
   boolean buildKeyBlock = false;
   boolean constructKeyBlock = false;
@@ -64,6 +67,12 @@ public class UIController implements EventListener {
       for (InventoryChangeEvent e : inventoryChangeEvents) {
         if (backpackInventoryPanel.getInventory().equals(e.getInventory())) {
           backpackInventoryPanel.update();
+          break;
+        }
+      }
+      for (InventoryChangeEvent e : inventoryChangeEvents) {
+        if (resourceInventoryPanel.getInventory().equals(e.getInventory())) {
+          resourceInventoryPanel.update();
           break;
         }
       }

@@ -1,14 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.ui.inventory.slot;
 
-import com.google.common.base.Optional;
-import de.matthiasmann.twl.Event;
 import de.matthiasmann.twl.GUI;
-import de.matthiasmann.twl.Widget;
 import de.matthiasmann.twl.renderer.AnimationState;
 import kniemkiewicz.jqblocks.ingame.inventory.Inventory;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
-import kniemkiewicz.jqblocks.ingame.ui.inventory.InventoryPanel;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.newdawn.slick.opengl.TextureImpl;
 import org.newdawn.slick.opengl.renderer.Renderer;
@@ -18,7 +14,7 @@ import org.newdawn.slick.opengl.renderer.SGL;
  * User: qba
  * Date: 07.09.12
  */
-public class ItemSlot extends AbstractDraggableSlot<Item> {
+public class ItemSlot<T extends Item> extends AbstractDraggableSlot<T> {
 
   public static final AnimationState.StateKey STATE_SELECTED = AnimationState.StateKey.get("selected");
 
@@ -27,27 +23,32 @@ public class ItemSlot extends AbstractDraggableSlot<Item> {
   SpringBeanProvider springBeanProvider;
 
   private int inventoryIndex;
-  private Inventory<Item> inventory;
-  private Item item;
+  private Inventory<T> inventory;
+  private T item;
   private boolean selected = false;
+  private ItemValidator itemValidator;
 
-  public ItemSlot(int inventoryIndex, Inventory<Item> inventory, SpringBeanProvider springBeanProvider) {
-    this.inventoryIndex = inventoryIndex;
+  public ItemSlot(Inventory<T> inventory, int inventoryIndex, SpringBeanProvider springBeanProvider) {
     this.inventory = inventory;
+    this.inventoryIndex = inventoryIndex;
     this.springBeanProvider = springBeanProvider;
   }
 
   @Override
-  public Item getModel() {
+  public T getModel() {
     return item;
   }
 
-  public void setModel(Item item) {
+  public void setModel(T item) {
     this.item = item;
   }
 
+  public void setItemValidator(ItemValidator itemValidator) {
+    this.itemValidator = itemValidator;
+  }
+
   @Override
-  public Inventory<Item> getInventory() {
+  public Inventory<T> getInventory() {
     return inventory;
   }
 
@@ -72,8 +73,12 @@ public class ItemSlot extends AbstractDraggableSlot<Item> {
     as.setAnimationState(STATE_SELECTED, false);
   }
 
-  public boolean canDrop() {
-    return isVisible() && (item == null || item.isEmpty());
+  public boolean canDrop(T item) {
+    boolean canDrop = isVisible() && (this.item == null || this.item.isEmpty());
+    if (itemValidator != null) {
+      canDrop = canDrop && itemValidator.isValid(item);
+    }
+    return canDrop;
   }
 
   @Override

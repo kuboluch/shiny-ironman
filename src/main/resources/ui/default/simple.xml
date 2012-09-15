@@ -1071,6 +1071,12 @@
         <param name="slotSpacing"><int>5</int></param>
     </theme>
 
+    <fontDef name="quickitemlabel" filename="font.fnt" color="white"/>
+    <theme name="quickitemlabel" ref="-defaults" allowWildcard="true">
+        <param name="font"><font>quickitemlabel</font></param>
+        <param name="textAlignment"><enum type="alignment">center</enum></param>
+    </theme>
+
     <theme name="backpackinventorypanel" ref="-defaults" allowWildcard="true">
         <param name="slotSpacing"><int>5</int></param>
     </theme>

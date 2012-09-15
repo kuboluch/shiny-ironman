@@ -102,7 +102,15 @@ public class ResourceInventoryController implements EventListener {
   }
 
   private void handleKeyPressedEvent(KeyPressedEvent e) {
-      if (KeyboardUtils.isDownKey(e.getKey())) {
+    if (KeyboardUtils.isFunctionKeyPressed(e.getKey())) {
+      int f = KeyboardUtils.getPressedFunctionKey(e.getKey());
+      if (f > 0 && f <= inventory.getSize()) {
+        inventory.setSelectedIndex(f - 1);
+        e.consume();
+      }
+    }
+
+    if (KeyboardUtils.isDownKey(e.getKey())) {
       ResourceObject resourceObject = findNearestResourceObject();
       if (resourceObject != null) {
         if (inventory.add((ResourceItem) resourceObject.getItem())) {

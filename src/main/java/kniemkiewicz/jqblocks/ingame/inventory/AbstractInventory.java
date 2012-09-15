@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.ingame.inventory;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.event.inventory.ItemAddedEvent;
 import kniemkiewicz.jqblocks.ingame.event.inventory.ItemRemovedEvent;
+import kniemkiewicz.jqblocks.ingame.event.inventory.SelectedItemChangeEvent;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,9 @@ public abstract class AbstractInventory<T extends Item> implements Inventory<T> 
   }
 
   public void setSelectedIndex(int x) {
+    if (getSelectedIndex() != x) {
+      eventBus.broadcast(new SelectedItemChangeEvent(this, getSelectedIndex(), x));
+    }
     assert selectedIndex < getSize();
     selectedIndex = x;
   }

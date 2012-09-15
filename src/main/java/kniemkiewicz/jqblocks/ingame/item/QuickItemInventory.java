@@ -6,7 +6,6 @@ import kniemkiewicz.jqblocks.ingame.content.item.bow.BowItem;
 import kniemkiewicz.jqblocks.ingame.content.item.pickaxe.PickaxeItem;
 import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderItem;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
-import kniemkiewicz.jqblocks.ingame.event.inventory.SelectedItemChangeEvent;
 import kniemkiewicz.jqblocks.ingame.inventory.AbstractInventory;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,13 +42,6 @@ public class QuickItemInventory extends AbstractInventory<Item> {
   @Override
   protected Item getEmptyItem() {
     return emptyItem;
-  }
-
-  public void setSelectedIndex(int x) {
-    if (getSelectedIndex() != x) {
-      eventBus.broadcast(new SelectedItemChangeEvent(this, getSelectedIndex(), x));
-    }
-    super.setSelectedIndex(x);
   }
 }
 
