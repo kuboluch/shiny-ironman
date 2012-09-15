@@ -5,6 +5,8 @@ import de.matthiasmann.twl.GUI;
 import de.matthiasmann.twl.Widget;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.World;
+import kniemkiewicz.jqblocks.ingame.event.EventListener;
+import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.inventory.InventoryController;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.object.PickableObject;
@@ -14,9 +16,13 @@ import kniemkiewicz.jqblocks.ingame.ui.inventory.slot.DragListener;
 import kniemkiewicz.jqblocks.ingame.ui.inventory.slot.DraggableSlot;
 import kniemkiewicz.jqblocks.ingame.ui.inventory.slot.ItemSlot;
 import kniemkiewicz.jqblocks.ingame.ui.inventory.slot.PickupItemSlot;
+import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -25,7 +31,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Date: 09.09.12
  */
 @Component
-public class ItemDragController implements DragListener<Item>, Initializable {
+public class ItemDragController implements DragListener<Item>, Initializable, EventListener {
 
   @Autowired
   MainGameUI mainGameUI;
@@ -66,6 +72,19 @@ public class ItemDragController implements DragListener<Item>, Initializable {
     pickupSlot.setListener(this);
     pickupSlot.setSpringBeanProvider(springBeanProvider);
     pickupSlot.setVisible(false);
+  }
+
+  @Override
+  public List<Class> getEventTypesOfInterest() {
+    return Arrays.asList((Class) ScreenMovedEvent.class);
+  }
+
+  @Override
+  public void listen(List<kniemkiewicz.jqblocks.ingame.event.Event> events) {
+    List<ScreenMovedEvent> screenMovedEvents = Collections3.collect(events, ScreenMovedEvent.class);
+    if (!screenMovedEvents.isEmpty()) {
+      dragInterrupted();
+    }
   }
 
   public void dragStarted(PickableObject pickableObject) {
@@ -150,6 +169,14 @@ public class ItemDragController implements DragListener<Item>, Initializable {
         }
       }
 
+      dragSlot = null;
+    }
+  }
+
+  public void dragInterrupted() {
+    if (dragSlot instanceof PickupItemSlot) {
+      pickableObject = null;
+      pickupSlot.setVisible(false);
       dragSlot = null;
     }
   }

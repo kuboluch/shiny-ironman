@@ -27,6 +27,7 @@ import kniemkiewicz.jqblocks.ingame.ui.info.BiomeInfo;
 import kniemkiewicz.jqblocks.ingame.ui.info.MouseInputInfo;
 import kniemkiewicz.jqblocks.ingame.ui.info.ResourceInfo;
 import kniemkiewicz.jqblocks.ingame.ui.info.TimingInfo;
+import kniemkiewicz.jqblocks.ingame.ui.inventory.ItemDragController;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceActionController;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
 import kniemkiewicz.jqblocks.twl.BasicTWLGameState;
@@ -140,6 +141,9 @@ public class MainGameState extends BasicTWLGameState {
   RoamingEnemiesController roamingEnemiesController;
 
   @Autowired
+  ItemDragController itemDragController;
+
+  @Autowired
   World world;
 
   private Settings settings;
@@ -170,6 +174,7 @@ public class MainGameState extends BasicTWLGameState {
     eventBus.addListener(uiController);
     eventBus.addListener(workplaceController);
     eventBus.addListener(workplaceActionController);
+    eventBus.addListener(itemDragController);
     eventBus.addListener(pickupItemActionController);
     eventBus.addListener(inventoryController);
     eventBus.addListener(resourceInventoryController);

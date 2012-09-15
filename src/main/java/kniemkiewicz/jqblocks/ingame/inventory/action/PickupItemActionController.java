@@ -12,6 +12,7 @@ import kniemkiewicz.jqblocks.ingame.event.action.ActionStartedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseReleasedEvent;
+import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.object.PickableObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObjectType;
 import kniemkiewicz.jqblocks.ingame.ui.inventory.ItemDragController;
@@ -98,7 +99,7 @@ public class PickupItemActionController implements EventListener {
 
   private PickableObject findPickableResourceObject(int x, int y) {
     PickableObject result = null;
-    for (PickableObject pickableObject : collisionController.<PickableObject>fullSearch(MovingObjects.PICKABLE, new Rectangle(x, y, 2, 2))) {
+    for (PickableObject pickableObject : collisionController.<PickableObject>fullSearch(MovingObjects.PICKABLE, new Rectangle(x, y, 1, 1))) {
       if (PickableObjectType.RESOURCE.equals(pickableObject.getType())) {
         result = pickableObject;
         break;

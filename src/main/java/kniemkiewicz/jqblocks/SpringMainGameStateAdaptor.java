@@ -107,6 +107,7 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
         initInternal(gameContainer, stateBasedGame, settings);
         createRootPane();
         ((Game) stateBasedGame).changeRootPane(rootPane);
+        onGuiInit(rootPane.getGUI());
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
