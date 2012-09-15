@@ -69,8 +69,7 @@ public class LevelGenerator {
     {
       // Left.
       float width = pointOfView.getWindowWidth() / 2 + Sizes.BLOCK * 2;
-      Rectangle rect = new Rectangle(Sizes.MIN_X + pointOfView.getWindowWidth() / 2 + Sizes.BLOCK * 2,
-          Sizes.MIN_Y - 100, width, Sizes.LEVEL_SIZE_Y + 200);
+      Rectangle rect = new Rectangle(Sizes.MIN_X, Sizes.MIN_Y - 100, width, Sizes.LEVEL_SIZE_Y + 200);
       Assert.executeAndAssert(collisionController.add(LEVEL_WALLS, new LevelWall(rect), false));
     }
     {

@@ -87,7 +87,7 @@ public class PickupItemActionController implements EventListener {
 
   private PickableObject findPickableObject(int x, int y) {
     PickableObject result = null;
-    for (PickableObject pickableObject : collisionController.<PickableObject>fullSearch(MovingObjects.PICKABLE, new Rectangle(x, y, 2, 2))) {
+    for (PickableObject pickableObject : collisionController.<PickableObject>fullSearch(MovingObjects.PICKABLE, new Rectangle(x, y, 1, 1))) {
       if (PickableObjectType.ACTION.equals(pickableObject.getType())) {
         result = pickableObject;
         break;

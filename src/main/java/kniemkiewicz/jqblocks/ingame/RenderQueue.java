@@ -25,6 +25,9 @@ public class RenderQueue {
   @Autowired
   SpringBeanProvider beanProvider;
 
+  @Autowired
+  CollisionController collisionController;
+
   EnumMap<RenderableObject.Layer, Set<RenderableObject>> renderableObjects = new EnumMap<RenderableObject.Layer, Set<RenderableObject>>(RenderableObject.Layer.class);
   Set<Renderable> renderables = new HashSet<Renderable>();
 
@@ -65,6 +68,10 @@ public class RenderQueue {
           doRender(r, g, pointOfView);
         }
       }
+    }
+    g.setColor(Color.red);
+    for (Rectangle r : collisionController.getRectsFor(CollisionController.ObjectType.PICKABLE)) {
+      g.draw(r);
     }
     g.translate(pointOfView.getShiftX(), pointOfView.getShiftY());
     Iterator<Renderable> iter = renderables.iterator();

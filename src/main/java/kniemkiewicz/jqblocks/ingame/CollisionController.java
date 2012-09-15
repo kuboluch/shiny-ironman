@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame;
 
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import kniemkiewicz.jqblocks.util.Assert;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.springframework.stereotype.Component;
 
@@ -35,7 +36,7 @@ public final class CollisionController {
 
   public CollisionController() {
     for (ObjectType type : ObjectType.values()) {
-      quadTrees.put(type, new QuadTree<QuadTree.HasShape>());
+      quadTrees.put(type, new QuadTree<QuadTree.HasShape>(Sizes.LEVEL_SIZE_X, Sizes.LEVEL_SIZE_Y, Sizes.CENTER_X, Sizes.CENTER_Y));
     }
   }
 
@@ -101,5 +102,9 @@ public final class CollisionController {
       }
     }
     return result;
+  }
+
+  public List<Rectangle> getRectsFor(ObjectType objectType) {
+    return quadTrees.get(objectType).getRects();
   }
 }

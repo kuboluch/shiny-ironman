@@ -113,9 +113,9 @@ public class VillageGenerator {
   }
 
   private void addZombieCage(int villageY) {
-    makeCage(STARTING_X - Sizes.BLOCK * 10, villageY - Sizes.BLOCK * 10);
-    Zombie zombie = new Zombie(STARTING_X - Sizes.BLOCK * 10, villageY - Sizes.BLOCK * 14);
-    zombie.addTo(movingObjects, renderQueue, updateQueue);
+    //makeCage(STARTING_X - Sizes.BLOCK * 10, villageY - Sizes.BLOCK * 10);
+    //Zombie zombie = new Zombie(STARTING_X - Sizes.BLOCK * 10, villageY - Sizes.BLOCK * 14);
+    //zombie.addTo(movingObjects, renderQueue, updateQueue);
   }
 
   void generateVillage(int villageY) {
