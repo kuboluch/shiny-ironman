@@ -112,6 +112,12 @@ public class VillageGenerator {
     Assert.executeAndAssert(solidBlocks.add(new Rectangle(x + Sizes.BLOCK * 3, y  - Sizes.BLOCK * 7, Sizes.BLOCK, Sizes.BLOCK * 4), WallBlockType.DIRT));
   }
 
+  private void addZombieCage(int villageY) {
+    makeCage(STARTING_X - Sizes.BLOCK * 10, villageY - Sizes.BLOCK * 10);
+    Zombie zombie = new Zombie(STARTING_X - Sizes.BLOCK * 10, villageY - Sizes.BLOCK * 14);
+    zombie.addTo(movingObjects, renderQueue, updateQueue);
+  }
+
   void generateVillage(int villageY) {
     startingY = villageY;
     makeHouse(STARTING_X, villageY);
@@ -122,6 +128,7 @@ public class VillageGenerator {
     generateLadders();
     Assert.executeAndAssert(Peon.createAndRegister(STARTING_X, (int)(villageY - Peon.HEIGHT), peonController) != null);
     addFallingStars();
+    addZombieCage(villageY);
   }
 
   public void saveToStream(ObjectOutputStream stream) throws IOException {

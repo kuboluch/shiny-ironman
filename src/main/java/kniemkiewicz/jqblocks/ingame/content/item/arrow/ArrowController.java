@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.content.item.arrow;
 
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
+import kniemkiewicz.jqblocks.ingame.content.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
@@ -66,8 +67,13 @@ public class ArrowController implements UpdateQueue.UpdateController<Arrow>{
         renderQueue.remove(arrow);
       }
       updateQueue.remove(arrow);
-      if ((po.get() != null) && (po.get() instanceof HasHealthPoints)) {
-        ((HasHealthPoints)po.get()).getHp().damage(ARROW_DMG, arrow, killer);
+      if ((po.get() != null) && (po.get() instanceof KillablePhysicalObject)) {
+        KillablePhysicalObject kpo = (KillablePhysicalObject) po.get();
+        kpo.getHp().damage(ARROW_DMG, arrow, killer);
+        // This makes stuck arrow appear much deeper in target.
+        arrow.update(10);
+        StuckArrow stuckArrow = new StuckArrow(arrow.getLine(), kpo);
+        stuckArrow.addTo(renderQueue, updateQueue);
       }
     }
   }

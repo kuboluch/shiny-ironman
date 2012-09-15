@@ -1,8 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.content.item.arrow;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
+import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.content.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.content.item.bow.BowRenderer;
 import kniemkiewicz.jqblocks.ingame.object.HasSource;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
@@ -18,6 +20,7 @@ import kniemkiewicz.jqblocks.util.SerializationUtils2;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Vector2f;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -27,22 +30,23 @@ import java.io.ObjectOutputStream;
  * User: knie
  * Date: 7/21/12
  */
-public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Arrow>,HasSource {
+public class StuckArrow implements RenderableObject<StuckArrow>,UpdateQueue.ToBeUpdated<StuckArrow> {
 
   private static final long serialVersionUID = 1;
-  private static XYMovementDefinition ARROW_MOVEMENT = new XYMovementDefinition(
-      new MovementDefinition(),new MovementDefinition().setMaxSpeed(Sizes.MAX_FALL_SPEED)
-  );
 
   transient Line line;
-  final XYMovement movement;
-  final private SerializableRef<QuadTree.HasShape> source;
-  private static int LENGTH = Sizes.BLOCK;
+  transient Vector2f diff;
+  final SerializableRef<KillablePhysicalObject> target;
 
-  public Arrow(float x, float y, QuadTree.HasShape source, float xSpeed, float ySpeed) {
-    this.line = new Line(x, y, x, y);
-    this.movement = ARROW_MOVEMENT.getMovement(x, y).setXSpeed(xSpeed).setYSpeed(ySpeed);
-    this.source = new SerializableRef<QuadTree.HasShape>(source);
+  public StuckArrow(Line line, KillablePhysicalObject target) {
+    this.line = line;
+    this.target = new SerializableRef<KillablePhysicalObject>(target);
+    this.diff = new Vector2f(line.getCenterX() - target.getShape().getCenterX(), line.getCenterY() - target.getShape().getCenterY());
+  }
+
+  public void addTo(RenderQueue renderQueue, UpdateQueue updateQueue) {
+    renderQueue.add(this);
+    updateQueue.add(this);
   }
 
   @Override
@@ -50,17 +54,9 @@ public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Ar
     return null;
   }
 
-  static void renderArrow(Graphics g, Line line) {
-    g.setColor(BowRenderer.ARROW_COLOR);
-    g.setLineWidth(2);
-    g.draw(line);
-    g.setLineWidth(1);
-  }
-
   @Override
   public void renderObject(Graphics g, PointOfView pov) {
-    renderArrow(g, line);
-
+    Arrow.renderArrow(g, line);
   }
 
   @Override
@@ -74,32 +70,18 @@ public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Ar
   }
 
 
-  public void update(int delta) {
-    SingleAxisMovement xMovement = movement.getXMovement();
-    SingleAxisMovement yMovement = movement.getYMovement();
-    yMovement.setAcceleration(Sizes.G);
-    xMovement.update(delta);
-    yMovement.update(delta);
-    float dx = xMovement.getSpeed();
-    float dy = yMovement.getSpeed();
-    float v = (float)Math.sqrt(dx * dx + dy * dy);
-    assert v > 0;
-    float lx = dx / v * LENGTH / 2;
-    float ly = dy / v * LENGTH / 2;
-    line.set(xMovement.getPos() - lx, yMovement.getPos() - ly, xMovement.getPos() + lx, yMovement.getPos() + ly);
+  public void update() {
+    line.setCenterX(this.target.get().getShape().getCenterX() + diff.getX());
+    line.setCenterY(this.target.get().getShape().getCenterY() + diff.getY());
   }
 
-  public XYMovement getXMovement() {
-    return movement;
-  }
-
-  public QuadTree.HasShape getSource() {
-    return source.get();
+  KillablePhysicalObject getTarget(){
+    return target.get();
   }
 
   @Override
-  public Class<ArrowController> getUpdateController() {
-    return ArrowController.class;
+  public Class<StuckArrowController> getUpdateController() {
+    return StuckArrowController.class;
   }
 
   // need to implement serialization as Circle is not Serializable
@@ -107,15 +89,13 @@ public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Ar
     //always perform the default de-serialization first
     inputStream.defaultReadObject();
     line = SerializationUtils2.deserializeLine(inputStream);
+    diff = SerializationUtils2.deserializeVector2f(inputStream);
   }
 
   private void writeObject(ObjectOutputStream outputStream) throws IOException {
     //perform the default serialization for all non-transient, non-static fields
     outputStream.defaultWriteObject();
     SerializationUtils2.serializeLine(line, outputStream);
-  }
-
-  Line getLine() {
-    return line;
+    SerializationUtils2.serializeVector2f(diff, outputStream);
   }
 }

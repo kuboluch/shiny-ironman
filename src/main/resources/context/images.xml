@@ -21,6 +21,11 @@
         <constructor-arg value="images/zombie.gif"/>
     </bean>
 
+    <bean id="zombieGifAnimation" class="kniemkiewicz.jqblocks.util.slick.GifAnimation">
+        <constructor-arg value="images/zombie.gif"/>
+    </bean>
+
+
     <bean id="zombieDeathSheet" class="org.newdawn.slick.SpriteSheet">
         <constructor-arg value="spritesheet/zombie_death.png"/>
         <constructor-arg value="60"/>

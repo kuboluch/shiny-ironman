@@ -59,8 +59,22 @@
         <constructor-arg ref="peonLeftImage"/>
     </bean>
 
-    <bean id="zombieRenderer" class="kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer">
-        <constructor-arg ref="zombieImage"/>
+    <bean id="zombieBodyRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer">
+        <constructor-arg>
+            <bean class="kniemkiewicz.jqblocks.util.slick.HorizontalSpriteSheetAnimation">
+                <constructor-arg ref="zombieDeathSheet"/>
+            </bean>
+        </constructor-arg>
+        <property name="width" value="44"/>
+        <property name="shiftTop" value="-7"/>
+        <property name="shiftHeight" value="12"/>
+        <property name="repeated" value="false"/>
+    </bean>
+
+    <bean id="zombieRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer">
+        <constructor-arg ref="zombieGifAnimation"/>
+        <property name="width" value="30"/>
+        <property name="frameDuration" value="75"/>
     </bean>
 
     <bean id="ladderRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">

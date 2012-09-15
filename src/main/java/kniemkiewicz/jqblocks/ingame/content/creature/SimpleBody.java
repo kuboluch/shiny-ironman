@@ -17,7 +17,7 @@ import org.newdawn.slick.geom.Rectangle;
  * User: krzysiek
  * Date: 10.09.12
  */
-public abstract class SimpleBody implements RenderableObject<BatBody>,HasFullXYMovement {
+public abstract class SimpleBody implements RenderableObject<SimpleBody>,HasFullXYMovement {
   protected final XYMovement movement;
   final Rectangle rectangle;
 

@@ -1,10 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.peon;
 
 import kniemkiewicz.jqblocks.ingame.*;
+import kniemkiewicz.jqblocks.ingame.content.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer;
-import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
@@ -20,7 +20,7 @@ import org.newdawn.slick.geom.Shape;
  * User: krzysiek
  * Date: 19.08.12
  */
-public class Peon implements PhysicalObject,HasHealthPoints<Peon>, TwoFacedImageRenderer.Renderable{
+public class Peon implements PhysicalObject, KillablePhysicalObject<Peon>, TwoFacedImageRenderer.Renderable{
 
   private static final int PEON_HP = 100;
   private static final float MAX_PEON_SPEED = Player.MAX_X_SPEED / 2;

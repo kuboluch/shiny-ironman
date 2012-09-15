@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.util;
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Line;
+import org.newdawn.slick.geom.Vector2f;
 
 import java.io.*;
 
@@ -43,6 +44,18 @@ public final class SerializationUtils2 {
     float y2 = inputStream.readFloat();
     return new Line(x1, y1, x2, y2);
   }
+
+  // same as above.
+  public static void serializeVector2f(Vector2f v, ObjectOutputStream outputStream) throws IOException {
+    outputStream.writeFloat(v.getX());
+    outputStream.writeFloat(v.getY());
+  }
+
+  // same as above.
+  public static Vector2f deserializeVector2f(ObjectInputStream inputStream) throws IOException {
+    return new Vector2f(inputStream.readFloat(), inputStream.readFloat());
+  }
+
 
   public static Pair<OutputStream, InputStream> getPipe() {
     final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
