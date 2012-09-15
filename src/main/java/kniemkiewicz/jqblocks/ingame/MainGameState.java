@@ -170,9 +170,9 @@ public class MainGameState extends BasicTWLGameState {
     eventBus.addListener(uiController);
     eventBus.addListener(workplaceController);
     eventBus.addListener(workplaceActionController);
+    eventBus.addListener(pickupItemActionController);
     eventBus.addListener(inventoryController);
     eventBus.addListener(resourceInventoryController);
-    eventBus.addListener(pickupItemActionController);
     eventBus.addListener(productionController);
     eventBus.addListener(playerProductionActionController);
     eventBus.addListener(workplaceProductionActionController);

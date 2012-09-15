@@ -8,6 +8,7 @@ import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.event.EventListener;
+import kniemkiewicz.jqblocks.ingame.event.action.ActionStartedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseDraggedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
@@ -86,13 +87,12 @@ public abstract class AbstractActionItemController<T extends Item>
 
   @Override
   public List<Class> getEventTypesOfInterest() {
-    return Arrays.asList((Class) SelectedItemChangeEvent.class);
+    return Arrays.asList((Class) SelectedItemChangeEvent.class, (Class) ActionStartedEvent.class);
   }
 
   @Override
   public void listen(List<Event> events) {
-    List<SelectedItemChangeEvent> selectedItemChangeEvents = Collections3.collect(events, SelectedItemChangeEvent.class);
-    if (!selectedItemChangeEvents.isEmpty()) {
+    if (!events.isEmpty()) {
       if (affectedRectangle != null) {
         stop();
       }
