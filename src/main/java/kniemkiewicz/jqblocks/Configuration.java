@@ -47,4 +47,10 @@ public class Configuration {
     if (value == null) return defaultValue;
     return value;
   }
+
+  public boolean getBoolean(String name, boolean defaultValue) {
+    String value = properties.getProperty(name);
+    if (value == null) return defaultValue;
+    return Boolean.valueOf(value);
+  }
 }

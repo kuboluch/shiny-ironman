@@ -94,14 +94,10 @@ public final class CollisionController {
     return result;
   }
 
-  public boolean update(EnumSet<ObjectType> types, QuadTree.HasShape object) {
-    boolean result = true;
-    for (ObjectType type : types) {
-      if (!quadTrees.get(type).update(object)) {
-        result = false;
-      }
+  public void update() {
+    for (QuadTree tree : quadTrees.values()) {
+      tree.updateTree();
     }
-    return result;
   }
 
   public List<Rectangle> getRectsFor(ObjectType objectType) {

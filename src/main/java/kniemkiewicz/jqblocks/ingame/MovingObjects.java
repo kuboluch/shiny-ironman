@@ -50,8 +50,4 @@ public class MovingObjects {
   public Iterator<PhysicalObject> iterateAll() {
     return collisionController.<PhysicalObject>getAll(OBJECT_TYPES).iterator();
   }
-
-  public boolean update(PhysicalObject po) {
-    return collisionController.update(MOVING, po);
-  }
 }

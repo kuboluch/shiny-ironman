@@ -66,7 +66,6 @@ public class AIUtils {
       xMovement.setSpeed(-xMovement.getSpeed());
       object.updateShape();
     }
-    Assert.executeAndAssert(movingObjects.update(object));
   }
 
   public boolean hits(HasFullXYMovement bat, List<PhysicalObject> collisions) {

@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame;
 
+import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
@@ -10,6 +11,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
 /**
@@ -28,6 +30,9 @@ public class RenderQueue {
   @Autowired
   CollisionController collisionController;
 
+  @Autowired
+  Configuration configuration;
+
   EnumMap<RenderableObject.Layer, Set<RenderableObject>> renderableObjects = new EnumMap<RenderableObject.Layer, Set<RenderableObject>>(RenderableObject.Layer.class);
   Set<Renderable> renderables = new HashSet<Renderable>();
 
@@ -37,6 +42,15 @@ public class RenderQueue {
     for (RenderableObject.Layer l : RenderableObject.Layer.values()) {
       renderableObjects.put(l, new HashSet<RenderableObject>());
     }
+  }
+
+  boolean SHOW_PICKABLE_QUAD_TREE_BOUNDARIES;
+  boolean SHOW_MOVING_QUAD_TREE_BOUNDARIES;
+
+  @PostConstruct
+  void init() {
+    SHOW_PICKABLE_QUAD_TREE_BOUNDARIES = configuration.getBoolean("RenderQueue.SHOW_PICKABLE_QUAD_TREE_BOUNDARIES", false);
+    SHOW_MOVING_QUAD_TREE_BOUNDARIES = configuration.getBoolean("RenderQueue.SHOW_MOVING_QUAD_TREE_BOUNDARIES", false);
   }
 
   public void add(RenderableObject renderable) {
@@ -69,9 +83,17 @@ public class RenderQueue {
         }
       }
     }
-    g.setColor(Color.red);
-    for (Rectangle r : collisionController.getRectsFor(CollisionController.ObjectType.PICKABLE)) {
-      g.draw(r);
+    if (SHOW_PICKABLE_QUAD_TREE_BOUNDARIES) {
+      g.setColor(Color.red);
+      for (Rectangle r : collisionController.getRectsFor(CollisionController.ObjectType.PICKABLE)) {
+        g.draw(r);
+      }
+    }
+    if (SHOW_MOVING_QUAD_TREE_BOUNDARIES) {
+      g.setColor(Color.black);
+      for (Rectangle r : collisionController.getRectsFor(CollisionController.ObjectType.MOVING_OBJECT)) {
+        g.draw(r);
+      }
     }
     g.translate(pointOfView.getShiftX(), pointOfView.getShiftY());
     Iterator<Renderable> iter = renderables.iterator();

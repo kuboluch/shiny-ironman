@@ -1,33 +1,37 @@
-package kniemkiewicz.jqblocks.ingame.content.item.spell;
+package kniemkiewicz.jqblocks.ingame.content.item.fireball;
 
+import kniemkiewicz.jqblocks.ingame.content.item.spell.FastTravelItemController;
+import kniemkiewicz.jqblocks.ingame.content.item.spell.FastTravelItemRenderer;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.renderer.EmptyItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.renderer.EquippedItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
 import kniemkiewicz.jqblocks.util.BeanName;
-import org.springframework.stereotype.Component;
 
 /**
  * User: krzysiek
- * Date: 14.09.12
+ * Date: 16.09.12
  */
-public class FastTravelItem implements Item {
+public class FireballItem implements Item {
   @Override
   public Class<? extends ItemController> getItemController() {
-    return FastTravelItemController.class;
+    return FireballItemController.class;
   }
 
-  static final BeanName<FastTravelItemRenderer> RENDERER = new BeanName<FastTravelItemRenderer>(FastTravelItemRenderer.class);
+  static final BeanName<ImageRendererImpl> RENDERER = new BeanName<ImageRendererImpl>(ImageRendererImpl.class, "fireballRenderer");
 
   @Override
   public BeanName<? extends ItemRenderer> getItemRenderer() {
     return RENDERER;
   }
 
+  static final BeanName<FireballEquippedItemRenderer> EQUIPPED_RENDERER = new BeanName<FireballEquippedItemRenderer>(FireballEquippedItemRenderer.class);
+
   @Override
   public BeanName<? extends EquippedItemRenderer> getEquippedItemRenderer() {
-    return EmptyItemRenderer.RENDERER;
+    return EQUIPPED_RENDERER;
   }
 
   @Override
