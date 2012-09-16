@@ -59,6 +59,10 @@
         <constructor-arg ref="peonLeftImage"/>
     </bean>
 
+    <bean id="fireballRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
+        <constructor-arg ref="meteorImage"/>
+    </bean>
+
     <bean id="zombieBodyRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer">
         <constructor-arg>
             <bean class="kniemkiewicz.jqblocks.util.slick.HorizontalSpriteSheetAnimation">

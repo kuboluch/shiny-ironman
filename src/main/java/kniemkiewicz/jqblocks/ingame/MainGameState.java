@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame;
 
 import de.matthiasmann.twl.GUI;
 import kniemkiewicz.jqblocks.ingame.block.MapView;
+import kniemkiewicz.jqblocks.ingame.content.item.fireball.FireballEquippedItemRenderer;
 import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.inventory.InventoryController;
 import kniemkiewicz.jqblocks.ingame.controller.SaveGameListener;
@@ -143,6 +144,9 @@ public class MainGameState extends BasicTWLGameState {
   RoamingEnemiesController roamingEnemiesController;
 
   @Autowired
+  FireballEquippedItemRenderer fireballEquippedItemRenderer;
+
+  @Autowired
   World world;
 
   private Settings settings;
@@ -221,6 +225,7 @@ public class MainGameState extends BasicTWLGameState {
     productionAssignmentController.update();
     productionController.update();
     collisionController.update();
+    fireballEquippedItemRenderer.update(delta);
     t.record();
   }
 
