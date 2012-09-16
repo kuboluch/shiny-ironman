@@ -217,6 +217,7 @@ public class InventoryController implements EventListener {
     ItemController controller = provider.getBean(clazz, true);
     DroppableObject dropObject = controller.getObject(item, x, y);
     if (dropObject == null) return false;
+    if (solidBlocks.isColliding(dropObject.getShape())) return false;
     dropObject(dropObject);
     return true;
   }

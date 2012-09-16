@@ -77,6 +77,11 @@ public class SolidBlocks{
     return blocks;
   }
 
+  public boolean isColliding(Shape shape) {
+    Rectangle rect = GeometryUtils.getNewBoundingRectangle(shape);
+    return blocks.collidesWithNonEmpty(rect);
+  }
+
   // TODO add some tests
   public boolean isOnSolidGround(Shape shape) {
     Rectangle rect = GeometryUtils.getNewBoundingRectangle(shape);

@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.inventory.action;
 
 import kniemkiewicz.jqblocks.ingame.*;
+import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
@@ -15,10 +16,12 @@ import kniemkiewicz.jqblocks.ingame.object.PickableObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObjectType;
 import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventoryController;
 import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
+import kniemkiewicz.jqblocks.ingame.resource.item.ResourceObject;
 import kniemkiewicz.jqblocks.ingame.ui.inventory.ItemDragController;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -54,6 +57,9 @@ public class PickupItemActionController implements EventListener {
 
   @Autowired
   ResourceInventoryController resourceInventoryController;
+
+  @Autowired
+  SolidBlocks solidBlocks;
 
   @Autowired
   World objectKiller;
@@ -132,17 +138,15 @@ public class PickupItemActionController implements EventListener {
           pickableObject = findPickableResourceObject(x, y);
         }
         if (pickableObject != null && pickableObject.equals(affectedObject)) {
-          // TODO collision detection
-
-          int objectDropX = (int) pickableObject.getShape().getX();
-          int objectDropY = (int) pickableObject.getShape().getY() - Sizes.BLOCK;
           if (pickableObject.getType().equals(PickableObjectType.ACTION)) {
             if (!inventoryController.addItem(pickableObject.getItem())) {
-              inventoryController.dropItem(pickableObject.getItem(), objectDropX, objectDropY);
+              Shape dropShape = getDropShape(pickableObject);
+              inventoryController.dropItem(pickableObject.getItem(), (int) dropShape.getX(), (int) dropShape.getY());
             }
           } else if (pickableObject.getType().equals(PickableObjectType.RESOURCE)) {
             if (!resourceInventoryController.addItem((ResourceItem) pickableObject.getItem())) {
-              inventoryController.dropItem(pickableObject.getItem(), objectDropX, objectDropY);
+              Shape dropShape = getDropShape(pickableObject);
+              inventoryController.dropItem(pickableObject.getItem(), (int) dropShape.getX(), (int) dropShape.getY());
             }
           }
           objectKiller.killMovingObject(pickableObject);
@@ -179,5 +183,14 @@ public class PickupItemActionController implements EventListener {
       }
     }
     return result;
+  }
+
+  private Shape getDropShape(PickableObject pickableObject) {
+    Rectangle rect = GeometryUtils.getNewBoundingRectangle(pickableObject.getShape());
+    rect.setY(rect.getY() - Sizes.BLOCK);
+    if (!solidBlocks.isColliding(rect)) {
+      return rect;
+    }
+    return pickableObject.getShape();
   }
 }
