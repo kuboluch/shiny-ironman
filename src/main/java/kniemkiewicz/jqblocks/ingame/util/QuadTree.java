@@ -106,28 +106,28 @@ public class QuadTree<T extends QuadTree.HasShape> {
     leaf.objects = new ArrayList<T>();
     for (T ob : oldObjects) {
       Rectangle rect = GeometryUtils.getBoundingRectangle(ob.getShape());
-      if ((rect.getMaxX() <= cx) && (rect.getMaxY() <= cy)) {
+      if ((rect.getMaxX() < cx) && (rect.getMaxY() < cy)) {
         if (leaf.topLeft == null) {
           leaf.topLeft = new Leaf<T>();
         }
         addToLeafExisting(ob, leaf.topLeft);
         continue;
       }
-      if ((rect.getX() >= cx) && (rect.getMaxY() <= cy)) {
+      if ((rect.getX() > cx) && (rect.getMaxY() < cy)) {
         if (leaf.topRight == null) {
           leaf.topRight = new Leaf<T>();
         }
         addToLeafExisting(ob, leaf.topRight);
         continue;
       }
-      if ((rect.getMaxX() <= cx) && (rect.getY() >= cy)) {
+      if ((rect.getMaxX() < cx) && (rect.getY() > cy)) {
         if (leaf.bottomLeft == null) {
           leaf.bottomLeft = new Leaf<T>();
         }
         addToLeafExisting(ob, leaf.bottomLeft);
         continue;
       }
-      if ((rect.getX() >= cx) && (rect.getY() >= cy)) {
+      if ((rect.getX() > cx) && (rect.getY() > cy)) {
         if (leaf.bottomRight == null) {
           leaf.bottomRight = new Leaf<T>();
         }
@@ -173,7 +173,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
         // We didn't split leaf yet, time to do so.
         splitLeaf(leaf, cx, cy);
       }
-      boolean spansSubLeafs = ((rect.getX() < cx) && (cx < rect.getMaxX())) || ((rect.getY() < cy) && (cy < rect.getMaxY()));
+      boolean spansSubLeafs = ((rect.getX() <= cx) && (cx <= rect.getMaxX())) || ((rect.getY() <= cy) && (cy <= rect.getMaxY()));
       if (spansSubLeafs) {
         addToLeaf(object, leaf);
         return true;
@@ -183,7 +183,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
           addToLeaf(object, leaf);
           return true;
         }
-        if ((rect.getMaxX() <= cx) && (rect.getMaxY() <= cy)) {
+        if ((rect.getMaxX() < cx) && (rect.getMaxY() < cy)) {
           if (leaf.topLeft == null) {
             leaf.topLeft = new Leaf<T>();
           }
@@ -194,7 +194,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
           dy /= 2;
           continue;
         }
-        if ((rect.getX() >= cx) && (rect.getMaxY() <= cy)) {
+        if ((rect.getX() > cx) && (rect.getMaxY() < cy)) {
           if (leaf.topRight == null) {
             leaf.topRight = new Leaf<T>();
           }
@@ -205,7 +205,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
           dy /= 2;
           continue;
         }
-        if ((rect.getMaxX() <= cx) && (rect.getY() >= cy)) {
+        if ((rect.getMaxX() < cx) && (rect.getY() > cy)) {
           if (leaf.bottomLeft == null) {
             leaf.bottomLeft = new Leaf<T>();
           }
@@ -216,7 +216,7 @@ public class QuadTree<T extends QuadTree.HasShape> {
           dy /= 2;
           continue;
         }
-        if ((rect.getX() >= cx) && (rect.getY() >= cy)) {
+        if ((rect.getX() > cx) && (rect.getY() > cy)) {
           if (leaf.bottomRight == null) {
             leaf.bottomRight = new Leaf<T>();
           }
