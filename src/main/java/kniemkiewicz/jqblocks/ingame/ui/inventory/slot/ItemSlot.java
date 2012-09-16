@@ -1,8 +1,11 @@
 package kniemkiewicz.jqblocks.ingame.ui.inventory.slot;
 
+import de.matthiasmann.twl.Event;
 import de.matthiasmann.twl.GUI;
 import de.matthiasmann.twl.renderer.AnimationState;
+import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.inventory.Inventory;
+import kniemkiewicz.jqblocks.ingame.inventory.InventoryController;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
@@ -94,5 +97,29 @@ public class ItemSlot<T extends Item> extends AbstractDraggableSlot<T> {
   public void renderModel(GUI gui, int x, int y) {
     ItemRenderer<Item> itemRenderer = springBeanProvider.getBean(item.getItemRenderer(), true);
     itemRenderer.renderItem(item, x, y, getInnerWidth() - 2 * MARGIN, false);
+  }
+
+  @Override
+  protected boolean handleEvent(Event evt) {
+    if (evt.isMouseEventNoWheel()) {
+      if (evt.getType().equals(Event.Type.MOUSE_BTNDOWN)) {
+        if (evt.getMouseButton() == Event.MOUSE_LBUTTON) {
+          if (!isSelected()) {
+            inventory.setSelectedIndex(inventoryIndex);
+          }
+        }
+        if (evt.getMouseButton() == Event.MOUSE_RBUTTON) {
+          InventoryController inventoryController = springBeanProvider.getBean(InventoryController.class, true);
+          PlayerController playerController = springBeanProvider.getBean(PlayerController.class, true);
+          int x = (int) playerController.getPlayer().getXYMovement().getX();
+          int y = (int) playerController.getPlayer().getXYMovement().getY();
+          if (inventoryController.dropItem(getModel(), x, y)) {
+            inventory.remove(inventoryIndex);
+          }
+        }
+      }
+      return super.handleEvent(evt);
+    }
+    return super.handleEvent(evt);
   }
 }

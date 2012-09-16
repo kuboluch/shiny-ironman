@@ -17,6 +17,7 @@ import kniemkiewicz.jqblocks.ingame.event.inventory.SelectedItemChangeEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
+import kniemkiewicz.jqblocks.ingame.ui.inventory.ItemDragController;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,9 @@ public abstract class AbstractActionItemController<T extends Item>
 
   @Autowired
   protected InputContainer inputContainer;
+
+  @Autowired
+  protected ItemDragController itemDragController;
 
   @Autowired
   EventBus eventBus;
@@ -80,6 +84,9 @@ public abstract class AbstractActionItemController<T extends Item>
   }
 
   public boolean canPerformAction() {
+    if (itemDragController.isDragging()) {
+      return false;
+    }
     int x = Sizes.roundToBlockSizeX(affectedRectangle.getX());
     int y = Sizes.roundToBlockSizeY(affectedRectangle.getY());
     return canPerformAction(x, y);

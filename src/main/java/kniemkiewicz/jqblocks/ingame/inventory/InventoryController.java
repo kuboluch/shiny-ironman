@@ -12,6 +12,7 @@ import kniemkiewicz.jqblocks.ingame.event.input.InputEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.keyboard.KeyPressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseWheelEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.item.Item;
@@ -19,6 +20,7 @@ import kniemkiewicz.jqblocks.ingame.item.QuickItemInventory;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObjectType;
+import kniemkiewicz.jqblocks.ingame.ui.inventory.ItemDragController;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
@@ -70,6 +72,9 @@ public class InventoryController implements EventListener {
   @Autowired
   FreeFallController freeFallController;
 
+  @Autowired
+  ItemDragController itemDragController;
+
   public void addItem(Item item) {
     if (itemInventory.add(item)) return;
     if (backpackInventory.add(item)) return;
@@ -102,8 +107,15 @@ public class InventoryController implements EventListener {
       }
     }
 
+    List<MouseWheelEvent> mouseWheelEvents = Collections3.collect(events, MouseWheelEvent.class);
+    if (!mouseWheelEvents.isEmpty()) {
+      for (MouseWheelEvent e : mouseWheelEvents) {
+        handleMouseWheelEvent(e);
+      }
+    }
+
     // TODO add and move to PlayerEquipmentController
-    if (itemInventory.getSelectedItem() != null) {
+    if (itemInventory.getSelectedItem() != null && !itemDragController.isDragging()) {
       Class<? extends ItemController> clazz = itemInventory.getSelectedItem().getItemController();
       if (clazz != null) {
         ItemController controller = provider.getBean(clazz, true);
@@ -144,6 +156,28 @@ public class InventoryController implements EventListener {
       }
     }
   }
+
+  private void handleMouseWheelEvent(MouseWheelEvent e) {
+    if (e.getDelta() < 0) {
+      int selectedIndex = itemInventory.getSelectedIndex();
+      selectedIndex--;
+      if (selectedIndex < 0) {
+        selectedIndex = itemInventory.getSize() - 1;
+      }
+      itemInventory.setSelectedIndex(selectedIndex);
+      e.consume();
+      return;
+    } else if (e.getDelta() > 0) {
+      int selectedIndex = itemInventory.getSelectedIndex();
+      selectedIndex++;
+      if (selectedIndex > itemInventory.getSize() - 1) {
+        selectedIndex = 0;
+      }
+      itemInventory.setSelectedIndex(selectedIndex);
+      e.consume();
+    }
+  }
+
 
   private PickableObject findNearestPickableObject() {
     float playerX = playerController.getPlayer().getShape().getCenterX();

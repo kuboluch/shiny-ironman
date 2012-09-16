@@ -50,12 +50,9 @@ public class PickupItemSlot extends AbstractDraggableSlot<Item> {
 
   @Override
   public void renderModel(GUI gui, int x, int y) {
-    ItemRenderer<Item> itemRenderer = springBeanProvider.getBean(item.getItemRenderer(), true);
-    itemRenderer.renderItem(item, x, y, getInnerWidth(), false);
-  }
-
-  @Override
-  protected boolean handleEvent(Event evt) {
-    return super.handleEvent(evt);
+    if (item != null) {
+      ItemRenderer<Item> itemRenderer = springBeanProvider.getBean(item.getItemRenderer(), true);
+      itemRenderer.renderItem(item, x, y, getInnerWidth(), false);
+    }
   }
 }

@@ -7,6 +7,7 @@ import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.World;
 import kniemkiewicz.jqblocks.ingame.event.EventListener;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
+import kniemkiewicz.jqblocks.ingame.input.InputContainer;
 import kniemkiewicz.jqblocks.ingame.inventory.InventoryController;
 import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.object.PickableObject;
@@ -55,6 +56,9 @@ public class ItemDragController implements DragListener<Item>, Initializable, Ev
   SpringBeanProvider springBeanProvider;
 
   @Autowired
+  InputContainer inputContainer;
+
+  @Autowired
   World objectKiller;
 
   private GUI gui;
@@ -84,7 +88,14 @@ public class ItemDragController implements DragListener<Item>, Initializable, Ev
     List<ScreenMovedEvent> screenMovedEvents = Collections3.collect(events, ScreenMovedEvent.class);
     if (!screenMovedEvents.isEmpty()) {
       dragInterrupted();
+      for (ScreenMovedEvent event : screenMovedEvents) {
+         event.consume();
+      }
     }
+  }
+
+  public boolean isDragging() {
+    return dragSlot != null;
   }
 
   public void dragStarted(PickableObject pickableObject) {
@@ -176,8 +187,12 @@ public class ItemDragController implements DragListener<Item>, Initializable, Ev
   public void dragInterrupted() {
     if (dragSlot instanceof PickupItemSlot) {
       pickableObject = null;
+      pickupSlot.resetDropState();
+      pickupSlot.setModel(null);
       pickupSlot.setVisible(false);
       dragSlot = null;
+      gui.clearMouseState();
+      gui.handleMouse(inputContainer.getInput().getMouseX(), inputContainer.getInput().getMouseY(), 0, true);
     }
   }
 

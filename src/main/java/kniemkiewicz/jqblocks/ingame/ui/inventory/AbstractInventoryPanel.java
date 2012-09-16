@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.ui.inventory;
 
 import com.google.common.base.Objects;
+import de.matthiasmann.twl.Event;
 import de.matthiasmann.twl.ThemeInfo;
 import de.matthiasmann.twl.Widget;
 import kniemkiewicz.jqblocks.ingame.inventory.Inventory;
@@ -30,7 +31,7 @@ public abstract class AbstractInventoryPanel<T extends Item> extends Widget {
   int xSlotsNumber;
   int ySlotsNumber;
 
-  ItemSlot[] slot;
+  ItemSlot<T>[] slot;
 
   int slotSpacing;
 
@@ -65,7 +66,7 @@ public abstract class AbstractInventoryPanel<T extends Item> extends Widget {
   public void update() {
     deselectAll();
     for (int i = 0; i < slot.length; i++) {
-      Item item = getInventory().getItems().get(i);
+      T item = getInventory().getItems().get(i);
       if (!Objects.equal(slot[i].getModel(), item)) {
         slot[i].setModel(item);
       }

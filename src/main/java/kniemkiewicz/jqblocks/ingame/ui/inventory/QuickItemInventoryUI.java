@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.ui.inventory;
 
 import de.matthiasmann.twl.Alignment;
+import de.matthiasmann.twl.Event;
 import de.matthiasmann.twl.Label;
 import de.matthiasmann.twl.ResizableFrame;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +59,12 @@ public class QuickItemInventoryUI extends ResizableFrame {
   @Override
   public int getPreferredInnerHeight() {
     return quickItemInventoryPanel.getPreferredHeight() + label[0].getPreferredHeight();
+  }
+
+  @Override
+  // UI cannot consume MouseWheelEvent, it is has to be handled by EventBus
+  protected boolean handleEvent(Event evt) {
+    boolean result = super.handleEvent(evt);
+    return result && evt.isMouseEventNoWheel();
   }
 }

@@ -37,6 +37,7 @@ public abstract class AbstractDraggableSlot<T> extends Widget implements Draggab
     de.matthiasmann.twl.AnimationState as = getAnimationState();
     as.setAnimationState(STATE_DROP_OK, false);
     as.setAnimationState(STATE_DROP_BLOCKED, false);
+    dragActive = false;
   }
 
   public boolean dropFrom(DraggableSlot<T> slot) {
@@ -74,9 +75,11 @@ public abstract class AbstractDraggableSlot<T> extends Widget implements Draggab
 
   @Override
   protected void paintDragOverlay(GUI gui, int mouseX, int mouseY, int modifier) {
-    TextureImpl.unbind();
-    renderModel(gui, mouseX - getInnerWidth() / 2, mouseY - getInnerHeight() / 2);
-    Renderer.get().glEnable(SGL.GL_TEXTURE_2D);
+    if (dragActive) {
+      TextureImpl.unbind();
+      renderModel(gui, mouseX - getInnerWidth() / 2, mouseY - getInnerHeight() / 2);
+      Renderer.get().glEnable(SGL.GL_TEXTURE_2D);
+    }
   }
 
   public abstract void renderModel(GUI gui, int x, int y);

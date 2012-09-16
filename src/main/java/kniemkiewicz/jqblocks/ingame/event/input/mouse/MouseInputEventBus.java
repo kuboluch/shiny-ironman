@@ -17,6 +17,7 @@ import java.util.List;
 public class MouseInputEventBus {
 
   private static final int INPUT_DELAY = 100;
+  private static final int MOUSE_WHEEL_DELAY = 25;
 
   @Autowired
   EventBus eventBus;
@@ -35,6 +36,7 @@ public class MouseInputEventBus {
   private long mousePressedTimestamp = 0;
   private long mouseClickedTimestamp = 0;
   private long mouseReleasedTimestamp = 0;
+  private long mouseWheelTimestamp = 0;
 
   public void update() {
     List<InputEvent> eventsToBroadcast;
@@ -58,7 +60,13 @@ public class MouseInputEventBus {
     }
   }
 
-  public void mouseWheelMoved(int change) { }
+  public void mouseWheelMoved(int change) {
+    if (mouseWheelTimestamp + MOUSE_WHEEL_DELAY > System.currentTimeMillis()) return;
+    synchronized (lock) {
+      mouseWheelTimestamp = System.currentTimeMillis();
+      events.add(new MouseWheelEvent(change));
+    }
+  }
 
   public void mouseClicked(int button, int x, int y, int clickCount) {
     if (mouseClickedTimestamp + INPUT_DELAY > System.currentTimeMillis()) return;
