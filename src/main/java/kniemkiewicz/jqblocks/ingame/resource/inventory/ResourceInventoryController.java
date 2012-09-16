@@ -14,6 +14,7 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
 import kniemkiewicz.jqblocks.ingame.input.InputContainer;
+import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObjectType;
@@ -68,6 +69,13 @@ public class ResourceInventoryController implements EventListener {
 
   @Autowired
   FreeFallController freeFallController;
+
+  public boolean addItem(ResourceItem item) {
+    if (inventory.add(item)) {
+      return true;
+    }
+    return false;
+  }
 
   @Override
   public List<Class> getEventTypesOfInterest() {

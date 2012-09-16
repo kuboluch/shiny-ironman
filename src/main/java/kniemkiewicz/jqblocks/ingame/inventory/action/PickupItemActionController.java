@@ -1,20 +1,20 @@
 package kniemkiewicz.jqblocks.ingame.inventory.action;
 
-import kniemkiewicz.jqblocks.ingame.CollisionController;
-import kniemkiewicz.jqblocks.ingame.MovingObjects;
-import kniemkiewicz.jqblocks.ingame.PointOfView;
-import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.event.EventListener;
 import kniemkiewicz.jqblocks.ingame.event.action.ActionStartedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseDraggedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseReleasedEvent;
-import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
+import kniemkiewicz.jqblocks.ingame.inventory.InventoryController;
 import kniemkiewicz.jqblocks.ingame.object.PickableObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObjectType;
+import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventoryController;
+import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
 import kniemkiewicz.jqblocks.ingame.ui.inventory.ItemDragController;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
@@ -49,9 +49,20 @@ public class PickupItemActionController implements EventListener {
   @Autowired
   ItemDragController itemDragController;
 
+  @Autowired
+  InventoryController inventoryController;
+
+  @Autowired
+  ResourceInventoryController resourceInventoryController;
+
+  @Autowired
+  World objectKiller;
+
+  PickableObject affectedObject = null;
+
   @Override
   public List<Class> getEventTypesOfInterest() {
-    return Arrays.asList((Class) MousePressedEvent.class);
+    return Arrays.asList((Class) MousePressedEvent.class, (Class) MouseDraggedEvent.class, (Class) MouseReleasedEvent.class);
   }
 
   @Override
@@ -60,6 +71,20 @@ public class PickupItemActionController implements EventListener {
     if (!mousePressedEvents.isEmpty()) {
       for (MousePressedEvent e : mousePressedEvents) {
         handleMousePressedEvent(e);
+      }
+    }
+
+    List<MouseDraggedEvent> mouseDraggedEvents = Collections3.collect(events, MouseDraggedEvent.class);
+    if (!mouseDraggedEvents.isEmpty()) {
+      for (MouseDraggedEvent e : mouseDraggedEvents) {
+        handleMouseDraggedEvent(e);
+      }
+    }
+
+    List<MouseReleasedEvent> mouseReleasedEvents = Collections3.collect(events, MouseReleasedEvent.class);
+    if (!mouseReleasedEvents.isEmpty()) {
+      for (MouseReleasedEvent e : mouseReleasedEvents) {
+        handleMouseReleasedEvent(e);
       }
     }
   }
@@ -73,10 +98,58 @@ public class PickupItemActionController implements EventListener {
         pickableObject = findPickableResourceObject(x, y);
       }
       if (pickableObject != null) {
-        itemDragController.dragStarted(pickableObject);
+        affectedObject = pickableObject;
         eventBus.broadcast(new ActionStartedEvent());
         event.consume();
       }
+    }
+  }
+
+  private void handleMouseDraggedEvent(MouseDraggedEvent event) {
+    if (affectedObject != null) {
+      int x = Sizes.roundToBlockSizeX(event.getOldLevelX());
+      int y = Sizes.roundToBlockSizeY(event.getOldLevelY());
+      if (isInRange(x, y) && event.getButton().equals(Button.LEFT)) {
+        PickableObject pickableObject = findPickableObject(x, y);
+        if (pickableObject == null) {
+          pickableObject = findPickableResourceObject(x, y);
+        }
+        if (pickableObject != null) {
+          itemDragController.dragStarted(pickableObject);
+          event.consume();
+        }
+      }
+    }
+  }
+
+  private void handleMouseReleasedEvent(MouseReleasedEvent event) {
+    if (affectedObject != null) {
+      int x = Sizes.roundToBlockSizeX(event.getLevelX());
+      int y = Sizes.roundToBlockSizeY(event.getLevelY());
+      if (isInRange(x, y) && event.getButton().equals(Button.LEFT)) {
+        PickableObject pickableObject = findPickableObject(x, y);
+        if (pickableObject == null) {
+          pickableObject = findPickableResourceObject(x, y);
+        }
+        if (pickableObject != null && pickableObject.equals(affectedObject)) {
+          // TODO collision detection
+
+          int objectDropX = (int) pickableObject.getShape().getX();
+          int objectDropY = (int) pickableObject.getShape().getY() - Sizes.BLOCK;
+          if (pickableObject.getType().equals(PickableObjectType.ACTION)) {
+            if (!inventoryController.addItem(pickableObject.getItem())) {
+              inventoryController.dropItem(pickableObject.getItem(), objectDropX, objectDropY);
+            }
+          } else if (pickableObject.getType().equals(PickableObjectType.RESOURCE)) {
+            if (!resourceInventoryController.addItem((ResourceItem) pickableObject.getItem())) {
+              inventoryController.dropItem(pickableObject.getItem(), objectDropX, objectDropY);
+            }
+          }
+          objectKiller.killMovingObject(pickableObject);
+          event.consume();
+        }
+      }
+      affectedObject = null;
     }
   }
 

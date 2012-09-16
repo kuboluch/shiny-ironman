@@ -9,6 +9,7 @@ import kniemkiewicz.jqblocks.ingame.event.EventListener;
 import kniemkiewicz.jqblocks.ingame.event.production.AvailableItemsChangeEvent;
 import kniemkiewicz.jqblocks.ingame.event.production.ProductionCompleteEvent;
 import kniemkiewicz.jqblocks.ingame.inventory.InventoryController;
+import kniemkiewicz.jqblocks.ingame.item.Item;
 import kniemkiewicz.jqblocks.ingame.item.ItemDefinition;
 import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
 import kniemkiewicz.jqblocks.ingame.resource.ResourceStorageController;
@@ -159,7 +160,12 @@ public class ProductionController implements SelectListener<ItemDefinition>, Eve
   }
 
   private void handleProductionCompleteEvent(ProductionCompleteEvent e) {
-    inventoryController.addItem(e.getAssignment().getItem().createItem());
+    Item item = e.getAssignment().getItem().createItem();
+    if (!inventoryController.addItem(item)) {
+      int playerX = (int) playerController.getPlayer().getShape().getCenterX();
+      int playerY = (int) playerController.getPlayer().getShape().getCenterY();
+      inventoryController.dropItem(item, playerX, playerY);
+    }
   }
 
   @Override

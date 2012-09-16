@@ -75,13 +75,14 @@ public class InventoryController implements EventListener {
   @Autowired
   ItemDragController itemDragController;
 
-  public void addItem(Item item) {
-    if (itemInventory.add(item)) return;
-    if (backpackInventory.add(item)) return;
-
-    int playerX = (int) playerController.getPlayer().getShape().getCenterX();
-    int playerY = (int) playerController.getPlayer().getShape().getCenterY();
-    dropItem(item, playerX, playerY);
+  public boolean addItem(Item item) {
+    if (itemInventory.add(item)) {
+      return true;
+    }
+    if (backpackInventory.add(item)) {
+      return true;
+    }
+    return false;
   }
 
   @Override
