@@ -16,7 +16,6 @@ import kniemkiewicz.jqblocks.ingame.object.PickableObject;
 import kniemkiewicz.jqblocks.ingame.object.PickableObjectType;
 import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventoryController;
 import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
-import kniemkiewicz.jqblocks.ingame.resource.item.ResourceObject;
 import kniemkiewicz.jqblocks.ingame.ui.inventory.ItemDragController;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
@@ -96,8 +95,8 @@ public class PickupItemActionController implements EventListener {
   }
 
   private void handleMousePressedEvent(MousePressedEvent event) {
-    int x = Sizes.roundToBlockSizeX(event.getLevelX());
-    int y = Sizes.roundToBlockSizeY(event.getLevelY());
+    int x = event.getLevelX();
+    int y = event.getLevelY();
     if (isInRange(x, y) && event.getButton().equals(Button.LEFT)) {
       PickableObject pickableObject = findPickableObject(x, y);
       if (pickableObject == null) {
@@ -113,8 +112,8 @@ public class PickupItemActionController implements EventListener {
 
   private void handleMouseDraggedEvent(MouseDraggedEvent event) {
     if (affectedObject != null) {
-      int x = Sizes.roundToBlockSizeX(event.getOldLevelX());
-      int y = Sizes.roundToBlockSizeY(event.getOldLevelY());
+      int x = event.getOldLevelX();
+      int y = event.getOldLevelY();
       if (isInRange(x, y) && event.getButton().equals(Button.LEFT)) {
         PickableObject pickableObject = findPickableObject(x, y);
         if (pickableObject == null) {
@@ -130,8 +129,8 @@ public class PickupItemActionController implements EventListener {
 
   private void handleMouseReleasedEvent(MouseReleasedEvent event) {
     if (affectedObject != null) {
-      int x = Sizes.roundToBlockSizeX(event.getLevelX());
-      int y = Sizes.roundToBlockSizeY(event.getLevelY());
+      int x = event.getLevelX();
+      int y = event.getLevelY();
       if (isInRange(x, y) && event.getButton().equals(Button.LEFT)) {
         PickableObject pickableObject = findPickableObject(x, y);
         if (pickableObject == null) {
@@ -165,7 +164,7 @@ public class PickupItemActionController implements EventListener {
 
   private PickableObject findPickableObject(int x, int y) {
     PickableObject result = null;
-    for (PickableObject pickableObject : collisionController.<PickableObject>fullSearch(MovingObjects.PICKABLE, new Rectangle(x, y, 1, 1))) {
+    for (PickableObject pickableObject : collisionController.<PickableObject>fullSearch(MovingObjects.PICKABLE, new Rectangle(x, y, 2, 2))) {
       if (PickableObjectType.ACTION.equals(pickableObject.getType())) {
         result = pickableObject;
         break;
@@ -176,7 +175,7 @@ public class PickupItemActionController implements EventListener {
 
   private PickableObject findPickableResourceObject(int x, int y) {
     PickableObject result = null;
-    for (PickableObject pickableObject : collisionController.<PickableObject>fullSearch(MovingObjects.PICKABLE, new Rectangle(x, y, 1, 1))) {
+    for (PickableObject pickableObject : collisionController.<PickableObject>fullSearch(MovingObjects.PICKABLE, new Rectangle(x, y, 2, 2))) {
       if (PickableObjectType.RESOURCE.equals(pickableObject.getType())) {
         result = pickableObject;
         break;

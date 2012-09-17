@@ -156,8 +156,6 @@ public class ItemDragController implements DragListener<Item>, Initializable, Ev
           Item draggedItem = dragSlot.getModel();
           if (dragSlot instanceof PickupItemSlot) {
             objectKiller.killMovingObject(checkNotNull(pickableObject));
-            pickableObject = null;
-            pickupSlot.setVisible(false);
           } else {
             int dragItemIndex = dragSlot.getInventoryIndex();
             dragSlot.getInventory().remove(dragItemIndex);
@@ -167,10 +165,7 @@ public class ItemDragController implements DragListener<Item>, Initializable, Ev
         }
         setDropSlot(null);
       } else {
-        if (dragSlot instanceof PickupItemSlot) {
-          pickableObject = null;
-          pickupSlot.setVisible(false);
-        } else {
+        if (!(dragSlot instanceof PickupItemSlot)) {
           int levelX = evt.getMouseX() + pointOfView.getShiftX();
           int levelY = evt.getMouseY() + pointOfView.getShiftY();
           if (inventoryController.dropItem(slot.getModel(), levelX, levelY)) {
@@ -179,7 +174,10 @@ public class ItemDragController implements DragListener<Item>, Initializable, Ev
           }
         }
       }
-
+      if (dragSlot instanceof PickupItemSlot) {
+        pickableObject = null;
+        pickupSlot.setVisible(false);
+      }
       dragSlot = null;
     }
   }
