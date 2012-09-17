@@ -7,6 +7,8 @@ import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.content.creature.peon.Peon;
 import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
+import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
+import kniemkiewicz.jqblocks.ingame.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
@@ -33,6 +35,12 @@ public class ControllerUtils {
 
   @Autowired
   World world;
+
+  @Autowired
+  PlayerController playerController;
+
+  @Autowired
+  EventBus eventBus;
 
   private Set<Class<? extends HasHealthPoints>> villagerClasses;
 
@@ -100,5 +108,36 @@ public class ControllerUtils {
       collided = true;
     }
     return collided;
+  }
+
+
+
+  // Returns pair dx,dy of vector with given radius, pointing towards mouse from 'from'
+  public Vector2f getCurrentDirection(float radius, Vector2f from) {
+    boolean leftFaced = playerController.getPlayer().isLeftFaced();
+    float x0 = from.getX();
+    float y0 = from.getY();
+    float mouseX = eventBus.getLatestMouseMovedEvent().getNewScreenX();
+    float mouseY = eventBus.getLatestMouseMovedEvent().getNewScreenY();
+    float dist = (float) Math.sqrt((mouseX - x0) * (mouseX - x0) + (mouseY - y0) * (mouseY - y0));
+    float dx;
+    float dy;
+    if (dist == 0) {
+      dx = leftFaced ? - radius : radius;
+      dy = 0;
+    } else {
+      dx = radius * (mouseX - x0) / dist;
+      dy = radius * (mouseY - y0) / dist;
+    }
+    if (((dx > 0) && leftFaced) || (dx < 0 && !leftFaced)) {
+      if (dy > 0) {
+        dx = 0;
+        dy = radius;
+      } else {
+        dx = 0;
+        dy = - radius;
+      }
+    }
+    return new Vector2f(dx, dy);
   }
 }

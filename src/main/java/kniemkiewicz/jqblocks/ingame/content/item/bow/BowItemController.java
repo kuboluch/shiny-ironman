@@ -1,10 +1,11 @@
 package kniemkiewicz.jqblocks.ingame.content.item.bow;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
+import kniemkiewicz.jqblocks.ingame.ProjectileController;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.content.item.arrow.Arrow;
-import kniemkiewicz.jqblocks.ingame.content.item.arrow.ArrowController;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
+import kniemkiewicz.jqblocks.ingame.controller.ControllerUtils;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.controller.SoundController;
 import kniemkiewicz.jqblocks.ingame.event.Event;
@@ -13,9 +14,9 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.util.Collections3;
-import kniemkiewicz.jqblocks.util.Pair;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Vector2f;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +34,7 @@ public class BowItemController implements ItemController<BowItem> {
   PlayerController playerController;
 
   @Autowired
-  ArrowController arrowController;
+  ProjectileController projectileController;
 
   @Autowired
   PointOfView pointOfView;
@@ -46,6 +47,9 @@ public class BowItemController implements ItemController<BowItem> {
 
   @Autowired
   SoundController soundController;
+
+  @Autowired
+  ControllerUtils controllerUtils;
 
   private static float SPEED = Sizes.MAX_FALL_SPEED / 1.5f;
 
@@ -72,57 +76,28 @@ public class BowItemController implements ItemController<BowItem> {
     }
   }
 
-  // Returns pair dx,dy of vector with given radius, pointing where the bow should be pointed.
-  public Pair<Float, Float> getCurrentDirection(float radius) {
-    boolean leftFaced = playerController.getPlayer().isLeftFaced();
-    Pair<Float, Float> pos = getScreenBowPosition();
-    float x0 = pos.getFirst();
-    float y0 = pos.getSecond();
-    float mouseX = eventBus.getLatestMouseMovedEvent().getNewScreenX();
-    float mouseY = eventBus.getLatestMouseMovedEvent().getNewScreenY();
-    float dist = (float) Math.sqrt((mouseX - x0) * (mouseX - x0) + (mouseY - y0) * (mouseY - y0));
-    float dx;
-    float dy;
-    if (dist == 0) {
-      dx = leftFaced ? - radius : radius;
-      dy = 0;
-    } else {
-      dx = radius * (mouseX - x0) / dist;
-      dy = radius * (mouseY - y0) / dist;
-    }
-    if (((dx > 0) && leftFaced) || (dx < 0 && !leftFaced)) {
-      if (dy > 0) {
-        dx = 0;
-        dy = radius;
-      } else {
-        dx = 0;
-        dy = - radius;
-      }
-    }
-    return Pair.newInstance(dx, dy);
-  }
-
-  public Pair<Float, Float> getLevelBowPosition() {
+  public Vector2f getLevelBowPosition() {
     Rectangle shape = playerController.getPlayer().getShape();
     float dx = -Sizes.BLOCK / 2;
     if (playerController.getPlayer().isLeftFaced()) {
       dx *= -1;
     }
-    return Pair.newInstance(shape.getCenterX() + dx, shape.getCenterY() - Sizes.BLOCK / 2);
+    return new Vector2f(shape.getCenterX() + dx, shape.getCenterY() - Sizes.BLOCK / 2);
   }
 
-  public Pair<Float, Float> getScreenBowPosition() {
+  public Vector2f getScreenBowPosition() {
     float dx = -Sizes.BLOCK / 2;
     if (playerController.getPlayer().isLeftFaced()) {
       dx *= -1;
     }
-    return Pair.newInstance((float)pointOfView.getWindowWidth()/ 2 + dx, (float)pointOfView.getWindowHeight() / 2 - Sizes.BLOCK / 2);
+    return new Vector2f(pointOfView.getWindowWidth()/ 2 + dx, pointOfView.getWindowHeight() / 2 - Sizes.BLOCK / 2);
   }
 
   private void shotArrow() {
-    Pair<Float, Float> pos = getLevelBowPosition();
-    Pair<Float, Float> speed = getCurrentDirection(SPEED);
-    arrowController.add(new Arrow(pos.getFirst(), pos.getSecond(), playerController.getPlayer(), speed.getFirst(), speed.getSecond()));
+    Vector2f pos = getLevelBowPosition();
+    Vector2f speed = controllerUtils.getCurrentDirection(SPEED, getScreenBowPosition());
+
+    projectileController.add(new Arrow(pos.getX(), pos.getY(), playerController.getPlayer(), speed.getX(), speed.getY()));
     soundController.play(bowSound, 0.7f);
   }
 }

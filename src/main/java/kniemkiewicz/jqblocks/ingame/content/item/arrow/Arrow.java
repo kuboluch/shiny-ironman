@@ -1,8 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.item.arrow;
 
-import kniemkiewicz.jqblocks.ingame.PointOfView;
-import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.*;
+import kniemkiewicz.jqblocks.ingame.content.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.content.item.bow.BowRenderer;
 import kniemkiewicz.jqblocks.ingame.object.HasSource;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
@@ -27,7 +26,9 @@ import java.io.ObjectOutputStream;
  * User: knie
  * Date: 7/21/12
  */
-public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Arrow>,HasSource {
+public class Arrow implements ProjectileController.Projectile<Arrow> {
+
+  private int ARROW_DMG = 10;
 
   private static final long serialVersionUID = 1;
   private static XYMovementDefinition ARROW_MOVEMENT = new XYMovementDefinition(
@@ -89,6 +90,11 @@ public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Ar
     line.set(xMovement.getPos() - lx, yMovement.getPos() - ly, xMovement.getPos() + lx, yMovement.getPos() + ly);
   }
 
+  @Override
+  public boolean hitWall(World world) {
+    return true;
+  }
+
   public XYMovement getXMovement() {
     return movement;
   }
@@ -98,8 +104,8 @@ public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Ar
   }
 
   @Override
-  public Class<ArrowController> getUpdateController() {
-    return ArrowController.class;
+  public Class<ProjectileController> getUpdateController() {
+    return ProjectileController.class;
   }
 
   // need to implement serialization as Circle is not Serializable
@@ -115,7 +121,12 @@ public class Arrow implements RenderableObject<Arrow>,UpdateQueue.ToBeUpdated<Ar
     SerializationUtils2.serializeLine(line, outputStream);
   }
 
-  Line getLine() {
-    return line;
+
+  public void hitTarget(KillablePhysicalObject kpo, World world) {
+    kpo.getHp().damage(ARROW_DMG, this, world);
+    // This makes stuck arrow appear much deeper in target.
+    this.update(10);
+    StuckArrow stuckArrow = new StuckArrow(line, kpo);
+    stuckArrow.addTo(world.getRenderQueue(), world.getUpdateQueue());
   }
 }

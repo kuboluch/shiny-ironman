@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.content.item.bow;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.controller.ControllerUtils;
 import kniemkiewicz.jqblocks.ingame.item.renderer.EquippedItemRenderer;
 import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.GraphicsContainer;
@@ -9,8 +10,11 @@ import kniemkiewicz.jqblocks.util.Pair;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Vector2f;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Vector;
 
 /**
  * User: knie
@@ -29,6 +33,9 @@ public final class BowRenderer implements ItemRenderer<BowItem>, EquippedItemRen
 
   @Autowired
   GraphicsContainer graphicsContainer;
+
+  @Autowired
+  ControllerUtils controllerUtils;
 
   @Override
   public void renderItem(BowItem item, int x, int y, int square_size, boolean drawFlipped) {
@@ -50,13 +57,13 @@ public final class BowRenderer implements ItemRenderer<BowItem>, EquippedItemRen
 
   @Override
   public void renderEquippedItem(BowItem item, Graphics g) {
-    Pair<Float, Float> pos = bowItemController.getScreenBowPosition();
-    float x0 = pos.getFirst();
-    float y0 = pos.getSecond();
+    Vector2f pos = bowItemController.getScreenBowPosition();
+    float x0 = pos.getX();
+    float y0 = pos.getY();
     float r1 = Sizes.BLOCK * 1.5f;
-    Pair<Float, Float> dr = bowItemController.getCurrentDirection(r1);
-    float dx = dr.getFirst();
-    float dy = dr.getSecond();
+    Vector2f dr = controllerUtils.getCurrentDirection(r1, pos);
+    float dx = dr.getX();
+    float dy = dr.getY();
     g.setColor(Color.gray);
     g.drawLine(x0, y0, x0 + dx * 40, y0 + dy * 40);
     g.setColor(ARROW_COLOR);

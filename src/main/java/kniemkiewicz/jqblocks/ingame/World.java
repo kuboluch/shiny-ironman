@@ -35,6 +35,14 @@ public final class World {
 
   Log logger = LogFactory.getLog(World.class);
 
+  public RenderQueue getRenderQueue() {
+    return renderQueue;
+  }
+
+  public UpdateQueue getUpdateQueue() {
+    return updateQueue;
+  }
+
   class GameLoadException extends RuntimeException {
     GameLoadException(Exception e) {
       super("Error while loading level:", e);

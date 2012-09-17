@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
+import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import kniemkiewicz.jqblocks.util.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -88,6 +89,12 @@ public class RenderQueue {
       for (Rectangle r : collisionController.getRectsFor(CollisionController.ObjectType.PICKABLE)) {
         g.draw(r);
       }
+      g.setColor(Color.orange);
+      g.setLineWidth(2);
+      for (QuadTree.HasShape ob : collisionController.getAll(MovingObjects.PICKABLE)) {
+        g.draw(ob.getShape());
+      }
+      g.setLineWidth(1);
     }
     if (SHOW_MOVING_QUAD_TREE_BOUNDARIES) {
       g.setColor(Color.black);

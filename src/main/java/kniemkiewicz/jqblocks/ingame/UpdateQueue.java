@@ -20,7 +20,7 @@ public final class UpdateQueue {
   }
 
   public interface ToBeUpdated<T> extends Serializable{
-    Class<? extends UpdateController<T>> getUpdateController();
+    Class<? extends UpdateController<? super T>> getUpdateController();
   }
 
   @Autowired

@@ -42,7 +42,7 @@ public class FireballEquippedItemRenderer implements EquippedItemRenderer<Fireba
   }
 
   public void update(int delta) {
-    particleSystem.update(delta);
+    particleSystem.update(delta / 2);
   }
 
   @Override

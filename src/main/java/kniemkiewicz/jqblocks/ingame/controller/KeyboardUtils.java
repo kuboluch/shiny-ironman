@@ -18,7 +18,7 @@ public class KeyboardUtils {
     return (key == Input.KEY_S || key == Input.KEY_DOWN);
   }
   public static boolean isUpPressed(Input input) {
-    return (input.isKeyDown(Input.KEY_W) || input.isKeyDown(Input.KEY_UP));
+    return (input.isKeyDown(Input.KEY_W) || input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_SPACE));
   }
   public static boolean isLeftPressed(Input input) {
     return (input.isKeyDown(Input.KEY_A) || input.isKeyDown(Input.KEY_LEFT));

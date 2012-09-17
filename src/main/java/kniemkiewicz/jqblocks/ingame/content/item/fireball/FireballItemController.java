@@ -3,15 +3,19 @@ package kniemkiewicz.jqblocks.ingame.content.item.fireball;
 import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.CollisionController;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
+import kniemkiewicz.jqblocks.ingame.ProjectileController;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
+import kniemkiewicz.jqblocks.ingame.content.item.arrow.Arrow;
 import kniemkiewicz.jqblocks.ingame.content.item.spell.FastTravelItem;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
+import kniemkiewicz.jqblocks.ingame.controller.ControllerUtils;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseClickEvent;
+import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.util.Collections3;
@@ -32,9 +36,18 @@ public class FireballItemController implements ItemController<FireballItem> {
   @Autowired
   PlayerController playerController;
 
+  @Autowired
+  ControllerUtils controllerUtils;
+
+  @Autowired
+  PointOfView pointOfView;
+
+  @Autowired
+  ProjectileController projectileController;
+
   @Override
   public void listen(FireballItem selectedItem, List<Event> events) {
-    for (MouseClickEvent ev : Collections3.collect(events, MouseClickEvent.class)) {
+    for (MousePressedEvent ev : Collections3.collect(events, MousePressedEvent.class)) {
       if (ev.getButton() == Button.LEFT) {
         generateFireball();
       }
@@ -42,7 +55,9 @@ public class FireballItemController implements ItemController<FireballItem> {
   }
 
   private void generateFireball() {
-    System.out.println("FIREBALLLLL!");
+    Vector2f pos = new Vector2f(playerController.getPlayer().getShape().getCenterX(), playerController.getPlayer().getShape().getCenterY());
+    Vector2f speed = controllerUtils.getCurrentDirection(Fireball.SPEED, new Vector2f(pointOfView.getWindowWidth() / 2, pointOfView.getWindowHeight() / 2));
+    projectileController.add(new Fireball(pos.getX(), pos.getY(), playerController.getPlayer(), speed.getX(), speed.getY()));
   }
 
   @Override

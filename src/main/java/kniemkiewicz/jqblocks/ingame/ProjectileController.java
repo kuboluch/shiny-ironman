@@ -1,23 +1,35 @@
-package kniemkiewicz.jqblocks.ingame.content.item.arrow;
+package kniemkiewicz.jqblocks.ingame;
 
-import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.content.hp.KillablePhysicalObject;
+import kniemkiewicz.jqblocks.ingame.content.item.arrow.Arrow;
+import kniemkiewicz.jqblocks.ingame.content.item.arrow.StuckArrow;
+import kniemkiewicz.jqblocks.ingame.object.HasSource;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
-import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
+import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import kniemkiewicz.jqblocks.util.Out;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * User: knie
- * Date: 7/21/12
+ * User: krzysiek
+ * Date: 17.09.12
  */
 @Component
-public class ArrowController implements UpdateQueue.UpdateController<Arrow>{
+public class ProjectileController implements UpdateQueue.UpdateController<ProjectileController.Projectile>{
 
-  private int ARROW_DMG = 10;
+  public interface Projectile<T extends Projectile> extends RenderableObject<T>,UpdateQueue.ToBeUpdated<T>,HasSource {
+    // Updates movement and shape.
+    void update(int delta);
+
+    // Returning false makes it disappear from render queue.
+    boolean hitWall(World world);
+
+    void hitTarget(KillablePhysicalObject kpo, World world);
+  }
+
+
 
   @Autowired
   RenderQueue renderQueue;
@@ -26,24 +38,21 @@ public class ArrowController implements UpdateQueue.UpdateController<Arrow>{
   SolidBlocks blocks;
 
   @Autowired
-  MovingObjects movingObjects;
-
-  @Autowired
   UpdateQueue updateQueue;
 
   @Autowired
   CollisionController collisionController;
 
   @Autowired
-  World killer;
+  World world;
 
-  public void add(Arrow arrow) {
+  public void add(Projectile arrow) {
     updateQueue.add(arrow);
     renderQueue.add(arrow);
   }
 
 
-  private boolean checkArrowHit(Arrow arrow, Out<PhysicalObject> physicalObject) {
+  private boolean checkHit(Projectile arrow, Out<PhysicalObject> physicalObject) {
     if (blocks.getBlocks().collidesWithNonEmpty(GeometryUtils.getBoundingRectangle(arrow.getShape()))) {
       return true;
     }
@@ -59,22 +68,19 @@ public class ArrowController implements UpdateQueue.UpdateController<Arrow>{
   }
 
   @Override
-  public void update(Arrow arrow, int delta) {
-    arrow.update(delta);
+  public void update(Projectile object, int delta) {
+    object.update(delta);
     Out<PhysicalObject> po = new Out<PhysicalObject>();
-    if (checkArrowHit(arrow, po)) {
-      if (po.get() != null) {
-        renderQueue.remove(arrow);
+    if (checkHit(object, po)) {
+      if ((po.get() != null) || !object.hitWall(world)) {
+        renderQueue.remove(object);
       }
-      updateQueue.remove(arrow);
+      updateQueue.remove(object);
       if ((po.get() != null) && (po.get() instanceof KillablePhysicalObject)) {
         KillablePhysicalObject kpo = (KillablePhysicalObject) po.get();
-        kpo.getHp().damage(ARROW_DMG, arrow, killer);
-        // This makes stuck arrow appear much deeper in target.
-        arrow.update(10);
-        StuckArrow stuckArrow = new StuckArrow(arrow.getLine(), kpo);
-        stuckArrow.addTo(renderQueue, updateQueue);
+        object.hitTarget(kpo, world);
       }
     }
   }
+
 }
