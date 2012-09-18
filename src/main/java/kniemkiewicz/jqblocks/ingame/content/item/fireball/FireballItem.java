@@ -20,7 +20,7 @@ public class FireballItem implements Item {
     return FireballItemController.class;
   }
 
-  static final BeanName<ImageRendererImpl> RENDERER = new BeanName<ImageRendererImpl>(ImageRendererImpl.class, "fireballRenderer");
+  static final BeanName<ImageRendererImpl> RENDERER = new BeanName<ImageRendererImpl>(ImageRendererImpl.class, "fireballItemRenderer");
 
   @Override
   public BeanName<? extends ItemRenderer> getItemRenderer() {

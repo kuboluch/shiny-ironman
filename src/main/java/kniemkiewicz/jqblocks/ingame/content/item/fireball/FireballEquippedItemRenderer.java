@@ -36,9 +36,14 @@ public class FireballEquippedItemRenderer implements EquippedItemRenderer<Fireba
 
   @PostConstruct
   void init() {
-    particleSystem = new ParticleSystem(meteorImage);
+    particleSystem = newFireSystem();
+  }
+
+  public ParticleSystem newFireSystem() {
+    ParticleSystem system = new ParticleSystem(meteorImage);
     FireEmitter emitter = new FireEmitter(0, 0);
-    particleSystem.addEmitter(emitter);
+    system.addEmitter(emitter);
+    return system;
   }
 
   public void update(int delta) {

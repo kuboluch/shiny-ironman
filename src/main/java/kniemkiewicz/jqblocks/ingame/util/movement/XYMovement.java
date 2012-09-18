@@ -55,4 +55,8 @@ public class XYMovement implements Serializable {
     xMovement.setAcceleration(accelerationVector.getX());
     yMovement.setAcceleration(accelerationVector.getY());
   }
+
+  final public Vector2f getSpeed() {
+    return new Vector2f(xMovement.getSpeed(), yMovement.getSpeed());
+  }
 }

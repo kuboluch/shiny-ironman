@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.ingame;
 import de.matthiasmann.twl.GUI;
 import kniemkiewicz.jqblocks.ingame.block.MapView;
 import kniemkiewicz.jqblocks.ingame.content.item.fireball.FireballEquippedItemRenderer;
+import kniemkiewicz.jqblocks.ingame.content.item.fireball.FireballRenderer;
 import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.inventory.InventoryController;
 import kniemkiewicz.jqblocks.ingame.controller.SaveGameListener;
@@ -53,6 +54,8 @@ public class MainGameState extends BasicTWLGameState {
     // If not null, level will be loaded from this stream. Otherwise it will be generated randomly.
     public ObjectInputStream savegame = null;
   }
+
+  //TODO: Sort those.
 
   @Autowired
   PlayerController playerController;
@@ -153,6 +156,9 @@ public class MainGameState extends BasicTWLGameState {
   @Autowired
   World world;
 
+  @Autowired
+  FireballRenderer fireballRenderer;
+
   private Settings settings;
 
   public void setSettings(Settings settings) {
@@ -231,6 +237,7 @@ public class MainGameState extends BasicTWLGameState {
     productionController.update();
     collisionController.update();
     fireballEquippedItemRenderer.update(delta);
+    fireballRenderer.update(delta);
     t.record();
   }
 

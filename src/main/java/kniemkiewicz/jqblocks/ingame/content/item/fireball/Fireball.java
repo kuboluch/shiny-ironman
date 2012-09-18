@@ -43,7 +43,7 @@ public class Fireball implements ProjectileController.Projectile<Fireball> {
     this.rectangle = new Rectangle(x - SIZE / 2, y - SIZE / 2, SIZE, SIZE);
   }
 
-  private static final BeanName<ImageRendererImpl> RENDERER = new BeanName<ImageRendererImpl>(ImageRendererImpl.class, "fireballRenderer");
+  private static final BeanName<FireballRenderer> RENDERER = new BeanName<FireballRenderer>(FireballRenderer.class);
 
   @Override
   public BeanName<? extends ObjectRenderer> getRenderer() {
@@ -81,7 +81,7 @@ public class Fireball implements ProjectileController.Projectile<Fireball> {
     kpo.getHp().damage(DMG, this, world);
   }
 
-  public XYMovement getXMovement() {
+  public XYMovement getMovement() {
     return movement;
   }
 

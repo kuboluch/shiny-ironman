@@ -59,7 +59,7 @@
         <constructor-arg ref="peonLeftImage"/>
     </bean>
 
-    <bean id="fireballRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
+    <bean id="fireballItemRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
         <constructor-arg ref="meteorImage"/>
     </bean>
 
