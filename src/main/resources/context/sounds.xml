@@ -15,4 +15,8 @@
     <bean id="bowSound" class="org.newdawn.slick.Sound">
         <constructor-arg value="sounds/bow.wav"/>
     </bean>
+
+    <bean id="fireballSound" class="org.newdawn.slick.Sound">
+        <constructor-arg value="sounds/fireball.ogg"/>
+    </bean>
 </beans>

@@ -12,6 +12,7 @@ import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.controller.ControllerUtils;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
+import kniemkiewicz.jqblocks.ingame.controller.SoundController;
 import kniemkiewicz.jqblocks.ingame.event.Event;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
 import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseClickEvent;
@@ -19,11 +20,13 @@ import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.util.Collections3;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Vector2f;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -45,6 +48,12 @@ public class FireballItemController implements ItemController<FireballItem> {
   @Autowired
   ProjectileController projectileController;
 
+  @Resource
+  Sound fireballSound;
+
+  @Autowired
+  SoundController soundController;
+
   @Override
   public void listen(FireballItem selectedItem, List<Event> events) {
     for (MousePressedEvent ev : Collections3.collect(events, MousePressedEvent.class)) {
@@ -58,6 +67,7 @@ public class FireballItemController implements ItemController<FireballItem> {
     Vector2f pos = new Vector2f(playerController.getPlayer().getShape().getCenterX(), playerController.getPlayer().getShape().getCenterY());
     Vector2f speed = controllerUtils.getCurrentDirection(Fireball.SPEED, new Vector2f(pointOfView.getWindowWidth() / 2, pointOfView.getWindowHeight() / 2));
     projectileController.add(new Fireball(pos.getX(), pos.getY(), playerController.getPlayer(), speed.getX(), speed.getY()));
+    soundController.play(fireballSound);
   }
 
   @Override
