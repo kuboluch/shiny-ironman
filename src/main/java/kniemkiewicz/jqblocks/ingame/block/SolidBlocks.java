@@ -34,6 +34,7 @@ public class SolidBlocks{
   SpringBeanProvider springBeanProvider;
 
   RawEnumTable<WallBlockType> blocks;
+  RawEnumTable<BackgroundBlockType> background;
 
   @Autowired
   TimingInfo timingInfo;
@@ -43,6 +44,7 @@ public class SolidBlocks{
 
   public SolidBlocks() {
     blocks = new RawEnumTable<WallBlockType>(WallBlockType.EMPTY, WallBlockType.SPACE);
+    background = new RawEnumTable<BackgroundBlockType>(BackgroundBlockType.EMPTY, BackgroundBlockType.SPACE);
   }
 
   protected SolidBlocks(RawEnumTable<WallBlockType> blocks) {
@@ -53,6 +55,8 @@ public class SolidBlocks{
   void init() {
     this.blocks.fillRendererCache(springBeanProvider);
     renderQueue.add(this.blocks);
+    background.fillRendererCache(springBeanProvider);
+    renderQueue.add(background);
   }
 
   public boolean add(Rectangle block, WallBlockType type) {
@@ -65,12 +69,16 @@ public class SolidBlocks{
 
   public void serializeData(ObjectOutputStream stream) throws IOException {
     stream.writeObject(blocks);
+    stream.writeObject(background);
   }
 
   public void deserializeData(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     blocks = (RawEnumTable<WallBlockType>) stream.readObject();
     blocks.fillRendererCache(springBeanProvider);
     renderQueue.add(blocks);
+    background = (RawEnumTable<BackgroundBlockType>) stream.readObject();
+    background.fillRendererCache(springBeanProvider);
+    renderQueue.add(background);
   }
 
   public RawEnumTable<WallBlockType> getBlocks() {
@@ -97,5 +105,9 @@ public class SolidBlocks{
       }
     }
     return true;
+  }
+
+  public RawEnumTable<BackgroundBlockType> getBackground() {
+    return background;
   }
 }

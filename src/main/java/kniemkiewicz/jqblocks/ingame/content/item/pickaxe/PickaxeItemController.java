@@ -3,9 +3,9 @@ package kniemkiewicz.jqblocks.ingame.content.item.pickaxe;
 import kniemkiewicz.jqblocks.ingame.FreeFallController;
 import kniemkiewicz.jqblocks.ingame.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.block.BackgroundBlockType;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
-import kniemkiewicz.jqblocks.ingame.content.block.dirt.NaturalDirtBackground;
 import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController;
 import kniemkiewicz.jqblocks.ingame.object.DigEffect;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
@@ -109,8 +109,7 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
     Rectangle rect = new Rectangle(affectedRect.getX(), affectedRect.getY() - Sizes.BLOCK / 4,
         affectedRect.getWidth(), affectedRect.getHeight());
     blocks.getBlocks().setRectUnscaled(affectedRect, WallBlockType.EMPTY);
-    backgrounds.add(new NaturalDirtBackground(
-        affectedRect.getX(), affectedRect.getY(), affectedRect.getWidth(), affectedRect.getHeight()));
+    blocks.getBackground().setRectUnscaled(affectedRect, BackgroundBlockType.DIRT);
     freeFallController.addObjectsInRectangle(rect);
     return true;
   }

@@ -100,4 +100,31 @@
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="dirt"/>
     </bean>
+
+    <bean id="magicBrickBlockTypeRenderer" class="kniemkiewicz.jqblocks.ingame.block.renderer.SpriteSheetBlockTypeRenderer">
+        <constructor-arg ref="blockSheet"/>
+        <constructor-arg value="oldWall"/>
+        <constructor-arg>
+            <util:constant static-field="kniemkiewicz.jqblocks.ingame.block.WallBlockType.MAGIC_BRICK_WALL" />
+        </constructor-arg>
+        <property name="renderBorder" value="true"/>
+    </bean>
+
+    <bean id="rockBlockTypeRenderer" class="kniemkiewicz.jqblocks.ingame.block.renderer.SpriteSheetBlockTypeRenderer">
+        <constructor-arg ref="blockSheet"/>
+        <constructor-arg value="stone"/>
+        <constructor-arg>
+            <util:constant static-field="kniemkiewicz.jqblocks.ingame.block.WallBlockType.ROCK" />
+        </constructor-arg>
+        <property name="renderBorder" value="true"/>
+    </bean>
+
+    <bean id="backgroundDirtBlockTypeRenderer" class="kniemkiewicz.jqblocks.ingame.block.renderer.SpriteSheetBlockTypeRenderer">
+        <constructor-arg ref="blockSheet"/>
+        <constructor-arg value="stone"/>
+        <constructor-arg>
+            <util:constant static-field="kniemkiewicz.jqblocks.ingame.block.WallBlockType.ROCK" />
+        </constructor-arg>
+        <property name="renderBorder" value="true"/>
+    </bean>
 </beans>

@@ -92,14 +92,14 @@ public class ObjectGenerator {
       }
       if (large != null) {
         Rock rock = new Rock(Sizes.MIN_X + Sizes.BLOCK * i + Sizes.BLOCK / 2, Sizes.MAX_Y - heights[i], large);
-        Assert.executeAndAssert(addToWorld(rock));
+        addToWorld(rock);
       }
     }
   }
 
-  private boolean addToWorld(DroppableObject dropObject) {
-    if (!movingObjects.add(dropObject, true)) return false;
+  private void addToWorld(DroppableObject dropObject) {
+    if (solidBlocks.isColliding(dropObject.getShape())) return;
+    if (!movingObjects.add(dropObject, true)) return;
     renderQueue.add(dropObject);
-    return true;
   }
 }

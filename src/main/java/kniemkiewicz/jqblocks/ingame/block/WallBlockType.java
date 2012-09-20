@@ -2,7 +2,7 @@ package kniemkiewicz.jqblocks.ingame.block;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.renderer.DirtBlockTypeRenderer;
-import kniemkiewicz.jqblocks.ingame.block.renderer.RockBlockTypeRenderer;
+import kniemkiewicz.jqblocks.ingame.block.renderer.SpriteSheetBlockTypeRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.util.BeanName;
 
@@ -25,14 +25,21 @@ public enum WallBlockType implements RenderableBlockType{
     }
   },
   ROCK {
-    final BeanName<RockBlockTypeRenderer> BEAN_NAME = new BeanName<RockBlockTypeRenderer>(RockBlockTypeRenderer.class);
+    final BeanName<SpriteSheetBlockTypeRenderer> BEAN_NAME = new BeanName<SpriteSheetBlockTypeRenderer>(SpriteSheetBlockTypeRenderer.class, "rockBlockTypeRenderer");
+    @Override
+    public BeanName<? extends Renderer> getRenderer() {
+      return BEAN_NAME;
+    }
+  },
+  MAGIC_BRICK_WALL {
+    final BeanName<SpriteSheetBlockTypeRenderer> BEAN_NAME = new BeanName<SpriteSheetBlockTypeRenderer>(SpriteSheetBlockTypeRenderer.class, "magicBrickBlockTypeRenderer");
     @Override
     public BeanName<? extends Renderer> getRenderer() {
       return BEAN_NAME;
     }
   },
   SPACE {
-    final BeanName<RockBlockTypeRenderer> BEAN_NAME = new BeanName<RockBlockTypeRenderer>(RockBlockTypeRenderer.class);
+    final BeanName<SpriteSheetBlockTypeRenderer> BEAN_NAME = new BeanName<SpriteSheetBlockTypeRenderer>(SpriteSheetBlockTypeRenderer.class, "rockBlockTypeRenderer");
     @Override
     public BeanName<? extends Renderer> getRenderer() {
       return BEAN_NAME;

@@ -12,4 +12,6 @@
 	<sprite name="ladder" x="48" y="80" width="16" height="16" />
     <sprite name="torch" x="256" y="32" width="16" height="16" />
 	<sprite name="unknown" x="368" y="240" width="16" height="16" />
+    <sprite name="oldWall" x="64" y="32" width="16" height="16" />
+    <sprite name="oldWallBack" x="80" y="32" width="16" height="16" />
 </sheet>
