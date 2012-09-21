@@ -122,6 +122,7 @@ public class VillageGenerator {
     // Top
     Assert.executeAndAssert(solidBlocks.add(new Rectangle(x + 2 * Sizes.BLOCK, y - 9 * Sizes.BLOCK, Sizes.BLOCK * 12, Sizes.BLOCK), WallBlockType.MAGIC_BRICK_WALL));
     Assert.executeAndAssert(solidBlocks.add(new Rectangle(x + 3 * Sizes.BLOCK, y - 10 * Sizes.BLOCK, Sizes.BLOCK * 10, Sizes.BLOCK), WallBlockType.MAGIC_BRICK_WALL));
+    solidBlocks.getBackground().setRectUnscaled(new Rectangle(x + 2 * Sizes.BLOCK, y - 8 * Sizes.BLOCK, Sizes.BLOCK * 12, 5 * Sizes.BLOCK), BackgroundBlockType.VAULT);
   }
 
   private void addZombieCage(int villageY) {

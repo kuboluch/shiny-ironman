@@ -54,10 +54,26 @@ public class SpriteSheetBlockTypeRenderer<T extends RenderableBlockType> impleme
   }
 
   protected void texture(int x, int y, int width, int height, Graphics g, Image texture) {
-    for (int drawX = x; drawX < (x + width); drawX += Sizes.BLOCK) {
-      for (int drawY = y; drawY < (y + height); drawY += Sizes.BLOCK) {
-        g.drawImage(texture, drawX, drawY, drawX + Sizes.BLOCK, drawY + Sizes.BLOCK, 0, 0, Sizes.BLOCK, Sizes.BLOCK);
-      }
+    int stepX = texture.getWidth();
+    int drawX;
+    for (drawX = x; drawX + stepX < (x + width); drawX += stepX) {
+      drawColumn(y, height, g, texture, drawX, stepX);
+    }
+    int diffX = x + width - drawX;
+    if (diffX > 0) {
+      drawColumn(y, height, g, texture, drawX, diffX);
+    }
+  }
+
+  private void drawColumn(int y, int height, Graphics g, Image texture, int drawX,int stepX) {
+    int stepY = texture.getHeight();
+    int drawY;
+    for (drawY = y; drawY + stepY < (y + height); drawY += stepY) {
+      g.drawImage(texture, drawX, drawY, drawX + stepX, drawY + stepY, 0, 0, stepX, stepY);
+    }
+    int diffY = y + height - drawY;
+    if (diffY > 0) {
+      g.drawImage(texture, drawX, drawY, drawX + stepX, drawY + diffY, 0, 0, stepX, diffY);
     }
   }
 

@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.block;
 
 import kniemkiewicz.jqblocks.ingame.block.renderer.DirtBlockTypeRenderer;
 import kniemkiewicz.jqblocks.ingame.block.renderer.NaturalDirtBackgroundRenderer;
+import kniemkiewicz.jqblocks.ingame.block.renderer.SpriteSheetBlockTypeRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.util.BeanName;
 
@@ -24,6 +25,13 @@ public enum BackgroundBlockType implements RenderableBlockType{
   },
   DIRT {
     final BeanName<NaturalDirtBackgroundRenderer> BEAN_NAME = new BeanName<NaturalDirtBackgroundRenderer>(NaturalDirtBackgroundRenderer.class);
+    @Override
+    public BeanName<? extends Renderer> getRenderer() {
+      return BEAN_NAME;
+    }
+  },
+  VAULT {
+    final BeanName<SpriteSheetBlockTypeRenderer> BEAN_NAME = new BeanName<SpriteSheetBlockTypeRenderer>(SpriteSheetBlockTypeRenderer.class, "vaultBackgroundDirtBlockTypeRenderer");
     @Override
     public BeanName<? extends Renderer> getRenderer() {
       return BEAN_NAME;

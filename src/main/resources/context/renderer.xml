@@ -127,4 +127,12 @@
         </constructor-arg>
         <property name="renderBorder" value="true"/>
     </bean>
+
+    <bean id="vaultBackgroundDirtBlockTypeRenderer" class="kniemkiewicz.jqblocks.ingame.block.renderer.SpriteSheetBlockTypeRenderer">
+        <constructor-arg ref="blockSheet"/>
+        <constructor-arg value="vaultBack"/>
+        <constructor-arg>
+            <util:constant static-field="kniemkiewicz.jqblocks.ingame.block.BackgroundBlockType.VAULT" />
+        </constructor-arg>
+    </bean>
 </beans>
