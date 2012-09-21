@@ -86,6 +86,10 @@
         <constructor-arg value="ladder"/>
     </bean>
 
+    <bean id="portalRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
+        <constructor-arg value="images/portal.png"/>
+    </bean>
+
     <bean id="torchRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="torch"/>

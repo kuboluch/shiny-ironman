@@ -12,7 +12,7 @@ import kniemkiewicz.jqblocks.util.BeanName;
  * User: knie
  * Date: 7/23/12
  */
-public class Tree extends AbstractBackgroundElement<Tree> implements ResourceBackgroundElement<Wood> {
+public class Tree extends AbstractBackgroundElement implements ResourceBackgroundElement<Wood> {
 
   private static final long serialVersionUID = 1;
 

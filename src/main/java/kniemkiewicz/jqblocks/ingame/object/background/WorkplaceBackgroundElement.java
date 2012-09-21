@@ -10,8 +10,7 @@ import kniemkiewicz.jqblocks.util.SerializableBeanProxy;
  * User: qba
  * Date: 05.08.12
  */
-public class WorkplaceBackgroundElement extends AbstractBackgroundElement<WorkplaceBackgroundElement>
-    implements CanProduce {
+public class WorkplaceBackgroundElement extends AbstractBackgroundElement implements CanProduce {
 
   private SerializableBeanProxy<WorkplaceDefinition> workplace;
 

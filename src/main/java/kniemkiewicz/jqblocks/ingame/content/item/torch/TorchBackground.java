@@ -8,7 +8,7 @@ import kniemkiewicz.jqblocks.util.BeanName;
  * User: qba
  * Date: 29.08.12
  */
-public class TorchBackground extends AbstractBackgroundElement<TorchBackground> {
+public class TorchBackground extends AbstractBackgroundElement {
 
   private static final long serialVersionUID = 1;
 

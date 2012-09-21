@@ -62,5 +62,7 @@ public class ImageRendererImpl<T extends RenderableObject> implements ItemRender
   public void render(T object, Graphics g, PointOfView pov) {
     Shape shape = object.getShape();
     image.draw(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
+    g.setColor(Color.black);
+    g.drawRect(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
   }
 }

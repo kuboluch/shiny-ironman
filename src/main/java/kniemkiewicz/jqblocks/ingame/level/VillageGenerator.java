@@ -11,6 +11,7 @@ import kniemkiewicz.jqblocks.ingame.content.item.rock.Rock;
 import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderBackground;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
+import kniemkiewicz.jqblocks.ingame.object.background.Portal;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
 import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition;
 import kniemkiewicz.jqblocks.util.Assert;
@@ -112,9 +113,7 @@ public class VillageGenerator {
   }
 
   void makeVault(int x, int y) {
-
     // Bottom
-    //
     solidBlocks.getBlocks().setRectUnscaled(new Rectangle(x - Sizes.BLOCK, y, Sizes.BLOCK * 18, Sizes.BLOCK), WallBlockType.MAGIC_BRICK_WALL);
     Assert.executeAndAssert(solidBlocks.add(new Rectangle(x, y - Sizes.BLOCK, Sizes.BLOCK * 16, Sizes.BLOCK), WallBlockType.MAGIC_BRICK_WALL));
     Assert.executeAndAssert(solidBlocks.add(new Rectangle(x + Sizes.BLOCK, y - 2 * Sizes.BLOCK, Sizes.BLOCK * 14, Sizes.BLOCK), WallBlockType.MAGIC_BRICK_WALL));
@@ -122,7 +121,9 @@ public class VillageGenerator {
     // Top
     Assert.executeAndAssert(solidBlocks.add(new Rectangle(x + 2 * Sizes.BLOCK, y - 9 * Sizes.BLOCK, Sizes.BLOCK * 12, Sizes.BLOCK), WallBlockType.MAGIC_BRICK_WALL));
     Assert.executeAndAssert(solidBlocks.add(new Rectangle(x + 3 * Sizes.BLOCK, y - 10 * Sizes.BLOCK, Sizes.BLOCK * 10, Sizes.BLOCK), WallBlockType.MAGIC_BRICK_WALL));
+    // Inside
     solidBlocks.getBackground().setRectUnscaled(new Rectangle(x + 2 * Sizes.BLOCK, y - 8 * Sizes.BLOCK, Sizes.BLOCK * 12, 5 * Sizes.BLOCK), BackgroundBlockType.VAULT);
+    backgrounds.add(new Portal(x + 8 * Sizes.BLOCK - (int)(1.5 * Sizes.BLOCK), y - 8 * Sizes.BLOCK));
   }
 
   private void addZombieCage(int villageY) {

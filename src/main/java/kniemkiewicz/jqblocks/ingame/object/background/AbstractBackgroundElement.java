@@ -7,8 +7,7 @@ import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
-public abstract class AbstractBackgroundElement<T extends AbstractBackgroundElement>
-    implements BackgroundElement {
+public abstract class AbstractBackgroundElement implements BackgroundElement {
   protected int x;
   protected int y;
   protected int width;

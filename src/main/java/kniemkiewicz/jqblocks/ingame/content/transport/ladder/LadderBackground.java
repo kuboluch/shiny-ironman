@@ -11,7 +11,7 @@ import kniemkiewicz.jqblocks.util.BeanName;
  * User: knie
  * Date: 7/23/12
  */
-public class LadderBackground extends AbstractBackgroundElement<LadderBackground> {
+public class LadderBackground extends AbstractBackgroundElement {
 
   private static final long serialVersionUID = 1;
 
