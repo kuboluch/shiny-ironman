@@ -1,15 +1,15 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.bat;
 
 import kniemkiewicz.jqblocks.ingame.*;
-import kniemkiewicz.jqblocks.ingame.content.hp.KillablePhysicalObject;
+import kniemkiewicz.jqblocks.ingame.object.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
-import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
-import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
+import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
+import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.object.serialization.SerializableRef;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
