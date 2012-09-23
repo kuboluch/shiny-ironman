@@ -2,7 +2,7 @@ package kniemkiewicz.jqblocks.ingame.resource.inventory;
 
 import kniemkiewicz.jqblocks.ingame.inventory.AbstractInventory;
 import kniemkiewicz.jqblocks.ingame.inventory.Inventory;
-import kniemkiewicz.jqblocks.ingame.item.EmptyItem;
+import kniemkiewicz.jqblocks.ingame.inventory.item.EmptyItem;
 import kniemkiewicz.jqblocks.ingame.resource.Resource;
 import kniemkiewicz.jqblocks.ingame.resource.item.ResourceItem;
 import org.springframework.stereotype.Component;

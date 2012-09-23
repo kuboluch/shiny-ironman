@@ -23,15 +23,15 @@
         <constructor-arg value="images/axe.png"/>
     </bean>
 
-    <bean id="fireplaceRenderer" class="kniemkiewicz.jqblocks.ingame.workplace.renderer.WorkplaceImageRenderer">
+    <bean id="fireplaceRenderer" class="kniemkiewicz.jqblocks.ingame.object.workplace.renderer.WorkplaceImageRenderer">
         <constructor-arg value="images/fireplace.png"/>
     </bean>
 
-    <bean id="sawmillRenderer" class="kniemkiewicz.jqblocks.ingame.workplace.renderer.WorkplaceImageRenderer">
+    <bean id="sawmillRenderer" class="kniemkiewicz.jqblocks.ingame.object.workplace.renderer.WorkplaceImageRenderer">
         <constructor-arg value="images/saw.png"/>
     </bean>
 
-    <bean id="unknownWorkplaceRenderer" class="kniemkiewicz.jqblocks.ingame.workplace.renderer.WorkplaceImageRenderer">
+    <bean id="unknownWorkplaceRenderer" class="kniemkiewicz.jqblocks.ingame.object.workplace.renderer.WorkplaceImageRenderer">
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="unknown"/>
     </bean>
@@ -55,7 +55,7 @@
         </constructor-arg>
     </bean>
 
-    <bean id="peonRenderer" class="kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer">
+    <bean id="peonRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.TwoFacedImageRenderer">
         <constructor-arg ref="peonLeftImage"/>
     </bean>
 

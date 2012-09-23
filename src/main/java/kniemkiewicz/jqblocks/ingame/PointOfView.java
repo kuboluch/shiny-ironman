@@ -2,8 +2,8 @@ package kniemkiewicz.jqblocks.ingame;
 
 import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.Main;
-import kniemkiewicz.jqblocks.ingame.event.EventBus;
-import kniemkiewicz.jqblocks.ingame.event.screen.ScreenMovedEvent;
+import kniemkiewicz.jqblocks.ingame.controller.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.controller.event.screen.ScreenMovedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

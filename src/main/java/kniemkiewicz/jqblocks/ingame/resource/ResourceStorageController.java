@@ -2,8 +2,8 @@ package kniemkiewicz.jqblocks.ingame.resource;
 
 import kniemkiewicz.jqblocks.ingame.content.resource.Stone;
 import kniemkiewicz.jqblocks.ingame.content.resource.Wood;
-import kniemkiewicz.jqblocks.ingame.event.EventBus;
-import kniemkiewicz.jqblocks.ingame.event.resource.ResourceStorageChangeEvent;
+import kniemkiewicz.jqblocks.ingame.controller.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.controller.event.resource.ResourceStorageChangeEvent;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

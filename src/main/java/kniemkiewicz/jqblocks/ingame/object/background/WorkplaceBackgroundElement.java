@@ -2,7 +2,7 @@ package kniemkiewicz.jqblocks.ingame.object.background;
 
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.production.CanProduce;
-import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition;
+import kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceDefinition;
 import kniemkiewicz.jqblocks.util.BeanName;
 import kniemkiewicz.jqblocks.util.SerializableBeanProxy;
 

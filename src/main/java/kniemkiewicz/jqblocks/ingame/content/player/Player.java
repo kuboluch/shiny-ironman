@@ -1,12 +1,15 @@
 package kniemkiewicz.jqblocks.ingame.content.player;
 
 import kniemkiewicz.jqblocks.ingame.*;
+import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
+import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
-import kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer;
-import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
-import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
-import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
+import kniemkiewicz.jqblocks.ingame.renderer.TwoFacedImageRenderer;
+import kniemkiewicz.jqblocks.ingame.object.hp.HasHealthPoints;
+import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
+import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.production.CanProduce;
 import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;

@@ -1,7 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.item.spell;
 
-import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.inventory.item.Item;
+import kniemkiewicz.jqblocks.ingame.inventory.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.GraphicsContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;

@@ -1,11 +1,9 @@
 package kniemkiewicz.jqblocks.ingame.content.creature;
 
-import kniemkiewicz.jqblocks.ingame.FreeFallController;
-import kniemkiewicz.jqblocks.ingame.HasFullXYMovement;
+import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
+import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
-import kniemkiewicz.jqblocks.ingame.content.creature.bat.Bat;
-import kniemkiewicz.jqblocks.ingame.content.creature.bat.BatBody;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;

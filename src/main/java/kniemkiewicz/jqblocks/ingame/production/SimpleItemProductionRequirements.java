@@ -1,7 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.production;
 
 import com.google.common.collect.ImmutableList;
-import kniemkiewicz.jqblocks.ingame.item.Item;
+import kniemkiewicz.jqblocks.ingame.inventory.item.Item;
 import kniemkiewicz.jqblocks.ingame.resource.Resource;
 import kniemkiewicz.jqblocks.ingame.resource.ResourceStorageController;
 import kniemkiewicz.jqblocks.ingame.resource.ResourceType;

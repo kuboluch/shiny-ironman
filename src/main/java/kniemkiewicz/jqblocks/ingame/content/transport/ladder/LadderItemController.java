@@ -1,9 +1,9 @@
 package kniemkiewicz.jqblocks.ingame.content.transport.ladder;
 
-import kniemkiewicz.jqblocks.ingame.MovingObjects;
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
+import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
-import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController;
+import kniemkiewicz.jqblocks.ingame.inventory.item.controller.AbstractActionItemController;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import org.newdawn.slick.geom.Rectangle;

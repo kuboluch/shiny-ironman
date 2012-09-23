@@ -23,7 +23,7 @@
         </constructor-arg>
     </bean>
 
-    <bean id="torch" class="kniemkiewicz.jqblocks.ingame.item.ItemDefinition">
+    <bean id="torch" class="kniemkiewicz.jqblocks.ingame.inventory.item.ItemDefinition">
         <property name="name" value="torch"/>
         <property name="description" value="Let there be light"/>
         <property name="renderer" ref="torchRenderer"/>
@@ -44,7 +44,7 @@
         <property name="globallyAvailable" value="true"/>
     </bean>
 
-    <bean id="ladder" class="kniemkiewicz.jqblocks.ingame.item.ItemDefinition">
+    <bean id="ladder" class="kniemkiewicz.jqblocks.ingame.inventory.item.ItemDefinition">
         <property name="name" value="ladder"/>
         <property name="description" value="Ladder to climb?"/>
         <property name="renderer" ref="ladderRenderer"/>
@@ -72,7 +72,7 @@
         </property>
     </bean>
 
-    <bean id="pickaxe" class="kniemkiewicz.jqblocks.ingame.item.ItemDefinition">
+    <bean id="pickaxe" class="kniemkiewicz.jqblocks.ingame.inventory.item.ItemDefinition">
         <property name="name" value="pickaxe"/>
         <property name="description" value="Pickaxe"/>
         <property name="renderer" ref="pickaxeRenderer"/>
@@ -95,7 +95,7 @@
         </property>
     </bean>
 
-    <bean id="axe" class="kniemkiewicz.jqblocks.ingame.item.ItemDefinition">
+    <bean id="axe" class="kniemkiewicz.jqblocks.ingame.inventory.item.ItemDefinition">
         <property name="name" value="rock"/>
         <property name="description" value="Rock to play with"/>
         <property name="renderer" ref="axeRenderer"/>
@@ -118,7 +118,7 @@
         </property>
     </bean>
 
-    <bean id="bow" class="kniemkiewicz.jqblocks.ingame.item.ItemDefinition">
+    <bean id="bow" class="kniemkiewicz.jqblocks.ingame.inventory.item.ItemDefinition">
         <property name="name" value="rock"/>
         <property name="description" value="Rock to play with"/>
         <property name="renderer" ref="unknownRenderer"/>
@@ -138,7 +138,7 @@
         </property>
     </bean>
 
-    <bean id="dirtBlock" class="kniemkiewicz.jqblocks.ingame.item.ItemDefinition">
+    <bean id="dirtBlock" class="kniemkiewicz.jqblocks.ingame.inventory.item.ItemDefinition">
         <property name="name" value="dirtBlock"/>
         <property name="description" value="Block of dirt, go wild, build yourself a castle :)"/>
         <property name="renderer" ref="dirtBlockRenderer"/>

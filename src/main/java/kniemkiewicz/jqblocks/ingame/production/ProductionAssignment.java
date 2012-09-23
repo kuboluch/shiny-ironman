@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.production;
 
-import kniemkiewicz.jqblocks.ingame.item.ItemDefinition;
+import kniemkiewicz.jqblocks.ingame.inventory.item.ItemDefinition;
 
 import static com.google.common.base.Preconditions.*;
 

@@ -3,7 +3,7 @@ package kniemkiewicz.jqblocks.ingame.production;
 import kniemkiewicz.jqblocks.ingame.resource.Resource;
 import kniemkiewicz.jqblocks.ingame.resource.ResourceStorageController;
 import kniemkiewicz.jqblocks.ingame.resource.renderer.ResourceRenderer;
-import kniemkiewicz.jqblocks.ingame.ui.widget.model.PanelItemModel;
+import kniemkiewicz.jqblocks.ingame.hud.widget.model.PanelItemModel;
 import org.newdawn.slick.Image;
 
 /**

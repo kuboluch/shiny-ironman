@@ -1,10 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.item.arrow;
 
-import kniemkiewicz.jqblocks.ingame.MovingObjects;
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
-import kniemkiewicz.jqblocks.ingame.UpdateQueue;
-import kniemkiewicz.jqblocks.ingame.World;
-import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
+import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

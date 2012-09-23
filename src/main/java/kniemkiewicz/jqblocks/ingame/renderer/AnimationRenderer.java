@@ -1,10 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.renderer;
 
-import kniemkiewicz.jqblocks.ingame.HasFullXYMovement;
+import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
-import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.content.creature.zombie.ZombieBody;
-import kniemkiewicz.jqblocks.ingame.content.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;

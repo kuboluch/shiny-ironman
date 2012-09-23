@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.level.enemies;
 
-import kniemkiewicz.jqblocks.ingame.content.hp.KillablePhysicalObject;
+import kniemkiewicz.jqblocks.ingame.object.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 
 /**

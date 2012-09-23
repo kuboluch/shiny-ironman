@@ -1,7 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.content.item.bow;
 
-import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderItem;
-import kniemkiewicz.jqblocks.ingame.item.ItemFactory;
+import kniemkiewicz.jqblocks.ingame.inventory.item.ItemFactory;
 
 /**
  * User: qba

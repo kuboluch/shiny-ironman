@@ -3,10 +3,9 @@ package kniemkiewicz.jqblocks.ingame.content.item.fireball;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
-import kniemkiewicz.jqblocks.ingame.item.renderer.EquippedItemRenderer;
+import kniemkiewicz.jqblocks.ingame.inventory.item.renderer.EquippedItemRenderer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.particles.effects.FireEmitter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.WeakHashMap;
 
 /**
  * User: krzysiek

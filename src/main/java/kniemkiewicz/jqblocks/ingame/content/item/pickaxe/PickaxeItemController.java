@@ -1,12 +1,12 @@
 package kniemkiewicz.jqblocks.ingame.content.item.pickaxe;
 
-import kniemkiewicz.jqblocks.ingame.FreeFallController;
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
+import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.BackgroundBlockType;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
-import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController;
+import kniemkiewicz.jqblocks.ingame.inventory.item.controller.AbstractActionItemController;
 import kniemkiewicz.jqblocks.ingame.object.DigEffect;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;

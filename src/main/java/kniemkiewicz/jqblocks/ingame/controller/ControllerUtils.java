@@ -1,18 +1,16 @@
 package kniemkiewicz.jqblocks.ingame.controller;
 
-import kniemkiewicz.jqblocks.ingame.HasFullXYMovement;
-import kniemkiewicz.jqblocks.ingame.MovingObjects;
+import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.World;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.content.creature.peon.Peon;
-import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
+import kniemkiewicz.jqblocks.ingame.object.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
-import kniemkiewicz.jqblocks.ingame.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.controller.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
-import kniemkiewicz.jqblocks.util.Pair;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;

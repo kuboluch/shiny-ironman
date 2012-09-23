@@ -1,17 +1,13 @@
 package kniemkiewicz.jqblocks.ingame.content.item.arrow;
 
 import kniemkiewicz.jqblocks.ingame.*;
-import kniemkiewicz.jqblocks.ingame.content.hp.KillablePhysicalObject;
-import kniemkiewicz.jqblocks.ingame.content.item.bow.BowRenderer;
-import kniemkiewicz.jqblocks.ingame.object.HasSource;
+import kniemkiewicz.jqblocks.ingame.object.hp.KillablePhysicalObject;
+import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.object.serialization.SerializableRef;
-import kniemkiewicz.jqblocks.ingame.util.QuadTree;
-import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
-import kniemkiewicz.jqblocks.ingame.util.movement.SingleAxisMovement;
-import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
-import kniemkiewicz.jqblocks.ingame.util.movement.XYMovementDefinition;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.util.BeanName;
 import kniemkiewicz.jqblocks.util.SerializationUtils2;
 import org.newdawn.slick.Graphics;

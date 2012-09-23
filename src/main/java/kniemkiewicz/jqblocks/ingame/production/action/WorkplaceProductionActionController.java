@@ -1,7 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.production.action;
 
 import kniemkiewicz.jqblocks.ingame.production.CanProduce;
-import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
+import kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceController;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

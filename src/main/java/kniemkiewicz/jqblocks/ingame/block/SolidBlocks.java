@@ -1,8 +1,11 @@
 package kniemkiewicz.jqblocks.ingame.block;
 
 import kniemkiewicz.jqblocks.ingame.*;
+import kniemkiewicz.jqblocks.ingame.controller.CollisionController;
+import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
-import kniemkiewicz.jqblocks.ingame.ui.info.TimingInfo;
+import kniemkiewicz.jqblocks.ingame.hud.info.TimingInfo;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.util.*;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;

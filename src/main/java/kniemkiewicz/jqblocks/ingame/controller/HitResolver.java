@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.controller;
 
-import kniemkiewicz.jqblocks.ingame.HasFullXYMovement;
+import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.util.movement.SingleAxisMovement;
 import kniemkiewicz.jqblocks.util.GeometryUtils;

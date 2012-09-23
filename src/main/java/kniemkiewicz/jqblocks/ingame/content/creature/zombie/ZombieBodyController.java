@@ -1,8 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.zombie;
 
-import kniemkiewicz.jqblocks.ingame.FreeFallController;
-import kniemkiewicz.jqblocks.ingame.UpdateQueue;
-import org.springframework.beans.factory.annotation.Autowired;
+import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
 import org.springframework.stereotype.Component;
 
 /**

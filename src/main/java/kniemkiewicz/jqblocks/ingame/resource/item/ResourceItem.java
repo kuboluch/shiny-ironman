@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.resource.item;
 
-import kniemkiewicz.jqblocks.ingame.item.Item;
+import kniemkiewicz.jqblocks.ingame.inventory.item.Item;
 import kniemkiewicz.jqblocks.ingame.resource.Resource;
 
 /**

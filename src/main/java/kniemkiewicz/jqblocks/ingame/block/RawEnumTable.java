@@ -85,7 +85,7 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
     assert rendererCache != null;
     int x0 = (pov.getShiftX() - Sizes.MIN_X) / Sizes.BLOCK;
     int y0 = (pov.getShiftY() - Sizes.MIN_Y) / Sizes.BLOCK;
-    int width = pov.getWindowWidth() / Sizes.BLOCK + 1;
+    int width = pov.getWindowWidth() / Sizes.BLOCK + 2;
     int height = pov.getWindowHeight() / Sizes.BLOCK + 3;
     if (x0 < 0) {
       x0 = 0;

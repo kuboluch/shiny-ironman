@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.level;
 
-import kniemkiewicz.jqblocks.ingame.CollisionController;
+import kniemkiewicz.jqblocks.ingame.controller.CollisionController;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.content.block.levelWall.LevelWall;

@@ -1,8 +1,8 @@
 package kniemkiewicz.jqblocks.ingame.resource.item;
 
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
-import kniemkiewicz.jqblocks.ingame.item.renderer.EmptyItemRenderer;
-import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.inventory.item.renderer.EmptyItemRenderer;
+import kniemkiewicz.jqblocks.ingame.inventory.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.resource.Resource;
 import kniemkiewicz.jqblocks.ingame.resource.renderer.ResourceRenderer;
 import kniemkiewicz.jqblocks.util.BeanName;

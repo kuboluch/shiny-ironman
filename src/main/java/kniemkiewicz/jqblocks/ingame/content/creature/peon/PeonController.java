@@ -1,9 +1,9 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.peon;
 
-import kniemkiewicz.jqblocks.ingame.MovingObjects;
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
+import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.World;
-import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
+import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.controller.SoundController;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import org.newdawn.slick.Sound;

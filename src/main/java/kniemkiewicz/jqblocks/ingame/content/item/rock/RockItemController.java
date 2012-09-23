@@ -1,7 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.item.rock;
 
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
-import kniemkiewicz.jqblocks.ingame.event.Event;
+import kniemkiewicz.jqblocks.ingame.controller.event.Event;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import org.springframework.stereotype.Component;
 

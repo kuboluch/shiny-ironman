@@ -2,10 +2,13 @@ package kniemkiewicz.jqblocks.ingame.content.creature.zombie;
 
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
-import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
+import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.controller.ControllerUtils;
+import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
+import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.util.OnceXTimes;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import org.newdawn.slick.geom.Rectangle;

@@ -3,7 +3,7 @@ package kniemkiewicz.jqblocks.ingame.content.block.dirt;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
-import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController;
+import kniemkiewicz.jqblocks.ingame.inventory.item.controller.AbstractActionItemController;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;

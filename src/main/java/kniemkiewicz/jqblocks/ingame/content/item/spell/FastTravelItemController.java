@@ -1,18 +1,16 @@
 package kniemkiewicz.jqblocks.ingame.content.item.spell;
 
 import kniemkiewicz.jqblocks.Configuration;
-import kniemkiewicz.jqblocks.ingame.CollisionController;
-import kniemkiewicz.jqblocks.ingame.MovingObjects;
+import kniemkiewicz.jqblocks.ingame.controller.CollisionController;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
-import kniemkiewicz.jqblocks.ingame.event.Event;
-import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
-import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseClickEvent;
-import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
+import kniemkiewicz.jqblocks.ingame.controller.event.Event;
+import kniemkiewicz.jqblocks.ingame.controller.event.input.mouse.Button;
+import kniemkiewicz.jqblocks.ingame.controller.event.input.mouse.MouseClickEvent;
 import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.util.Collections3;
