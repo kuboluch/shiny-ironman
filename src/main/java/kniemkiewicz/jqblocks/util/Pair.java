@@ -8,7 +8,7 @@ public class Pair<T, E> {
   T first;
   E second;
 
-  public static <T, E> Pair<T, E> newInstance(T t, E e) {
+  public static <T, E> Pair<T, E> of(T t, E e) {
     return new Pair<T, E>(t, e);
   }
 

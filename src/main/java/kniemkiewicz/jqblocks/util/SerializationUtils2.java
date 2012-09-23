@@ -1,6 +1,5 @@
 package kniemkiewicz.jqblocks.util;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Vector2f;
@@ -75,13 +74,13 @@ public final class SerializationUtils2 {
         return data[currentPos - 1];
       }
     };
-    return Pair.<OutputStream, InputStream>newInstance(outputStream, inputStream);
+    return Pair.<OutputStream, InputStream>of(outputStream, inputStream);
   }
 
   public static Pair<ObjectOutputStream, ObjectInputStream> getObjectPipe() {
     Pair<OutputStream, InputStream> bytePipe = getPipe();
     try {
-      return Pair.newInstance(new ObjectOutputStream(bytePipe.getFirst()), new ObjectInputStream(bytePipe.getSecond()));
+      return Pair.of(new ObjectOutputStream(bytePipe.getFirst()), new ObjectInputStream(bytePipe.getSecond()));
     } catch (IOException e) {
       assert false;
     }

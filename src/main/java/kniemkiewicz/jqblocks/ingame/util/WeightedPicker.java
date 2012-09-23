@@ -1,5 +1,6 @@
-package kniemkiewicz.jqblocks.ingame.level.enemies;
+package kniemkiewicz.jqblocks.ingame.util;
 
+import java.util.List;
 import java.util.Random;
 import java.util.TreeMap;
 
@@ -11,7 +12,7 @@ public class WeightedPicker<T> {
   Random random = new Random();
   TreeMap<Float, T> choices = new TreeMap<Float, T>();
 
-  void addChoice(float probability, T value) {
+  public void addChoice(float probability, T value) {
     if (choices.size() == 0) {
       choices.put(probability, value);
     } else {
@@ -21,7 +22,7 @@ public class WeightedPicker<T> {
     }
   }
 
-  T pick(float multiplier) {
+  public T pick(float multiplier) {
     if (choices.size() == 0) return null;
     assert choices.lastKey() * multiplier < 1;
     float x = random.nextFloat() / multiplier;
@@ -29,11 +30,19 @@ public class WeightedPicker<T> {
     return choices.higherEntry(x).getValue();
   }
 
-  T pick() {
+  public T pick() {
     return pick(1);
   }
 
-  boolean empty() {
+  public boolean empty() {
     return choices.size() == 0;
+  }
+
+  public static <E> WeightedPicker<E> createUniformPicker(List<E> choices, float totalProbability) {
+    WeightedPicker<E> picker = new WeightedPicker<E>();
+    for (E c : choices) {
+      picker.addChoice(totalProbability / choices.size(), c);
+    }
+    return picker;
   }
 }

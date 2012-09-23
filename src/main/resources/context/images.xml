@@ -50,4 +50,10 @@
         <constructor-arg value="24"/>
         <constructor-arg value="13"/>
     </bean>
+
+    <bean id="birdsSpriteSheet" class="org.newdawn.slick.SpriteSheet">
+        <constructor-arg value="spritesheet/birds.png"/>
+        <constructor-arg value="40"/>
+        <constructor-arg value="40"/>
+    </bean>
 </beans>
