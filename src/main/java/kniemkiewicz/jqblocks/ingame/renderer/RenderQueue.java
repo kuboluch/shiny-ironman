@@ -38,8 +38,8 @@ public class RenderQueue {
   @Autowired
   Configuration configuration;
 
-  @Resource
-  Image skyBackgroundImage;
+  @Autowired
+  BackgroundRenderer backgroundRenderer;
 
   EnumMap<RenderableObject.Layer, Set<RenderableObject>> renderableObjects = new EnumMap<RenderableObject.Layer, Set<RenderableObject>>(RenderableObject.Layer.class);
   Set<Renderable> renderables = new HashSet<Renderable>();
@@ -80,8 +80,8 @@ public class RenderQueue {
   }
 
   public void render(Graphics g) {
-    skyBackgroundImage.draw(0,0, pointOfView.getWindowWidth(), pointOfView.getWindowHeight());
     g.setLineWidth(1);
+    backgroundRenderer.render();
     g.translate(-pointOfView.getShiftX(), -pointOfView.getShiftY());
     Rectangle window = new Rectangle(pointOfView.getShiftX(), pointOfView.getShiftY(), pointOfView.getWindowWidth(), pointOfView.getWindowHeight());
     for (RenderableObject.Layer l : RenderableObject.Layer.values()) {
