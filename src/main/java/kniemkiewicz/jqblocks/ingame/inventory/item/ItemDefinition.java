@@ -6,7 +6,7 @@ import kniemkiewicz.jqblocks.ingame.production.ItemProductionRequirements;
 import kniemkiewicz.jqblocks.ingame.production.ResourceRequirement;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.hud.widget.model.PanelItemModel;
-import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition;
+import kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceDefinition;
 import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.newdawn.slick.Image;

@@ -2,8 +2,7 @@ package kniemkiewicz.jqblocks.ingame.object;
 
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
-import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
-import kniemkiewicz.jqblocks.ingame.workplace.PlaceableWorkplaceObject;
+import kniemkiewicz.jqblocks.ingame.object.workplace.PlaceableWorkplaceObject;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Shape;

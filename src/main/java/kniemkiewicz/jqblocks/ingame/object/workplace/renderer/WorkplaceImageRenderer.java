@@ -1,4 +1,4 @@
-package kniemkiewicz.jqblocks.ingame.workplace.renderer;
+package kniemkiewicz.jqblocks.ingame.object.workplace.renderer;
 
 
 import com.google.common.base.Optional;

@@ -10,7 +10,7 @@
                         http://www.springframework.org/schema/util
                         http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-    <bean id="workplaceController" class="kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController">
+    <bean id="workplaceController" class="kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceController">
         <constructor-arg>
             <list>
                 <ref bean="fireplace"/>
@@ -23,7 +23,7 @@
         </constructor-arg>
     </bean>
 
-    <bean id="fireplace" class="kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition">
+    <bean id="fireplace" class="kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceDefinition">
         <property name="description" value="Place with fire?"/>
         <property name="blockWidth" value="4"/>
         <property name="blockHeight" value="3"/>
@@ -31,7 +31,7 @@
         <property name="actionController" ref="noInteraction"/>
     </bean>
 
-    <bean id="sawmill" class="kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition">
+    <bean id="sawmill" class="kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceDefinition">
         <property name="description" value="You can cut log into wood"/>
         <property name="blockWidth" value="4"/>
         <property name="blockHeight" value="3"/>
@@ -39,7 +39,7 @@
         <property name="actionController" ref="woodProcessController"/>
     </bean>
 
-    <bean id="carpenter" class="kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition">
+    <bean id="carpenter" class="kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceDefinition">
         <property name="description" value="?"/>
         <property name="blockWidth" value="4"/>
         <property name="blockHeight" value="3"/>
@@ -53,7 +53,7 @@
     <bean id="unknownWorkplace6" parent="carpenter"/>
 
     <bean id="noInteraction" class="kniemkiewicz.jqblocks.ingame.controller.action.NoInteraction"/>
-    <bean id="woodProcessController" class="kniemkiewicz.jqblocks.ingame.workplace.action.ProcessResourceActionController">
+    <bean id="woodProcessController" class="kniemkiewicz.jqblocks.ingame.object.workplace.action.ProcessResourceActionController">
         <constructor-arg>
             <util:constant static-field="kniemkiewicz.jqblocks.ingame.resource.ResourceType.WOOD"/>
         </constructor-arg>

@@ -7,7 +7,7 @@ import kniemkiewicz.jqblocks.ingame.hud.inventory.QuickItemInventoryUI;
 import kniemkiewicz.jqblocks.ingame.hud.inventory.ResourceInventoryUI;
 import kniemkiewicz.jqblocks.ingame.hud.produce.ProductionUI;
 import kniemkiewicz.jqblocks.ingame.hud.workplace.WorkplaceUI;
-import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
+import kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceController;
 import kniemkiewicz.jqblocks.twl.RootPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

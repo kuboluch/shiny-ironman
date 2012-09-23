@@ -8,7 +8,7 @@ import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
-import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition;
+import kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceDefinition;
 import kniemkiewicz.jqblocks.util.BeanName;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.apache.commons.logging.Log;

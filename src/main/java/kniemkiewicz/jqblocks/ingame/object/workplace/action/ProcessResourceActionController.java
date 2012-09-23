@@ -1,4 +1,4 @@
-package kniemkiewicz.jqblocks.ingame.workplace.action;
+package kniemkiewicz.jqblocks.ingame.object.workplace.action;
 
 import kniemkiewicz.jqblocks.ingame.controller.action.Interactive;
 import kniemkiewicz.jqblocks.ingame.resource.Resource;

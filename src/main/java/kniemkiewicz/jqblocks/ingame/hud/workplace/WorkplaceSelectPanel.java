@@ -1,7 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.hud.workplace;
 
 import kniemkiewicz.jqblocks.ingame.hud.widget.SelectItemPanel;
-import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition;
+import kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceDefinition;
 
 import java.util.List;
 

@@ -15,8 +15,8 @@ import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement
 import kniemkiewicz.jqblocks.ingame.resource.ResourceStorageController;
 import kniemkiewicz.jqblocks.ingame.hud.MainGameUI;
 import kniemkiewicz.jqblocks.ingame.hud.widget.SelectListener;
-import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
-import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceDefinition;
+import kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceController;
+import kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceDefinition;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;

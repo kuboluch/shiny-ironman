@@ -2,7 +2,7 @@ package kniemkiewicz.jqblocks.ingame.hud.workplace;
 
 import de.matthiasmann.twl.ResizableFrame;
 import de.matthiasmann.twl.ScrollPane;
-import kniemkiewicz.jqblocks.ingame.workplace.WorkplaceController;
+import kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

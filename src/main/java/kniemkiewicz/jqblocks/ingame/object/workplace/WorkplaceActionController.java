@@ -1,4 +1,4 @@
-package kniemkiewicz.jqblocks.ingame.workplace;
+package kniemkiewicz.jqblocks.ingame.object.workplace;
 
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
