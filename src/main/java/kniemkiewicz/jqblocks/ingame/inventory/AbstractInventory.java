@@ -1,10 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.inventory;
 
-import kniemkiewicz.jqblocks.ingame.event.EventBus;
-import kniemkiewicz.jqblocks.ingame.event.inventory.ItemAddedEvent;
-import kniemkiewicz.jqblocks.ingame.event.inventory.ItemRemovedEvent;
-import kniemkiewicz.jqblocks.ingame.event.inventory.SelectedItemChangeEvent;
-import kniemkiewicz.jqblocks.ingame.item.Item;
+import kniemkiewicz.jqblocks.ingame.controller.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.controller.event.inventory.ItemAddedEvent;
+import kniemkiewicz.jqblocks.ingame.controller.event.inventory.ItemRemovedEvent;
+import kniemkiewicz.jqblocks.ingame.controller.event.inventory.SelectedItemChangeEvent;
+import kniemkiewicz.jqblocks.ingame.inventory.item.Item;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 

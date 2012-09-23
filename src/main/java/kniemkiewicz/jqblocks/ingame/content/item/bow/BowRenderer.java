@@ -3,18 +3,14 @@ package kniemkiewicz.jqblocks.ingame.content.item.bow;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.controller.ControllerUtils;
-import kniemkiewicz.jqblocks.ingame.item.renderer.EquippedItemRenderer;
-import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.inventory.item.renderer.EquippedItemRenderer;
+import kniemkiewicz.jqblocks.ingame.inventory.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.GraphicsContainer;
-import kniemkiewicz.jqblocks.util.Pair;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Vector;
 
 /**
  * User: knie

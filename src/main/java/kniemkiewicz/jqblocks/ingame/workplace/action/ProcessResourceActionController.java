@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.workplace.action;
 
-import kniemkiewicz.jqblocks.ingame.action.Interactive;
+import kniemkiewicz.jqblocks.ingame.controller.action.Interactive;
 import kniemkiewicz.jqblocks.ingame.resource.Resource;
 import kniemkiewicz.jqblocks.ingame.resource.ResourceStorageController;
 import kniemkiewicz.jqblocks.ingame.resource.ResourceType;

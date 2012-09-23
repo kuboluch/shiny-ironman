@@ -55,7 +55,7 @@
         </constructor-arg>
     </bean>
 
-    <bean id="peonRenderer" class="kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer">
+    <bean id="peonRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.TwoFacedImageRenderer">
         <constructor-arg ref="peonLeftImage"/>
     </bean>
 

@@ -1,10 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.content.player.renderer;
 
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
-import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.item.QuickItemInventory;
-import kniemkiewicz.jqblocks.ingame.item.renderer.DefaultEquippedItemRenderer;
-import kniemkiewicz.jqblocks.ingame.item.renderer.EquippedItemRenderer;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
+import kniemkiewicz.jqblocks.ingame.inventory.item.Item;
+import kniemkiewicz.jqblocks.ingame.inventory.item.QuickItemInventory;
+import kniemkiewicz.jqblocks.ingame.inventory.item.renderer.DefaultEquippedItemRenderer;
+import kniemkiewicz.jqblocks.ingame.inventory.item.renderer.EquippedItemRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
 import kniemkiewicz.jqblocks.util.BeanName;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;

@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.object;
 
-import kniemkiewicz.jqblocks.ingame.item.Item;
+import kniemkiewicz.jqblocks.ingame.inventory.item.Item;
 
 /**
  * User: knie

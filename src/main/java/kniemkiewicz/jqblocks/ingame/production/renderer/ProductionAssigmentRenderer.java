@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.production.renderer;
 
-import kniemkiewicz.jqblocks.ingame.item.ItemDefinition;
+import kniemkiewicz.jqblocks.ingame.inventory.item.ItemDefinition;
 import kniemkiewicz.jqblocks.ingame.object.ProgressBar;
 import kniemkiewicz.jqblocks.ingame.production.ProductionAssignment;
 import kniemkiewicz.jqblocks.ingame.production.ProductionAssignmentQueue;

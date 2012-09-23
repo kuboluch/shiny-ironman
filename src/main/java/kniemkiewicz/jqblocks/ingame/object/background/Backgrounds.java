@@ -1,9 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.object.background;
 
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.util.LinearIntersectionIterator;
-import kniemkiewicz.jqblocks.ingame.workplace.PlaceableWorkplaceObject;
-import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

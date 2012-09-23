@@ -3,16 +3,14 @@ package kniemkiewicz.jqblocks.ingame.content.creature.bat;
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.content.creature.SimpleBody;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
+import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
-import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
-import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovementDefinition;
 import kniemkiewicz.jqblocks.util.BeanName;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Rectangle;
 
 /**
  * User: knie

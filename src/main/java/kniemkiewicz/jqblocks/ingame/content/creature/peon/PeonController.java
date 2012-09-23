@@ -1,7 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.peon;
 
-import kniemkiewicz.jqblocks.ingame.MovingObjects;
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
+import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.World;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.controller.SoundController;

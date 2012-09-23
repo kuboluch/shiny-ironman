@@ -1,10 +1,9 @@
 package kniemkiewicz.jqblocks.ingame.content.item.rock;
 
-import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.inventory.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.GraphicsContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

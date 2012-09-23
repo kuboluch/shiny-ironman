@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.util;
 
-import kniemkiewicz.jqblocks.ingame.ui.info.TimingInfo;
+import kniemkiewicz.jqblocks.ingame.hud.info.TimingInfo;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;

@@ -1,23 +1,14 @@
 package kniemkiewicz.jqblocks.ingame.content.item.fireball;
 
-import kniemkiewicz.jqblocks.Configuration;
-import kniemkiewicz.jqblocks.ingame.CollisionController;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
-import kniemkiewicz.jqblocks.ingame.ProjectileController;
-import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
-import kniemkiewicz.jqblocks.ingame.content.item.arrow.Arrow;
-import kniemkiewicz.jqblocks.ingame.content.item.spell.FastTravelItem;
-import kniemkiewicz.jqblocks.ingame.content.player.Player;
+import kniemkiewicz.jqblocks.ingame.controller.ProjectileController;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.controller.ControllerUtils;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.controller.SoundController;
-import kniemkiewicz.jqblocks.ingame.event.Event;
-import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
-import kniemkiewicz.jqblocks.ingame.event.input.mouse.MouseClickEvent;
-import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
-import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
+import kniemkiewicz.jqblocks.ingame.controller.event.Event;
+import kniemkiewicz.jqblocks.ingame.controller.event.input.mouse.Button;
+import kniemkiewicz.jqblocks.ingame.controller.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.newdawn.slick.Sound;
@@ -25,7 +16,6 @@ import org.newdawn.slick.geom.Vector2f;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.List;
 

@@ -1,12 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.workplace;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
 import kniemkiewicz.jqblocks.ingame.renderer.BeanAwareImageRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
-import kniemkiewicz.jqblocks.ingame.action.Interactive;
-import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
-import kniemkiewicz.jqblocks.ingame.ui.widget.model.PanelItemModel;
+import kniemkiewicz.jqblocks.ingame.controller.action.Interactive;
+import kniemkiewicz.jqblocks.ingame.hud.widget.model.PanelItemModel;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.Image;
 import org.springframework.beans.factory.BeanNameAware;

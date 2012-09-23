@@ -1,7 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.production;
 
-import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.resource.Resource;
+import kniemkiewicz.jqblocks.ingame.inventory.item.Item;
 
 import java.util.List;
 

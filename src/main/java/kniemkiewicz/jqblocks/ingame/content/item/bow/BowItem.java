@@ -1,9 +1,9 @@
 package kniemkiewicz.jqblocks.ingame.content.item.bow;
 
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
-import kniemkiewicz.jqblocks.ingame.item.renderer.EquippedItemRenderer;
-import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.inventory.item.renderer.EquippedItemRenderer;
+import kniemkiewicz.jqblocks.ingame.inventory.item.Item;
+import kniemkiewicz.jqblocks.ingame.inventory.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.util.BeanName;
 
 /**

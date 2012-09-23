@@ -1,8 +1,5 @@
 package kniemkiewicz.jqblocks.util;
 
-import kniemkiewicz.jqblocks.ingame.FreeFallController;
-import kniemkiewicz.jqblocks.ingame.HasFullXYMovement;
-
 import java.util.*;
 
 /**

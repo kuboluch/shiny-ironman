@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.content.transport.ladder;
 
-import kniemkiewicz.jqblocks.ingame.item.ItemFactory;
+import kniemkiewicz.jqblocks.ingame.inventory.item.ItemFactory;
 
 /**
  * User: qba

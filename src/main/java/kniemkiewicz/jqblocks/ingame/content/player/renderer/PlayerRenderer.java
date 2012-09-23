@@ -2,9 +2,9 @@ package kniemkiewicz.jqblocks.ingame.content.player.renderer;
 
 import com.google.common.base.Optional;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
-import kniemkiewicz.jqblocks.ingame.object.TwoFacedImageRenderer;
+import kniemkiewicz.jqblocks.ingame.renderer.TwoFacedImageRenderer;
 import kniemkiewicz.jqblocks.ingame.production.ProductionAssignmentController;
 import kniemkiewicz.jqblocks.ingame.production.ProductionAssignmentQueue;
 import kniemkiewicz.jqblocks.ingame.production.renderer.ProductionAssigmentRenderer;

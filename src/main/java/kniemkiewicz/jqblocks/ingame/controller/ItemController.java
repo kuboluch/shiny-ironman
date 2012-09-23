@@ -1,7 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.controller;
 
-import kniemkiewicz.jqblocks.ingame.event.Event;
-import kniemkiewicz.jqblocks.ingame.item.Item;
+import kniemkiewicz.jqblocks.ingame.controller.event.Event;
+import kniemkiewicz.jqblocks.ingame.inventory.item.Item;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 
 import java.util.List;

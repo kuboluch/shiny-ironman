@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame;
 
 import kniemkiewicz.jqblocks.ingame.content.resource.Wood;
+import kniemkiewicz.jqblocks.ingame.controller.CollisionController;
 import kniemkiewicz.jqblocks.ingame.resource.item.ResourceObject;
 import org.junit.Assert;
 import org.junit.Test;

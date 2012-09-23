@@ -1,7 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.renderer;
 
-import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.inventory.item.Item;
+import kniemkiewicz.jqblocks.ingame.inventory.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import org.newdawn.slick.Image;

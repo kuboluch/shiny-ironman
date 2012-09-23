@@ -3,17 +3,12 @@ package kniemkiewicz.jqblocks.ingame.workplace.renderer;
 
 import com.google.common.base.Optional;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
-import kniemkiewicz.jqblocks.ingame.item.ItemDefinition;
-import kniemkiewicz.jqblocks.ingame.object.ProgressBar;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
-import kniemkiewicz.jqblocks.ingame.production.ProductionAssignment;
 import kniemkiewicz.jqblocks.ingame.production.ProductionAssignmentController;
 import kniemkiewicz.jqblocks.ingame.production.ProductionAssignmentQueue;
 import kniemkiewicz.jqblocks.ingame.production.renderer.ProductionAssigmentRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.BeanAwareImageRendererImpl;
-import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.XMLPackedSheet;

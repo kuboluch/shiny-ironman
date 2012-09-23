@@ -52,7 +52,7 @@
     <bean id="unknownWorkplace5" parent="carpenter"/>
     <bean id="unknownWorkplace6" parent="carpenter"/>
 
-    <bean id="noInteraction" class="kniemkiewicz.jqblocks.ingame.action.NoInteraction"/>
+    <bean id="noInteraction" class="kniemkiewicz.jqblocks.ingame.controller.action.NoInteraction"/>
     <bean id="woodProcessController" class="kniemkiewicz.jqblocks.ingame.workplace.action.ProcessResourceActionController">
         <constructor-arg>
             <util:constant static-field="kniemkiewicz.jqblocks.ingame.resource.ResourceType.WOOD"/>

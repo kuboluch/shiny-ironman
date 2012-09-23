@@ -1,21 +1,18 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.bat;
 
 import kniemkiewicz.jqblocks.ingame.*;
-import kniemkiewicz.jqblocks.ingame.ai.AIUtils;
+import kniemkiewicz.jqblocks.ingame.controller.*;
+import kniemkiewicz.jqblocks.ingame.controller.ai.AIUtils;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
-import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
-import kniemkiewicz.jqblocks.ingame.controller.ControllerUtils;
 import kniemkiewicz.jqblocks.ingame.object.HasSource;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.util.OnceXTimes;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
-import kniemkiewicz.jqblocks.ingame.util.movement.SingleAxisMovement;
-import kniemkiewicz.jqblocks.util.Assert;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.newdawn.slick.geom.Vector2f;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

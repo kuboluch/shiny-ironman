@@ -1,6 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.object;
 
-import kniemkiewicz.jqblocks.ingame.FreeFallController;
+import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
 
 /**
  * User: qba

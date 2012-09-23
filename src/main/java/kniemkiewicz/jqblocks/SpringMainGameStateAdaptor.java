@@ -4,7 +4,7 @@ import de.matthiasmann.twl.GUI;
 import kniemkiewicz.jqblocks.ingame.MainGameState;
 import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
 import kniemkiewicz.jqblocks.ingame.controller.SaveGameListener;
-import kniemkiewicz.jqblocks.ingame.ui.Initializable;
+import kniemkiewicz.jqblocks.ingame.hud.Initializable;
 import kniemkiewicz.jqblocks.twl.BasicTWLGameState;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

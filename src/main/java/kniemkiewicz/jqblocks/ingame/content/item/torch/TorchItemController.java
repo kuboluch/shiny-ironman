@@ -1,7 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.item.torch;
 
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
-import kniemkiewicz.jqblocks.ingame.item.controller.AbstractActionItemController;
+import kniemkiewicz.jqblocks.ingame.inventory.item.controller.AbstractActionItemController;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import org.newdawn.slick.geom.Rectangle;

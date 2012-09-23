@@ -1,17 +1,17 @@
 package kniemkiewicz.jqblocks.ingame.content.item.bow;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
-import kniemkiewicz.jqblocks.ingame.ProjectileController;
+import kniemkiewicz.jqblocks.ingame.controller.ProjectileController;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.content.item.arrow.Arrow;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.controller.ControllerUtils;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.controller.SoundController;
-import kniemkiewicz.jqblocks.ingame.event.Event;
-import kniemkiewicz.jqblocks.ingame.event.EventBus;
-import kniemkiewicz.jqblocks.ingame.event.input.mouse.Button;
-import kniemkiewicz.jqblocks.ingame.event.input.mouse.MousePressedEvent;
+import kniemkiewicz.jqblocks.ingame.controller.event.Event;
+import kniemkiewicz.jqblocks.ingame.controller.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.controller.event.input.mouse.Button;
+import kniemkiewicz.jqblocks.ingame.controller.event.input.mouse.MousePressedEvent;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.newdawn.slick.Sound;

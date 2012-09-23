@@ -1,11 +1,15 @@
 package kniemkiewicz.jqblocks.ingame.renderer;
 
+import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
-import kniemkiewicz.jqblocks.ingame.item.Item;
-import kniemkiewicz.jqblocks.ingame.item.renderer.ItemRenderer;
+import kniemkiewicz.jqblocks.ingame.inventory.item.Item;
+import kniemkiewicz.jqblocks.ingame.inventory.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Shape;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.annotation.PostConstruct;
 
 /**
  * User: knie
@@ -17,6 +21,16 @@ public class ImageRendererImpl<T extends RenderableObject> implements ItemRender
 
   Image image;
   Image flippedImage;
+
+  @Autowired
+  Configuration configuration;
+
+  boolean DRAW_SHAPES_BOUNDARIES = false;
+
+  @PostConstruct
+  void init() {
+    DRAW_SHAPES_BOUNDARIES = configuration.getBoolean("ImageRendererImpl.DRAW_SHAPES_BOUNDARIES", false);
+  }
 
   public ImageRendererImpl() {
   }
@@ -62,7 +76,9 @@ public class ImageRendererImpl<T extends RenderableObject> implements ItemRender
   public void render(T object, Graphics g, PointOfView pov) {
     Shape shape = object.getShape();
     image.draw(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
-    g.setColor(Color.black);
-    g.drawRect(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
+    if (DRAW_SHAPES_BOUNDARIES) {
+      g.setColor(Color.black);
+      g.drawRect(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
+    }
   }
 }

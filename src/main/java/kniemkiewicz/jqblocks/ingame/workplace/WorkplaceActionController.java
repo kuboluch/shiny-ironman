@@ -1,11 +1,11 @@
 package kniemkiewicz.jqblocks.ingame.workplace;
 
-import kniemkiewicz.jqblocks.ingame.RenderQueue;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.action.AbstractActionController;
+import kniemkiewicz.jqblocks.ingame.controller.action.AbstractActionController;
 import kniemkiewicz.jqblocks.ingame.controller.KeyboardUtils;
-import kniemkiewicz.jqblocks.ingame.event.Event;
-import kniemkiewicz.jqblocks.ingame.event.input.keyboard.KeyPressedEvent;
+import kniemkiewicz.jqblocks.ingame.controller.event.Event;
+import kniemkiewicz.jqblocks.ingame.controller.event.input.keyboard.KeyPressedEvent;
 import kniemkiewicz.jqblocks.ingame.object.ProgressBar;
 import kniemkiewicz.jqblocks.ingame.object.background.WorkplaceBackgroundElement;
 import kniemkiewicz.jqblocks.util.Collections3;

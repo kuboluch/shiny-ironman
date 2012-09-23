@@ -1,8 +1,8 @@
 package kniemkiewicz.jqblocks.ingame.production;
 
 import com.google.common.base.Optional;
-import kniemkiewicz.jqblocks.ingame.event.EventBus;
-import kniemkiewicz.jqblocks.ingame.event.production.ProductionCompleteEvent;
+import kniemkiewicz.jqblocks.ingame.controller.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.controller.event.production.ProductionCompleteEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

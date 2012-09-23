@@ -35,4 +35,8 @@
         <constructor-arg value="60"/>
         <constructor-arg value="60"/>
     </bean>
+
+    <bean id="skyBackgroundImage" class="org.newdawn.slick.Image">
+        <constructor-arg value="images/sky_background.png"/>
+    </bean>
 </beans>

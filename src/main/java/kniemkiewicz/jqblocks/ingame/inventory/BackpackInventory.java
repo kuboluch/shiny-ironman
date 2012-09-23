@@ -2,9 +2,9 @@ package kniemkiewicz.jqblocks.ingame.inventory;
 
 import kniemkiewicz.jqblocks.ingame.content.item.axe.AxeItem;
 import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderItem;
-import kniemkiewicz.jqblocks.ingame.event.EventBus;
-import kniemkiewicz.jqblocks.ingame.item.EmptyItem;
-import kniemkiewicz.jqblocks.ingame.item.Item;
+import kniemkiewicz.jqblocks.ingame.controller.event.EventBus;
+import kniemkiewicz.jqblocks.ingame.inventory.item.EmptyItem;
+import kniemkiewicz.jqblocks.ingame.inventory.item.Item;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

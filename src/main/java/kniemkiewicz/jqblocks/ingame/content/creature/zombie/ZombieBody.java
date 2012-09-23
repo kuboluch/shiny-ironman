@@ -2,8 +2,10 @@ package kniemkiewicz.jqblocks.ingame.content.creature.zombie;
 
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.content.creature.SimpleBody;
-import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
+import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
+import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovementDefinition;

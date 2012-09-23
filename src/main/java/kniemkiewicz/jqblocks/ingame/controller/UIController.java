@@ -1,14 +1,14 @@
 package kniemkiewicz.jqblocks.ingame.controller;
 
-import kniemkiewicz.jqblocks.ingame.event.Event;
-import kniemkiewicz.jqblocks.ingame.event.EventListener;
-import kniemkiewicz.jqblocks.ingame.event.input.keyboard.KeyPressedEvent;
-import kniemkiewicz.jqblocks.ingame.event.input.keyboard.KeyReleasedEvent;
-import kniemkiewicz.jqblocks.ingame.event.inventory.InventoryChangeEvent;
-import kniemkiewicz.jqblocks.ingame.ui.MainGameUI;
-import kniemkiewicz.jqblocks.ingame.ui.inventory.BackpackInventoryPanel;
-import kniemkiewicz.jqblocks.ingame.ui.inventory.QuickItemInventoryPanel;
-import kniemkiewicz.jqblocks.ingame.ui.inventory.ResourceInventoryPanel;
+import kniemkiewicz.jqblocks.ingame.controller.event.Event;
+import kniemkiewicz.jqblocks.ingame.controller.event.EventListener;
+import kniemkiewicz.jqblocks.ingame.controller.event.input.keyboard.KeyPressedEvent;
+import kniemkiewicz.jqblocks.ingame.controller.event.input.keyboard.KeyReleasedEvent;
+import kniemkiewicz.jqblocks.ingame.controller.event.inventory.InventoryChangeEvent;
+import kniemkiewicz.jqblocks.ingame.hud.MainGameUI;
+import kniemkiewicz.jqblocks.ingame.hud.inventory.BackpackInventoryPanel;
+import kniemkiewicz.jqblocks.ingame.hud.inventory.QuickItemInventoryPanel;
+import kniemkiewicz.jqblocks.ingame.hud.inventory.ResourceInventoryPanel;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
