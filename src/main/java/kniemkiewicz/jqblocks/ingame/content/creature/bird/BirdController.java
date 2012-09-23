@@ -1,12 +1,11 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.bird;
 
-import kniemkiewicz.jqblocks.ingame.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.World;
-import kniemkiewicz.jqblocks.ingame.ai.AIUtils;
-import kniemkiewicz.jqblocks.ingame.content.hp.HasHealthPoints;
-import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.controller.ControllerUtils;
+import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.controller.ai.AIUtils;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
+import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,7 +18,7 @@ import java.util.List;
  * Date: 22.09.12
  */
 @Component
-public class BirdController implements UpdateQueue.UpdateController<Bird>, HealthController<Bird>  {
+public class BirdController implements UpdateQueue.UpdateController<Bird>, HealthController<Bird> {
   @Autowired
   World world;
 
@@ -41,7 +40,7 @@ public class BirdController implements UpdateQueue.UpdateController<Bird>, Healt
   @Override
   public void update(Bird bird, int delta) {
     List<PhysicalObject> collisions = new ArrayList<PhysicalObject>();
-    aiUtils.horizontalPatrol2(bird, delta, collisions);
+    aiUtils.horizontalPatrol(bird, delta, collisions);
     bird.setAge(bird.getAge() + delta);
   }
 }

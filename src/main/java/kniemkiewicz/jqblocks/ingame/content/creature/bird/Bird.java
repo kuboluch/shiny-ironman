@@ -1,12 +1,16 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.bird;
 
-import kniemkiewicz.jqblocks.ingame.*;
-import kniemkiewicz.jqblocks.ingame.content.hp.HealthController;
-import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
-import kniemkiewicz.jqblocks.ingame.content.hp.KillablePhysicalObject;
+import kniemkiewicz.jqblocks.ingame.PointOfView;
+import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
+import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
+import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
+import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
+import kniemkiewicz.jqblocks.ingame.object.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
@@ -54,7 +58,7 @@ public class Bird implements RenderableObject<Bird>,UpdateQueue.ToBeUpdated<Bird
 
   @Override
   public BeanName<? extends ObjectRenderer> getRenderer() {
-    return WALKING_RENDERER;
+    return FLYING_RENDERER;
   }
 
   @Override
