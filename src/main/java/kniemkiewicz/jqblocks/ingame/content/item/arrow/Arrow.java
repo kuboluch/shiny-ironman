@@ -1,7 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.item.arrow;
 
 import kniemkiewicz.jqblocks.ingame.*;
-import kniemkiewicz.jqblocks.ingame.content.hp.KillablePhysicalObject;
+import kniemkiewicz.jqblocks.ingame.object.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.content.item.bow.BowRenderer;
 import kniemkiewicz.jqblocks.ingame.controller.ProjectileController;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;

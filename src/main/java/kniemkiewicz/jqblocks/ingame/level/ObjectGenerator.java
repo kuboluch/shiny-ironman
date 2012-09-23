@@ -8,7 +8,7 @@ import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
-import kniemkiewicz.jqblocks.ingame.object.background.Tree;
+import kniemkiewicz.jqblocks.ingame.content.background.Tree;
 import kniemkiewicz.jqblocks.ingame.content.creature.bat.Bat;
 import kniemkiewicz.jqblocks.ingame.content.item.rock.Rock;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;

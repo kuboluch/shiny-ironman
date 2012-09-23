@@ -2,7 +2,7 @@ package kniemkiewicz.jqblocks.ingame.hud;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.renderer.Renderable;
-import kniemkiewicz.jqblocks.ingame.content.hp.HealthPoints;
+import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
