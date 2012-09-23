@@ -25,7 +25,7 @@ import org.newdawn.slick.geom.Vector2f;
  * User: knie
  * Date: 7/24/12
  */
-public class Bat implements RenderableObject<Bat>,UpdateQueue.ToBeUpdated<Bat>, KillablePhysicalObject<Bat>, HasFullXYMovement {
+public class Bat implements RenderableObject<Bat>, UpdateQueue.ToBeUpdated<Bat>, KillablePhysicalObject<Bat>, HasFullXYMovement {
 
   Rectangle rectangle;
   XYMovement movement;

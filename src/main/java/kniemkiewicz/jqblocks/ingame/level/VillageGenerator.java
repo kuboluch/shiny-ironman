@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.BackgroundBlockType;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
+import kniemkiewicz.jqblocks.ingame.content.creature.bird.Bird;
 import kniemkiewicz.jqblocks.ingame.content.creature.peon.Peon;
 import kniemkiewicz.jqblocks.ingame.content.creature.peon.PeonController;
 import kniemkiewicz.jqblocks.ingame.content.creature.zombie.Zombie;
@@ -132,6 +133,11 @@ public class VillageGenerator {
     zombie.addTo(movingObjects, renderQueue, updateQueue);
   }
 
+  private boolean addBird(int x, int y) {
+    Bird bird = new Bird(x, y);
+    return bird.addTo(movingObjects, renderQueue, updateQueue);
+  }
+
   void generateVillage(int villageY) {
     startingY = villageY;
     makeHouse(STARTING_X, villageY);
@@ -140,6 +146,7 @@ public class VillageGenerator {
     backgrounds.add(sawmill.getPlaceableObject(STARTING_X + Sizes.BLOCK * 10 - sawmill.getWidth() / 2, villageY - sawmill.getHeight(), workplaceController).getBackgroundElement());
     generateLadders();
     Assert.executeAndAssert(Peon.createAndRegister(STARTING_X, (int)(villageY - Peon.HEIGHT), peonController) != null);
+    Assert.executeAndAssert(addBird(STARTING_X, villageY - Sizes.BLOCK * 24));
     addFallingStars();
     addZombieCage(villageY);
     makeVault(STARTING_X - Sizes.BLOCK * 22, villageY - 0 * Sizes.BLOCK);

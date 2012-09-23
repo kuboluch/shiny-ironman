@@ -139,4 +139,31 @@
             <util:constant static-field="kniemkiewicz.jqblocks.ingame.block.BackgroundBlockType.VAULT" />
         </constructor-arg>
     </bean>
+
+    <bean id="birdFlyingRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer">
+        <constructor-arg>
+            <bean class="kniemkiewicz.jqblocks.util.slick.HorizontalSpriteSheetAnimation">
+                <constructor-arg ref="birdFlyingSheet"/>
+            </bean>
+        </constructor-arg>
+        <property name="width" value="24"/>
+        <property name="frameDuration" value="150"/>
+    </bean>
+
+    <bean id="birdWalkingRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer">
+        <constructor-arg>
+            <bean class="kniemkiewicz.jqblocks.util.slick.HorizontalSpriteSheetAnimation">
+                <constructor-arg ref="birdWalkingSheet"/>
+            </bean>
+        </constructor-arg>
+        <property name="width" value="24"/>
+        <property name="frameDuration" value="200"/>
+    </bean>
+
+    <bean id="birdRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
+        <constructor-arg ref="birdWalkingSheet"/>
+        <constructor-arg value="1"/>
+        <constructor-arg value="0"/>
+    </bean>
+
 </beans>

@@ -22,7 +22,8 @@ import org.newdawn.slick.geom.Shape;
  * User: knie
  * Date: 8/27/12
  */
-public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>,KillablePhysicalObject<Zombie>, AnimationRenderer.AnimationCompatible<SimpleBody> {
+public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>, KillablePhysicalObject<Zombie>,
+    AnimationRenderer.AnimationCompatible<SimpleBody> {
 
   private static final int MAX_HP = 50;
   public static final float HEIGHT = Sizes.BLOCK * 3.5f;

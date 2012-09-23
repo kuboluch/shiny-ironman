@@ -29,10 +29,21 @@
         <constructor-arg value="images/zombie.gif"/>
     </bean>
 
-
     <bean id="zombieDeathSheet" class="org.newdawn.slick.SpriteSheet">
         <constructor-arg value="spritesheet/zombie_death.png"/>
         <constructor-arg value="60"/>
         <constructor-arg value="60"/>
+    </bean>
+
+    <bean id="birdFlyingSheet" class="org.newdawn.slick.SpriteSheet">
+        <constructor-arg value="spritesheet/bird_flying.png"/>
+        <constructor-arg value="24"/>
+        <constructor-arg value="32"/>
+    </bean>
+
+    <bean id="birdWalkingSheet" class="org.newdawn.slick.SpriteSheet">
+        <constructor-arg value="spritesheet/bird_walking.png"/>
+        <constructor-arg value="24"/>
+        <constructor-arg value="13"/>
     </bean>
 </beans>

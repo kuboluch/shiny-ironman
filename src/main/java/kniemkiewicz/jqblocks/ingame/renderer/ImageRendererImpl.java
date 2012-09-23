@@ -37,6 +37,10 @@ public class ImageRendererImpl<T extends RenderableObject> implements ItemRender
     this.image = sheet.getSprite(imageName);
   }
 
+  public ImageRendererImpl(SpriteSheet spritesheet, int x, int y) {
+    this.image = spritesheet.getSprite(x, y);
+  }
+
   @Override
   public Image getImage() {
     return image;
