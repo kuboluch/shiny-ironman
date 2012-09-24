@@ -81,7 +81,11 @@ public class TimingInfo implements Renderable {
       long current = System.currentTimeMillis();
       if (current - lastUpdate > 1000) {
         displayCount = currentSum;
-        displayValue = currentCount / displayCount;
+        if (displayCount > 0) {
+          displayValue = currentCount / displayCount;
+        } else {
+          displayValue = 0;
+        }
         currentSum = 0;
         currentCount = 0;
         lastUpdate = current;

@@ -13,6 +13,8 @@ import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
 import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
+import kniemkiewicz.jqblocks.ingame.util.Direction;
+import kniemkiewicz.jqblocks.ingame.util.WeightedPicker;
 import kniemkiewicz.jqblocks.util.Pair;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,10 +36,6 @@ public class GrassBiome implements Biome{
   enum MonsterType {
     ZOMBIE,
     BAT
-  }
-
-  enum Direction {
-    LEFT,RIGHT
   }
 
   WeightedPicker<Pair<MonsterType, Direction>> monsterPicker;
@@ -79,8 +77,8 @@ public class GrassBiome implements Biome{
     float EVERY_N_SEC = configuration.getFloat(propertyName, defaultEveryNSec);
     assert EVERY_N_SEC >= 0;
     if (EVERY_N_SEC > 0) {
-      monsterPicker.addChoice(0.5f / 1000 / EVERY_N_SEC, Pair.newInstance(type, Direction.LEFT));
-      monsterPicker.addChoice(0.5f / 1000 / EVERY_N_SEC, Pair.newInstance(type, Direction.RIGHT));
+      monsterPicker.addChoice(0.5f / 1000 / EVERY_N_SEC, Pair.of(type, Direction.LEFT));
+      monsterPicker.addChoice(0.5f / 1000 / EVERY_N_SEC, Pair.of(type, Direction.RIGHT));
     }
   }
 

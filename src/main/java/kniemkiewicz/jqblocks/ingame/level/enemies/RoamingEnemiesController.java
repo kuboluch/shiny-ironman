@@ -112,8 +112,12 @@ public final class RoamingEnemiesController {
     Iterator<KillablePhysicalObject> it = activeEnemies.iterator();
     while (it.hasNext()) {
       KillablePhysicalObject ob = it.next();
-      if (ob.getHp().isDead() || isTooFar(playerShape, ob.getShape())) {
+      if (ob.getHp().isDead()) {
         it.remove();
+      }
+      if (isTooFar(playerShape, ob.getShape())) {
+        it.remove();
+        world.killMovingObject(ob);
       }
     }
     if (activeEnemies.size() < MAX_ACTIVE_ENEMIES) {

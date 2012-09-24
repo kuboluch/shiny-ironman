@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame;
 
 import de.matthiasmann.twl.GUI;
 import kniemkiewicz.jqblocks.ingame.block.MapView;
+import kniemkiewicz.jqblocks.ingame.content.bird.SimpleBirdController;
 import kniemkiewicz.jqblocks.ingame.content.item.fireball.FireballEquippedItemRenderer;
 import kniemkiewicz.jqblocks.ingame.content.item.fireball.FireballRenderer;
 import kniemkiewicz.jqblocks.ingame.controller.*;
@@ -157,6 +158,12 @@ public class MainGameState extends BasicTWLGameState {
   @Autowired
   FireballRenderer fireballRenderer;
 
+  @Autowired
+  SimpleBirdController simpleBirdController;
+
+  @Autowired
+  ActiveBackgroundController activeBackgroundController;
+
   private Settings settings;
 
   public void setSettings(Settings settings) {
@@ -236,6 +243,8 @@ public class MainGameState extends BasicTWLGameState {
     collisionController.update();
     fireballEquippedItemRenderer.update(delta);
     fireballRenderer.update(delta);
+    simpleBirdController.update(delta);
+    activeBackgroundController.update();
     t.record();
   }
 

@@ -92,6 +92,9 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
     gameState.render(gameContainer, stateBasedGame, graphics);
   }
 
+  // This variable allows smoother restarts as we make sure that delta does not jump because of long update time.
+  boolean justAfterRestart;
+
   @Override
   public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
     if (endGameController.isGameShouldRestart()) {
@@ -108,6 +111,8 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
         createRootPane();
         ((Game) stateBasedGame).changeRootPane(rootPane);
         onGuiInit(rootPane.getGUI());
+        justAfterRestart = true;
+        return;
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
@@ -116,7 +121,11 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
     if (endGameController.isGameShouldEnd()) {
       gameContainer.exit();
     }
+    if (justAfterRestart) {
+      delta = 0;
+    }
     gameState.update(gameContainer, stateBasedGame, delta);
+    justAfterRestart = false;
   }
 
   @Override

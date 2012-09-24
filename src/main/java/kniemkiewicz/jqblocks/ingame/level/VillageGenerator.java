@@ -23,6 +23,7 @@ import kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceController;
 import kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceDefinition;
 import kniemkiewicz.jqblocks.util.Assert;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Vector2f;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -130,7 +131,7 @@ public class VillageGenerator {
     Assert.executeAndAssert(solidBlocks.add(new Rectangle(x + 3 * Sizes.BLOCK, y - 10 * Sizes.BLOCK, Sizes.BLOCK * 10, Sizes.BLOCK), WallBlockType.MAGIC_BRICK_WALL));
     // Inside
     solidBlocks.getBackground().setRectUnscaled(new Rectangle(x + 2 * Sizes.BLOCK, y - 8 * Sizes.BLOCK, Sizes.BLOCK * 12, 5 * Sizes.BLOCK), BackgroundBlockType.VAULT);
-    backgrounds.add(new Portal(x + 8 * Sizes.BLOCK - (int)(1.5 * Sizes.BLOCK), y - 8 * Sizes.BLOCK));
+    backgrounds.add(new Portal(x + 8 * Sizes.BLOCK - (int) (1.5 * Sizes.BLOCK), y - 8 * Sizes.BLOCK, null));
   }
 
   private void addZombieCage(int villageY) {
@@ -149,6 +150,10 @@ public class VillageGenerator {
     return rabbit.addTo(movingObjects, renderQueue, updateQueue);
   }
 
+  private void makeCave() {
+
+  }
+
   void generateVillage(int villageY) {
     startingY = villageY;
     makeHouse(STARTING_X, villageY);
@@ -156,12 +161,13 @@ public class VillageGenerator {
     makeHouse(STARTING_X + Sizes.BLOCK * 10, villageY);
     backgrounds.add(sawmill.getPlaceableObject(STARTING_X + Sizes.BLOCK * 10 - sawmill.getWidth() / 2, villageY - sawmill.getHeight(), workplaceController).getBackgroundElement());
     generateLadders();
-    //Assert.executeAndAssert(Peon.createAndRegister(STARTING_X, (int) (villageY - Peon.HEIGHT), peonController) != null);
+    Assert.executeAndAssert(Peon.createAndRegister(STARTING_X, (int) (villageY - Peon.HEIGHT), peonController) != null);
     Assert.executeAndAssert(addBird(STARTING_X, villageY - Sizes.BLOCK * 24));
     Assert.executeAndAssert(addRabbit(STARTING_X, villageY));
     addFallingStars();
     addZombieCage(villageY);
-    makeVault(STARTING_X - Sizes.BLOCK * 22, villageY - 0 * Sizes.BLOCK);
+    makeVault(STARTING_X - Sizes.BLOCK * 22, villageY);
+    backgrounds.add(new Portal(STARTING_X - 4 * Sizes.BLOCK, villageY - 10 * Sizes.BLOCK, new Portal.Destination(new Vector2f(STARTING_X -  4 * Sizes.BLOCK,  villageY - 40 * Sizes.BLOCK))));
   }
 
   public void saveToStream(ObjectOutputStream stream) throws IOException {

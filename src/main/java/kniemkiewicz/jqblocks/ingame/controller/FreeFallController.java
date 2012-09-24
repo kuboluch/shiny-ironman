@@ -42,7 +42,7 @@ public final class FreeFallController {
   public static MovementDefinition FALL_MOVEMENT = new MovementDefinition().setMaxSpeed(Sizes.MAX_FALL_SPEED);
 
   public void addCanFall(CanFall object) {
-    objects.add(Pair.newInstance(object, FALL_MOVEMENT.getMovement(object.getShape().getY(), 0)));
+    objects.add(Pair.of(object, FALL_MOVEMENT.getMovement(object.getShape().getY(), 0)));
   }
 
   public void addComplex(HasFullXYMovement hasFullXYMovement) {

@@ -34,9 +34,9 @@ public class DefaultEquippedItemRenderer implements EquippedItemRenderer<Item> {
 
   public Pair<Integer, Integer> getDefaultXY() {
     if (isLeftFaced()) {
-      return Pair.newInstance(pointOfView.getWindowWidth() / 2 - SIZE + 6 , 2 + pointOfView.getWindowHeight() / 2 - SIZE);
+      return Pair.of(pointOfView.getWindowWidth() / 2 - SIZE + 6, 2 + pointOfView.getWindowHeight() / 2 - SIZE);
     } else {
-      return Pair.newInstance(pointOfView.getWindowWidth() / 2 - 6, 2 + pointOfView.getWindowHeight() / 2 - SIZE);
+      return Pair.of(pointOfView.getWindowWidth() / 2 - 6, 2 + pointOfView.getWindowHeight() / 2 - SIZE);
     }
   }
 
