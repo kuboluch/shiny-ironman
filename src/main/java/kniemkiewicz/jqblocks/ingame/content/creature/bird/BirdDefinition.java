@@ -3,7 +3,7 @@ package kniemkiewicz.jqblocks.ingame.content.creature.bird;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
-import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
+import kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer;
 import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovementDefinition;
 import kniemkiewicz.jqblocks.util.BeanName;
@@ -27,7 +27,7 @@ public interface BirdDefinition {
       new MovementDefinition().setMaxSpeed(SPEED)
   );
 
-  static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(ImageRendererImpl.class, "birdRenderer");
+  static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(SimpleImageRenderer.class, "birdRenderer");
   static final BeanName<AnimationRenderer> WALKING_RENDERER = new BeanName<AnimationRenderer>(AnimationRenderer.class, "birdWalkingRenderer");
   static final BeanName<AnimationRenderer> FLYING_RENDERER = new BeanName<AnimationRenderer>(AnimationRenderer.class, "birdFlyingRenderer");
 

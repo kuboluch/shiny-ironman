@@ -2,9 +2,8 @@ package kniemkiewicz.jqblocks.ingame.content.transport.ladder;
 
 import kniemkiewicz.jqblocks.ingame.object.background.AbstractBackgroundElement;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
-import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
-import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
+import kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer;
 import kniemkiewicz.jqblocks.util.BeanName;
 
 /**
@@ -29,7 +28,7 @@ public class LadderBackground extends AbstractBackgroundElement {
     return false;
   }
 
-  private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(ImageRendererImpl.class, "ladderRenderer");
+  private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(SimpleImageRenderer.class, "ladderRenderer");
 
   @Override
   public BeanName<? extends ObjectRenderer> getRenderer() {

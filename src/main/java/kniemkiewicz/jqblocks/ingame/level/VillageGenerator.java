@@ -7,6 +7,8 @@ import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
 import kniemkiewicz.jqblocks.ingame.content.creature.bird.Bird;
 import kniemkiewicz.jqblocks.ingame.content.creature.peon.Peon;
 import kniemkiewicz.jqblocks.ingame.content.creature.peon.PeonController;
+import kniemkiewicz.jqblocks.ingame.content.creature.rabbit.Rabbit;
+import kniemkiewicz.jqblocks.ingame.content.creature.rabbit.RabbitDefinition;
 import kniemkiewicz.jqblocks.ingame.content.creature.zombie.Zombie;
 import kniemkiewicz.jqblocks.ingame.content.item.rock.Rock;
 import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderBackground;
@@ -142,6 +144,11 @@ public class VillageGenerator {
     return bird.addTo(movingObjects, renderQueue, updateQueue);
   }
 
+  private boolean addRabbit(int x, int y) {
+    Rabbit rabbit = new Rabbit(x, y - RabbitDefinition.HEIGHT);
+    return rabbit.addTo(movingObjects, renderQueue, updateQueue);
+  }
+
   void generateVillage(int villageY) {
     startingY = villageY;
     makeHouse(STARTING_X, villageY);
@@ -149,8 +156,9 @@ public class VillageGenerator {
     makeHouse(STARTING_X + Sizes.BLOCK * 10, villageY);
     backgrounds.add(sawmill.getPlaceableObject(STARTING_X + Sizes.BLOCK * 10 - sawmill.getWidth() / 2, villageY - sawmill.getHeight(), workplaceController).getBackgroundElement());
     generateLadders();
-    Assert.executeAndAssert(Peon.createAndRegister(STARTING_X, (int)(villageY - Peon.HEIGHT), peonController) != null);
+    //Assert.executeAndAssert(Peon.createAndRegister(STARTING_X, (int) (villageY - Peon.HEIGHT), peonController) != null);
     Assert.executeAndAssert(addBird(STARTING_X, villageY - Sizes.BLOCK * 24));
+    Assert.executeAndAssert(addRabbit(STARTING_X, villageY));
     addFallingStars();
     addZombieCage(villageY);
     makeVault(STARTING_X - Sizes.BLOCK * 22, villageY - 0 * Sizes.BLOCK);

@@ -6,7 +6,7 @@ import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
-import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
+import kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovementDefinition;
@@ -30,7 +30,7 @@ public class BatBody extends SimpleBody {
     super(BAT_BODY_MOVEMENT.getMovement(x, y).setXSpeed(direction * X_SPEED).setYSpeed(- Y_INITIAL_SPEED), Bat.SIZE);
   }
 
-  private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(ImageRendererImpl.class, "batBodyRenderer");
+  private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(SimpleImageRenderer.class, "batBodyRenderer");
 
   @Override
   public BeanName<? extends ObjectRenderer> getRenderer() {

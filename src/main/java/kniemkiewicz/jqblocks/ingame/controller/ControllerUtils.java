@@ -108,8 +108,6 @@ public class ControllerUtils {
     return collided;
   }
 
-
-
   // Returns pair dx,dy of vector with given radius, pointing towards mouse from 'from'
   public Vector2f getCurrentDirection(float radius, Vector2f from) {
     boolean leftFaced = playerController.getPlayer().isLeftFaced();

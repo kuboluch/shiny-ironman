@@ -6,7 +6,7 @@ import kniemkiewicz.jqblocks.ingame.inventory.item.renderer.EquippedItemRenderer
 import kniemkiewicz.jqblocks.ingame.inventory.item.Item;
 import kniemkiewicz.jqblocks.ingame.inventory.item.renderer.ItemRenderer;
 import kniemkiewicz.jqblocks.ingame.inventory.item.feature.Strength;
-import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
+import kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer;
 import kniemkiewicz.jqblocks.util.BeanName;
 
 public class AxeItem implements Item, Strength {
@@ -37,7 +37,7 @@ public class AxeItem implements Item, Strength {
     return false;
   }
 
-  private static final BeanName<ItemRenderer> RENDERER = new BeanName<ItemRenderer>(ImageRendererImpl.class, "axeRenderer");
+  private static final BeanName<ItemRenderer> RENDERER = new BeanName<ItemRenderer>(SimpleImageRenderer.class, "axeRenderer");
 
   @Override
   public BeanName<? extends ItemRenderer> getItemRenderer() {

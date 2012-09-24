@@ -1,8 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.item.torch;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
-import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
+import kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer;
 import kniemkiewicz.jqblocks.util.BeanName;
 
 /**
@@ -14,6 +13,6 @@ public interface TorchDefinition {
   public static int WIDTH = Sizes.BLOCK;
   public static int HEIGHT = Sizes.BLOCK;
 
-  public static final BeanName<ImageRendererImpl> RENDERER = new BeanName<ImageRendererImpl>(ImageRendererImpl.class, "torchRenderer");
+  public static final BeanName<SimpleImageRenderer> RENDERER = new BeanName<SimpleImageRenderer>(SimpleImageRenderer.class, "torchRenderer");
 
 }

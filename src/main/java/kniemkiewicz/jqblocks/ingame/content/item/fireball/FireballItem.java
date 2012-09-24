@@ -4,7 +4,7 @@ import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.inventory.item.Item;
 import kniemkiewicz.jqblocks.ingame.inventory.item.renderer.EquippedItemRenderer;
 import kniemkiewicz.jqblocks.ingame.inventory.item.renderer.ItemRenderer;
-import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
+import kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer;
 import kniemkiewicz.jqblocks.util.BeanName;
 
 /**
@@ -17,7 +17,7 @@ public class FireballItem implements Item {
     return FireballItemController.class;
   }
 
-  static final BeanName<ImageRendererImpl> RENDERER = new BeanName<ImageRendererImpl>(ImageRendererImpl.class, "fireballItemRenderer");
+  static final BeanName<SimpleImageRenderer> RENDERER = new BeanName<SimpleImageRenderer>(SimpleImageRenderer.class, "fireballItemRenderer");
 
   @Override
   public BeanName<? extends ItemRenderer> getItemRenderer() {

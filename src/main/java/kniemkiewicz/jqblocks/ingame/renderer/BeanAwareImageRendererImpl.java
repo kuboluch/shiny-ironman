@@ -8,7 +8,7 @@ import org.newdawn.slick.XMLPackedSheet;
  * User: qba
  * Date: 01.09.12
  */
-public class BeanAwareImageRendererImpl<T extends RenderableObject> extends ImageRendererImpl<T> implements BeanAwareImageRenderer<T> {
+public class BeanAwareImageRendererImpl<T extends RenderableObject> extends SimpleImageRenderer<T> implements BeanAwareImageRenderer<T> {
 
   public String beanName;
 

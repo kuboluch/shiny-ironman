@@ -7,7 +7,7 @@ import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.content.item.axe.AxeItem;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
-import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
+import kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer;
 import kniemkiewicz.jqblocks.util.BeanName;
 
 /**
@@ -35,7 +35,7 @@ public class Tree extends AbstractBackgroundElement implements ResourceBackgroun
     return true;
   }
 
-  private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(ImageRendererImpl.class, "treeRenderer");
+  private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(SimpleImageRenderer.class, "treeRenderer");
 
   @Override
   public BeanName<? extends ObjectRenderer> getRenderer() {

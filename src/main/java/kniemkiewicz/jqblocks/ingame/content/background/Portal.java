@@ -4,7 +4,7 @@ import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.background.AbstractBackgroundElement;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
-import kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl;
+import kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer;
 import kniemkiewicz.jqblocks.util.BeanName;
 
 /**
@@ -32,7 +32,7 @@ public class Portal extends AbstractBackgroundElement {
     return true;
   }
 
-  private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(ImageRendererImpl.class, "portalRenderer");
+  private static final BeanName<ImageRenderer> RENDERER = new BeanName<ImageRenderer>(SimpleImageRenderer.class, "portalRenderer");
 
   @Override
   public BeanName<? extends ObjectRenderer> getRenderer() {

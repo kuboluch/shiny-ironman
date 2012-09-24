@@ -15,11 +15,11 @@
         </constructor-arg>
     </bean>
 
-    <bean id="pickaxeRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
+    <bean id="pickaxeRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer">
         <constructor-arg value="images/pickaxe.png"/>
     </bean>
 
-    <bean id="axeRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
+    <bean id="axeRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer">
         <constructor-arg value="images/axe.png"/>
     </bean>
 
@@ -36,15 +36,15 @@
         <constructor-arg value="unknown"/>
     </bean>
 
-    <bean id="treeRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
+    <bean id="treeRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer">
         <constructor-arg value="images/tree.png"/>
     </bean>
 
-    <bean id="batRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
+    <bean id="batRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer">
         <constructor-arg value="images/bat.png"/>
     </bean>
 
-    <bean id="batBodyRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
+    <bean id="batBodyRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer">
         <constructor-arg value="images/batBody.png"/>
     </bean>
 
@@ -59,7 +59,7 @@
         <constructor-arg ref="peonLeftImage"/>
     </bean>
 
-    <bean id="fireballItemRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
+    <bean id="fireballItemRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer">
         <constructor-arg ref="meteorImage"/>
     </bean>
 
@@ -81,26 +81,26 @@
         <property name="frameDuration" value="75"/>
     </bean>
 
-    <bean id="ladderRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
+    <bean id="ladderRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer">
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="ladder"/>
     </bean>
 
-    <bean id="portalRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
+    <bean id="portalRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer">
         <constructor-arg value="images/portal.png"/>
     </bean>
 
-    <bean id="torchRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
+    <bean id="torchRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer">
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="torch"/>
     </bean>
 
-    <bean id="unknownRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
+    <bean id="unknownRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer">
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="unknown"/>
     </bean>
 
-    <bean id="dirtBlockRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
+    <bean id="dirtBlockRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer">
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="dirt"/>
     </bean>
@@ -160,10 +160,28 @@
         <property name="frameDuration" value="200"/>
     </bean>
 
-    <bean id="birdRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
+    <bean id="birdRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer">
         <constructor-arg ref="birdWalkingSheet"/>
         <constructor-arg value="1"/>
         <constructor-arg value="0"/>
+    </bean>
+
+    <bean id="rabbitRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.FlippingImageRenderer">
+        <constructor-arg ref="rabbitSheet"/>
+        <constructor-arg value="0"/>
+        <constructor-arg value="1"/>
+    </bean>
+
+    <bean id="rabbitJumpingRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.FlippingImageRenderer">
+        <constructor-arg ref="rabbitSheet"/>
+        <constructor-arg value="0"/>
+        <constructor-arg value="0"/>
+    </bean>
+
+    <bean id="rabbitLandingRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.FlippingImageRenderer">
+        <constructor-arg ref="rabbitSheet"/>
+        <constructor-arg value="0"/>
+        <constructor-arg value="2"/>
     </bean>
 
 </beans>
