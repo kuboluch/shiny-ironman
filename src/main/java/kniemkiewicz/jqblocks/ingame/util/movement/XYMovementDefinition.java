@@ -7,7 +7,12 @@ import java.io.Serializable;
  * Date: 8/30/12
  */
 // TODO: do it in such a way that serialization does not make billion copies of this class
-public class XYMovementDefinition  implements Serializable {
+public class XYMovementDefinition implements Serializable {
+
+  public final static XYMovementDefinition STATIONARY = new XYMovementDefinition(
+      new MovementDefinition().setMaxSpeed(0),
+      new MovementDefinition().setMaxSpeed(0)
+  );
 
   final MovementDefinition xDefinition;
   final MovementDefinition yDefinition;

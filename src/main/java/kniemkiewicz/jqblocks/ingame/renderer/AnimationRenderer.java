@@ -30,6 +30,7 @@ public class AnimationRenderer<T extends AnimationRenderer.AnimationCompatible> 
   int frameDuration = 125;
   boolean repeated = true;
   boolean debug = false;
+  boolean useObjectWidth = false;
 
   public AnimationRenderer(Animation animation) {
     this.animation = animation;
@@ -61,10 +62,18 @@ public class AnimationRenderer<T extends AnimationRenderer.AnimationCompatible> 
     this.debug = debug;
   }
 
+  public void setUseObjectWidth(boolean useObjectWidth) {
+    this.useObjectWidth = useObjectWidth;
+  }
+
   @Override
   public void render(T object, Graphics g, PointOfView pov) {
     float objectWidth = object.getShape().getWidth();
-    float widthDiff = (width - objectWidth) / 2;
+    float w = width;
+    if (useObjectWidth) {
+      w = objectWidth;
+    }
+    float widthDiff = (w - objectWidth) / 2;
     int spriteId;
     if (repeated) {
       spriteId = (object.getAge() / frameDuration)  % animation.getImagesCount();
@@ -73,12 +82,13 @@ public class AnimationRenderer<T extends AnimationRenderer.AnimationCompatible> 
     }
     Rectangle r = GeometryUtils.getBoundingRectangle(object.getShape());
     Image sprite;
-    if (object.getXYMovement().getXMovement().getDirection()) {
+
+    if ((object.getXYMovement() != null) && object.getXYMovement().getXMovement().getDirection()) {
       sprite = animation.getFlippedImage(spriteId);
     } else {
       sprite = animation.getImage(spriteId);
     }
-    sprite.draw(r.getX() - widthDiff, r.getY() + shiftTop, width, r.getHeight() + shiftHeight);
+    sprite.draw(r.getX() - widthDiff, r.getY() + shiftTop, w, r.getHeight() + shiftHeight);
     if (debug) {
       g.setColor(Color.red);
       g.draw(r);

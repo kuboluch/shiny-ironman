@@ -48,8 +48,7 @@ public class Fireball implements ProjectileController.Projectile<Fireball> {
   }
 
   @Override
-  public void renderObject(Graphics g, PointOfView pov) {
-  }
+  public void renderObject(Graphics g, PointOfView pov) { }
 
   @Override
   public Shape getShape() {
@@ -70,6 +69,8 @@ public class Fireball implements ProjectileController.Projectile<Fireball> {
 
   @Override
   public boolean hitWall(World world) {
+    FireballExplosion explosion = new FireballExplosion(rectangle.getCenterX(), rectangle.getCenterY());
+    explosion.addTo(world.getRenderQueue(), world.getUpdateQueue());
     return false;
   }
 

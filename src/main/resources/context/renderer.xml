@@ -160,6 +160,17 @@
         <property name="frameDuration" value="200"/>
     </bean>
 
+    <bean id="fireballExplosionRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer">
+        <constructor-arg>
+            <bean class="kniemkiewicz.jqblocks.util.slick.GifAnimation">
+                <constructor-arg value="images/explosion.gif"/>
+            </bean>
+        </constructor-arg>
+        <property name="frameDuration" value="100"/>
+        <property name="useObjectWidth" value="true"/>
+        <property name="repeated" value="false"/>
+    </bean>
+
     <bean id="birdRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.ImageRendererImpl">
         <constructor-arg ref="birdWalkingSheet"/>
         <constructor-arg value="1"/>
