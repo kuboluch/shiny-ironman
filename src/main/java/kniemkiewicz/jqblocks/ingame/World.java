@@ -2,6 +2,9 @@ package kniemkiewicz.jqblocks.ingame;
 
 import kniemkiewicz.jqblocks.ingame.block.RawEnumTable;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
+import kniemkiewicz.jqblocks.ingame.content.bird.Bird;
+import kniemkiewicz.jqblocks.ingame.content.bird.SimpleBirdController;
+import kniemkiewicz.jqblocks.ingame.content.creature.bird.BirdController;
 import kniemkiewicz.jqblocks.ingame.controller.CollisionController;
 import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
 import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
@@ -91,6 +94,9 @@ public final class World {
   @Autowired
   VillageGenerator villageGenerator;
 
+  @Autowired
+  SimpleBirdController simpleBirdController;
+
   long timestamp = 0;
 
   public void advanceTime(long delta) {
@@ -134,6 +140,7 @@ public final class World {
     iters.add(updateQueue.iterateAll());
     iters.add(freeFallController.getSimpleObjects());
     iters.add(backgrounds.iterateAll());
+    iters.add(simpleBirdController.iterateAll());
     for (Object ob : Collections3.iterateOverAllIterators(iters.iterator())) {
       // This class is listed in renderQueue but we do not want to serialize it here. It will be saved as part of
       // solidBlocks.
@@ -152,6 +159,7 @@ public final class World {
     stream.writeObject(markIndexes(indexes, updateQueue.iterateAll()));
     stream.writeObject(markIndexes(indexes, freeFallController.getSimpleObjects()));
     stream.writeObject(markIndexes(indexes, backgrounds.iterateAll()));
+    stream.writeObject(markIndexes(indexes, simpleBirdController.iterateAll()));
     inventory.serializeItems(stream);
     resourceInventory.serializeItems(stream);
     solidBlocks.serializeData(stream);
@@ -213,6 +221,14 @@ public final class World {
         for (int i = 0; i < background.size(); i++) {
           if (background.get(i)) {
             backgrounds.add((BackgroundElement)gameObjects.get(i));
+          }
+        }
+      }
+      {
+        BitSet birds = (BitSet)stream.readObject();
+        for (int i = 0; i < birds.size(); i++) {
+          if (birds.get(i)) {
+            simpleBirdController.add((Bird)gameObjects.get(i));
           }
         }
       }

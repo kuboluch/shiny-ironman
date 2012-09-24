@@ -6,6 +6,7 @@ import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.hud.info.TimingInfo;
+import kniemkiewicz.jqblocks.ingame.inventory.item.Item;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.util.WeightedPicker;
 import kniemkiewicz.jqblocks.ingame.object.serialization.SerializableRef;
@@ -15,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -42,7 +46,7 @@ public class SimpleBirdController {
   @Autowired
   TimingInfo timingInfo;
 
-  final List<SerializableRef<Bird>> birds = new ArrayList<SerializableRef<Bird>>();
+  List<Bird> birds = new ArrayList<Bird>();
 
   WeightedPicker<Pair<Bird.BirdColor, Direction>> picker;
 
@@ -66,9 +70,9 @@ public class SimpleBirdController {
 
   public void update(int delta) {
     timingInfo.getCounter("birds count").record(birds.size());
-    Iterator<SerializableRef<Bird>> it = birds.iterator();
+    Iterator<Bird> it = birds.iterator();
     while (it.hasNext()) {
-      Bird b = it.next().get();
+      Bird b = it.next();
       b.update(delta);
       if (Math.abs(b.getXYMovement().getX() - playerController.getPlayer().getXYMovement().getX()) >
           pointOfView.getWindowWidth() / 2 + 5 * Sizes.BLOCK) {
@@ -84,7 +88,17 @@ public class SimpleBirdController {
           (pointOfView.getWindowWidth() / 2 + Sizes.BLOCK * 2);
       Bird b = new Bird(pick.getFirst(), pick.getSecond(), x, y);
       renderQueue.add(b);
-      birds.add(new SerializableRef<Bird>(b));
+      birds.add(b);
     }
+  }
+
+  // methods below are only for serialization
+
+  public Iterator<Bird> iterateAll() {
+    return birds.iterator();
+  }
+
+  public void add(Bird bird) {
+    birds.add(bird);
   }
 }
