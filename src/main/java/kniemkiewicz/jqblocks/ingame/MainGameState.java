@@ -161,6 +161,9 @@ public class MainGameState extends BasicTWLGameState {
   @Autowired
   SimpleBirdController simpleBirdController;
 
+  @Autowired
+  ActiveBackgroundController activeBackgroundController;
+
   private Settings settings;
 
   public void setSettings(Settings settings) {
@@ -241,6 +244,7 @@ public class MainGameState extends BasicTWLGameState {
     fireballEquippedItemRenderer.update(delta);
     fireballRenderer.update(delta);
     simpleBirdController.update(delta);
+    activeBackgroundController.update();
     t.record();
   }
 
