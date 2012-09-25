@@ -1,13 +1,20 @@
 package kniemkiewicz.jqblocks.ingame.content.background;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.World;
+import kniemkiewicz.jqblocks.ingame.content.item.arrow.StuckArrow;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.background.AbstractBackgroundElement;
+import kniemkiewicz.jqblocks.ingame.object.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer;
 import kniemkiewicz.jqblocks.util.BeanName;
+import kniemkiewicz.jqblocks.util.SerializationUtils2;
 import org.newdawn.slick.geom.Vector2f;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /**
@@ -17,7 +24,7 @@ import java.io.Serializable;
 public class Portal extends AbstractBackgroundElement {
 
   public static class Destination implements Serializable{
-    final private Vector2f pos;
+    private transient Vector2f pos;
 
     public Destination(Vector2f pos) {
       this.pos = pos;
@@ -25,6 +32,21 @@ public class Portal extends AbstractBackgroundElement {
 
     public Vector2f getPos() {
       return pos;
+    }
+
+
+    private void writeObject(ObjectOutputStream outputStream) throws IOException {
+      //perform the default serialization for all non-transient, non-static fields
+      outputStream.defaultWriteObject();
+      SerializationUtils2.serializeVector2f(pos, outputStream);
+    }
+
+
+    // need to implement serialization as Circle is not Serializable
+    private void readObject(ObjectInputStream inputStream) throws ClassNotFoundException, IOException {
+      //always perform the default de-serialization first
+      inputStream.defaultReadObject();
+      pos = SerializationUtils2.deserializeVector2f(inputStream);
     }
   }
 

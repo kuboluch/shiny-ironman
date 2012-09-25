@@ -29,8 +29,6 @@ public class ProjectileController implements UpdateQueue.UpdateController<Projec
     void hitTarget(KillablePhysicalObject kpo, World world);
   }
 
-
-
   @Autowired
   RenderQueue renderQueue;
 

@@ -170,6 +170,17 @@
         <constructor-arg value="0"/>
     </bean>
 
+    <bean id="fireballExplosionRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer">
+        <constructor-arg>
+            <bean class="kniemkiewicz.jqblocks.util.slick.GifAnimation">
+                <constructor-arg value="images/explosion.gif"/>
+            </bean>
+        </constructor-arg>
+        <property name="frameDuration" value="100"/>
+        <property name="useObjectWidth" value="true"/>
+        <property name="repeated" value="false"/>
+    </bean>
+
     <bean id="rabbitRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.creature.JumpingCreatureRenderer">
         <constructor-arg>
             <bean class="kniemkiewicz.jqblocks.ingame.renderer.FlippingImageRenderer">
