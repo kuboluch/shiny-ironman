@@ -1,4 +1,4 @@
-package kniemkiewicz.jqblocks.ingame.util;
+package kniemkiewicz.jqblocks.ingame.util.closure;
 
 import java.util.Random;
 import java.util.WeakHashMap;
@@ -7,11 +7,7 @@ import java.util.WeakHashMap;
  * User: qba
  * Date: 23.09.12
  */
-public class OncePerXMilliseconds<T> {
-
-  public interface Closure<T> {
-    void run(T t);
-  }
+public class OncePerX<T> {
 
   static Random random = new Random();
   final boolean initRandomly;
@@ -20,7 +16,7 @@ public class OncePerXMilliseconds<T> {
   WeakHashMap<T, Integer> counters = new WeakHashMap<T, Integer>();
 
   // Use initRandomly to avoid running all instances in the same frame.
-  public OncePerXMilliseconds(int milliseconds, boolean initRandomly, Closure<T> closure) {
+  public OncePerX(int milliseconds, boolean initRandomly, Closure<T> closure) {
     this.closure = closure;
     this.milliseconds = milliseconds;
     this.initRandomly = initRandomly;

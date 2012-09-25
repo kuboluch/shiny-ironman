@@ -9,7 +9,8 @@ import kniemkiewicz.jqblocks.ingame.controller.ControllerUtils;
 import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
-import kniemkiewicz.jqblocks.ingame.util.OnceXTimes;
+import kniemkiewicz.jqblocks.ingame.util.closure.Closure;
+import kniemkiewicz.jqblocks.ingame.util.closure.OnceXTimes;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class ZombieController implements HealthController<Zombie>, UpdateQueue.U
 
   private static float DETECTION_RECT_WIDTH = Sizes.BLOCK * 2;
 
-  private OnceXTimes<Zombie> tryJumpClosure = new OnceXTimes<Zombie>(10, true, new OnceXTimes.Closure<Zombie>() {
+  private OnceXTimes<Zombie> tryJumpClosure = new OnceXTimes<Zombie>(10, true, new Closure<Zombie>() {
     @Override
     public void run(Zombie zombie) {
       if (controllerUtils.isFlying(zombie.getShape())) return;

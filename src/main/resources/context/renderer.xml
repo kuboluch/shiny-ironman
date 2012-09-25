@@ -31,7 +31,8 @@
         <constructor-arg value="images/saw.png"/>
     </bean>
 
-    <bean id="unknownWorkplaceRenderer" class="kniemkiewicz.jqblocks.ingame.object.workplace.renderer.WorkplaceImageRenderer">
+    <bean id="unknownWorkplaceRenderer"
+          class="kniemkiewicz.jqblocks.ingame.object.workplace.renderer.WorkplaceImageRenderer">
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="unknown"/>
     </bean>
@@ -105,11 +106,12 @@
         <constructor-arg value="dirt"/>
     </bean>
 
-    <bean id="magicBrickBlockTypeRenderer" class="kniemkiewicz.jqblocks.ingame.block.renderer.SpriteSheetBlockTypeRenderer">
+    <bean id="magicBrickBlockTypeRenderer"
+          class="kniemkiewicz.jqblocks.ingame.block.renderer.SpriteSheetBlockTypeRenderer">
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="oldWall"/>
         <constructor-arg>
-            <util:constant static-field="kniemkiewicz.jqblocks.ingame.block.WallBlockType.MAGIC_BRICK_WALL" />
+            <util:constant static-field="kniemkiewicz.jqblocks.ingame.block.WallBlockType.MAGIC_BRICK_WALL"/>
         </constructor-arg>
         <property name="renderBorder" value="true"/>
     </bean>
@@ -118,25 +120,27 @@
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="stone"/>
         <constructor-arg>
-            <util:constant static-field="kniemkiewicz.jqblocks.ingame.block.WallBlockType.ROCK" />
+            <util:constant static-field="kniemkiewicz.jqblocks.ingame.block.WallBlockType.ROCK"/>
         </constructor-arg>
         <property name="renderBorder" value="true"/>
     </bean>
 
-    <bean id="backgroundDirtBlockTypeRenderer" class="kniemkiewicz.jqblocks.ingame.block.renderer.SpriteSheetBlockTypeRenderer">
+    <bean id="backgroundDirtBlockTypeRenderer"
+          class="kniemkiewicz.jqblocks.ingame.block.renderer.SpriteSheetBlockTypeRenderer">
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="stone"/>
         <constructor-arg>
-            <util:constant static-field="kniemkiewicz.jqblocks.ingame.block.WallBlockType.ROCK" />
+            <util:constant static-field="kniemkiewicz.jqblocks.ingame.block.WallBlockType.ROCK"/>
         </constructor-arg>
         <property name="renderBorder" value="true"/>
     </bean>
 
-    <bean id="vaultBackgroundDirtBlockTypeRenderer" class="kniemkiewicz.jqblocks.ingame.block.renderer.SpriteSheetBlockTypeRenderer">
+    <bean id="vaultBackgroundDirtBlockTypeRenderer"
+          class="kniemkiewicz.jqblocks.ingame.block.renderer.SpriteSheetBlockTypeRenderer">
         <constructor-arg ref="blockSheet"/>
         <constructor-arg value="vaultBack"/>
         <constructor-arg>
-            <util:constant static-field="kniemkiewicz.jqblocks.ingame.block.BackgroundBlockType.VAULT" />
+            <util:constant static-field="kniemkiewicz.jqblocks.ingame.block.BackgroundBlockType.VAULT"/>
         </constructor-arg>
     </bean>
 
@@ -166,22 +170,27 @@
         <constructor-arg value="0"/>
     </bean>
 
-    <bean id="rabbitRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.FlippingImageRenderer">
-        <constructor-arg ref="rabbitSheet"/>
-        <constructor-arg value="0"/>
-        <constructor-arg value="1"/>
+    <bean id="rabbitRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.creature.JumpingCreatureRenderer">
+        <constructor-arg>
+            <bean class="kniemkiewicz.jqblocks.ingame.renderer.FlippingImageRenderer">
+                <constructor-arg ref="rabbitSheet"/>
+                <constructor-arg value="0"/>
+                <constructor-arg value="1"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="kniemkiewicz.jqblocks.ingame.renderer.FlippingImageRenderer">
+                <constructor-arg ref="rabbitSheet"/>
+                <constructor-arg value="0"/>
+                <constructor-arg value="0"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="kniemkiewicz.jqblocks.ingame.renderer.FlippingImageRenderer">
+                <constructor-arg ref="rabbitSheet"/>
+                <constructor-arg value="0"/>
+                <constructor-arg value="2"/>
+            </bean>
+        </constructor-arg>
     </bean>
-
-    <bean id="rabbitJumpingRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.FlippingImageRenderer">
-        <constructor-arg ref="rabbitSheet"/>
-        <constructor-arg value="0"/>
-        <constructor-arg value="0"/>
-    </bean>
-
-    <bean id="rabbitLandingRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.FlippingImageRenderer">
-        <constructor-arg ref="rabbitSheet"/>
-        <constructor-arg value="0"/>
-        <constructor-arg value="2"/>
-    </bean>
-
 </beans>

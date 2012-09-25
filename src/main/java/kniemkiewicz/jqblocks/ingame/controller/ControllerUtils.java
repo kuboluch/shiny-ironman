@@ -49,8 +49,8 @@ public class ControllerUtils {
   }
 
   public boolean isFlying(Shape shape) {
-    Rectangle belowShape = new Rectangle(shape.getMinX() + 1, shape.getHeight() + shape.getMinY() + 2,
-        shape.getWidth() - 4, 0);
+    Rectangle belowShape = new Rectangle(shape.getMinX() + 1, shape.getMinY() + shape.getHeight() + 2,
+        shape.getWidth() - 2, 1);
     return !blocks.getBlocks().collidesWithNonEmpty(belowShape);
   }
 

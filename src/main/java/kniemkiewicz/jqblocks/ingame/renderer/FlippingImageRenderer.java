@@ -38,10 +38,10 @@ public class FlippingImageRenderer<T extends RenderableObject & HasFullXYMovemen
       image = getFlippedImage();
     }
     Shape shape = object.getShape();
-    image.draw(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
+    image.draw((int)shape.getX(), (int)shape.getY(), shape.getWidth(), shape.getHeight());
     if (DRAW_SHAPES_BOUNDARIES) {
       g.setColor(Color.black);
-      g.drawRect(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
+      g.drawRect((int)shape.getX(), (int)shape.getY(), shape.getWidth(), shape.getHeight());
     }
   }
 }

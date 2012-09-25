@@ -29,9 +29,25 @@ public class Rabbit implements RenderableObject<Rabbit>,UpdateQueue.ToBeUpdated<
 
   HealthPoints healthPoints = new HealthPoints(MAX_HP, this);
 
+  enum State {
+    STILL,
+    MOVING,
+    RUNNING_AWAY
+  }
+
+  State state = State.MOVING;
+
   public Rabbit(float x, float y) {
-    this.movement = RABBIT_MOVEMENT.getMovement(x, y).setXSpeed(SPEED);
+    this.movement = RABBIT_MOVEMENT.getMovement(x, y);
     rectangle = new Rectangle(x, y, WIDTH, HEIGHT);
+  }
+
+  public State getState() {
+    return state;
+  }
+
+  public void setState(State state) {
+    this.state = state;
   }
 
   @Override
@@ -57,12 +73,6 @@ public class Rabbit implements RenderableObject<Rabbit>,UpdateQueue.ToBeUpdated<
 
   @Override
   public BeanName<? extends ObjectRenderer> getRenderer() {
-    if (movement.getYMovement().getSpeed() < 0.0f) {
-      return JUMPING_RENDERER;
-    } else if (movement.getYMovement().getSpeed() > 0.0f) {
-      return LANDING_RENDERER;
-    }
-
     return RENDERER;
   }
 
@@ -70,7 +80,7 @@ public class Rabbit implements RenderableObject<Rabbit>,UpdateQueue.ToBeUpdated<
   public void renderObject(Graphics g, PointOfView pov) {
   }
 
- @Override
+  @Override
   public Layer getLayer() {
     return Layer.OBJECTS;
   }

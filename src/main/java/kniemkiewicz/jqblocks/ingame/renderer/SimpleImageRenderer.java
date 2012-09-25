@@ -79,10 +79,10 @@ public class SimpleImageRenderer<T extends RenderableObject> implements ItemRend
   @Override
   public void render(T object, Graphics g, PointOfView pov) {
     Shape shape = object.getShape();
-    image.draw(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
+    image.draw((int)shape.getX(), (int)shape.getY(), shape.getWidth(), shape.getHeight());
     if (DRAW_SHAPES_BOUNDARIES) {
       g.setColor(Color.black);
-      g.drawRect(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
+      g.drawRect((int)shape.getX(), (int)shape.getY(), shape.getWidth(), shape.getHeight());
     }
   }
 }

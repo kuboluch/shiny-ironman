@@ -9,7 +9,8 @@ import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.hp.HasHealthPoints;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
-import kniemkiewicz.jqblocks.ingame.util.OnceXTimes;
+import kniemkiewicz.jqblocks.ingame.util.closure.Closure;
+import kniemkiewicz.jqblocks.ingame.util.closure.OnceXTimes;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -54,7 +55,7 @@ public class BatController implements UpdateQueue.UpdateController<Bat>, HealthC
 
   public static int BITE_DMG = 20;
 
-  private OnceXTimes<Bat> findEnemyClosure = new OnceXTimes<Bat>(30, true, new OnceXTimes.Closure<Bat>() {
+  private OnceXTimes<Bat> findEnemyClosure = new OnceXTimes<Bat>(30, true, new Closure<Bat>() {
     @Override
     public void run(Bat bat) {
       if (bat.getTarget() != null) {
@@ -71,7 +72,7 @@ public class BatController implements UpdateQueue.UpdateController<Bat>, HealthC
     }
   });
 
-  private OnceXTimes<Bat> calculateAccelerationVectorClosure = new OnceXTimes<Bat>(30, true, new OnceXTimes.Closure<Bat>() {
+  private OnceXTimes<Bat> calculateAccelerationVectorClosure = new OnceXTimes<Bat>(30, true, new Closure<Bat>() {
     @Override
     public void run(Bat bat) {
       assert bat.getTarget() != null;

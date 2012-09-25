@@ -1,4 +1,4 @@
-package kniemkiewicz.jqblocks.ingame.util;
+package kniemkiewicz.jqblocks.ingame.util.closure;
 
 import java.util.Random;
 import java.util.WeakHashMap;
@@ -8,10 +8,6 @@ import java.util.WeakHashMap;
  * Date: 8/31/12
  */
 public class OnceXTimes<T> {
-
-  public interface Closure<T> {
-    void run(T t);
-  }
 
   static Random random = new Random();
   final boolean initRandomly;
