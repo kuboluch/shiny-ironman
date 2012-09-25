@@ -76,6 +76,8 @@ public class Fireball implements ProjectileController.Projectile<Fireball> {
 
   @Override
   public void hitTarget(KillablePhysicalObject kpo, World world) {
+    FireballExplosion explosion = new FireballExplosion(rectangle.getCenterX(), rectangle.getCenterY());
+    explosion.addTo(world.getRenderQueue(), world.getUpdateQueue());
     kpo.getHp().damage(DMG, this, world);
   }
 
