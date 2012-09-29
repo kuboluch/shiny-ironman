@@ -90,7 +90,7 @@ public class RabbitController implements UpdateQueue.UpdateController<Rabbit>, H
         }
       }
     }
-    freeFallController.updateComplex(delta, null, rabbit);
+    freeFallController.updateComplex(Math.round(delta / RABBIT_SLOWNESS), null, rabbit);
   }
 
   private OncePerXByGaussian<Rabbit> changeDirection =

@@ -107,6 +107,14 @@ public class Arrow implements ProjectileController.Projectile<Arrow> {
     return ProjectileController.class;
   }
 
+  public void hitTarget(KillablePhysicalObject kpo, World world) {
+    kpo.getHp().damage(ARROW_DMG, this, world);
+    // This makes stuck arrow appear much deeper in target.
+    this.update(10);
+    StuckArrow stuckArrow = new StuckArrow(line, kpo);
+    stuckArrow.addTo(world.getRenderQueue(), world.getUpdateQueue());
+  }
+
   // need to implement serialization as Circle is not Serializable
   private void readObject(ObjectInputStream inputStream) throws ClassNotFoundException, IOException {
     //always perform the default de-serialization first
@@ -118,14 +126,5 @@ public class Arrow implements ProjectileController.Projectile<Arrow> {
     //perform the default serialization for all non-transient, non-static fields
     outputStream.defaultWriteObject();
     SerializationUtils2.serializeLine(line, outputStream);
-  }
-
-
-  public void hitTarget(KillablePhysicalObject kpo, World world) {
-    kpo.getHp().damage(ARROW_DMG, this, world);
-    // This makes stuck arrow appear much deeper in target.
-    this.update(10);
-    StuckArrow stuckArrow = new StuckArrow(line, kpo);
-    stuckArrow.addTo(world.getRenderQueue(), world.getUpdateQueue());
   }
 }
