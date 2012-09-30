@@ -12,6 +12,9 @@ import kniemkiewicz.jqblocks.util.Out;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * User: krzysiek
  * Date: 17.09.12
@@ -44,19 +47,22 @@ public class ProjectileController implements UpdateQueue.UpdateController<Projec
   @Autowired
   World world;
 
-  public void add(Projectile arrow) {
-    updateQueue.add(arrow);
-    renderQueue.add(arrow);
+  List<Projectile> projectiles = new ArrayList<Projectile>();
+
+  public void add(Projectile projectile) {
+    projectiles.add(projectile);
+    updateQueue.add(projectile);
+    renderQueue.add(projectile);
   }
 
 
-  private boolean checkHit(Projectile arrow, Out<PhysicalObject> physicalObject) {
-    if (blocks.getBlocks().collidesWithNonEmpty(GeometryUtils.getBoundingRectangle(arrow.getShape()))) {
+  private boolean checkHit(Projectile projectile, Out<PhysicalObject> physicalObject) {
+    if (blocks.getBlocks().collidesWithNonEmpty(GeometryUtils.getBoundingRectangle(projectile.getShape()))) {
       return true;
     }
-    for (PhysicalObject b : collisionController.<PhysicalObject>fullSearch(MovingObjects.MOVING, arrow.getShape())) {
-      if (GeometryUtils.intersects(b.getShape(), arrow.getShape())) {
-        if (b != arrow.getSource()) {
+    for (PhysicalObject b : collisionController.<PhysicalObject>fullSearch(MovingObjects.MOVING, projectile.getShape())) {
+      if (GeometryUtils.intersects(b.getShape(), projectile.getShape())) {
+        if (b != projectile.getSource()) {
           physicalObject.set(b);
           return true;
         }
@@ -66,19 +72,23 @@ public class ProjectileController implements UpdateQueue.UpdateController<Projec
   }
 
   @Override
-  public void update(Projectile object, int delta) {
-    object.update(delta);
+  public void update(Projectile projectile, int delta) {
+    projectile.update(delta);
     Out<PhysicalObject> po = new Out<PhysicalObject>();
-    if (checkHit(object, po)) {
-      if ((po.get() != null) || !object.hitWall(world)) {
-        renderQueue.remove(object);
+    if (checkHit(projectile, po)) {
+      if ((po.get() != null) || !projectile.hitWall(world)) {
+        renderQueue.remove(projectile);
       }
-      updateQueue.remove(object);
+      updateQueue.remove(projectile);
+      projectiles.remove(projectile);
       if ((po.get() != null) && (po.get() instanceof KillablePhysicalObject)) {
         KillablePhysicalObject kpo = (KillablePhysicalObject) po.get();
-        object.hitTarget(kpo, world);
+        projectile.hitTarget(kpo, world);
       }
     }
   }
 
+  public List<Projectile> getProjectiles() {
+    return projectiles;
+  }
 }

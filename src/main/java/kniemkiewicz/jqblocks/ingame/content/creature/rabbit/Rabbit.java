@@ -32,6 +32,7 @@ public class Rabbit implements RenderableObject<Rabbit>,UpdateQueue.ToBeUpdated<
   enum State {
     STILL,
     MOVING,
+    RUNNING,
     RUNNING_AWAY
   }
 
