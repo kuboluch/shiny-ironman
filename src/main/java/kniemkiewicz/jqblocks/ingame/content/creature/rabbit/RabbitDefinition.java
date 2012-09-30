@@ -18,7 +18,7 @@ public interface RabbitDefinition {
   static int MAX_HP = 1;
 
   static final int WIDTH = 24;
-  static final int HEIGHT = 18;
+  static final int HEIGHT = 20;
 
   static final int CAUTIOUS_DISTANCE = Sizes.BLOCK * 25;
   static final int DANGER_DISTANCE = Sizes.BLOCK * 15;
@@ -27,7 +27,8 @@ public interface RabbitDefinition {
   static final float JUMP_SPEED_X = Player.JUMP_SPEED * 1.0f;
   static final float JUMP_SPEED_Y = Player.JUMP_SPEED * 1.2f;
 
-  static final float MAX_SPEED = Player.MAX_X_SPEED;
+  static final float RABBIT_SLOWNESS = 1.3f;
+  static final float MAX_SPEED = Sizes.BLOCK * 4;
   static final float DEFAULT_X_DECELERATION = MAX_SPEED / 6.0f;
 
   static final ProbabiltyDistribution MOVING_JUMPS = GaussianDistribution.withExpectationAndRange(1500, 500);
