@@ -15,7 +15,10 @@ import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderBackground;
 import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
 import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.controller.ai.paths.GraphGenerator;
+import kniemkiewicz.jqblocks.ingame.controller.ai.paths.PathGraph;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
+import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.content.background.Portal;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
@@ -68,6 +71,9 @@ public class VillageGenerator {
 
   @Autowired
   UpdateQueue updateQueue;
+
+  @Autowired
+  GraphGenerator graphGenerator;
 
   public static final int STARTING_X = (Sizes.MIN_X + Sizes.MAX_X) / 2;
 
@@ -157,7 +163,8 @@ public class VillageGenerator {
   void generateVillage(int villageY) {
     startingY = villageY;
     makeHouse(STARTING_X, villageY);
-    backgrounds.add(fireplace.getPlaceableObject(STARTING_X - fireplace.getWidth() / 2, villageY - fireplace.getHeight(), workplaceController).getBackgroundElement());
+    BackgroundElement fireplaceElement = fireplace.getPlaceableObject(STARTING_X - fireplace.getWidth() / 2, villageY - fireplace.getHeight(), workplaceController).getBackgroundElement();
+    backgrounds.add(fireplaceElement);
     makeHouse(STARTING_X + Sizes.BLOCK * 10, villageY);
     backgrounds.add(sawmill.getPlaceableObject(STARTING_X + Sizes.BLOCK * 10 - sawmill.getWidth() / 2, villageY - sawmill.getHeight(), workplaceController).getBackgroundElement());
     generateLadders();
@@ -168,6 +175,7 @@ public class VillageGenerator {
     addZombieCage(villageY);
     makeVault(STARTING_X - Sizes.BLOCK * 22, villageY);
     backgrounds.add(new Portal(STARTING_X - 4 * Sizes.BLOCK, villageY - 10 * Sizes.BLOCK, new Portal.Destination(new Vector2f(STARTING_X -  4 * Sizes.BLOCK,  villageY - 40 * Sizes.BLOCK))));
+    graphGenerator.addSource(fireplaceElement);
   }
 
   public void saveToStream(ObjectOutputStream stream) throws IOException {

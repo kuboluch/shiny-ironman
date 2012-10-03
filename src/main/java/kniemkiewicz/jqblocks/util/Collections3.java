@@ -1,5 +1,7 @@
 package kniemkiewicz.jqblocks.util;
 
+import com.google.common.base.Function;
+
 import java.util.*;
 
 /**
@@ -140,5 +142,18 @@ public final class Collections3 {
 
   public static <T> Iterator<T> iterateOverAll(Iterator<? extends T> it1, Iterator<? extends T> it2) {
     return iterateOverAllIterators(Arrays.asList(it1, it2).iterator());
+  }
+
+  // This method should not be used if passed function does complicated operations (worth more than single put in a map)
+  // In such case, function should be cached, proper version of this method should be implemented below.
+  public static <T,V extends Comparable<V>> void sortByFunction(List<T> list, final Function<T, V> fun) {
+    Collections.sort(list, new Comparator<T>() {
+      @Override
+      public int compare(T o1, T o2) {
+        V v1 = fun.apply(o1);
+        V v2 = fun.apply(o2);
+        return v1.compareTo(v2);
+      }
+    });
   }
 }

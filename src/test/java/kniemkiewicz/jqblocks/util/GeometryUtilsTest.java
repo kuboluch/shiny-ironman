@@ -1,11 +1,14 @@
 package kniemkiewicz.jqblocks.util;
 
+import kniemkiewicz.jqblocks.util.slick.SimpleGame;
 import org.junit.Assert;
 import org.junit.Test;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
+
+import java.util.Arrays;
 
 /**
  * User: knie
@@ -70,5 +73,27 @@ public class GeometryUtilsTest {
     Shape c3 = new Circle(19, 0, 10);
     Assert.assertTrue(GeometryUtils.intersects(c1, c3));
     Assert.assertFalse(GeometryUtils.intersects(c2, c3));
+  }
+
+  @Test
+  public void testBoundingRectForCircles() {
+    Circle c1 = new Circle(3, 3, 30);
+    Rectangle r1 = GeometryUtils.getBoundingRectangleInternal(c1);
+    Assert.assertTrue(GeometryUtils.intersects(c1, r1));
+
+    Circle c2 = new Circle(3, 3, 3);
+    Rectangle r2 = GeometryUtils.getBoundingRectangleInternal(c2);
+    Assert.assertTrue(GeometryUtils.intersects(c1, r2));
+
+    // One more case, which is not covered by fix checking if center of circle is inside rect.
+    Rectangle r3 = new Rectangle(-100, 5, 200, 10);
+    Assert.assertTrue(GeometryUtils.intersects(c1, r3));
+  }
+
+  @Test
+  public void testBoundingRectForLines() {
+    Line l1 = new Line(-72,1043, 288,1043);
+    Rectangle r1 = GeometryUtils.getBoundingRectangleInternal(l1);
+    Assert.assertTrue(GeometryUtils.intersects(l1, r1));
   }
 }

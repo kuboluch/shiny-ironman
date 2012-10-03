@@ -12,7 +12,16 @@ import org.newdawn.slick.geom.Shape;
  */
 public final class GeometryUtils {
 
+  // This will replace 1 in many places in this class and in whole project.
+  static final float EPSILON = 0.0001f;
+
   public static Rectangle getBoundingRectangle(Shape shape) {
+    Rectangle r = getBoundingRectangleInternal(shape);
+    assert intersects(shape, r);
+    return r;
+  }
+
+  static Rectangle getBoundingRectangleInternal(Shape shape) {
     if (shape instanceof Rectangle) return (Rectangle)shape;
     return getNewBoundingRectangle(shape);
   }
@@ -23,7 +32,7 @@ public final class GeometryUtils {
       float x = circle.getCenterX();
       float y = circle.getCenterY();
       float r = circle.getRadius();
-      return new Rectangle(x - r, y - r, 2 * r, 2 * r);
+      return new Rectangle(x - r, y - r, 2 * r + 1, 2 * r + 1);
     }
     if (shape instanceof Line) {
       Line line = (Line) shape;
@@ -45,7 +54,7 @@ public final class GeometryUtils {
         y1 = line.getY2();
         y2 = line.getY1();
       }
-      return new Rectangle(x1, y1, x2 - x1, y2 - y1);
+      return new Rectangle(x1 - EPSILON, y1 - EPSILON, x2 - x1 + 1 + EPSILON, y2 - y1 + 1 + EPSILON);
     }
     if (shape instanceof Rectangle) {
       Rectangle r = (Rectangle) shape;
@@ -58,8 +67,8 @@ public final class GeometryUtils {
   public static boolean intersects(Shape shape1, Shape shape2) {
     if (!internalIntersects(shape1, shape2)) return false;
     // This has to be made faster...
-    Rectangle r1 = getBoundingRectangle(shape1);
-    Rectangle r2 = getBoundingRectangle(shape2);
+    Rectangle r1 = getBoundingRectangleInternal(shape1);
+    Rectangle r2 = getBoundingRectangleInternal(shape2);
 
     // getX + width is incorrect for lines
     if (getMaxX(r1) < r2.getX()) return false;
@@ -72,7 +81,21 @@ public final class GeometryUtils {
   public static boolean internalIntersects(Shape shape1, Shape shape2) {
     TimingInfo.CURRENT_TIMING_INFO.getCounter("GeometryUtils.intersects").record(1);
     if (shape1.intersects(shape2)) return true;
-
+    if ((shape1 instanceof Rectangle && shape2 instanceof Circle) ||
+        (shape2 instanceof Rectangle && shape1 instanceof Circle)) {
+      Circle c;
+      Rectangle r;
+      if (shape1 instanceof Circle) {
+        c = (Circle) shape1;
+        r = (Rectangle) shape2;
+      } else {
+        c = (Circle) shape2;
+        r = (Rectangle) shape1;
+      }
+      if (r.contains(c.getCenterX(), c.getCenterY())) {
+        return true;
+      }
+    }
     if (shape2 instanceof Line) {
       return shape1.contains(shape2);
     }

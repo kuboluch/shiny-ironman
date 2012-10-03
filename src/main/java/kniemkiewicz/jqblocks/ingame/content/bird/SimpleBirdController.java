@@ -83,7 +83,8 @@ public class SimpleBirdController {
     if (birds.size() < MAX_BIRDS) {
       Pair<Bird.BirdColor, Direction> pick = picker.pick();
       if (pick == null) return;
-      float y = - random.nextFloat() * pointOfView.getWindowHeight() / 2 + playerController.getPlayer().getXYMovement().getY();
+      float EMPTY_Y = Sizes.BLOCK * 4;
+      float y = - random.nextFloat() * (pointOfView.getWindowHeight() / 2  - EMPTY_Y) - EMPTY_Y + playerController.getPlayer().getXYMovement().getY();
       float x = playerController.getPlayer().getXYMovement().getX() + (pick.getSecond() == Direction.RIGHT ? - 1: 1) *
           (pointOfView.getWindowWidth() / 2 + Sizes.BLOCK * 2);
       Bird b = new Bird(pick.getFirst(), pick.getSecond(), x, y);

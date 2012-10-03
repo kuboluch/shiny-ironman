@@ -1,10 +1,16 @@
 package kniemkiewicz.jqblocks;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.util.GeometryUtils;
+import kniemkiewicz.jqblocks.util.slick.SimpleGame;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.Arrays;
 
 /**
  * User: krzysiek
@@ -19,6 +25,11 @@ public class Main {
   public static String WINDOW_HEIGHT_NAME = "Main.WINDOW_HEIGHT";
 
   public static void main(String[] args) throws SlickException {
+    /*
+    Circle c1 = new Circle(3, 3, 30);
+    Rectangle r = GeometryUtils.getBoundingRectangle(c1);
+    SimpleGame.showShapes(Arrays.asList(c1, r));
+    */
     ApplicationContext ctx = new ClassPathXmlApplicationContext(contextPath);
     Configuration configuration = ctx.getBean(Configuration.class);
     Game game = ctx.getBean(Game.class);
