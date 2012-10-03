@@ -192,6 +192,7 @@ public class GraphGenerator {
     }
   }
 
+
   private void spreadEdges(Edge e) {
     if ((e.type != Edge.Type.VERTICAL_LADDER) && (e.type != Edge.Type.HORIZONTAL_LADDER)) {
       Iterator<BackgroundElement> it = backgrounds.intersects(e.getShape());
