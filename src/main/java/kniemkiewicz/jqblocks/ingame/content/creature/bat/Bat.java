@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.bat;
 
 import kniemkiewicz.jqblocks.ingame.*;
+import kniemkiewicz.jqblocks.ingame.content.creature.Enemy;
 import kniemkiewicz.jqblocks.ingame.object.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
@@ -27,7 +28,7 @@ import org.newdawn.slick.geom.Vector2f;
  * User: knie
  * Date: 7/24/12
  */
-public class Bat implements RenderableObject<Bat>, UpdateQueue.ToBeUpdated<Bat>, KillablePhysicalObject<Bat>, HasFullXYMovement {
+public class Bat implements RenderableObject<Bat>, UpdateQueue.ToBeUpdated<Bat>, Enemy<Bat>, HasFullXYMovement {
 
   Rectangle rectangle;
   XYMovement movement;

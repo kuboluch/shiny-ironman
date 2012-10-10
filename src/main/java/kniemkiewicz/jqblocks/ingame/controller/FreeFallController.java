@@ -96,7 +96,6 @@ public final class FreeFallController {
     }
   }
 
-
   // TODO: maybe make this smarter
   public Iterator<QuadTree.HasShape> getSimpleObjects() {
     List<CanFall> list = new ArrayList<CanFall>();

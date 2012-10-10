@@ -54,7 +54,7 @@ public class Edge implements RenderableObject<Edge>{
 
   @Override
   public void renderObject(Graphics g, PointOfView pov) {
-    g.setLineWidth(2);
+    /*g.setLineWidth(2);
     g.setColor(Color.red);
     g.draw(line);
     if (joints.size() > 0) {
@@ -66,7 +66,7 @@ public class Edge implements RenderableObject<Edge>{
       }
       g.draw(r);
     }
-    g.resetLineWidth();
+    g.resetLineWidth();*/
   }
 
   Joint addJoint(float pos, Edge e) {

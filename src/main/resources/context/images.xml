@@ -62,4 +62,10 @@
         <constructor-arg value="32"/>
         <constructor-arg value="24"/>
     </bean>
+
+    <bean id="roosterSheet" class="org.newdawn.slick.SpriteSheet">
+        <constructor-arg value="spritesheet/rooster.png"/>
+        <constructor-arg value="24"/>
+        <constructor-arg value="24"/>
+    </bean>
 </beans>

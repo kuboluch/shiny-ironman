@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.renderer;
 
+import kniemkiewicz.jqblocks.ingame.content.creature.rooster.Rooster;
 import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
@@ -88,7 +89,7 @@ public class AnimationRenderer<T extends AnimationRenderer.AnimationCompatible> 
     } else {
       sprite = animation.getImage(spriteId);
     }
-    sprite.draw(r.getX() - widthDiff, r.getY() + shiftTop, w, r.getHeight() + shiftHeight);
+    sprite.draw((int)(r.getX() - widthDiff), (int)(r.getY() + shiftTop), (int)w, (int)(r.getHeight() + shiftHeight));
     if (debug) {
       g.setColor(Color.red);
       g.draw(r);

@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.controller;
 
+import kniemkiewicz.jqblocks.ingame.content.creature.Enemy;
 import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.World;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
@@ -54,11 +55,47 @@ public class ControllerUtils {
     return !blocks.getBlocks().collidesWithNonEmpty(belowShape);
   }
 
+  public boolean isFacingWall(Shape shape, boolean direction) {
+    Rectangle bound = GeometryUtils.getBoundingRectangle(shape);
+    Rectangle nextToShape;
+    if (direction) {
+      nextToShape = new Rectangle(bound.getX() + bound.getWidth() + 1, bound.getY(), 1, bound.getHeight());
+    } else {
+      nextToShape = new Rectangle(bound.getX() - 1, bound.getY(), 1, bound.getHeight());
+    }
+    return blocks.getBlocks().collidesWithNonEmpty(nextToShape);
+  }
+
+  public boolean isFacingWallToStandOn(Shape shape, boolean direction, float maxWallSize) {
+    Rectangle bound = GeometryUtils.getBoundingRectangle(shape);
+    Rectangle nextToShape;
+    if (direction) {
+      nextToShape = new Rectangle(bound.getX() + bound.getWidth() + 1, bound.getY(), 1, bound.getHeight());
+    } else {
+      nextToShape = new Rectangle(bound.getX() - 1, bound.getY(), 1, bound.getHeight());
+    }
+    boolean facingWall = blocks.getBlocks().collidesWithNonEmpty(nextToShape);
+    if (facingWall) {
+      nextToShape.setY(nextToShape.getY() - maxWallSize);
+      return !blocks.getBlocks().collidesWithNonEmpty(nextToShape);
+    }
+    return false;
+  }
+
+  public boolean isOnSolidGround(Shape shape) {
+    Rectangle rectangle =  new Rectangle(shape.getCenterX(), shape.getY(), 1, shape.getHeight());
+    return blocks.isOnSolidGround(rectangle);
+  }
+
   public static float DEFAULT_PUSH_BACK = Player.MAX_X_SPEED;
 
   public void pushFrom(HasFullXYMovement target, QuadTree.HasShape source, float speed) {
     float dx = target.getXYMovement().getX() - source.getShape().getCenterX();
     float dy = target.getXYMovement().getY() - source.getShape().getCenterY();
+    pushFrom(target, dx, dy, speed);
+  }
+
+  public void pushFrom(HasFullXYMovement target, float dx, float dy, float speed) {
     float dd = (float)Math.sqrt(dx * dx + dy * dy);
     float speedX = dx / dd * speed;
     if (Math.abs(target.getXYMovement().getXMovement().getSpeed() + speedX) > Math.abs(speedX)) {
@@ -77,6 +114,10 @@ public class ControllerUtils {
   public boolean isVillager(PhysicalObject po) {
     assert villagerClasses.size() > 0;
     return villagerClasses.contains(po.getClass());
+  }
+
+  public boolean isEnemy(PhysicalObject po) {
+    return (po instanceof Enemy);
   }
 
   public void damageTouchedVillagers(QuadTree.HasShape source, int damage) {

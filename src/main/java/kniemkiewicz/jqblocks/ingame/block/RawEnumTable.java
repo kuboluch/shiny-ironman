@@ -258,7 +258,9 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
     }
     for (int i = x1; i <= x2; i++) {
       for (int j = y1; j <= y2; j++) {
-        if (data[i][j] != emptyType) return true;
+        if (data[i][j] != emptyType) {
+          return true;
+        }
       }
     }
     return false;

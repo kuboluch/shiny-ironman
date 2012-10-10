@@ -1,6 +1,8 @@
-package kniemkiewicz.jqblocks.ingame.content.creature.rabbit;
+package kniemkiewicz.jqblocks.ingame.content.creature.rooster;
 
 import kniemkiewicz.jqblocks.ingame.PointOfView;
+import kniemkiewicz.jqblocks.ingame.content.creature.Enemy;
+import kniemkiewicz.jqblocks.ingame.content.creature.Neutral;
 import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
@@ -9,36 +11,38 @@ import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.object.hp.KillablePhysicalObject;
+import kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
+import kniemkiewicz.jqblocks.ingame.renderer.creature.RunningCreatureRenderer;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
-import static kniemkiewicz.jqblocks.ingame.content.creature.rabbit.RabbitDefinition.*;
+import static kniemkiewicz.jqblocks.ingame.content.creature.rooster.RoosterDefinition.*;
 
 /**
  * User: qba
- * Date: 23.09.12
+ * Date: 08.10.12
  */
-public class Rabbit implements RenderableObject<Rabbit>, UpdateQueue.ToBeUpdated<Rabbit>, KillablePhysicalObject<Rabbit>,
-    HasFullXYMovement {
+public class Rooster implements RenderableObject<Rooster>, UpdateQueue.ToBeUpdated<Rooster>, Neutral<Rooster>,
+    HasFullXYMovement, RunningCreatureRenderer.RunningCreature<Rooster> {
 
   Rectangle rectangle;
   XYMovement movement;
+  Enemy enemySpotted;
+
   HealthPoints healthPoints = new HealthPoints(MAX_HP, this);
-  boolean projectileSpotted = false;
 
   enum State {
     STILL,
     MOVING,
-    RUNNING,
     RUNNING_AWAY
   }
 
   State state = State.MOVING;
 
-  public Rabbit(float x, float y) {
+  public Rooster(float x, float y) {
     this.movement = MOVEMENT.getMovement(x, y);
     rectangle = new Rectangle(x, y, WIDTH, HEIGHT);
   }
@@ -68,7 +72,7 @@ public class Rabbit implements RenderableObject<Rabbit>, UpdateQueue.ToBeUpdated
   }
 
   @Override
-  public BeanName<? extends HealthController<Rabbit>> getHealthController() {
+  public BeanName<? extends HealthController<Rooster>> getHealthController() {
     return CONTROLLER;
   }
 
@@ -92,8 +96,8 @@ public class Rabbit implements RenderableObject<Rabbit>, UpdateQueue.ToBeUpdated
   }
 
   @Override
-  public Class<? extends UpdateQueue.UpdateController<Rabbit>> getUpdateController() {
-    return RabbitController.class;
+  public Class<? extends UpdateQueue.UpdateController<Rooster>> getUpdateController() {
+    return RoosterController.class;
   }
 
   // Do not add panelItems manually. Using this method makes sure you won't forget any part.
@@ -104,11 +108,27 @@ public class Rabbit implements RenderableObject<Rabbit>, UpdateQueue.ToBeUpdated
     return true;
   }
 
-  public boolean hasProjectileSpotted() {
-    return projectileSpotted;
+  public Enemy getEnemySpotted() {
+    return enemySpotted;
   }
 
-  public void setProjectileSpotted(boolean projectileSpotted) {
-    this.projectileSpotted = projectileSpotted;
+  public void setEnemySpotted(Enemy enemySpotted) {
+    this.enemySpotted = enemySpotted;
+  }
+
+  int age = 0;
+
+  @Override
+  public int getAge() {
+    return age;
+  }
+
+  public void setAge(int age) {
+    this.age = age;
+  }
+
+  @Override
+  public boolean isRunning() {
+    return state == State.RUNNING_AWAY;
   }
 }
