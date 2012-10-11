@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.zombie;
 
 import kniemkiewicz.jqblocks.ingame.*;
+import kniemkiewicz.jqblocks.ingame.content.creature.Enemy;
 import kniemkiewicz.jqblocks.ingame.content.creature.SimpleBody;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
@@ -22,7 +23,7 @@ import org.newdawn.slick.geom.Shape;
  * User: knie
  * Date: 8/27/12
  */
-public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>, KillablePhysicalObject<Zombie>,
+public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>, Enemy<Zombie>,
     AnimationRenderer.AnimationCompatible<SimpleBody> {
 
   private static final int MAX_HP = 50;

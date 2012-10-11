@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.controller.ai;
 
+import kniemkiewicz.jqblocks.ingame.content.creature.Enemy;
 import kniemkiewicz.jqblocks.ingame.controller.CollisionController;
 import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
@@ -42,6 +43,20 @@ public class AIUtils {
     for (PhysicalObject po : collisionController.<PhysicalObject>fullSearch(MovingObjects.MOVING, rect)) {
       if (controllerUtils.isVillager(po)) {
         return po;
+      }
+    }
+    return null;
+  }
+
+  public Enemy findNearbyEnemy(PhysicalObject source, float radius) {
+    Rectangle rect = GeometryUtils.getNewBoundingRectangle(source.getShape());
+    rect.setX(rect.getX() - radius);
+    rect.setY(rect.getY() - radius);
+    rect.setWidth(rect.getWidth() + 2 * radius);
+    rect.setHeight(rect.getHeight() + 2 * radius);
+    for (PhysicalObject po : collisionController.<PhysicalObject>fullSearch(MovingObjects.MOVING, rect)) {
+      if (controllerUtils.isEnemy(po)) {
+        return (Enemy) po;
       }
     }
     return null;

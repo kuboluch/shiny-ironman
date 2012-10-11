@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Date: 24.09.12
  */
 public class JumpingCreatureRenderer<T extends RenderableObject & HasFullXYMovement> implements ObjectRenderer<T> {
-
   @Autowired
   ControllerUtils utils;
 

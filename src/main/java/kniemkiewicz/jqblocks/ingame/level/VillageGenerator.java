@@ -9,6 +9,8 @@ import kniemkiewicz.jqblocks.ingame.content.creature.peon.Peon;
 import kniemkiewicz.jqblocks.ingame.content.creature.peon.PeonController;
 import kniemkiewicz.jqblocks.ingame.content.creature.rabbit.Rabbit;
 import kniemkiewicz.jqblocks.ingame.content.creature.rabbit.RabbitDefinition;
+import kniemkiewicz.jqblocks.ingame.content.creature.rooster.Rooster;
+import kniemkiewicz.jqblocks.ingame.content.creature.rooster.RoosterDefinition;
 import kniemkiewicz.jqblocks.ingame.content.creature.zombie.Zombie;
 import kniemkiewicz.jqblocks.ingame.content.item.rock.Rock;
 import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderBackground;
@@ -163,6 +165,11 @@ public class VillageGenerator {
     return rabbit.addTo(movingObjects, renderQueue, updateQueue);
   }
 
+  private boolean addRooster(int x, int y) {
+    Rooster rooster = new Rooster(x, y - RoosterDefinition.HEIGHT);
+    return rooster.addTo(movingObjects, renderQueue, updateQueue);
+  }
+
   private void testGraph() {
     Vector2f p1 = new Vector2f(STARTING_X, startingY);
     renderQueue.add(new DebugRenderableShape(p1, Color.green));
@@ -188,11 +195,12 @@ public class VillageGenerator {
     generateLadders();
     //Assert.executeAndAssert(Peon.createAndRegister(STARTING_X, (int) (villageY - Peon.HEIGHT), peonController) != null);
     Assert.executeAndAssert(addBird(STARTING_X, villageY - Sizes.BLOCK * 24));
-    Assert.executeAndAssert(addRabbit(STARTING_X, villageY));
+    Assert.executeAndAssert(addRabbit(STARTING_X, villageY - Sizes.BLOCK));
+    Assert.executeAndAssert(addRooster(STARTING_X + Sizes.BLOCK * 1, villageY - Sizes.BLOCK));
     addFallingStars();
     addZombieCage(villageY);
     makeVault(STARTING_X - Sizes.BLOCK * 22, villageY);
-    backgrounds.add(new Portal(STARTING_X - 4 * Sizes.BLOCK, villageY - 10 * Sizes.BLOCK, new Portal.Destination(new Vector2f(STARTING_X -  4 * Sizes.BLOCK,  villageY - 40 * Sizes.BLOCK))));
+    backgrounds.add(new Portal(STARTING_X - 4 * Sizes.BLOCK, villageY - 10 * Sizes.BLOCK, new Portal.Destination(new Vector2f(STARTING_X - 4 * Sizes.BLOCK, villageY - 40 * Sizes.BLOCK))));
     graphGenerator.addSource(fireplaceElement);
     testGraph();
   }

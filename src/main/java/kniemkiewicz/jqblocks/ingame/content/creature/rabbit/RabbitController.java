@@ -48,8 +48,6 @@ public class RabbitController implements UpdateQueue.UpdateController<Rabbit>, H
 
   static final Log logger = LogFactory.getLog(RabbitController.class);
 
-  boolean projectileSpotted = false;
-
   @Override
   public void killed(Rabbit rabbit, QuadTree.HasShape source) {
     world.killMovingObject(rabbit);
@@ -89,7 +87,7 @@ public class RabbitController implements UpdateQueue.UpdateController<Rabbit>, H
   private void updateState(Rabbit rabbit, int delta) {
     double distanceToPlayer = getDistanceToPlayer(rabbit);
 
-    if (projectileSpotted) {
+    if (rabbit.hasProjectileSpotted()) {
       reactToProjectile.maybeRunWith(rabbit, delta);
     }
 
@@ -212,7 +210,7 @@ public class RabbitController implements UpdateQueue.UpdateController<Rabbit>, H
     Shape awarenessRangeShape = new Circle(rabbit.getShape().getCenterX(), rabbit.getShape().getCenterY(), AWARENESS_RADIUS, 8);
     for (ProjectileController.Projectile projectile : projectileController.getProjectiles()) {
       if (GeometryUtils.intersects(awarenessRangeShape, projectile.getShape())) {
-        projectileSpotted = true;
+        rabbit.setProjectileSpotted(true);
       }
     }
   }
@@ -223,7 +221,7 @@ public class RabbitController implements UpdateQueue.UpdateController<Rabbit>, H
       logger.debug(rabbit.getState().name() + " -> " + Rabbit.State.RUNNING_AWAY.name());
       rabbit.setState(Rabbit.State.RUNNING_AWAY);
       stopRunningAway.reset(rabbit);
-      projectileSpotted = false;
+      rabbit.setProjectileSpotted(false);
     }
   });
 

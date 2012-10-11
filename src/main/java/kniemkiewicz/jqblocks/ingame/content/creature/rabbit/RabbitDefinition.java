@@ -39,7 +39,7 @@ public interface RabbitDefinition {
   static final ProbabiltyDistribution REACTION_TIME = LogNormalDistribution.withExpectationAndMinimum(300, 100);
   static final ProbabiltyDistribution STOP_RUNNING_AWAY = GaussianDistribution.withExpectationAndRange(6000, 2000);
 
-  static final XYMovementDefinition RABBIT_MOVEMENT = new XYMovementDefinition(
+  static final XYMovementDefinition MOVEMENT = new XYMovementDefinition(
       new MovementDefinition().setMaxSpeed(MAX_SPEED).setDefaultDeceleration(DEFAULT_X_DECELERATION),
       new MovementDefinition().setMaxSpeed(MAX_SPEED)
   );

@@ -204,4 +204,37 @@
             </bean>
         </constructor-arg>
     </bean>
+
+    <bean id="roosterRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.creature.RunningCreatureRenderer">
+        <constructor-arg>
+            <bean class="kniemkiewicz.jqblocks.ingame.renderer.FlippingImageRenderer">
+                <constructor-arg ref="roosterSheet"/>
+                <constructor-arg value="0"/>
+                <constructor-arg value="1"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer">
+                <constructor-arg>
+                    <bean class="kniemkiewicz.jqblocks.util.slick.VerticalSpriteSheetAnimation">
+                        <constructor-arg ref="roosterSheet"/>
+                    </bean>
+                </constructor-arg>
+                <property name="width" value="24"/>
+                <property name="frameDuration" value="200"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer">
+                <constructor-arg>
+                    <bean class="kniemkiewicz.jqblocks.util.slick.VerticalSpriteSheetAnimation">
+                        <constructor-arg ref="roosterSheet"/>
+                    </bean>
+                </constructor-arg>
+                <property name="width" value="24"/>
+                <property name="frameDuration" value="100"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
 </beans>
