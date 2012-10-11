@@ -15,8 +15,10 @@ import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderBackground;
 import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
 import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.controller.ai.paths.Edge;
 import kniemkiewicz.jqblocks.ingame.controller.ai.paths.GraphGenerator;
 import kniemkiewicz.jqblocks.ingame.controller.ai.paths.PathGraph;
+import kniemkiewicz.jqblocks.ingame.object.DebugRenderableShape;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
@@ -25,6 +27,8 @@ import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceController;
 import kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceDefinition;
 import kniemkiewicz.jqblocks.util.Assert;
+import kniemkiewicz.jqblocks.util.Pair;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +75,9 @@ public class VillageGenerator {
 
   @Autowired
   UpdateQueue updateQueue;
+
+  @Autowired
+  PathGraph pathGraph;
 
   @Autowired
   GraphGenerator graphGenerator;
@@ -156,6 +163,17 @@ public class VillageGenerator {
     return rabbit.addTo(movingObjects, renderQueue, updateQueue);
   }
 
+  private void testGraph() {
+    Vector2f p1 = new Vector2f(STARTING_X, startingY);
+    renderQueue.add(new DebugRenderableShape(p1, Color.green));
+    Vector2f p2 = new Vector2f(STARTING_X + Sizes.BLOCK * 10, startingY - Sizes.BLOCK * 10);
+    renderQueue.add(new DebugRenderableShape(p2, Color.green));
+    Pair<Edge, Float> p1graph = pathGraph.getClosestPoint(p1, 100);
+    renderQueue.add(new DebugRenderableShape(p1graph.getFirst().getPointFor(p1graph.getSecond()), Color.green));
+    Pair<Edge, Float> p2graph = pathGraph.getClosestPoint(p1, 100);
+    renderQueue.add(new DebugRenderableShape(p2graph.getFirst().getPointFor(p2graph.getSecond()), Color.green));
+  }
+
   private void makeCave() {
 
   }
@@ -176,6 +194,7 @@ public class VillageGenerator {
     makeVault(STARTING_X - Sizes.BLOCK * 22, villageY);
     backgrounds.add(new Portal(STARTING_X - 4 * Sizes.BLOCK, villageY - 10 * Sizes.BLOCK, new Portal.Destination(new Vector2f(STARTING_X -  4 * Sizes.BLOCK,  villageY - 40 * Sizes.BLOCK))));
     graphGenerator.addSource(fireplaceElement);
+    testGraph();
   }
 
   public void saveToStream(ObjectOutputStream stream) throws IOException {

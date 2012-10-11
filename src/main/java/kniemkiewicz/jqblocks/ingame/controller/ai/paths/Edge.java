@@ -52,6 +52,10 @@ public class Edge implements RenderableObject<Edge>{
     return line.getY1() + line.getDY() * pos;
   }
 
+  final public Vector2f getPointFor(float  pos) {
+    return new Vector2f(getXFor(pos), getYFor(pos));
+  }
+
   @Override
   public void renderObject(Graphics g, PointOfView pov) {
     g.setLineWidth(2);
@@ -59,7 +63,7 @@ public class Edge implements RenderableObject<Edge>{
     g.draw(line);
     if (joints.size() > 0) {
       g.setColor(Color.orange);
-      Rectangle r = new Rectangle(0,0,4,4);
+      Rectangle r = new Rectangle(0,0,6,6);
       for (Joint j : joints) {
         r.setCenterX(getXFor(j.getPosition()));
         r.setCenterY(getYFor(j.getPosition()));
@@ -76,12 +80,36 @@ public class Edge implements RenderableObject<Edge>{
     return j;
   }
 
-  Joint addJoint(Vector2f intersection, Edge e) {
+  float getClosestPos(Vector2f intersection, float maxDistanceSquared) {
     if (line.getDX() > line.getDY()) {
-      return addJoint((intersection.getX() - line.getX()) / line.getDX(), e);
+      float p = (intersection.getX() - line.getX()) / line.getDX();
+      if (p < 0) {
+        assert intersection.distanceSquared(line.getStart()) < maxDistanceSquared;
+        return 0;
+      }
+      if (p > 1) {
+        assert intersection.distanceSquared(line.getEnd()) < maxDistanceSquared;
+        return 1;
+      }
+      return p;
     } else {
-      return addJoint((intersection.getY() - line.getY()) / line.getDY(), e);
+      float p = (intersection.getY() - line.getY()) / line.getDY();
+      if (p < 0) {
+        assert intersection.distanceSquared(line.getStart()) < maxDistanceSquared;
+        return 0;
+      }
+      if (p > 1) {
+        assert intersection.distanceSquared(line.getEnd()) < maxDistanceSquared;
+        return 1;
+      }
+      return p;
     }
+  }
+
+  private static float MAX_JOIN_DIST_SQUARED = 9;
+
+  Joint addJoint(Vector2f intersection, Edge e) {
+    return addJoint(getClosestPos(intersection, MAX_JOIN_DIST_SQUARED), e);
   }
 
   @Override
