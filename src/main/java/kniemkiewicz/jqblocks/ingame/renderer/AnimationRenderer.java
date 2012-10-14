@@ -1,6 +1,5 @@
 package kniemkiewicz.jqblocks.ingame.renderer;
 
-import kniemkiewicz.jqblocks.ingame.content.creature.rooster.Rooster;
 import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
