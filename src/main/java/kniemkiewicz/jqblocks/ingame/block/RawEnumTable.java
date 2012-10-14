@@ -290,6 +290,7 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
       rectangles.add(new Rectangle(Sizes.MIN_X - 1000, Sizes.MAX_Y, Sizes.LEVEL_SIZE_X + 2000, 1000));
       y2 = data[0].length - 1;
     }
+    // java.lang.NegativeArraySizeException?
     boolean[][] nonEmpty = new boolean[x2 - x1 + 1][y2 - y1 + 1];
     boolean[][] used = new boolean[x2 - x1 + 1][y2 - y1 + 1];
     for (int x = x1; x <= x2; x++) {
@@ -297,6 +298,7 @@ public class RawEnumTable<T extends Enum<T> & RenderableBlockType> implements Se
         nonEmpty[x - x1][y - y1] = (data[x][y] != emptyType);
       }
     }
+
     for (int i = 0; i < nonEmpty.length; i++) {
       int firstNonEmpty = -1;
       int lastNonEmpty = -1;
