@@ -28,7 +28,7 @@ import java.util.List;
  * Date: 01.10.12
  */
 @Component
-public class GraphGenerator {
+final public class GraphGenerator {
 
   @Autowired
   PathGraph graph;

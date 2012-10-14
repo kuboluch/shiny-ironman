@@ -26,7 +26,43 @@ import java.util.*;
  * Date: 26.09.12
  */
 @Component
-public class PathGraph {
+final public class PathGraph {
+
+  final static public class Position {
+    final Edge e;
+    final float j;
+
+    public Position(Edge e, float j) {
+      this.e = e;
+      this.j = j;
+    }
+
+    public Edge getEdge() {
+      return e;
+    }
+
+    public float getPosition() {
+      return j;
+    }
+  }
+
+  final static public class Path {
+    final Edge start;
+    final List<Joint> points;
+
+    public Path(Edge start, List<Joint> points) {
+      this.start = start;
+      this.points = points;
+    }
+
+    public List<Joint> getPoints() {
+      return points;
+    }
+
+    public Edge getStart() {
+      return start;
+    }
+  }
 
   static public final EnumSet<CollisionController.ObjectType> PATHS =
       EnumSet.of(CollisionController.ObjectType.PATHS);
@@ -49,7 +85,7 @@ public class PathGraph {
     sources.add(object);
   }
 
-  public Pair<Edge, Float> getClosestPoint(Vector2f pos, float radius) {
+  public Position getClosestPoint(Vector2f pos, float radius) {
     Rectangle area = new Rectangle(pos.getX() - radius, pos.getY() - radius, 2 * radius, 2 * radius);
     float minDistance = Float.MAX_VALUE;
     Edge closestEdge = null;
@@ -63,6 +99,8 @@ public class PathGraph {
         edgePos = ePos;
       }
     }
-    return Pair.of(closestEdge, edgePos);
+    return new Position(closestEdge, edgePos);
   }
+
+
 }
