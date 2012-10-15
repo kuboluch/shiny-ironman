@@ -34,6 +34,7 @@ import kniemkiewicz.jqblocks.util.Pair;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -186,10 +187,12 @@ public class VillageGenerator {
     renderQueue.add(new DebugRenderableShape(p2, Color.green));
     PathGraph.Position p1graph = pathGraph.getClosestPoint(p1, 10);
     renderPosition(p1graph);
-    PathGraph.Position p2graph = pathGraph.getClosestPoint(p2, 10);
+    PathGraph.Position p2graph = pathGraph.getClosestPoint(p2, 4);
     renderPosition(p2graph);
     PathGraph.Path path = new GraphPathSearch(pathGraph, p1graph, p2graph).getPath();
-    logger.info(path);
+    for (Line l : path.getLines()) {
+      renderQueue.add(new DebugRenderableShape(l, Color.red));
+    }
   }
 
   private void makeCave() {
@@ -204,7 +207,6 @@ public class VillageGenerator {
     makeHouse(STARTING_X + Sizes.BLOCK * 10, villageY);
     backgrounds.add(sawmill.getPlaceableObject(STARTING_X + Sizes.BLOCK * 10 - sawmill.getWidth() / 2, villageY - sawmill.getHeight(), workplaceController).getBackgroundElement());
     generateLadders();
-    //Assert.executeAndAssert(Peon.createAndRegister(STARTING_X, (int) (villageY - Peon.HEIGHT), peonController) != null);
     Assert.executeAndAssert(addBird(STARTING_X, villageY - Sizes.BLOCK * 24));
     Assert.executeAndAssert(addRabbit(STARTING_X, villageY - Sizes.BLOCK));
     Assert.executeAndAssert(addRooster(STARTING_X + Sizes.BLOCK * 1, villageY - Sizes.BLOCK));

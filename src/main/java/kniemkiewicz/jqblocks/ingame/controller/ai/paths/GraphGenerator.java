@@ -58,7 +58,7 @@ final public class GraphGenerator {
     int res = x;
     RawEnumTable<WallBlockType> table = solidBlocks.getBlocks();
     while (table.get(res + direction, y) == WallBlockType.EMPTY && table.get(res + direction, y + 1) != WallBlockType.EMPTY) {
-      res+=direction;
+      res += direction;
     }
     return res;
   }
@@ -91,7 +91,6 @@ final public class GraphGenerator {
         {
           Vector2f p1 = new Vector2f(other.line.getX1(), other.line.getY1());
           if (e.line.distanceSquared(p1) < JOIN_DISTANCE_SQUARED) {
-            // BUG: p1 doesn't have to be on
             e.addJoint(p1, other).with(other.addJoint(p1, e));
           }
         }
@@ -211,7 +210,6 @@ final public class GraphGenerator {
     } else {
       return null;
     }
-
   }
 
 

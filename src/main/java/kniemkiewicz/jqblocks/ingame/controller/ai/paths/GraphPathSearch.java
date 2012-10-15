@@ -1,6 +1,11 @@
 package kniemkiewicz.jqblocks.ingame.controller.ai.paths;
 
+import com.google.common.collect.Ordering;
 import com.google.common.collect.TreeMultimap;
+import kniemkiewicz.jqblocks.util.Assert;
+import kniemkiewicz.jqblocks.util.Pair;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.util.*;
 
@@ -14,12 +19,16 @@ import java.util.*;
  */
 public final class GraphPathSearch {
 
+  public static Log logger = LogFactory.getLog(GraphPathSearch.class);
+
   final PathGraph graph;
   final Joint startJoint;
   final PathGraph.Position start;
   final PathGraph.Position end;
 
-  final TreeMultimap<Float, Joint> stack = TreeMultimap.create();
+  // First joint in the pair is the one from which we want to move to the second one. First one is already visited and
+  // is stored here only for reference, for addition to backtrackMap
+  final TreeMultimap<Float, Pair<Joint, Joint>> stack = TreeMultimap.create(Ordering.natural(), Ordering.arbitrary());
   PathGraph.Path result = null;
 
   // For each visited Joint, this map contains Joint from which we got there. Note that each Joint is
@@ -50,16 +59,22 @@ public final class GraphPathSearch {
     Joint next = startJoint;
     Joint prev = null;
     while (next.getEdge() != end.getEdge()) {
+      logger.debug(next);
       if (!backtrackMap.containsKey(next)) {
-        processJoint(cost, next);
+        // Adding small cost to make algorithm choose path will smaller number of steps
+        processJoint(cost + 0.1f, next);
         backtrackMap.put(next, prev);
-        prev = next;
+        if (logger.isDebugEnabled()) {
+          logger.debug(String.valueOf(cost) + " " + getPathFor(next));
+        }
       }
-
       cost = keySet.first();
-      next = stack.get(cost).first();
-      stack.remove(cost, next);
+      Pair<Joint, Joint> p = stack.get(cost).first();
+      prev = p.getFirst();
+      next = p.getSecond();
+      Assert.executeAndAssert(stack.remove(cost, p));
     }
+    backtrackMap.put(next, prev);
     return next;
   }
 
@@ -68,16 +83,35 @@ public final class GraphPathSearch {
     float initialPos = next.getOther().getPosition();
     float edgeLength = edge.line.length();
     for (Joint j : edge.joints) {
-
-      float dist = Math.abs(initialPos - j.getPosition()) * edgeLength;
-      // We should delete all more expensive instances of "j" here to use less memory.
-      stack.put(cost + dist, j);
+      if (j == next.getOther()) {
+        if (!backtrackMap.containsKey(j)) {
+          backtrackMap.put(j, null); // Nobody should ever use this value.
+        }
+      } else {
+        float dist = Math.abs(initialPos - j.getPosition()) * edgeLength;
+        // We should delete all more expensive instances of "j" here to use less memory.
+        stack.put(cost + dist, Pair.of(next, j));
+      }
     }
+  }
+
+  List<Joint> getPathFor(Joint joint) {
+    List<Joint> joints = new ArrayList<Joint>();
+    while (joint != startJoint) {
+      joints.add(joint);
+      joint = backtrackMap.get(joint);
+      assert joint != null;
+    }
+    Collections.reverse(joints);
+    return joints;
   }
 
   private void computePath() {
     // Joint that was used to get to the target edge.
-    Joint lastJoint = traverseGraph();
-    result = new PathGraph.Path(start.getEdge(), Arrays.asList(lastJoint));
+    Joint joint = traverseGraph();
+    // List of used joints.
+    List<Joint> joints = getPathFor(joint);
+    joints.add(new Joint(end.getPosition(), null));
+    result = new PathGraph.Path(start,  joints);
   }
 }

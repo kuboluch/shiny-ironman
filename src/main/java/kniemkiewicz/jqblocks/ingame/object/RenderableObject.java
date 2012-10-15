@@ -21,6 +21,7 @@ public interface RenderableObject<T extends RenderableObject> extends PhysicalOb
     OBJECTS,
     PICKABLE_OBJECTS,
     ARROWS,
+    GRAPH,
     PLUS_INF
   }
 

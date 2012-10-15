@@ -58,8 +58,8 @@ public class Edge implements RenderableObject<Edge>{
 
   @Override
   public void renderObject(Graphics g, PointOfView pov) {
-    g.setLineWidth(2);
-    g.setColor(Color.red);
+    g.setLineWidth(3);
+    g.setColor(new Color(0, 0, 255));
     g.draw(line);
     if (joints.size() > 0) {
       g.setColor(Color.orange);
@@ -114,7 +114,7 @@ public class Edge implements RenderableObject<Edge>{
 
   @Override
   public Layer getLayer() {
-    return Layer.PLUS_INF;
+    return Layer.GRAPH;
   }
 
   @Override
@@ -140,5 +140,9 @@ public class Edge implements RenderableObject<Edge>{
     //perform the default serialization for all non-transient, non-static fields
     outputStream.defaultWriteObject();
     SerializationUtils2.serializeLine(line, outputStream);
+  }
+
+  public String toString() {
+    return "Edge{" + type + "," + line.getX1() + ":" + line.getX2() + "}";
   }
 }

@@ -1,6 +1,8 @@
 package kniemkiewicz.jqblocks.ingame.controller.ai.paths;
 
+import com.google.common.base.Objects;
 import kniemkiewicz.jqblocks.util.Assert;
+import org.apache.commons.lang.ObjectUtils;
 
 import java.io.Serializable;
 
@@ -8,7 +10,7 @@ import java.io.Serializable;
  * User: krzysiek
  * Date: 28.09.12
  */
-final public class Joint implements Serializable, Comparable<Joint>{
+final public class Joint implements Serializable {
   private Joint other;
   final private float position; // 0 to 1, along the edge that joint belong to, not the one stored inside
   final private Edge edge;
@@ -27,27 +29,19 @@ final public class Joint implements Serializable, Comparable<Joint>{
   }
 
   public Joint getOther() {
-    assert other != null;
     return other;
   }
 
   public float getPosition() {
-    assert other != null;
     return position;
   }
 
   public Edge getEdge() {
-    assert other != null;
     return edge;
   }
 
   @Override
-  public int compareTo(Joint o) {
-    if ((this == o)||(this.position == o.position)) return 0;
-    if (this.position < o.position) {
-      return -1;
-    } else {
-      return 1;
-    }
+  public String toString() {
+    return "Joint{" + ObjectUtils.toString(edge) + "," + position + "}";
   }
 }

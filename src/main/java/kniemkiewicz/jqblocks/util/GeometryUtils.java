@@ -129,4 +129,11 @@ public final class GeometryUtils {
     rect.setHeight(height);
     return rect;
   }
+
+  public static Line getLineInterval(Line line, float start, float end) {
+    assert start >=0 && start <= 1;
+    assert end >= 0 && end <= 1;
+    return new Line(line.getX1() + line.getDX() * start, line.getY1() + line.getDY() * start,
+        line.getX1() + line.getDX() * end, line.getY1() + line.getDY() * end);
+  }
 }

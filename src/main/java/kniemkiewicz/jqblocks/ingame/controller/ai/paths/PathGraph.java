@@ -47,10 +47,10 @@ final public class PathGraph {
   }
 
   final static public class Path {
-    final Edge start;
+    final Position start;
     final List<Joint> points;
 
-    public Path(Edge start, List<Joint> points) {
+    public Path(Position start, List<Joint> points) {
       this.start = start;
       this.points = points;
     }
@@ -59,8 +59,41 @@ final public class PathGraph {
       return points;
     }
 
-    public Edge getStart() {
+    public Position getStart() {
       return start;
+    }
+
+    @Override
+    public String toString() {
+      return "Path{" + start + "," + points + "}";
+    }
+
+    List<Position> computePositions() {
+      List<Position> result = new ArrayList<Position>();
+      result.add(start);
+      Edge prev = start.getEdge();
+      for (Joint j : points) {
+        result.add(new Position(prev, j.getPosition()));
+        prev = j.getEdge();
+      }
+      return result;
+    }
+
+    public List<Line> getLines() {
+      List<Line> lines = new ArrayList<Line>();
+      Edge edge = start.getEdge();
+      float pos = start.getPosition();
+      for (Joint j : points) {
+        lines.add(GeometryUtils.getLineInterval(edge.line, pos, j.getPosition()));
+        if (j.getOther() == null) {
+          // This should happen only on last iteration.
+          edge = null;
+        } else {
+          edge = j.getEdge();
+          pos = j.getOther().getPosition();
+        }
+      }
+      return lines;
     }
   }
 
@@ -97,6 +130,7 @@ final public class PathGraph {
       if (dis < minDistance) {
         closestEdge = e;
         edgePos = ePos;
+        minDistance = dis;
       }
     }
     return new Position(closestEdge, edgePos);
