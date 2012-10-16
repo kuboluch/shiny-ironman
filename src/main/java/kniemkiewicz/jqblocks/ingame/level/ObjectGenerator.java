@@ -43,12 +43,23 @@ public class ObjectGenerator {
   @Autowired
   UpdateQueue updateQueue;
 
+  @Autowired
+  VillageGenerator villageGenerator;
+
   void generateTrees(Random random, int[] heights) {
+    int center = (VillageGenerator.STARTING_X - Sizes.MIN_X) / Sizes.BLOCK;
+    int radius = VillageGenerator.VILLAGE_RADIUS + 2;
+    generateTrees(random, heights, 0, center - radius);
+    generateTrees(random, heights, center + radius, heights.length);
+  }
+
+  void generateTrees(Random random, int[] heights, int from, int until) {
     float TREE_DENSITY = configuration.getFloat("ObjectGenerator.TREE_DENSITY", 0.7f);
     int REQUIRED_OK_BLOCKS = Tree.WIDTH / Sizes.BLOCK - 1;
-    int prevHeight = heights[0];
+    int prevHeight = heights[from];
     int okBlocks = 0;
-    for (int i = 1; i < heights.length; i++) {
+
+    for (int i = from; i < until; i++) {
       if (heights[i] == prevHeight) {
         okBlocks++;
         if ((okBlocks == REQUIRED_OK_BLOCKS) && (random.nextFloat() < TREE_DENSITY)) {
