@@ -1,6 +1,8 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.peon;
 
 import kniemkiewicz.jqblocks.ingame.*;
+import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.controller.ai.paths.PathGraph;
 import kniemkiewicz.jqblocks.ingame.object.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
@@ -15,26 +17,28 @@ import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Vector2f;
 
 /**
  * User: krzysiek
  * Date: 19.08.12
  */
-public class Peon implements PhysicalObject, KillablePhysicalObject<Peon>, TwoFacedImageRenderer.Renderable{
+public class Peon implements PhysicalObject, KillablePhysicalObject<Peon>, TwoFacedImageRenderer.Renderable, UpdateQueue.ToBeUpdated<Peon>{
 
   private static final int PEON_HP = 100;
-  private static final float MAX_PEON_SPEED = Player.MAX_X_SPEED / 2;
+  static final float MAX_PEON_SPEED = Player.MAX_X_SPEED / 600;
 
   public static final float WIDTH = Sizes.BLOCK * 2 + 5;
   public static final float HEIGHT = Sizes.BLOCK * 3 + 5;
 
+  transient PathGraph.Path currentPath = null;
   HealthPoints healthPoints = new HealthPoints(PEON_HP, this);
   final Rectangle shape;
 
   XYMovement movement;
 
   static XYMovementDefinition PEON_MOVEMENT = new XYMovementDefinition(
-      new MovementDefinition().setMaxSpeed(MAX_PEON_SPEED),
+      new MovementDefinition().setMaxSpeed(MAX_PEON_SPEED).setAutoDirection(false),
       new MovementDefinition().setMaxSpeed(Sizes.MAX_FALL_SPEED)
   );
 
@@ -84,5 +88,31 @@ public class Peon implements PhysicalObject, KillablePhysicalObject<Peon>, TwoFa
   @Override
   public Shape getShape() {
     return shape;
+  }
+
+  PathGraph.Path getCurrentPath() {
+    return currentPath;
+  }
+
+  public void setCurrentPath(PathGraph.Path currentPath) {
+    this.currentPath = currentPath;
+  }
+
+  void update() {
+    if (currentPath != null) {
+      float x = movement.getX();
+      Vector2f newPos = currentPath.getStart().getPoint();
+      movement.getXMovement().setPos(newPos.getX());
+      movement.getYMovement().setPos(newPos.getY() - HEIGHT);
+      if (x < newPos.getX()) movement.getXMovement().setDirection(true);
+      if (x > newPos.getX()) movement.getXMovement().setDirection(false);
+      shape.setX(movement.getX());
+      shape.setY(movement.getY());
+    }
+  }
+
+  @Override
+  public Class<? extends UpdateQueue.UpdateController<? super Peon>> getUpdateController() {
+    return PeonController.class;
   }
 }

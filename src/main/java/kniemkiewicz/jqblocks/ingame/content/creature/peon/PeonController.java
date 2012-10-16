@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.peon;
 
 import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
+import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.World;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
@@ -17,7 +18,7 @@ import javax.annotation.Resource;
  * Date: 19.08.12
  */
 @Component
-public class PeonController implements HealthController<Peon> {
+public class PeonController implements HealthController<Peon>, UpdateQueue.UpdateController<Peon> {
 
   @Autowired
   World world;
@@ -27,6 +28,9 @@ public class PeonController implements HealthController<Peon> {
 
   @Autowired
   MovingObjects movingObjects;
+
+  @Autowired
+  UpdateQueue updateQueue;
 
   @Resource
   Sound newPeonSound;
@@ -40,14 +44,25 @@ public class PeonController implements HealthController<Peon> {
   }
 
   @Override
-  public void damaged(Peon object, QuadTree.HasShape source, int amount) {
-    //To change body of implemented methods use File | Settings | File Templates.
-  }
+  public void damaged(Peon object, QuadTree.HasShape source, int amount) { }
 
   public boolean register(Peon peon) {
     if (!movingObjects.add(peon, true)) return false;
     renderQueue.add(peon);
+    updateQueue.add(peon);
     soundController.play(newPeonSound);
     return true;
+  }
+
+  @Override
+  public void update(Peon object, int delta) {
+    float speed = Peon.MAX_PEON_SPEED * delta;
+    if (object.getCurrentPath() != null) {
+      object.getCurrentPath().progressWithSpeed(speed);
+      if (object.getCurrentPath().getPoints().size() == 0) {
+        object.setCurrentPath(null);
+      }
+      object.update();
+    }
   }
 }

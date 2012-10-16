@@ -29,8 +29,8 @@ import java.util.*;
 final public class PathGraph {
 
   final static public class Position {
-    final Edge e;
-    final float j;
+    Edge e;
+    float j;
 
     public Position(Edge e, float j) {
       this.e = e;
@@ -44,13 +44,25 @@ final public class PathGraph {
     public float getPosition() {
       return j;
     }
+
+    public void setEdge(Edge e) {
+      this.e = e;
+    }
+
+    public void setPosition(float j) {
+      this.j = j;
+    }
+
+    public Vector2f getPoint() {
+      return e.getPointFor(j);
+    }
   }
 
   final static public class Path {
     final Position start;
-    final List<Joint> points;
+    final LinkedList<Joint> points;
 
-    public Path(Position start, List<Joint> points) {
+    public Path(Position start, LinkedList<Joint> points) {
       this.start = start;
       this.points = points;
     }
@@ -61,6 +73,33 @@ final public class PathGraph {
 
     public Position getStart() {
       return start;
+    }
+
+    // dist here is a fraction of current edge.
+    // This method may progress over to next edge, but it won't go further.
+    // In such case remaining "dist" is returned, otherwise method returns 0.
+    public float progress(float dist) {
+      Joint next = points.getFirst();
+      float currentDistance = next.getPosition() - start.getPosition(); // may be negative.
+      if (Math.abs(currentDistance) < dist) {
+        if (points.size() > 1) {
+          start.setEdge(next.getEdge());
+          start.setPosition(next.getOther().getPosition());
+        }
+        points.removeFirst();
+        return Math.abs(currentDistance) - dist;
+      } else {
+        if (currentDistance > 0) {
+          start.setPosition(start.getPosition() + dist);
+        } else {
+          start.setPosition(start.getPosition() - dist);
+        }
+        return 0;
+      }
+    }
+
+    public float progressWithSpeed(float speed) {
+      return progress(speed / start.getEdge().getShape().length());
     }
 
     @Override

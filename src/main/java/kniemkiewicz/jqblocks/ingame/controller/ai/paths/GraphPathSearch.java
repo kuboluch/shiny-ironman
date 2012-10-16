@@ -112,6 +112,6 @@ public final class GraphPathSearch {
     // List of used joints.
     List<Joint> joints = getPathFor(joint);
     joints.add(new Joint(end.getPosition(), null));
-    result = new PathGraph.Path(start,  joints);
+    result = new PathGraph.Path(start,  new LinkedList<Joint>(joints));
   }
 }

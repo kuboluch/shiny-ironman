@@ -193,6 +193,9 @@ public class VillageGenerator {
     for (Line l : path.getLines()) {
       renderQueue.add(new DebugRenderableShape(l, Color.red));
     }
+    Vector2f p = p1graph.getEdge().getPointFor(p1graph.getPosition());
+    Peon peon = Peon.createAndRegister((int)p.getX(), (int)p.getY(), peonController);
+    peon.setCurrentPath(path);
   }
 
   private void makeCave() {

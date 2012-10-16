@@ -118,7 +118,7 @@ public class Edge implements RenderableObject<Edge>{
   }
 
   @Override
-  public Shape getShape() {
+  public Line getShape() {
     return line;
   }
 
