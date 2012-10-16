@@ -121,6 +121,10 @@ public final class GeometryUtils {
     return rectangle.getY() + rectangle.getHeight() - 1;
   }
 
+  public static Rectangle getRectangleCenteredOn(Rectangle rect, float margin) {
+    return getRectangleCenteredOn(rect, rect.getWidth() + 2 * margin, rect.getHeight() + 2 * margin);
+  }
+
   public static Rectangle getRectangleCenteredOn(Shape shape, float width, float height) {
     Rectangle rect = getNewBoundingRectangle(shape);
     rect.setX(rect.getX() - width / 2 + rect.getWidth() / 2);

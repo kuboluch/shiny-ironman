@@ -6,7 +6,7 @@ import kniemkiewicz.jqblocks.util.Assert;
  * User: qba
  * Date: 26.09.12
  */
-public class LogNormalDistribution implements ProbabiltyDistribution {
+public class LogNormalDistribution implements ProbabilityDistribution {
   private float mean = 0;
   private float standardDeviation = 0.25f;
   private int expectation;

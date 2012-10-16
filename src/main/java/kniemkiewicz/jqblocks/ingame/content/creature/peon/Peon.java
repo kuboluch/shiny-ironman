@@ -50,7 +50,7 @@ public class Peon implements PhysicalObject, KillablePhysicalObject<Peon>, TwoFa
 
   private Peon(int x, int y) {
     movement = PEON_MOVEMENT.getMovement(x, y);
-    shape = new Rectangle(x, y, WIDTH, HEIGHT);
+    shape = new Rectangle(x  - WIDTH / 2, y, WIDTH, HEIGHT);
   }
 
   @Override
@@ -86,7 +86,7 @@ public class Peon implements PhysicalObject, KillablePhysicalObject<Peon>, TwoFa
   }
 
   @Override
-  public Shape getShape() {
+  public Rectangle getShape() {
     return shape;
   }
 
@@ -106,7 +106,7 @@ public class Peon implements PhysicalObject, KillablePhysicalObject<Peon>, TwoFa
       movement.getYMovement().setPos(newPos.getY() - HEIGHT);
       if (x < newPos.getX()) movement.getXMovement().setDirection(true);
       if (x > newPos.getX()) movement.getXMovement().setDirection(false);
-      shape.setX(movement.getX());
+      shape.setX(movement.getX() - WIDTH / 2);
       shape.setY(movement.getY());
     }
   }

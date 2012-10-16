@@ -79,6 +79,7 @@ final public class PathGraph {
     // This method may progress over to next edge, but it won't go further.
     // In such case remaining "dist" is returned, otherwise method returns 0.
     public float progress(float dist) {
+      if (points.size() == 0) return dist;
       Joint next = points.getFirst();
       float currentDistance = next.getPosition() - start.getPosition(); // may be negative.
       if (Math.abs(currentDistance) < dist) {
@@ -159,6 +160,16 @@ final public class PathGraph {
 
   public Position getClosestPoint(Vector2f pos, float radius) {
     Rectangle area = new Rectangle(pos.getX() - radius, pos.getY() - radius, 2 * radius, 2 * radius);
+    return getClosestPoint(pos, radius, area);
+  }
+
+  public Position getClosestPoint(Rectangle area) {
+    float radius = area.getBoundingCircleRadius();
+    Vector2f pos = new Vector2f(area.getCenter());
+    return getClosestPoint(pos, radius, area);
+  }
+
+  private Position getClosestPoint(Vector2f pos, float radius, Rectangle area) {
     float minDistance = Float.MAX_VALUE;
     Edge closestEdge = null;
     float edgePos = 0;
@@ -172,7 +183,11 @@ final public class PathGraph {
         minDistance = dis;
       }
     }
-    return new Position(closestEdge, edgePos);
+    if (closestEdge == null) {
+      return null;
+    } else {
+      return new Position(closestEdge, edgePos);
+    }
   }
 
 

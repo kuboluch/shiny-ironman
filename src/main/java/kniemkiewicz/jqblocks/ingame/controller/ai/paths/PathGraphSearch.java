@@ -17,9 +17,9 @@ import java.util.*;
  * User: knie
  * Date: 10/14/12
  */
-public final class GraphPathSearch {
+public final class PathGraphSearch {
 
-  public static Log logger = LogFactory.getLog(GraphPathSearch.class);
+  public static Log logger = LogFactory.getLog(PathGraphSearch.class);
 
   final PathGraph graph;
   final Joint startJoint;
@@ -37,7 +37,7 @@ public final class GraphPathSearch {
   final Map<Joint, Joint> backtrackMap = new HashMap<Joint, Joint>();
   private SortedSet<Float> keySet;
 
-  public GraphPathSearch(PathGraph graph, PathGraph.Position start, PathGraph.Position end) {
+  public PathGraphSearch(PathGraph graph, PathGraph.Position start, PathGraph.Position end) {
     this.graph = graph;
     this.start = start;
     // 0.5f has no meaning and won't be ever read but has to be in [0,1] range

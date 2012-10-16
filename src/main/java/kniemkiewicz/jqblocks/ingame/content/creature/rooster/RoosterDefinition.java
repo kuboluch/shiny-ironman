@@ -5,7 +5,7 @@ import kniemkiewicz.jqblocks.ingame.renderer.creature.RunningCreatureRenderer;
 import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.random.GaussianDistribution;
-import kniemkiewicz.jqblocks.ingame.util.random.ProbabiltyDistribution;
+import kniemkiewicz.jqblocks.ingame.util.random.ProbabilityDistribution;
 import kniemkiewicz.jqblocks.util.BeanName;
 
 /**
@@ -24,10 +24,10 @@ public interface RoosterDefinition {
   static final float MAX_SPEED = Sizes.BLOCK * 2;
   static final float DEFAULT_X_DECELERATION = MAX_SPEED / 6.0f;
 
-  static final ProbabiltyDistribution START_MOVING = GaussianDistribution.withExpectationAndRange(2000, 1500);
-  static final ProbabiltyDistribution STOP_MOVING = GaussianDistribution.withExpectationAndRange(4000, 3500);
-  static final ProbabiltyDistribution CHANGE_DIRECTION = GaussianDistribution.withExpectationAndRange(8000, 7000);
-  static final ProbabiltyDistribution STOP_RUNNING_AWAY = GaussianDistribution.withExpectationAndRange(6000, 2000);
+  static final ProbabilityDistribution START_MOVING = GaussianDistribution.withExpectationAndRange(2000, 1500);
+  static final ProbabilityDistribution STOP_MOVING = GaussianDistribution.withExpectationAndRange(4000, 3500);
+  static final ProbabilityDistribution CHANGE_DIRECTION = GaussianDistribution.withExpectationAndRange(8000, 7000);
+  static final ProbabilityDistribution STOP_RUNNING_AWAY = GaussianDistribution.withExpectationAndRange(6000, 2000);
 
   static final XYMovementDefinition MOVEMENT = new XYMovementDefinition(
       new MovementDefinition().setMaxSpeed(MAX_SPEED).setDefaultDeceleration(DEFAULT_X_DECELERATION * 3).setAutoDirection(false),

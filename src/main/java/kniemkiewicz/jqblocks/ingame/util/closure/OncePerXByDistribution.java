@@ -1,7 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.util.closure;
 
-import kniemkiewicz.jqblocks.ingame.util.random.GaussianDistribution;
-import kniemkiewicz.jqblocks.ingame.util.random.ProbabiltyDistribution;
+import kniemkiewicz.jqblocks.ingame.util.random.ProbabilityDistribution;
 
 import java.util.WeakHashMap;
 
@@ -10,28 +9,28 @@ import java.util.WeakHashMap;
  * Date: 24.09.12
  */
 public class OncePerXByDistribution<T> {
-  ProbabiltyDistribution probabiltyDistribution;
+  ProbabilityDistribution probabilityDistribution;
   final Closure<T> closure;
   WeakHashMap<T, Integer> counters = new WeakHashMap<T, Integer>();
 
-  public OncePerXByDistribution(ProbabiltyDistribution probabiltyDistribution, Closure<T> closure) {
+  public OncePerXByDistribution(ProbabilityDistribution probabilityDistribution, Closure<T> closure) {
     this.closure = closure;
-    this.probabiltyDistribution = probabiltyDistribution;
+    this.probabilityDistribution = probabilityDistribution;
   }
 
   public void maybeRunWith(T ob, int delta) {
     if (!counters.containsKey(ob)) {
-      counters.put(ob, probabiltyDistribution.next());
+      counters.put(ob, probabilityDistribution.next());
     }
     int counter = (counters.get(ob) - delta);
     if (counter <= 0) {
       closure.run(ob);
-      counter = probabiltyDistribution.next();
+      counter = probabilityDistribution.next();
     }
     counters.put(ob, counter);
   }
 
   public void reset(T ob) {
-    counters.put(ob, probabiltyDistribution.next());
+    counters.put(ob, probabilityDistribution.next());
   }
 }

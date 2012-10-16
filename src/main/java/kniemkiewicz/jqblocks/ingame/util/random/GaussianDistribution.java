@@ -6,7 +6,7 @@ import java.util.Random;
  * User: qba
  * Date: 25.09.12
  */
-public class GaussianDistribution implements ProbabiltyDistribution {
+public class GaussianDistribution implements ProbabilityDistribution {
   static Random random = new Random();
 
   private int expectation;

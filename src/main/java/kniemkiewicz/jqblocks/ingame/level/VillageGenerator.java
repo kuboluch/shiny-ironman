@@ -17,9 +17,8 @@ import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderBackground;
 import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
 import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
-import kniemkiewicz.jqblocks.ingame.controller.ai.paths.Edge;
 import kniemkiewicz.jqblocks.ingame.controller.ai.paths.GraphGenerator;
-import kniemkiewicz.jqblocks.ingame.controller.ai.paths.GraphPathSearch;
+import kniemkiewicz.jqblocks.ingame.controller.ai.paths.PathGraphSearch;
 import kniemkiewicz.jqblocks.ingame.controller.ai.paths.PathGraph;
 import kniemkiewicz.jqblocks.ingame.object.DebugRenderableShape;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
@@ -30,7 +29,6 @@ import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceController;
 import kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceDefinition;
 import kniemkiewicz.jqblocks.util.Assert;
-import kniemkiewicz.jqblocks.util.Pair;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.Color;
@@ -180,6 +178,7 @@ public class VillageGenerator {
     renderQueue.add(new DebugRenderableShape(pos.getEdge().getPointFor(pos.getPosition()), Color.green));
   }
 
+  /*
   private void testGraph() {
     Vector2f p1 = new Vector2f(STARTING_X, startingY);
     renderQueue.add(new DebugRenderableShape(p1, Color.green));
@@ -189,14 +188,14 @@ public class VillageGenerator {
     renderPosition(p1graph);
     PathGraph.Position p2graph = pathGraph.getClosestPoint(p2, 4);
     renderPosition(p2graph);
-    PathGraph.Path path = new GraphPathSearch(pathGraph, p1graph, p2graph).getPath();
+    PathGraph.Path path = new PathGraphSearch(pathGraph, p1graph, p2graph).getPath();
     for (Line l : path.getLines()) {
       renderQueue.add(new DebugRenderableShape(l, Color.red));
     }
     Vector2f p = p1graph.getEdge().getPointFor(p1graph.getPosition());
-    Peon peon = Peon.createAndRegister((int)p.getX(), (int)p.getY(), peonController);
+
     peon.setCurrentPath(path);
-  }
+  } */
 
   private void makeCave() {
 
@@ -218,7 +217,7 @@ public class VillageGenerator {
     makeVault(STARTING_X - Sizes.BLOCK * 22, villageY);
     backgrounds.add(new Portal(STARTING_X - 4 * Sizes.BLOCK, villageY - 10 * Sizes.BLOCK, new Portal.Destination(new Vector2f(STARTING_X - 4 * Sizes.BLOCK, villageY - 40 * Sizes.BLOCK))));
     graphGenerator.addSource(fireplaceElement);
-    testGraph();
+    Peon.createAndRegister(STARTING_X, (int)(startingY - Peon.HEIGHT), peonController);
   }
 
   public void saveToStream(ObjectOutputStream stream) throws IOException {
