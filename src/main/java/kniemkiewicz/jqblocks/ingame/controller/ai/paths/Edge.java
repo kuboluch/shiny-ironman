@@ -24,10 +24,12 @@ import java.util.List;
  */
 public class Edge implements RenderableObject<Edge>{
 
-  enum Type {
+  public enum Type {
     FLAT,
     HORIZONTAL_LADDER,
-    VERTICAL_LADDER
+    VERTICAL_LADDER,
+    STEP, // Single short step joining different edges
+    INVALID // Edge was deleted.
   }
   transient Line line;
   Type type;
@@ -129,6 +131,19 @@ public class Edge implements RenderableObject<Edge>{
     return false;
   }
 
+  public boolean joinsByStep(Edge other) {
+    for (Joint j : joints) {
+      if (j.getEdge().type == Type.STEP) {
+        for (Joint sj : j.getEdge().joints) {
+          if (sj.getEdge() == other) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
   // need to implement serialization as Circle is not Serializable
   private void readObject(ObjectInputStream inputStream) throws ClassNotFoundException, IOException {
     //always perform the default de-serialization first
@@ -145,4 +160,9 @@ public class Edge implements RenderableObject<Edge>{
   public String toString() {
     return "Edge{" + type + "," + line.getX1() + ":" + line.getX2() + "}";
   }
+
+  public Type getType() {
+    return type;
+  }
+
 }

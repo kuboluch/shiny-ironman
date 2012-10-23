@@ -140,4 +140,8 @@ public final class GeometryUtils {
     return new Line(line.getX1() + line.getDX() * start, line.getY1() + line.getDY() * start,
         line.getX1() + line.getDX() * end, line.getY1() + line.getDY() * end);
   }
+
+  public static Rectangle getRectangleCenteredOn(float x, float y, int size) {
+    return new Rectangle(x - size / 2, y - size / 2, size, size);
+  }
 }

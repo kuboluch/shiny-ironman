@@ -17,7 +17,7 @@ public class Ladder implements RenderableObject<Ladder>, PickableObject, Droppab
   Rectangle rectangle;
 
   public Ladder(int x, int y) {
-    this.rectangle = new Rectangle(Sizes.roundToBlockSizeX(x), Sizes.roundToBlockSizeY(y), LadderDefinition.WIDTH, LadderDefinition.HEIGHT);
+    this.rectangle = new Rectangle(Sizes.floorToBlockSizeX(x), Sizes.floorToBlockSizeY(y), LadderDefinition.WIDTH, LadderDefinition.HEIGHT);
   }
 
   @Override

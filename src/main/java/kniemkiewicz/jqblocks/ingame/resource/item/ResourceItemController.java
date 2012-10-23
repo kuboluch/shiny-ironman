@@ -29,6 +29,6 @@ public class ResourceItemController implements ItemController<SimpleResourceItem
 
   @Override
   public DroppableObject getObject(SimpleResourceItem item, int centerX, int centerY) {
-    return new ResourceObject(item.resource, Sizes.roundToBlockSizeX(centerX), Sizes.roundToBlockSizeY(centerY));
+    return new ResourceObject(item.resource, Sizes.floorToBlockSizeX(centerX), Sizes.floorToBlockSizeY(centerY));
   }
 }

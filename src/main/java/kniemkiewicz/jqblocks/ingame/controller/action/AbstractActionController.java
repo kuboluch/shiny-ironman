@@ -100,8 +100,8 @@ public abstract class AbstractActionController implements EventListener {
   }
 
   public void handleMousePressedEvent(MousePressedEvent event) {
-    int x = Sizes.roundToBlockSizeX(event.getLevelX());
-    int y = Sizes.roundToBlockSizeY(event.getLevelY());
+    int x = Sizes.floorToBlockSizeX(event.getLevelX());
+    int y = Sizes.floorToBlockSizeY(event.getLevelY());
     if (isInRange(x, y) && event.getButton().equals(getActionButton())) {
       if (canPerformAction(x, y)) {
         affectedRectangle = getAffectedRectangle(x, y);
@@ -113,8 +113,8 @@ public abstract class AbstractActionController implements EventListener {
 
   public void handleMouseDraggedEvent(MouseDraggedEvent event) {
     if (!event.getButton().equals(getActionButton())) return;
-    int x = Sizes.roundToBlockSizeX(event.getNewLevelX());
-    int y = Sizes.roundToBlockSizeY(event.getNewLevelY());
+    int x = Sizes.floorToBlockSizeX(event.getNewLevelX());
+    int y = Sizes.floorToBlockSizeY(event.getNewLevelY());
     handleMouseCoordChange(x, y);
     if (affectedRectangle != null) event.consume();
   }
@@ -123,8 +123,8 @@ public abstract class AbstractActionController implements EventListener {
     if (!inputContainer.getInput().isMouseButtonDown(0)) {
       return;
     }
-    int x = Sizes.roundToBlockSizeX(inputContainer.getInput().getMouseX() + event.getNewShiftX());
-    int y = Sizes.roundToBlockSizeY(inputContainer.getInput().getMouseY() + event.getNewShiftY());
+    int x = Sizes.floorToBlockSizeX(inputContainer.getInput().getMouseX() + event.getNewShiftX());
+    int y = Sizes.floorToBlockSizeY(inputContainer.getInput().getMouseY() + event.getNewShiftY());
     handleMouseCoordChange(x, y);
     if (affectedRectangle != null) event.consume();
   }
@@ -150,8 +150,8 @@ public abstract class AbstractActionController implements EventListener {
       return;
     }
     if (!event.getButton().equals(getActionButton())) return;
-    int x = Sizes.roundToBlockSizeX(event.getLevelX());
-    int y = Sizes.roundToBlockSizeY(event.getLevelY());
+    int x = Sizes.floorToBlockSizeX(event.getLevelX());
+    int y = Sizes.floorToBlockSizeY(event.getLevelY());
     if (!isInRange(x, y)) {
       return;
     }

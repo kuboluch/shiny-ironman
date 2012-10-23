@@ -17,9 +17,10 @@ import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderBackground;
 import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
 import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.controller.ai.paths.GraphController;
 import kniemkiewicz.jqblocks.ingame.controller.ai.paths.GraphGenerator;
-import kniemkiewicz.jqblocks.ingame.controller.ai.paths.PathGraphSearch;
 import kniemkiewicz.jqblocks.ingame.controller.ai.paths.PathGraph;
+import kniemkiewicz.jqblocks.ingame.controller.ai.paths.Position;
 import kniemkiewicz.jqblocks.ingame.object.DebugRenderableShape;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
@@ -32,7 +33,6 @@ import kniemkiewicz.jqblocks.util.Assert;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,10 +83,7 @@ public class VillageGenerator {
   UpdateQueue updateQueue;
 
   @Autowired
-  PathGraph pathGraph;
-
-  @Autowired
-  GraphGenerator graphGenerator;
+  GraphController graphController;
 
   public static final int STARTING_X = (Sizes.MIN_X + Sizes.MAX_X) / 2;
 
@@ -174,28 +171,9 @@ public class VillageGenerator {
     return rooster.addTo(movingObjects, renderQueue, updateQueue);
   }
 
-  void renderPosition(PathGraph.Position pos) {
+  void renderPosition(Position pos) {
     renderQueue.add(new DebugRenderableShape(pos.getEdge().getPointFor(pos.getPosition()), Color.green));
   }
-
-  /*
-  private void testGraph() {
-    Vector2f p1 = new Vector2f(STARTING_X, startingY);
-    renderQueue.add(new DebugRenderableShape(p1, Color.green));
-    Vector2f p2 = new Vector2f(STARTING_X + Sizes.BLOCK * 10.2f, startingY - Sizes.BLOCK * 17.8f);
-    renderQueue.add(new DebugRenderableShape(p2, Color.green));
-    PathGraph.Position p1graph = pathGraph.getClosestPoint(p1, 10);
-    renderPosition(p1graph);
-    PathGraph.Position p2graph = pathGraph.getClosestPoint(p2, 4);
-    renderPosition(p2graph);
-    PathGraph.Path path = new PathGraphSearch(pathGraph, p1graph, p2graph).getPath();
-    for (Line l : path.getLines()) {
-      renderQueue.add(new DebugRenderableShape(l, Color.red));
-    }
-    Vector2f p = p1graph.getEdge().getPointFor(p1graph.getPosition());
-
-    peon.setCurrentPath(path);
-  } */
 
   private void makeCave() {
 
@@ -216,7 +194,8 @@ public class VillageGenerator {
     addZombieCage(villageY);
     makeVault(STARTING_X - Sizes.BLOCK * 22, villageY);
     backgrounds.add(new Portal(STARTING_X - 4 * Sizes.BLOCK, villageY - 10 * Sizes.BLOCK, new Portal.Destination(new Vector2f(STARTING_X - 4 * Sizes.BLOCK, villageY - 40 * Sizes.BLOCK))));
-    graphGenerator.addSource(fireplaceElement);
+    graphController.addSource(fireplaceElement);
+    graphController.fillGraph();
     Peon.createAndRegister(STARTING_X, (int)(startingY - Peon.HEIGHT), peonController);
   }
 

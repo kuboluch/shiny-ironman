@@ -141,8 +141,8 @@ public abstract class AbstractActionItemController<T extends Item>
     int x = 0;
     int y = 0;
     for (MousePressedEvent e : mousePressedEvents) {
-      x = Sizes.roundToBlockSizeX(e.getLevelX());
-      y = Sizes.roundToBlockSizeY(e.getLevelY());
+      x = Sizes.floorToBlockSizeX(e.getLevelX());
+      y = Sizes.floorToBlockSizeY(e.getLevelY());
       if (isInRange(x, y) && e.getButton() == Button.LEFT) {
         mpe = e;
         break;
@@ -157,8 +157,8 @@ public abstract class AbstractActionItemController<T extends Item>
 
   public void handleMouseDraggedEvent(T item, MouseDraggedEvent event) {
     if (event.getButton() != Button.LEFT) return;
-    int x = Sizes.roundToBlockSizeX(event.getNewLevelX());
-    int y = Sizes.roundToBlockSizeY(event.getNewLevelY());
+    int x = Sizes.floorToBlockSizeX(event.getNewLevelX());
+    int y = Sizes.floorToBlockSizeY(event.getNewLevelY());
     handleMouseCoordChange(item, x, y);
   }
 
@@ -166,8 +166,8 @@ public abstract class AbstractActionItemController<T extends Item>
     if (!inputContainer.getInput().isMouseButtonDown(0)) {
       return;
     }
-    int x = Sizes.roundToBlockSizeX(inputContainer.getInput().getMouseX() + event.getNewShiftX());
-    int y = Sizes.roundToBlockSizeY(inputContainer.getInput().getMouseY() + event.getNewShiftY());
+    int x = Sizes.floorToBlockSizeX(inputContainer.getInput().getMouseX() + event.getNewShiftX());
+    int y = Sizes.floorToBlockSizeY(inputContainer.getInput().getMouseY() + event.getNewShiftY());
     handleMouseCoordChange(item, x, y);
   }
 
@@ -190,8 +190,8 @@ public abstract class AbstractActionItemController<T extends Item>
       return;
     }
     if (event.getButton() != Button.LEFT) return;
-    int x = Sizes.roundToBlockSizeX(event.getLevelX());
-    int y = Sizes.roundToBlockSizeY(event.getLevelY());
+    int x = Sizes.floorToBlockSizeX(event.getLevelX());
+    int y = Sizes.floorToBlockSizeY(event.getLevelY());
     if (!isInRange(x, y)) {
       return;
     }

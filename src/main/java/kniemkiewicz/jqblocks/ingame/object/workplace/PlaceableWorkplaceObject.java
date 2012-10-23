@@ -35,12 +35,12 @@ public class PlaceableWorkplaceObject implements RenderableObject<WorkplaceBackg
   }
 
   public void changeX(int newX) {
-    int x = Sizes.roundToBlockSizeX(newX);
+    int x = Sizes.floorToBlockSizeX(newX);
     backgroundElement.getShape().setX(x);
   }
 
   public void changeY(int newY) {
-    int y = Sizes.roundToBlockSizeX(newY);
+    int y = Sizes.floorToBlockSizeX(newY);
     backgroundElement.getShape().setY(y);
   }
 

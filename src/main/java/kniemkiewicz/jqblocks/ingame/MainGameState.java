@@ -6,6 +6,7 @@ import kniemkiewicz.jqblocks.ingame.content.bird.SimpleBirdController;
 import kniemkiewicz.jqblocks.ingame.content.item.fireball.FireballEquippedItemRenderer;
 import kniemkiewicz.jqblocks.ingame.content.item.fireball.FireballRenderer;
 import kniemkiewicz.jqblocks.ingame.controller.*;
+import kniemkiewicz.jqblocks.ingame.controller.ai.paths.GraphController;
 import kniemkiewicz.jqblocks.ingame.inventory.InventoryController;
 import kniemkiewicz.jqblocks.ingame.controller.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.controller.event.input.keyboard.KeyboardInputEventBus;
@@ -164,6 +165,9 @@ public class MainGameState extends BasicTWLGameState {
   @Autowired
   ActiveBackgroundController activeBackgroundController;
 
+  @Autowired
+  GraphController graphController;
+
   private Settings settings;
 
   public void setSettings(Settings settings) {
@@ -245,6 +249,7 @@ public class MainGameState extends BasicTWLGameState {
     fireballRenderer.update(delta);
     simpleBirdController.update(delta);
     activeBackgroundController.update();
+    graphController.update();
     t.record();
   }
 

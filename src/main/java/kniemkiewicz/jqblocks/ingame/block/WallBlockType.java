@@ -1,16 +1,20 @@
 package kniemkiewicz.jqblocks.ingame.block;
 
+import com.sun.xml.internal.ws.message.EmptyMessageImpl;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.renderer.DirtBlockTypeRenderer;
 import kniemkiewicz.jqblocks.ingame.block.renderer.SpriteSheetBlockTypeRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.util.BeanName;
 
+import java.util.EnumSet;
+
 /**
  * User: krzysiek
  * Date: 06.08.12
  */
 public enum WallBlockType implements RenderableBlockType{
+
   EMPTY{
     @Override
     public BeanName<? extends Renderer> getRenderer() {

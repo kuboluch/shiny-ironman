@@ -36,4 +36,9 @@ public class OnceXTimes<T> {
       closure.run(ob);
     }
   }
+
+  public void forceRun(T ob) {
+    counters.put(ob, 0);
+    closure.run(ob);
+  }
 }

@@ -23,13 +23,14 @@ public final class PathGraphSearch {
 
   final PathGraph graph;
   final Joint startJoint;
-  final PathGraph.Position start;
-  final PathGraph.Position end;
+  final Position start;
+  final Position end;
 
   // First joint in the pair is the one from which we want to move to the second one. First one is already visited and
   // is stored here only for reference, for addition to backtrackMap
   final TreeMultimap<Float, Pair<Joint, Joint>> stack = TreeMultimap.create(Ordering.natural(), Ordering.arbitrary());
-  PathGraph.Path result = null;
+  Path result = null;
+  boolean searchDone = false;
 
   // For each visited Joint, this map contains Joint from which we got there. Note that each Joint is
   // visited exactly once and this map is also used to list visited ones. Joint is always used to travel
@@ -37,7 +38,7 @@ public final class PathGraphSearch {
   final Map<Joint, Joint> backtrackMap = new HashMap<Joint, Joint>();
   private SortedSet<Float> keySet;
 
-  public PathGraphSearch(PathGraph graph, PathGraph.Position start, PathGraph.Position end) {
+  public PathGraphSearch(PathGraph graph, Position start, Position end) {
     this.graph = graph;
     this.start = start;
     // 0.5f has no meaning and won't be ever read but has to be in [0,1] range
@@ -46,10 +47,10 @@ public final class PathGraphSearch {
     this.keySet = stack.keySet();
   }
 
-  final public PathGraph.Path getPath() {
-    if (result == null) {
+  final public Path getPath() {
+    if (!searchDone) {
       computePath();
-      assert result != null;
+      searchDone = true;
     }
     return result;
   }
@@ -68,6 +69,7 @@ public final class PathGraphSearch {
           logger.debug(String.valueOf(cost) + " " + getPathFor(next));
         }
       }
+      if (keySet.size() == 0) return null;
       cost = keySet.first();
       Pair<Joint, Joint> p = stack.get(cost).first();
       prev = p.getFirst();
@@ -109,9 +111,11 @@ public final class PathGraphSearch {
   private void computePath() {
     // Joint that was used to get to the target edge.
     Joint joint = traverseGraph();
+    if (joint == null) return;
+
     // List of used joints.
     List<Joint> joints = getPathFor(joint);
     joints.add(new Joint(end.getPosition(), null));
-    result = new PathGraph.Path(start,  new LinkedList<Joint>(joints));
+    result = new Path(start,  new LinkedList<Joint>(joints));
   }
 }

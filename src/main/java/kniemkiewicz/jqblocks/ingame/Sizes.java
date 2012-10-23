@@ -29,7 +29,7 @@ public class Sizes {
   public static int DEFAULT_RESOURCE_RICHNESS = 1;
   public static int DEFAULT_PRODUCTION_DURATION = 1000;
 
-  static public int roundToBlockSizeX(int x) {
+  static public int floorToBlockSizeX(int x) {
     return (x - MIN_X) / BLOCK * BLOCK + MIN_X;
   }
 
@@ -37,7 +37,7 @@ public class Sizes {
     return Math.round((x - MIN_X) / BLOCK) * BLOCK + MIN_X;
   }
 
-  static public int roundToBlockSizeY(int y) {
+  static public int floorToBlockSizeY(int y) {
     return (y - MIN_Y) / BLOCK * BLOCK + MIN_Y;
   }
 
@@ -46,7 +46,7 @@ public class Sizes {
   }
 
   // For widths and heights
-  static public int roundToBlockSize(int z) {
+  static public int floorToBlockSize(int z) {
     return z / BLOCK * BLOCK;
   }
 

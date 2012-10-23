@@ -5,15 +5,11 @@ import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.RawEnumTable;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
-import kniemkiewicz.jqblocks.util.Assert;
 import kniemkiewicz.jqblocks.util.Out;
 import kniemkiewicz.jqblocks.util.TimeLog;
-import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -78,7 +74,7 @@ public class SurfaceGenerator {
   }
 
   private void generateFlat() {
-    int y = Sizes.roundToBlockSize(4 * (Sizes.LEVEL_SIZE_Y) / 5);
+    int y = Sizes.floorToBlockSize(4 * (Sizes.LEVEL_SIZE_Y) / 5);
     int i = 0;
     while (i < heights.length) {
       int dx = random.nextInt(10);
@@ -128,11 +124,11 @@ public class SurfaceGenerator {
     }
     int length = heightsArg.length;
     for (int i = 0; i < SLIDING_WINDOW_SIZE; i++) {
-      heightsArg[i] = Sizes.roundToBlockSize(partialSums[i + SLIDING_WINDOW_SIZE] / (i + 1 + SLIDING_WINDOW_SIZE));
-      heightsArg[length - i - 1] = Sizes.roundToBlockSize((partialSums[length - 1] - partialSums[length - 2 - SLIDING_WINDOW_SIZE - i]) / (i + 1 + SLIDING_WINDOW_SIZE));
+      heightsArg[i] = Sizes.floorToBlockSize(partialSums[i + SLIDING_WINDOW_SIZE] / (i + 1 + SLIDING_WINDOW_SIZE));
+      heightsArg[length - i - 1] = Sizes.floorToBlockSize((partialSums[length - 1] - partialSums[length - 2 - SLIDING_WINDOW_SIZE - i]) / (i + 1 + SLIDING_WINDOW_SIZE));
     }
     for (int i = SLIDING_WINDOW_SIZE; i < length - 1 - SLIDING_WINDOW_SIZE; i++) {
-      heightsArg[i] = Sizes.roundToBlockSize((partialSums[i + SLIDING_WINDOW_SIZE] - partialSums[i - SLIDING_WINDOW_SIZE]) / (2 * SLIDING_WINDOW_SIZE));
+      heightsArg[i] = Sizes.floorToBlockSize((partialSums[i + SLIDING_WINDOW_SIZE] - partialSums[i - SLIDING_WINDOW_SIZE]) / (2 * SLIDING_WINDOW_SIZE));
     }
   }
 }

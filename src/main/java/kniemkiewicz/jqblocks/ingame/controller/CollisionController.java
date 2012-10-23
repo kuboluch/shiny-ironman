@@ -19,14 +19,6 @@ import java.util.List;
 @Component
 public final class CollisionController {
 
-  public <T extends QuadTree.HasShape> List<T> getAll(EnumSet<ObjectType> types) {
-    List<T> objects = new ArrayList<T>();
-    for (ObjectType type : types) {
-      quadTrees.get(type).listAll((List<QuadTree.HasShape>) objects);
-    }
-    return objects;
-  }
-
   public enum ObjectType {
     MOVING_OBJECT,
     PICKABLE,
@@ -42,7 +34,21 @@ public final class CollisionController {
     }
   }
 
-  /**
+  public <T extends QuadTree.HasShape> List<T> getAll(EnumSet<ObjectType> types) {
+    List<T> objects = new ArrayList<T>();
+    for (ObjectType type : types) {
+      quadTrees.get(type).listAll((List<QuadTree.HasShape>) objects);
+    }
+    return objects;
+  }
+
+  public void clear(EnumSet<ObjectType> paths) {
+    for (ObjectType type : paths) {
+      quadTrees.put(type, new QuadTree<QuadTree.HasShape>(Sizes.LEVEL_SIZE_X, Sizes.LEVEL_SIZE_Y, Sizes.CENTER_X, Sizes.CENTER_Y));
+    }
+  }
+
+    /**
    * Unless forced, this will add object to all requested types or to none.
    */
   public boolean add(EnumSet<ObjectType> types, QuadTree.HasShape object, boolean force) {

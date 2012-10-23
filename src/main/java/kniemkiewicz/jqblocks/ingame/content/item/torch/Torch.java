@@ -18,7 +18,7 @@ public class Torch implements RenderableObject<Torch>, PickableObject, Droppable
   Rectangle rectangle;
 
   public Torch(int x, int y) {
-    this.rectangle = new Rectangle(Sizes.roundToBlockSizeX(x), Sizes.roundToBlockSizeY(y), TorchDefinition.WIDTH, TorchDefinition.HEIGHT);
+    this.rectangle = new Rectangle(Sizes.floorToBlockSizeX(x), Sizes.floorToBlockSizeY(y), TorchDefinition.WIDTH, TorchDefinition.HEIGHT);
   }
 
   @Override

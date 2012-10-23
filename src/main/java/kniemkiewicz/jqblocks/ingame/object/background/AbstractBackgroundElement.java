@@ -15,10 +15,10 @@ public abstract class AbstractBackgroundElement implements BackgroundElement {
   protected Rectangle shape;
 
   public AbstractBackgroundElement(int x, int y, int width, int height) {
-    this.x =  Sizes.roundToBlockSizeX(x);
-    this.y = Sizes.roundToBlockSizeY(y);
-    this.width =  Sizes.roundToBlockSize(width);
-    this.height = Sizes.roundToBlockSize(height);
+    this.x =  Sizes.floorToBlockSizeX(x);
+    this.y = Sizes.floorToBlockSizeY(y);
+    this.width =  Sizes.floorToBlockSize(width);
+    this.height = Sizes.floorToBlockSize(height);
     shape = new Rectangle(this.x, this.y, this.width, this.height);
     assert this.width > 0;
     assert this.height > 0;

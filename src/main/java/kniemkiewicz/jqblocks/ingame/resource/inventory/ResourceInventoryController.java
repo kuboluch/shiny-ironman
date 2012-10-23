@@ -171,8 +171,8 @@ public class ResourceInventoryController implements EventListener {
     Class<? extends ItemController> clazz = inventory.getSelectedItem().getItemController();
     if (clazz == null) return false;
     ItemController controller = provider.getBean(clazz, true);
-    int dropItemX = Sizes.roundToBlockSizeX(x);
-    int dropItemY = Sizes.roundToBlockSizeY(y);
+    int dropItemX = Sizes.floorToBlockSizeX(x);
+    int dropItemY = Sizes.floorToBlockSizeY(y);
     DroppableObject dropObject = controller.getObject(inventory.getSelectedItem(), dropItemX, dropItemY);
     if (dropObject == null) return false;
     if (conflictingObjectExists(dropObject.getShape())) return false;

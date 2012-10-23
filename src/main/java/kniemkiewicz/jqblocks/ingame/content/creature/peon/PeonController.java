@@ -1,14 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.peon;
 
-import kniemkiewicz.jqblocks.ingame.Sizes;
-import kniemkiewicz.jqblocks.ingame.content.creature.bat.Bat;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
-import kniemkiewicz.jqblocks.ingame.controller.ai.paths.PathGraph;
-import kniemkiewicz.jqblocks.ingame.controller.ai.paths.PathGraphSearch;
-import kniemkiewicz.jqblocks.ingame.object.hp.HasHealthPoints;
+import kniemkiewicz.jqblocks.ingame.controller.ai.paths.*;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.World;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
@@ -20,6 +16,7 @@ import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -79,20 +76,20 @@ public class PeonController implements HealthController<Peon>, UpdateQueue.Updat
     @Override
     public void run(Peon peon) {
       Player player = playerController.getPlayer();
-      PathGraph.Position origin = null;
+      Position origin;
       if (peon.getCurrentPath() != null) {
         origin = peon.getCurrentPath().getStart();
       } else {
-        origin = pathGraph.getClosestPoint(GeometryUtils.getRectangleCenteredOn(peon.getShape(), 5));
+        Rectangle r = GeometryUtils.getRectangleCenteredOn(peon.getShape().getCenterX(), GeometryUtils.getMaxY(peon.getShape()), 6);
+        origin = pathGraph.getClosestPoint(r);
       }
       assert origin != null;
-      PathGraph.Position destination = pathGraph.getClosestPoint(player.getShape());
+      Position destination = pathGraph.getClosestPoint(player.getShape());
       if (destination != null) {
-        logger.info(destination);
-        PathGraph.Path path = new PathGraphSearch(pathGraph, origin, destination).getPath();
+        Path path = new PathGraphSearch(pathGraph, origin, destination).getPath();
+        // This should be removed if we add disjoint graphs.
+        assert path != null;
         peon.setCurrentPath(path);
-      } else {
-        logger.info("No destination");
       }
     }
   });
@@ -102,8 +99,15 @@ public class PeonController implements HealthController<Peon>, UpdateQueue.Updat
     findPathClosure.maybeRunWith(object);
     float speed = Peon.MAX_PEON_SPEED * delta;
     if (object.getCurrentPath() != null) {
-      object.getCurrentPath().progressWithSpeed(speed);
-      object.update();
+      // This should be a part of PermPath or sth like that.
+      if (object.getCurrentPath().getStart().getEdge().getType() == Edge.Type.INVALID) {
+        object.setCurrentPath(null);
+        findPathClosure.forceRun(object);
+      }
+      if (object.getCurrentPath() != null) {
+        object.getCurrentPath().progressWithSpeed(speed);
+        object.update();
+      }
     }
   }
 }

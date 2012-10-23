@@ -142,23 +142,23 @@ public class WorkplaceController implements EventListener, SelectListener<Workpl
   }
 
   public void handleMouseMovedEvent(MouseMovedEvent event) {
-    int x = Sizes.roundToBlockSizeX(event.getNewLevelX());
-    int y = Sizes.roundToBlockSizeY(event.getNewLevelY());
+    int x = Sizes.floorToBlockSizeX(event.getNewLevelX());
+    int y = Sizes.floorToBlockSizeY(event.getNewLevelY());
     handleMouseCoordChange(x, y);
     event.consume();
   }
 
   public void handleMouseDraggedEvent(MouseDraggedEvent event) {
     if (event.getButton() != Button.LEFT) return;
-    int x = Sizes.roundToBlockSizeX(event.getNewLevelX());
-    int y = Sizes.roundToBlockSizeY(event.getNewLevelY());
+    int x = Sizes.floorToBlockSizeX(event.getNewLevelX());
+    int y = Sizes.floorToBlockSizeY(event.getNewLevelY());
     handleMouseCoordChange(x, y);
     event.consume();
   }
 
   public void handleScreenMovedEvent(ScreenMovedEvent event) {
-    int x = Sizes.roundToBlockSizeX(inputContainer.getInput().getMouseX() + event.getNewShiftX());
-    int y = Sizes.roundToBlockSizeY(inputContainer.getInput().getMouseY() + event.getNewShiftY());
+    int x = Sizes.floorToBlockSizeX(inputContainer.getInput().getMouseX() + event.getNewShiftX());
+    int y = Sizes.floorToBlockSizeY(inputContainer.getInput().getMouseY() + event.getNewShiftY());
     handleMouseCoordChange(x, y);
     event.consume();
   }

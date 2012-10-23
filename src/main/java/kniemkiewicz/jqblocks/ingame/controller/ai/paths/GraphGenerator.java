@@ -8,11 +8,16 @@ import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
 import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderBackground;
 import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderDefinition;
 import kniemkiewicz.jqblocks.ingame.controller.CollisionController;
+import kniemkiewicz.jqblocks.ingame.object.DebugRenderableShape;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
@@ -30,6 +35,8 @@ import java.util.List;
 @Component
 final public class GraphGenerator {
 
+  public static Log logger = LogFactory.getLog(GraphGenerator.class);
+
   @Autowired
   PathGraph graph;
 
@@ -42,10 +49,9 @@ final public class GraphGenerator {
   @Autowired
   Backgrounds backgrounds;
 
-  public void addSource(PhysicalObject object) {
+  void addSource(PhysicalObject object) {
     Shape shape = object.getShape();
     if (collisionController.intersects(PathGraph.PATHS, shape)) return;
-    graph.addSource(object);
 
     Edge e = addFlatEdgeFor(shape.getMinX() + shape.getWidth() / 2, shape.getMinY() + shape.getHeight() - 1);
     assert e != null;
@@ -116,7 +122,7 @@ final public class GraphGenerator {
     int i2 = getLastFlatX(i, j, 1);
     float x1 = Sizes.MIN_X + i1 * Sizes.BLOCK;
     float x2 = Sizes.MIN_X + (i2 + 1) * Sizes.BLOCK;
-    Rectangle r = new Rectangle(x1, y - 1, x2, y + 2);
+    Rectangle r = new Rectangle(x1, y - 1, x2 - x1, 3);
     Edge e = new Edge(new Line(x1, y, x2, y), Edge.Type.FLAT);
     if (joinOrFail(e, r)) {
       spreadEdges(e);
@@ -213,6 +219,85 @@ final public class GraphGenerator {
   }
 
 
+  boolean isPurelyVertical(Edge e) {
+    return e.getShape().getX1() == e.getShape().getX2();
+  }
+
+  static final int[] DIRECTIONS = {-1, 1};
+  // Moving ends of line a bit so they never hit block borders (hopefully).
+  static final float[] LINE_ENDS = {0.0001f, 0.9999f};
+
+  private void tryAddSteps(Edge e) {
+    assert e.getShape().getX1() < e.getShape().getX2();
+    for (int i = 0; i < DIRECTIONS.length; i++) {
+      int direction = DIRECTIONS[i];
+      Vector2f point = e.getPointFor(LINE_ENDS[i]);
+      int newX = (int)point.getX() + direction * Sizes.BLOCK / 2;
+      boolean middleHasBlock = solidBlocks.getBlocks().getValueForUnscaledPoint(newX, (int)point.getY()) != WallBlockType.EMPTY;
+      int verticalDirection;
+      if (middleHasBlock) {
+        boolean higherHasBlock = solidBlocks.getBlocks().getValueForUnscaledPoint(newX, (int)point.getY() - Sizes.BLOCK) != WallBlockType.EMPTY;
+        if (higherHasBlock) continue;
+        verticalDirection = -1;
+      } else {
+        boolean lowerHasBlock = solidBlocks.getBlocks().getValueForUnscaledPoint(newX, (int)point.getY() + Sizes.BLOCK) != WallBlockType.EMPTY;
+        if (!lowerHasBlock) {
+          boolean lowestHasBlock = solidBlocks.getBlocks().getValueForUnscaledPoint(newX, (int)point.getY() + 2 * Sizes.BLOCK) != WallBlockType.EMPTY;
+          if (!lowestHasBlock) continue;
+          verticalDirection = 1;
+        } else {
+          verticalDirection = 0;
+        }
+      }
+      int newY = (int)point.getY() + verticalDirection * Sizes.BLOCK;
+      Edge flatEdge = getFlatEdgeFor(newX, newY);
+      if ((flatEdge != null) && (e.joins(flatEdge) || e.joinsByStep(flatEdge))) {
+        continue;
+      }
+      if (flatEdge == null) {
+        flatEdge = addFlatEdgeFor(newX, newY);
+      }
+      int margin = Sizes.BLOCK / 2;
+      Line line;
+      float posE;
+      float posFlat;
+      if (direction < 0) {
+        line = new Line(flatEdge.line.getX2() - margin, flatEdge.line.getY(), e.line.getX1() + margin, e.line.getY());
+        posFlat = 1 - margin / flatEdge.line.length();
+        posE = margin / e.line.length();
+      } else {
+        line = new Line(e.line.getX2() - margin, e.line.getY(), flatEdge.line.getX1() + margin, flatEdge.line.getY());
+        posFlat = margin / flatEdge.line.length();
+        posE = 1 - margin / e.line.length();
+      }
+      Edge stepEdge = new Edge(line, Edge.Type.STEP);
+      graph.addEdge(stepEdge);
+      if (direction < 0) {
+        stepEdge.addJoint(0, flatEdge).with(flatEdge.addJoint(posFlat, stepEdge));
+        stepEdge.addJoint(1, e).with(e.addJoint(posE, stepEdge));
+      } else {
+        stepEdge.addJoint(1, flatEdge).with(flatEdge.addJoint(posFlat, stepEdge));
+        stepEdge.addJoint(0, e).with(e.addJoint(posE, stepEdge));
+      }
+    }
+  }
+
+  @Autowired
+  RenderQueue renderQueue;
+
+  private Edge getFlatEdgeFor(int x, int y) {
+    y = Sizes.floorToBlockSizeY(y) + Sizes.BLOCK - 1;
+    x = Sizes.floorToBlockSizeX(x) + Sizes.BLOCK / 2;
+    Rectangle probe = new Rectangle(x + 1, y - 1, 1, 2);
+    renderQueue.add(new DebugRenderableShape(probe, Color.red));
+    for (Edge e : collisionController.<Edge>fullSearch(PathGraph.PATHS, probe)) {
+      if (e.type == Edge.Type.FLAT) {
+        return e;
+      }
+    }
+    return null;
+  }
+
   private void spreadEdges(Edge e) {
     if ((e.type != Edge.Type.VERTICAL_LADDER) && (e.type != Edge.Type.HORIZONTAL_LADDER)) {
       Iterator<BackgroundElement> it = backgrounds.intersects(e.getShape());
@@ -222,7 +307,10 @@ final public class GraphGenerator {
           addLadderVerticalEdgeFor((LadderBackground) be);
         }
       }
+    }
 
+    if (!isPurelyVertical(e)) {
+      tryAddSteps(e);
     }
   }
 }
