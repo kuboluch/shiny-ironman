@@ -2,13 +2,11 @@ package kniemkiewicz.jqblocks.ingame.content.creature.peon;
 
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
-import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
-import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.controller.*;
 import kniemkiewicz.jqblocks.ingame.controller.ai.paths.*;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.World;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
-import kniemkiewicz.jqblocks.ingame.controller.SoundController;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import kniemkiewicz.jqblocks.ingame.util.closure.Closure;
 import kniemkiewicz.jqblocks.ingame.util.closure.OnceXTimes;
@@ -21,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+
+import static kniemkiewicz.jqblocks.ingame.content.creature.rabbit.RabbitDefinition.RABBIT_SLOWNESS;
 
 /**
  * User: krzysiek
@@ -55,6 +55,9 @@ public class PeonController implements HealthController<Peon>, UpdateQueue.Updat
   @Autowired
   PathGraph pathGraph;
 
+  @Autowired
+  FreeFallController freeFallController;
+
   @Override
   public void killed(Peon object, QuadTree.HasShape source) {
     world.killMovingObject(object);
@@ -80,10 +83,10 @@ public class PeonController implements HealthController<Peon>, UpdateQueue.Updat
       if (peon.getCurrentPath() != null) {
         origin = peon.getCurrentPath().getStart();
       } else {
-        Rectangle r = GeometryUtils.getRectangleCenteredOn(peon.getShape().getCenterX(), GeometryUtils.getMaxY(peon.getShape()), 6);
+        Rectangle r = GeometryUtils.getRectangleCenteredOn(peon.getShape().getCenterX(), GeometryUtils.getMaxY(peon.getShape()), 24);
         origin = pathGraph.getClosestPoint(r);
       }
-      assert origin != null;
+      if (origin == null) return; // Peon managed to get outside of city.
       Position destination = pathGraph.getClosestPoint(player.getShape());
       if (destination != null) {
         Path path = new PathGraphSearch(pathGraph, origin, destination).getPath();
@@ -104,10 +107,12 @@ public class PeonController implements HealthController<Peon>, UpdateQueue.Updat
         object.setCurrentPath(null);
         findPathClosure.forceRun(object);
       }
-      if (object.getCurrentPath() != null) {
-        object.getCurrentPath().progressWithSpeed(speed);
-        object.update();
-      }
+    }
+    if (object.getCurrentPath() != null) {
+      object.getCurrentPath().progressWithSpeed(speed);
+      object.update();
+    } else {
+      freeFallController.updateComplex(delta, null, object);
     }
   }
 }

@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.ingame.content.creature.peon;
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.controller.ai.paths.Path;
+import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.object.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
@@ -22,7 +23,7 @@ import org.newdawn.slick.geom.Vector2f;
  * User: krzysiek
  * Date: 19.08.12
  */
-public class Peon implements PhysicalObject, KillablePhysicalObject<Peon>, TwoFacedImageRenderer.Renderable, UpdateQueue.ToBeUpdated<Peon>{
+public class Peon implements PhysicalObject, KillablePhysicalObject<Peon>, TwoFacedImageRenderer.Renderable, UpdateQueue.ToBeUpdated<Peon>, HasFullXYMovement{
 
   private static final int PEON_HP = 100;
   static final float MAX_PEON_SPEED = Player.MAX_X_SPEED / 600;
@@ -105,13 +106,23 @@ public class Peon implements PhysicalObject, KillablePhysicalObject<Peon>, TwoFa
       movement.getYMovement().setPos(newPos.getY() - HEIGHT);
       if (x < newPos.getX()) movement.getXMovement().setDirection(true);
       if (x > newPos.getX()) movement.getXMovement().setDirection(false);
-      shape.setX(movement.getX() - WIDTH / 2);
-      shape.setY(movement.getY());
+      updateShape();
     }
   }
 
   @Override
   public Class<? extends UpdateQueue.UpdateController<? super Peon>> getUpdateController() {
     return PeonController.class;
+  }
+
+  @Override
+  public XYMovement getXYMovement() {
+    return movement;
+  }
+
+  @Override
+  public void updateShape() {
+    shape.setX(movement.getX() - WIDTH / 2);
+    shape.setY(movement.getY());
   }
 }

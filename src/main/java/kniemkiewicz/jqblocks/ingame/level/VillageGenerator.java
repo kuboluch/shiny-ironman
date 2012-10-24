@@ -171,10 +171,6 @@ public class VillageGenerator {
     return rooster.addTo(movingObjects, renderQueue, updateQueue);
   }
 
-  void renderPosition(Position pos) {
-    renderQueue.add(new DebugRenderableShape(pos.getEdge().getPointFor(pos.getPosition()), Color.green));
-  }
-
   private void makeCave() {
 
   }
@@ -196,7 +192,7 @@ public class VillageGenerator {
     backgrounds.add(new Portal(STARTING_X - 4 * Sizes.BLOCK, villageY - 10 * Sizes.BLOCK, new Portal.Destination(new Vector2f(STARTING_X - 4 * Sizes.BLOCK, villageY - 40 * Sizes.BLOCK))));
     graphController.addSource(fireplaceElement);
     graphController.fillGraph();
-    Peon.createAndRegister(STARTING_X, (int)(startingY - Peon.HEIGHT), peonController);
+    Peon.createAndRegister(STARTING_X + Sizes.BLOCK * 5, (int)(startingY - 10 * Peon.HEIGHT), peonController);
   }
 
   public void saveToStream(ObjectOutputStream stream) throws IOException {

@@ -289,7 +289,6 @@ final public class GraphGenerator {
     y = Sizes.floorToBlockSizeY(y) + Sizes.BLOCK - 1;
     x = Sizes.floorToBlockSizeX(x) + Sizes.BLOCK / 2;
     Rectangle probe = new Rectangle(x + 1, y - 1, 1, 2);
-    renderQueue.add(new DebugRenderableShape(probe, Color.red));
     for (Edge e : collisionController.<Edge>fullSearch(PathGraph.PATHS, probe)) {
       if (e.type == Edge.Type.FLAT) {
         return e;

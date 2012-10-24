@@ -1,8 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.controller.ai.paths;
 
+import kniemkiewicz.jqblocks.ingame.hud.info.TimingInfo;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.util.closure.Closure;
 import kniemkiewicz.jqblocks.ingame.util.closure.OnceXTimes;
+import kniemkiewicz.jqblocks.util.TimeLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +23,9 @@ public class GraphController {
   @Autowired
   GraphGenerator graphGenerator;
 
+  @Autowired
+  TimingInfo timingInfo;
+
   List<PhysicalObject> sources = new ArrayList<PhysicalObject>();
 
   public void addSource(PhysicalObject source) {
@@ -28,10 +33,12 @@ public class GraphController {
   }
 
   public void fillGraph() {
+    TimingInfo.Timer t = timingInfo.getTimer("fillGraph");
     pathGraph.clear();
     for (PhysicalObject source : sources) {
       graphGenerator.addSource(source);
     }
+    t.record();
   }
 
   private OnceXTimes<GraphController> fillGraphClosure = new OnceXTimes<GraphController>(100, true, new Closure<GraphController>() {
