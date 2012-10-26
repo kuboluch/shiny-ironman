@@ -74,5 +74,13 @@ final public class PathGraph {
     }
   }
 
+  public Path getPath(Position start, Position end) {
+    assert start != null;
+    assert end != null;
+    return new PathGraphSearch(this, start, end).getPath();
+  }
 
+  public PermPath getPermPath(Position start, Position end) {
+    return new PermPath(getPath(start, end), end, this, collisionController);
+  }
 }

@@ -113,11 +113,11 @@ public final class GeometryUtils {
     return "Rect{"+ rect.getX() + "," + rect.getY() + "," + rect.getMaxX() + "," + rect.getMaxY() + "}";
   }
 
-  public static float getMaxX(Rectangle rectangle) {
+  public static float getMaxX(Shape rectangle) {
     return rectangle.getX() + rectangle.getWidth() - 1;
   }
 
-  public static float getMaxY(Rectangle rectangle) {
+  public static float getMaxY(Shape rectangle) {
     return rectangle.getY() + rectangle.getHeight() - 1;
   }
 

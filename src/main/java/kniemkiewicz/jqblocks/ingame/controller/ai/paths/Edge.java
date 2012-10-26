@@ -165,4 +165,7 @@ public class Edge implements RenderableObject<Edge>{
     return type;
   }
 
+  public boolean deleted() {
+    return type == Type.INVALID;
+  }
 }

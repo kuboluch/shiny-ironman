@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.ingame.content.creature.peon;
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.controller.ai.paths.Path;
+import kniemkiewicz.jqblocks.ingame.controller.ai.paths.PermPath;
 import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.object.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
@@ -31,7 +32,7 @@ public class Peon implements PhysicalObject, KillablePhysicalObject<Peon>, TwoFa
   public static final float WIDTH = Sizes.BLOCK * 2 + 5;
   public static final float HEIGHT = Sizes.BLOCK * 3 + 5;
 
-  transient Path currentPath = null;
+  transient PermPath currentPath = null;
   HealthPoints healthPoints = new HealthPoints(PEON_HP, this);
   final Rectangle shape;
 
@@ -90,18 +91,18 @@ public class Peon implements PhysicalObject, KillablePhysicalObject<Peon>, TwoFa
     return shape;
   }
 
-  Path getCurrentPath() {
+  PermPath getCurrentPath() {
     return currentPath;
   }
 
-  public void setCurrentPath(Path currentPath) {
+  public void setCurrentPath(PermPath currentPath) {
     this.currentPath = currentPath;
   }
 
   void update() {
     if (currentPath != null) {
       float x = movement.getX();
-      Vector2f newPos = currentPath.getStart().getPoint();
+      Vector2f newPos = currentPath.getStartPoint();
       movement.getXMovement().setPos(newPos.getX());
       movement.getYMovement().setPos(newPos.getY() - HEIGHT);
       if (x < newPos.getX()) movement.getXMovement().setDirection(true);

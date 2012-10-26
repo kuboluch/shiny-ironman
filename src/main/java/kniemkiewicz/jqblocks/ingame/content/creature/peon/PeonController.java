@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.peon;
 
+import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.controller.*;
@@ -58,6 +59,10 @@ public class PeonController implements HealthController<Peon>, UpdateQueue.Updat
   @Autowired
   FreeFallController freeFallController;
 
+  @Autowired
+  CollisionController collisionController;
+
+
   @Override
   public void killed(Peon object, QuadTree.HasShape source) {
     world.killMovingObject(object);
@@ -78,41 +83,51 @@ public class PeonController implements HealthController<Peon>, UpdateQueue.Updat
   private OnceXTimes<Peon> findPathClosure = new OnceXTimes<Peon>(90, true, new Closure<Peon>() {
     @Override
     public void run(Peon peon) {
-      Player player = playerController.getPlayer();
-      Position origin;
-      if (peon.getCurrentPath() != null) {
-        origin = peon.getCurrentPath().getStart();
-      } else {
+      QuadTree.HasShape target = playerController.getPlayer();
+      Position destination = pathGraph.getClosestPoint(GeometryUtils.getRectangleCenteredOn(target.getShape().getCenterX(), GeometryUtils.getMaxY(target.getShape()), Sizes.BLOCK * 3));
+      if (peon.getCurrentPath() == null || destination == null) {
+        // new Peon or sth
         Rectangle r = GeometryUtils.getRectangleCenteredOn(peon.getShape().getCenterX(), GeometryUtils.getMaxY(peon.getShape()), 24);
-        origin = pathGraph.getClosestPoint(r);
-      }
-      if (origin == null) return; // Peon managed to get outside of city.
-      Position destination = pathGraph.getClosestPoint(player.getShape());
-      if (destination != null) {
-        Path path = new PathGraphSearch(pathGraph, origin, destination).getPath();
-        // This should be removed if we add disjoint graphs.
-        assert path != null;
-        peon.setCurrentPath(path);
+        Position origin = pathGraph.getClosestPoint(r);
+        if (origin == null) {
+          peon.setCurrentPath(null);
+          return;
+        }
+        if (destination == null) {
+          destination = origin;
+        }
+        peon.setCurrentPath(pathGraph.getPermPath(origin, destination));
+      } else {
+        peon.getCurrentPath().switchDestinationTo(destination);
       }
     }
   });
 
   @Override
   public void update(Peon object, int delta) {
-    findPathClosure.maybeRunWith(object);
-    float speed = Peon.MAX_PEON_SPEED * delta;
     if (object.getCurrentPath() != null) {
-      // This should be a part of PermPath or sth like that.
-      if (object.getCurrentPath().getStart().getEdge().getType() == Edge.Type.INVALID) {
-        object.setCurrentPath(null);
-        findPathClosure.forceRun(object);
-      }
-    }
-    if (object.getCurrentPath() != null) {
-      object.getCurrentPath().progressWithSpeed(speed);
-      object.update();
+      findPathClosure.maybeRunWith(object);
     } else {
+      // We really need a path.
+      findPathClosure.forceRun(object);
+    }
+    boolean outsideGraph = true;
+    Path path = null;
+    if (object.getCurrentPath() != null) {
+      // This also updated "outsideGraph()"
+      path = object.getCurrentPath().safeGetPath();
+      outsideGraph = object.getCurrentPath().outsideGraph();
+    }
+    if (outsideGraph) {
       freeFallController.updateComplex(delta, null, object);
+      object.setCurrentPath(null);
+      return;
+    }
+    float speed = Peon.MAX_PEON_SPEED * delta;
+    if (path != null) {
+      object.getXYMovement().getYMovement().setSpeed(0);
+      path.progressWithSpeed(speed);
+      object.update();
     }
   }
 }

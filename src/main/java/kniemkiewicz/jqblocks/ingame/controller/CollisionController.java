@@ -42,8 +42,8 @@ public final class CollisionController {
     return objects;
   }
 
-  public void clear(EnumSet<ObjectType> paths) {
-    for (ObjectType type : paths) {
+  public void clear(EnumSet<ObjectType> types) {
+    for (ObjectType type : types) {
       quadTrees.put(type, new QuadTree<QuadTree.HasShape>(Sizes.LEVEL_SIZE_X, Sizes.LEVEL_SIZE_Y, Sizes.CENTER_X, Sizes.CENTER_Y));
     }
   }

@@ -17,7 +17,7 @@ import java.util.*;
  * User: knie
  * Date: 10/14/12
  */
-public final class PathGraphSearch {
+final class PathGraphSearch {
 
   public static Log logger = LogFactory.getLog(PathGraphSearch.class);
 
