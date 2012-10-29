@@ -42,11 +42,6 @@ final public class PathGraph {
     collisionController.clear(PATHS);
   }
 
-  public Position getClosestPoint(Vector2f pos, float radius) {
-    Rectangle area = new Rectangle(pos.getX() - radius, pos.getY() - radius, 2 * radius, 2 * radius);
-    return getClosestPoint(pos, radius, area);
-  }
-
   public Position getClosestPoint(Rectangle area) {
     float radius = area.getBoundingCircleRadius();
     Vector2f pos = new Vector2f(area.getCenter());

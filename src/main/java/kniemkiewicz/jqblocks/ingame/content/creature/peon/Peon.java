@@ -12,6 +12,7 @@ import kniemkiewicz.jqblocks.ingame.renderer.TwoFacedImageRenderer;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
+import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovementDefinition;
@@ -32,7 +33,12 @@ public class Peon implements PhysicalObject, KillablePhysicalObject<Peon>, TwoFa
   public static final float WIDTH = Sizes.BLOCK * 2 + 5;
   public static final float HEIGHT = Sizes.BLOCK * 3 + 5;
 
+  // TODO(krzysiek): Put those two + any precomputed values into separate class.
+  QuadTree.HasShape target = null;
   transient PermPath currentPath = null;
+
+
+
   HealthPoints healthPoints = new HealthPoints(PEON_HP, this);
   final Rectangle shape;
 
@@ -125,5 +131,13 @@ public class Peon implements PhysicalObject, KillablePhysicalObject<Peon>, TwoFa
   public void updateShape() {
     shape.setX(movement.getX() - WIDTH / 2);
     shape.setY(movement.getY());
+  }
+
+  public QuadTree.HasShape getTarget() {
+    return target;
+  }
+
+  public void setTarget(QuadTree.HasShape target) {
+    this.target = target;
   }
 }

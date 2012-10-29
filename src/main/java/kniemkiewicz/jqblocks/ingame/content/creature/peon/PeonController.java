@@ -54,14 +54,7 @@ public class PeonController implements HealthController<Peon>, UpdateQueue.Updat
   PlayerController playerController;
 
   @Autowired
-  PathGraph pathGraph;
-
-  @Autowired
-  FreeFallController freeFallController;
-
-  @Autowired
-  CollisionController collisionController;
-
+  PeonMoveController peonMoveController;
 
   @Override
   public void killed(Peon object, QuadTree.HasShape source) {
@@ -79,55 +72,11 @@ public class PeonController implements HealthController<Peon>, UpdateQueue.Updat
     return true;
   }
 
-
-  private OnceXTimes<Peon> findPathClosure = new OnceXTimes<Peon>(90, true, new Closure<Peon>() {
-    @Override
-    public void run(Peon peon) {
-      QuadTree.HasShape target = playerController.getPlayer();
-      Position destination = pathGraph.getClosestPoint(GeometryUtils.getRectangleCenteredOn(target.getShape().getCenterX(), GeometryUtils.getMaxY(target.getShape()), Sizes.BLOCK * 3));
-      if (peon.getCurrentPath() == null || destination == null) {
-        // new Peon or sth
-        Rectangle r = GeometryUtils.getRectangleCenteredOn(peon.getShape().getCenterX(), GeometryUtils.getMaxY(peon.getShape()), 24);
-        Position origin = pathGraph.getClosestPoint(r);
-        if (origin == null) {
-          peon.setCurrentPath(null);
-          return;
-        }
-        if (destination == null) {
-          destination = origin;
-        }
-        peon.setCurrentPath(pathGraph.getPermPath(origin, destination));
-      } else {
-        peon.getCurrentPath().switchDestinationTo(destination);
-      }
-    }
-  });
-
   @Override
   public void update(Peon object, int delta) {
-    if (object.getCurrentPath() != null) {
-      findPathClosure.maybeRunWith(object);
-    } else {
-      // We really need a path.
-      findPathClosure.forceRun(object);
+    if (object.getTarget() == null) {
+      object.setTarget(playerController.getPlayer());
     }
-    boolean outsideGraph = true;
-    Path path = null;
-    if (object.getCurrentPath() != null) {
-      // This also updated "outsideGraph()"
-      path = object.getCurrentPath().safeGetPath();
-      outsideGraph = object.getCurrentPath().outsideGraph();
-    }
-    if (outsideGraph) {
-      freeFallController.updateComplex(delta, null, object);
-      object.setCurrentPath(null);
-      return;
-    }
-    float speed = Peon.MAX_PEON_SPEED * delta;
-    if (path != null) {
-      object.getXYMovement().getYMovement().setSpeed(0);
-      path.progressWithSpeed(speed);
-      object.update();
-    }
+    peonMoveController.update(object, delta);
   }
 }
