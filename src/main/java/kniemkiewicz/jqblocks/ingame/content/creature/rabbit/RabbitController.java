@@ -1,10 +1,12 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.rabbit;
 
 import kniemkiewicz.jqblocks.ingame.World;
+import kniemkiewicz.jqblocks.ingame.content.creature.FlipImageBody;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.controller.*;
 import kniemkiewicz.jqblocks.ingame.controller.ai.AIUtils;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.util.closure.Closure;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import kniemkiewicz.jqblocks.ingame.util.closure.OncePerXByDistribution;
@@ -44,6 +46,15 @@ public class RabbitController implements UpdateQueue.UpdateController<Rabbit>, H
   @Autowired
   PlayerController playerController;
 
+  @Autowired
+  RenderQueue renderQueue;
+
+  @Autowired
+  ControllerUtils controllerUtils;
+
+  @Autowired
+  UpdateQueue updateQueue;
+
   static Random random = new Random();
 
   static final Log logger = LogFactory.getLog(RabbitController.class);
@@ -51,6 +62,9 @@ public class RabbitController implements UpdateQueue.UpdateController<Rabbit>, H
   @Override
   public void killed(Rabbit rabbit, QuadTree.HasShape source) {
     world.killMovingObject(rabbit);
+    FlipImageBody body = new FlipImageBody(rabbit.getXYMovement(), RabbitDefinition.WIDTH, RabbitDefinition.HEIGHT, RabbitDefinition.STANDING_RENDERER, RabbitDefinition.STANDING_IMAGE_CENTER_SHIFT);
+    body.addTo(renderQueue, freeFallController, updateQueue);
+    controllerUtils.pushBodyFrom(body, source, ControllerUtils.DEFAULT_PUSH_BACK);
   }
 
   @Override

@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.controller.ai.paths;
 
+import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.controller.CollisionController;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
@@ -10,6 +11,7 @@ import org.newdawn.slick.geom.Vector2f;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
 /**
@@ -23,20 +25,34 @@ final public class PathGraph {
       EnumSet.of(CollisionController.ObjectType.PATHS);
 
   @Autowired
+  Configuration configuration;
+
+  @Autowired
   CollisionController collisionController;
 
   @Autowired
   RenderQueue renderQueue;
 
+  boolean RENDER_EDGES;
+
+  @PostConstruct
+  void init() {
+    RENDER_EDGES = configuration.getBoolean("PathGraph.RENDER_EDGES", true);
+  }
+
   Edge addEdge(Edge e) {
     collisionController.add(PATHS, e, false);
-    renderQueue.add(e);
+    if (RENDER_EDGES) {
+      renderQueue.add(e);
+    }
     return e;
   }
 
   void clear() {
     for (Edge e : collisionController.<Edge>getAll(PATHS)) {
-      renderQueue.remove(e);
+      if (RENDER_EDGES) {
+        renderQueue.remove(e);
+      }
       e.type = Edge.Type.INVALID;
     }
     collisionController.clear(PATHS);

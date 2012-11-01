@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.creature;
 
 import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
+import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
@@ -21,6 +22,11 @@ public abstract class SimpleBody implements RenderableObject<SimpleBody>,HasFull
 
   public SimpleBody(XYMovement movement, float size) {
     rectangle = new Rectangle(movement.getX(), movement.getY(), size, size);
+    this.movement = movement;
+  }
+
+  public SimpleBody(XYMovement movement, float width, float height) {
+    rectangle = new Rectangle(movement.getX(), movement.getY(), width, height);
     this.movement = movement;
   }
 

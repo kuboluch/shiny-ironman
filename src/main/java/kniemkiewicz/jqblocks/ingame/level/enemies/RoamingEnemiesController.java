@@ -3,6 +3,8 @@ package kniemkiewicz.jqblocks.ingame.level.enemies;
 import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.World;
+import kniemkiewicz.jqblocks.ingame.controller.CollisionController;
+import kniemkiewicz.jqblocks.ingame.controller.ai.paths.PathGraph;
 import kniemkiewicz.jqblocks.ingame.object.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
@@ -36,6 +38,9 @@ public final class RoamingEnemiesController {
   PlayerController playerController;
 
   @Autowired
+  CollisionController collisionController;
+
+  @Autowired
   Backgrounds backgrounds;
 
   @Autowired
@@ -56,6 +61,7 @@ public final class RoamingEnemiesController {
   static final float MAX_PURSUIT_DISTANCE_SCREENS = 1;
   int MAX_ACTIVE_ENEMIES = -1;
   static final float TOWN_RADIUS_FROM_FIREPLACE = 500;
+  static final float TOWN_RADIUS_FROM_PATH = 100;
 
   @PostConstruct
   void init() {
@@ -91,11 +97,18 @@ public final class RoamingEnemiesController {
     return false;
   }
 
+  boolean isNearPaths(Shape shape) {
+    Rectangle aroundShape = GeometryUtils.getRectangleCenteredOn(shape,
+        2 * TOWN_RADIUS_FROM_FIREPLACE, 2 * TOWN_RADIUS_FROM_FIREPLACE);
+    return collisionController.intersects(PathGraph.PATHS, aroundShape);
+  }
+
   private Biome calculateCurrentBiome() {
     assert TOWN_RADIUS_FROM_FIREPLACE >= 0;
     // "fireplace" should be a valid bean name
     assert world.getSpringBeanProvider().getBean(new BeanName<WorkplaceDefinition>(WorkplaceDefinition.class, "fireplace"), false) != null;
-    if (isNearFireplace(playerController.getPlayer().getShape(), backgrounds)) return townBiome;
+    if (isNearFireplace(playerController.getPlayer().getShape(), backgrounds)
+        || isNearPaths(playerController.getPlayer().getShape())) return townBiome;
     return grassBiome;
   }
 

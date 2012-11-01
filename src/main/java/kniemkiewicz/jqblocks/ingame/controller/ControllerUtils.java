@@ -95,6 +95,14 @@ public class ControllerUtils {
     pushFrom(target, dx, dy, speed);
   }
 
+  public void pushBodyFrom(HasFullXYMovement target, QuadTree.HasShape source, float speed) {
+    int dx = -1;
+    if (target.getXYMovement().getX() > source.getShape().getCenterX()) {
+      dx = 1;
+    }
+    pushFrom(target, dx, -1, speed);
+  }
+
   public void pushFrom(HasFullXYMovement target, float dx, float dy, float speed) {
     float dd = (float)Math.sqrt(dx * dx + dy * dy);
     float speedX = dx / dd * speed;

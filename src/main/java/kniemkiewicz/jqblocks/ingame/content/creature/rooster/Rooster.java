@@ -10,8 +10,6 @@ import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
-import kniemkiewicz.jqblocks.ingame.object.hp.KillablePhysicalObject;
-import kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.renderer.creature.RunningCreatureRenderer;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
@@ -116,14 +114,14 @@ public class Rooster implements RenderableObject<Rooster>, UpdateQueue.ToBeUpdat
     this.enemySpotted = enemySpotted;
   }
 
-  int age = 0;
+  long age = 0;
 
   @Override
-  public int getAge() {
+  public long getAge() {
     return age;
   }
 
-  public void setAge(int age) {
+  public void setAge(long age) {
     this.age = age;
   }
 

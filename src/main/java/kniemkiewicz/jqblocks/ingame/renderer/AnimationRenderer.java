@@ -18,8 +18,8 @@ import org.newdawn.slick.geom.Rectangle;
  */
 public class AnimationRenderer<T extends AnimationRenderer.AnimationCompatible> implements ObjectRenderer<T> {
 
-  public interface AnimationCompatible<T extends RenderableObject> extends HasFullXYMovement, QuadTree.HasShape, RenderableObject<T>{
-    int getAge();
+  public interface AnimationCompatible<T extends RenderableObject> extends HasFullXYMovement, QuadTree.HasShape, RenderableObject<T> {
+    long getAge();
   }
 
   final Animation animation;
@@ -76,9 +76,9 @@ public class AnimationRenderer<T extends AnimationRenderer.AnimationCompatible> 
     float widthDiff = (w - objectWidth) / 2;
     int spriteId;
     if (repeated) {
-      spriteId = (object.getAge() / frameDuration)  % animation.getImagesCount();
+      spriteId = (int)(object.getAge() / frameDuration)  % animation.getImagesCount();
     } else {
-      spriteId = Math.min(object.getAge() / frameDuration, animation.getImagesCount() - 1);
+      spriteId = (int)Math.min(object.getAge() / frameDuration, animation.getImagesCount() - 1);
     }
     Rectangle r = GeometryUtils.getBoundingRectangle(object.getShape());
     Image sprite;
