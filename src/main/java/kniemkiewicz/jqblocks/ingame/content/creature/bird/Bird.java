@@ -80,14 +80,14 @@ public class Bird implements RenderableObject<Bird>,UpdateQueue.ToBeUpdated<Bird
     return BirdController.class;
   }
 
-  int age = 0;
+  long age = 0;
 
   @Override
-  public int getAge() {
+  public long getAge() {
     return age;
   }
 
-  public void setAge(int age) {
+  public void setAge(long age) {
     this.age = age;
   }
 

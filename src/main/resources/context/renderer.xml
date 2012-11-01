@@ -181,14 +181,14 @@
         <property name="repeated" value="false"/>
     </bean>
 
+    <bean id="standingRabbitRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.FlippingImageRenderer">
+        <constructor-arg ref="rabbitSheet"/>
+        <constructor-arg value="0"/>
+        <constructor-arg value="1"/>
+    </bean>
+
     <bean id="rabbitRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.creature.JumpingCreatureRenderer">
-        <constructor-arg>
-            <bean class="kniemkiewicz.jqblocks.ingame.renderer.FlippingImageRenderer">
-                <constructor-arg ref="rabbitSheet"/>
-                <constructor-arg value="0"/>
-                <constructor-arg value="1"/>
-            </bean>
-        </constructor-arg>
+        <constructor-arg ref="standingRabbitRenderer"/>
         <constructor-arg>
             <bean class="kniemkiewicz.jqblocks.ingame.renderer.FlippingImageRenderer">
                 <constructor-arg ref="rabbitSheet"/>
@@ -205,14 +205,14 @@
         </constructor-arg>
     </bean>
 
+    <bean id="standingRoosterRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.FlippingImageRenderer">
+        <constructor-arg ref="roosterSheet"/>
+        <constructor-arg value="0"/>
+        <constructor-arg value="1"/>
+    </bean>
+
     <bean id="roosterRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.creature.RunningCreatureRenderer">
-        <constructor-arg>
-            <bean class="kniemkiewicz.jqblocks.ingame.renderer.FlippingImageRenderer">
-                <constructor-arg ref="roosterSheet"/>
-                <constructor-arg value="0"/>
-                <constructor-arg value="1"/>
-            </bean>
-        </constructor-arg>
+        <constructor-arg ref="standingRoosterRenderer"/>
         <constructor-arg>
             <bean class="kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer">
                 <constructor-arg>

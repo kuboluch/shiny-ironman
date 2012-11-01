@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.content.creature.rabbit;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
+import kniemkiewicz.jqblocks.ingame.renderer.FlippingImageRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.creature.JumpingCreatureRenderer;
 import kniemkiewicz.jqblocks.ingame.util.random.GaussianDistribution;
 import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
@@ -9,6 +10,7 @@ import kniemkiewicz.jqblocks.ingame.util.movement.XYMovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.random.LogNormalDistribution;
 import kniemkiewicz.jqblocks.ingame.util.random.ProbabilityDistribution;
 import kniemkiewicz.jqblocks.util.BeanName;
+import org.newdawn.slick.geom.Vector2f;
 
 /**
  * User: qba
@@ -44,8 +46,13 @@ public interface RabbitDefinition {
       new MovementDefinition().setMaxSpeed(MAX_SPEED)
   );
 
+  static final BeanName<FlippingImageRenderer> STANDING_RENDERER =
+      new BeanName<FlippingImageRenderer>(FlippingImageRenderer.class, "standingRabbitRenderer");
+
   static final BeanName<JumpingCreatureRenderer> RENDERER =
       new BeanName<JumpingCreatureRenderer>(JumpingCreatureRenderer.class, "rabbitRenderer");
 
   static final BeanName<RabbitController> CONTROLLER = new BeanName<RabbitController>(RabbitController.class);
+
+  static Vector2f STANDING_IMAGE_CENTER_SHIFT = new Vector2f(0, 5);
 }

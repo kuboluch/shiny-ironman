@@ -4,11 +4,13 @@ import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.World;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.content.creature.Enemy;
+import kniemkiewicz.jqblocks.ingame.content.creature.FlipImageBody;
 import kniemkiewicz.jqblocks.ingame.controller.ControllerUtils;
 import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.controller.ai.AIUtils;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
+import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import kniemkiewicz.jqblocks.ingame.util.closure.Closure;
 import kniemkiewicz.jqblocks.ingame.util.closure.OncePerXByDistribution;
@@ -41,11 +43,23 @@ public class RoosterController implements UpdateQueue.UpdateController<Rooster>,
   @Autowired
   SolidBlocks blocks;
 
+  @Autowired
+  RenderQueue renderQueue;
+
+  @Autowired
+  ControllerUtils controllerUtils;
+
+  @Autowired
+  UpdateQueue updateQueue;
+
   static final Log logger = LogFactory.getLog(RoosterController.class);
 
   @Override
   public void killed(Rooster rooster, QuadTree.HasShape source) {
     world.killMovingObject(rooster);
+    FlipImageBody body = new FlipImageBody(rooster.getXYMovement(), RoosterDefinition.WIDTH, RoosterDefinition.HEIGHT, RoosterDefinition.STANDING_RENDERER, RoosterDefinition.STANDING_IMAGE_CENTER_SHIFT);
+    body.addTo(renderQueue, freeFallController, updateQueue);
+    controllerUtils.pushBodyFrom(body, source, ControllerUtils.DEFAULT_PUSH_BACK);
   }
 
   @Override

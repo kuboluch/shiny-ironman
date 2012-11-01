@@ -5,7 +5,6 @@ import kniemkiewicz.jqblocks.ingame.content.creature.Enemy;
 import kniemkiewicz.jqblocks.ingame.content.creature.SimpleBody;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
-import kniemkiewicz.jqblocks.ingame.object.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
@@ -37,7 +36,7 @@ public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>, Enemy<Zombie>,
       new MovementDefinition().setMaxSpeed(Sizes.MAX_FALL_SPEED)
   );
 
-  int age = 0;
+  long age = 0;
 
   final HealthPoints healthPoints;
   final Rectangle shape;
@@ -105,11 +104,11 @@ public class Zombie implements UpdateQueue.ToBeUpdated<Zombie>, Enemy<Zombie>,
   }
 
   @Override
-  public int getAge() {
+  public long getAge() {
     return age;
   }
 
-  public void setAge(int age) {
+  public void setAge(long age) {
     this.age = age;
   }
 }

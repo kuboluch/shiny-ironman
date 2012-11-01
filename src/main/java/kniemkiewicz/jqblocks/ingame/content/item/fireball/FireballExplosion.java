@@ -4,12 +4,9 @@ import kniemkiewicz.jqblocks.ingame.PointOfView;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
-import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
-import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
-import kniemkiewicz.jqblocks.ingame.util.movement.XYMovementDefinition;
 import kniemkiewicz.jqblocks.util.BeanName;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -40,7 +37,7 @@ public class FireballExplosion implements AnimationRenderer.AnimationCompatible,
   }
 
   @Override
-  public int getAge() {
+  public long getAge() {
     return age;
   }
 

@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.content.creature.zombie;
 
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.content.creature.SimpleBody;
+import kniemkiewicz.jqblocks.ingame.controller.AgeUpdateController;
 import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.renderer.AnimationRenderer;
@@ -15,14 +16,14 @@ import kniemkiewicz.jqblocks.util.BeanName;
  * User: knie
  * Date: 7/24/12
  */
-public class ZombieBody extends SimpleBody implements UpdateQueue.ToBeUpdated<ZombieBody>, AnimationRenderer.AnimationCompatible<SimpleBody> {
+public class ZombieBody extends SimpleBody implements AgeUpdateController.HasAge,UpdateQueue.ToBeUpdated<AgeUpdateController.HasAge>, AnimationRenderer.AnimationCompatible<SimpleBody> {
 
   static XYMovementDefinition BAT_BODY_MOVEMENT = new XYMovementDefinition(
       new MovementDefinition().setMaxSpeed(Zombie.SPEED).setAutoDirection(false),
       new MovementDefinition().setMaxSpeed(Sizes.MAX_FALL_SPEED)
   );
 
-  int age = 0;
+  long age = 0;
 
   public ZombieBody(XYMovement movement) {
     super(BAT_BODY_MOVEMENT.getMovement(movement), Zombie.WIDTH);
@@ -42,15 +43,16 @@ public class ZombieBody extends SimpleBody implements UpdateQueue.ToBeUpdated<Zo
   }
 
   @Override
-  public Class<? extends UpdateQueue.UpdateController<ZombieBody>> getUpdateController() {
-    return ZombieBodyController.class;
+  public Class<AgeUpdateController> getUpdateController() {
+    return AgeUpdateController.class;
   }
 
-  public int getAge() {
+  public long getAge() {
     return age;
   }
 
-  public void setAge(int age) {
+  @Override
+  public void setAge(long age) {
     this.age = age;
   }
 }
