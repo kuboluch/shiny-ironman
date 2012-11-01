@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.creature.peon;
 
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.ingame.controller.CollisionController;
 import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
 import kniemkiewicz.jqblocks.ingame.controller.ai.paths.Path;
 import kniemkiewicz.jqblocks.ingame.controller.ai.paths.PathGraph;
@@ -26,6 +27,9 @@ public class PeonMoveController {
   @Autowired
   FreeFallController freeFallController;
 
+  @Autowired
+  CollisionController collisionController;
+
   private OnceXTimes<Peon> findPathClosure = new OnceXTimes<Peon>(90, true, new Closure<Peon>() {
     @Override
     public void run(Peon peon) {
@@ -49,8 +53,19 @@ public class PeonMoveController {
     }
   });
 
+  void updateOutsideGraph(Peon peon, int delta) {
+    // TODO(krzysiek): Maybe this should be handled by PeonController. Anyway, add something more fancy.
+    freeFallController.updateComplex(delta, null, peon);
+    peon.setCurrentPath(null);
+  }
+
   public void update(Peon peon, int delta) {
-    if (peon.getTarget() == null) return;
+    if (peon.getTarget() == null) {
+      if (!collisionController.intersects(PathGraph.PATHS, peon.getShape())) {
+        updateOutsideGraph(peon, delta);
+      }
+      return;
+    }
     if (peon.getCurrentPath() != null) {
       findPathClosure.maybeRunWith(peon);
     } else {
@@ -65,9 +80,7 @@ public class PeonMoveController {
       outsideGraph = peon.getCurrentPath().outsideGraph();
     }
     if (outsideGraph) {
-      // TODO(krzysiek): Maybe this should be handled by PeonController. Anyway, add something more fancy.
-      freeFallController.updateComplex(delta, null, peon);
-      peon.setCurrentPath(null);
+      updateOutsideGraph(peon, delta);
       return;
     }
     float speed = Peon.MAX_PEON_SPEED * delta;
