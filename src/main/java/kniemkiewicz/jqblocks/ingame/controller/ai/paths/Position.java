@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.controller.ai.paths;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.newdawn.slick.geom.Vector2f;
 
 /**
@@ -33,5 +34,10 @@ final public class Position {
 
   public Vector2f getPoint() {
     return e.getPointFor(j);
+  }
+
+  @Override
+  public String toString() {
+    return "Position{" + ObjectUtils.toString(e) + "," + j + "}";
   }
 }

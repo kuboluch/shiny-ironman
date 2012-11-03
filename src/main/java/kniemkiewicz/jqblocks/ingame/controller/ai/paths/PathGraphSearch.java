@@ -21,7 +21,6 @@ final class PathGraphSearch {
 
   public static Log logger = LogFactory.getLog(PathGraphSearch.class);
 
-  final PathGraph graph;
   final Joint startJoint;
   final Position start;
   final Position end;
@@ -38,8 +37,7 @@ final class PathGraphSearch {
   final Map<Joint, Joint> backtrackMap = new HashMap<Joint, Joint>();
   private SortedSet<Float> keySet;
 
-  public PathGraphSearch(PathGraph graph, Position start, Position end) {
-    this.graph = graph;
+  public PathGraphSearch(Position start, Position end) {
     this.start = start;
     // 0.5f has no meaning and won't be ever read but has to be in [0,1] range
     this.startJoint = new Joint(0.5f, start.getEdge()).with(new Joint(start.getPosition(), null));
@@ -62,7 +60,7 @@ final class PathGraphSearch {
     while (next.getEdge() != end.getEdge()) {
       logger.debug(next);
       if (!backtrackMap.containsKey(next)) {
-        // Adding small cost to make algorithm choose path will smaller number of steps
+        // Adding small cost to make algorithm choose path with smaller number of steps
         processJoint(cost + 0.1f, next);
         backtrackMap.put(next, prev);
         if (logger.isDebugEnabled()) {

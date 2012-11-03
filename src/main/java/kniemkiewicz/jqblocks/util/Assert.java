@@ -40,7 +40,7 @@ public class Assert {
     }
   }
 
-  static private OutputStream noopStream = new OutputStream() {
+  static public OutputStream noopStream = new OutputStream() {
     @Override
     public void write(int b) throws IOException { }
   };

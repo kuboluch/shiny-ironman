@@ -32,7 +32,7 @@ public final class GeometryUtils {
       float x = circle.getCenterX();
       float y = circle.getCenterY();
       float r = circle.getRadius();
-      return new Rectangle(x - r, y - r, 2 * r + 1, 2 * r + 1);
+      return new Rectangle(x - r, y - r, 2 * r, 2 * r);
     }
     if (shape instanceof Line) {
       Line line = (Line) shape;

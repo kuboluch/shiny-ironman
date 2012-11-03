@@ -29,6 +29,7 @@ public class Edge implements RenderableObject<Edge>{
     HORIZONTAL_LADDER,
     VERTICAL_LADDER,
     STEP, // Single short step joining different edges
+    TEST,
     INVALID // Edge was deleted.
   }
   transient Line line;
