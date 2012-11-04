@@ -93,7 +93,7 @@ public class ItemDefinition implements PanelItemModel, ItemFactory, ItemProducti
   public boolean canBeProducedIn(WorkplaceDefinition workplaceDefinition) {
     if (isGloballyAvailable()) return true;
     if (productionPlaces != null) {
-      return !Collections3.collectSubclasses(productionPlaces, workplaceDefinition.getClass()).isEmpty();
+      return !Collections3.filterSubclasses(productionPlaces, workplaceDefinition.getClass()).isEmpty();
     }
     return false;
   }

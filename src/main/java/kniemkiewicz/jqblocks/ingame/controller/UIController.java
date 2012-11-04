@@ -42,21 +42,21 @@ public class UIController implements EventListener {
 
   @Override
   public void listen(List<Event> events) {
-    List<KeyPressedEvent> keyPressedEvents = Collections3.collect(events, KeyPressedEvent.class);
+    List<KeyPressedEvent> keyPressedEvents = Collections3.filter(events, KeyPressedEvent.class);
     if (!keyPressedEvents.isEmpty()) {
       for (KeyPressedEvent e : keyPressedEvents) {
         handleKeyPressedEvent(e);
       }
     }
 
-    List<KeyReleasedEvent> keyReleasedEvents = Collections3.collect(events, KeyReleasedEvent.class);
+    List<KeyReleasedEvent> keyReleasedEvents = Collections3.filter(events, KeyReleasedEvent.class);
     if (!keyReleasedEvents.isEmpty()) {
       for (KeyReleasedEvent e : keyReleasedEvents) {
         handleKeyReleasedEvent(e);
       }
     }
 
-    List<InventoryChangeEvent> inventoryChangeEvents = Collections3.collectSubclasses(events, InventoryChangeEvent.class);
+    List<InventoryChangeEvent> inventoryChangeEvents = Collections3.filterSubclasses(events, InventoryChangeEvent.class);
     if (!inventoryChangeEvents.isEmpty()) {
       for (InventoryChangeEvent e : inventoryChangeEvents) {
         if (quickItemInventoryPanel.getInventory().equals(e.getInventory())) {

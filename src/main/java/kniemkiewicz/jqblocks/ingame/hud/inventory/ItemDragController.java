@@ -85,7 +85,7 @@ public class ItemDragController implements DragListener<Item>, Initializable, Ev
 
   @Override
   public void listen(List<kniemkiewicz.jqblocks.ingame.controller.event.Event> events) {
-    List<ScreenMovedEvent> screenMovedEvents = Collections3.collect(events, ScreenMovedEvent.class);
+    List<ScreenMovedEvent> screenMovedEvents = Collections3.filter(events, ScreenMovedEvent.class);
     if (!screenMovedEvents.isEmpty()) {
       dragInterrupted();
       for (ScreenMovedEvent event : screenMovedEvents) {

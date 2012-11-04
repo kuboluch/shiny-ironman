@@ -55,7 +55,7 @@ public class BowItemController implements ItemController<BowItem> {
 
   @Override
   public void listen(BowItem bowItem, List<Event> events) {
-    List<MousePressedEvent> pressedEvents = Collections3.collect(events, MousePressedEvent.class);
+    List<MousePressedEvent> pressedEvents = Collections3.filter(events, MousePressedEvent.class);
     if (!pressedEvents.isEmpty()) {
       handlePressedEvent(pressedEvents);
     }

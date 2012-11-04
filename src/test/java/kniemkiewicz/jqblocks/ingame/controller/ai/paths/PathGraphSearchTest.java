@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.controller.ai.paths;
 
+import com.google.common.collect.ImmutableSetMultimap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Assert;
@@ -73,7 +74,11 @@ public class PathGraphSearchTest {
 
   Edge[] getEdgesBetween(Position p1, Position p2) {
     Path path = new PathGraphSearch(p1, p2).getPath();
+    Assert.assertEquals(path.getEnd(), p2);
     List<Position> positions = path.computePositions();
+    Path multiPath = new MultiPathGraphSearch(p1, new ImmutableSetMultimap.Builder<Edge, Float>().put(p2.getEdge(), p2.getPosition()).build()).getPath();
+    Assert.assertEquals(multiPath.getEnd(), p2);
+    Assert.assertArrayEquals(positions.toArray(), multiPath.computePositions().toArray());
     List<Edge> edges = new ArrayList<Edge>();
     for (Position p : positions) {
       edges.add(p.getEdge());

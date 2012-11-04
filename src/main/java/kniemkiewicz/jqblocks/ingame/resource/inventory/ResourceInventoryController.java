@@ -82,14 +82,14 @@ public class ResourceInventoryController implements EventListener {
 
   @Override
   public void listen(List<Event> events) {
-    List<KeyPressedEvent> keyPressedEvents = Collections3.collect(events, KeyPressedEvent.class);
+    List<KeyPressedEvent> keyPressedEvents = Collections3.filter(events, KeyPressedEvent.class);
     if (!keyPressedEvents.isEmpty()) {
       for (KeyPressedEvent e : keyPressedEvents) {
         handleKeyPressedEvent(e);
       }
     }
 
-    List<MousePressedEvent> mousePressedEvents = Collections3.collect(events, MousePressedEvent.class);
+    List<MousePressedEvent> mousePressedEvents = Collections3.filter(events, MousePressedEvent.class);
 
     for (MousePressedEvent e : mousePressedEvents) {
       if (e.getButton() == Button.RIGHT) {
@@ -185,7 +185,7 @@ public class ResourceInventoryController implements EventListener {
   private boolean conflictingObjectExists(Shape shape) {
     Rectangle rect = new Rectangle(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
     List<ResourceObject> resourceObjects =
-        Collections3.collect(collisionController.fullSearch(MovingObjects.OBJECT_TYPES, rect), ResourceObject.class);
+        Collections3.filter(collisionController.fullSearch(MovingObjects.OBJECT_TYPES, rect), ResourceObject.class);
     return !resourceObjects.isEmpty();
   }
 }

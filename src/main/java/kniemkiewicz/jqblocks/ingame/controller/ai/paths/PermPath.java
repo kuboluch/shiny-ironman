@@ -21,7 +21,7 @@ public final class PermPath implements Serializable {
   SerializableBeanProxy<PathGraph> pathGraph;
   SerializableBeanProxy<CollisionController> collisionController;
 
-  PermPath(Path path, Position endPosition, PathGraph pathGraph, CollisionController collisionController) {
+  public PermPath(Path path, Position endPosition, PathGraph pathGraph, CollisionController collisionController) {
     this.path = path;
     this.endPosition = endPosition;
     this.start = path.getStart();

@@ -94,7 +94,7 @@ public abstract class ProductionActionController extends AbstractActionControlle
 
   @Override
   public void listen(List<Event> events) {
-    List<KeyPressedEvent> keyPressedEvents = Collections3.collect(events, KeyPressedEvent.class);
+    List<KeyPressedEvent> keyPressedEvents = Collections3.filter(events, KeyPressedEvent.class);
     if (!keyPressedEvents.isEmpty()) {
       for (KeyPressedEvent e : keyPressedEvents) {
         handleKeyPressedEvent(e);

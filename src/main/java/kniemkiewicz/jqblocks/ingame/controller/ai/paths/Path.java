@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.newdawn.slick.geom.Line;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -87,5 +88,18 @@ final public class Path {
       }
     }
     return lines;
+  }
+
+  public Position getEnd() {
+    if (points.size() == 0) return start;
+    float pos = points.getLast().getPosition();
+    if (points.size() == 1) {
+      return new Position(start.getEdge(), pos);
+    } else {
+      Iterator<Joint> it = points.descendingIterator();
+      it.next(); // last
+      Joint j = it.next(); // previous
+      return new Position(j.getEdge(), pos);
+    }
   }
 }

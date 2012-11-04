@@ -118,7 +118,7 @@ public class ProductionUI extends ResizableFrame implements EventListener {
 
   @Override
   public void listen(List<Event> events) {
-    List<AvailableItemsChangeEvent> resourceStorageChangeEvents = Collections3.collect(events, AvailableItemsChangeEvent.class);
+    List<AvailableItemsChangeEvent> resourceStorageChangeEvents = Collections3.filter(events, AvailableItemsChangeEvent.class);
     if (!resourceStorageChangeEvents.isEmpty()) {
       handleAvailableItemsChangeEvent();
     }

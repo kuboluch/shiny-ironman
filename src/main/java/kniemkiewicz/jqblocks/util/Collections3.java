@@ -41,7 +41,7 @@ public final class Collections3 {
     };
   }
 
-  public static <T> List<T> collect(Collection<? super T> collection, Class<T> clazz) {
+  public static <T> List<T> filter(Collection<? super T> collection, Class<T> clazz) {
     List<T> result = new ArrayList<T>();
     for (Object element : collection) {
       if (clazz.equals(element.getClass())) {
@@ -51,7 +51,7 @@ public final class Collections3 {
     return result;
   }
 
-  public static <T> List<T> collectSubclasses(Collection<? super T> collection, Class<T> clazz) {
+  public static <T> List<T> filterSubclasses(Collection<? super T> collection, Class<T> clazz) {
     List<T> result = new ArrayList<T>();
     for (Object element : collection) {
       if (clazz.isAssignableFrom(element.getClass())) {
@@ -61,7 +61,7 @@ public final class Collections3 {
     return result;
   }
 
-  public static <T> List<T> collect(final Iterator<? super T> it, Class<T> clazz) {
+  public static <T> List<T> filter(final Iterator<? super T> it, Class<T> clazz) {
     List<T> result = new ArrayList<T>();
     while (it.hasNext()) {
       Object element = it.next();
@@ -82,7 +82,7 @@ public final class Collections3 {
     return null;
   }
 
-  public static <T> List<T> collectSubclasses(final Iterator<? super T> it, Class<T> clazz) {
+  public static <T> List<T> filterSubclasses(final Iterator<? super T> it, Class<T> clazz) {
     List<T> result = new ArrayList<T>();
     while (it.hasNext()) {
       Object element = it.next();
@@ -155,5 +155,13 @@ public final class Collections3 {
         return v1.compareTo(v2);
       }
     });
+  }
+
+  public static <T,V> List<V> collect(List<? extends T> li, Function<T,V> fun) {
+    ArrayList<V> res = new ArrayList<V>();
+    for (T t : li) {
+      res.add(fun.apply(t));
+    }
+    return res;
   }
 }

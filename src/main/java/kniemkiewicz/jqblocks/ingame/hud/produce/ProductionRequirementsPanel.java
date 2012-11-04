@@ -54,7 +54,7 @@ public class ProductionRequirementsPanel extends Panel<ResourceRequirementPanelI
 
   @Override
   public void listen(List<Event> events) {
-    List<ResourceStorageChangeEvent> resourceStorageChangeEvents = Collections3.collect(events, ResourceStorageChangeEvent.class);
+    List<ResourceStorageChangeEvent> resourceStorageChangeEvents = Collections3.filter(events, ResourceStorageChangeEvent.class);
     if (!resourceStorageChangeEvents.isEmpty()) {
       for (ResourceRequirementPanelItem panelItem : panelItems) {
         panelItem.updateState();

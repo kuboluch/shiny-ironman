@@ -91,14 +91,14 @@ public class InventoryController implements EventListener {
 
   @Override
   public void listen(List<Event> events) {
-    List<KeyPressedEvent> keyPressedEvents = Collections3.collect(events, KeyPressedEvent.class);
+    List<KeyPressedEvent> keyPressedEvents = Collections3.filter(events, KeyPressedEvent.class);
     if (!keyPressedEvents.isEmpty()) {
       for (KeyPressedEvent e : keyPressedEvents) {
         handleKeyPressedEvent(e);
       }
     }
 
-    List<MousePressedEvent> mousePressedEvents = Collections3.collect(events, MousePressedEvent.class);
+    List<MousePressedEvent> mousePressedEvents = Collections3.filter(events, MousePressedEvent.class);
     if (!mousePressedEvents.isEmpty()) {
       for (MousePressedEvent e : mousePressedEvents) {
         if (e.getButton() == Button.RIGHT) {
@@ -107,7 +107,7 @@ public class InventoryController implements EventListener {
       }
     }
 
-    List<MouseWheelEvent> mouseWheelEvents = Collections3.collect(events, MouseWheelEvent.class);
+    List<MouseWheelEvent> mouseWheelEvents = Collections3.filter(events, MouseWheelEvent.class);
     if (!mouseWheelEvents.isEmpty()) {
       for (MouseWheelEvent e : mouseWheelEvents) {
         handleMouseWheelEvent(e);

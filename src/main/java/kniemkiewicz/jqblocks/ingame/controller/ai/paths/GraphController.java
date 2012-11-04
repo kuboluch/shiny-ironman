@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.controller.ai.paths;
 
+import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.hud.info.TimingInfo;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.util.closure.Closure;
@@ -8,6 +9,7 @@ import kniemkiewicz.jqblocks.util.TimeLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,22 @@ public class GraphController {
   @Autowired
   TimingInfo timingInfo;
 
+  @Autowired
+  Configuration configuration;
+
+  private OnceXTimes<GraphController> fillGraphClosure;
+
+  @PostConstruct
+  void init () {
+    fillGraphClosure = new OnceXTimes<GraphController>(configuration.getInt("GraphController.GRAPH_CLOSURE_DELAY", 100),
+        false, new Closure<GraphController>() {
+      @Override
+      public void run(GraphController controller) {
+        controller.fillGraph();
+      }
+    });
+  }
+
   List<PhysicalObject> sources = new ArrayList<PhysicalObject>();
 
   public void addSource(PhysicalObject source) {
@@ -40,13 +58,6 @@ public class GraphController {
     }
     t.record();
   }
-
-  private OnceXTimes<GraphController> fillGraphClosure = new OnceXTimes<GraphController>(100, true, new Closure<GraphController>() {
-    @Override
-    public void run(GraphController controller) {
-      controller.fillGraph();
-    }
-  });
 
   public void update() {
     fillGraphClosure.maybeRunWith(this);

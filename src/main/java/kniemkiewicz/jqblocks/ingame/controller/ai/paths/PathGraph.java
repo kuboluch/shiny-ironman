@@ -1,12 +1,15 @@
 package kniemkiewicz.jqblocks.ingame.controller.ai.paths;
 
+import com.google.common.base.Function;
+import com.google.common.collect.HashMultimap;
 import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.controller.CollisionController;
 import kniemkiewicz.jqblocks.ingame.hud.info.TimingInfo;
-import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
+import kniemkiewicz.jqblocks.ingame.util.QuadTree;
+import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
-import org.newdawn.slick.geom.Line;
+import kniemkiewicz.jqblocks.util.Pair;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,5 +103,24 @@ final public class PathGraph {
 
   public PermPath getPermPath(Position start, Position end) {
     return new PermPath(getPath(start, end), end, this, collisionController);
+  }
+
+  public <T extends QuadTree.HasShape> Pair<T, Path> getPathToClosest(Position start, List<? extends T> candidates) {
+     List<Position> positions = Collections3.collect(candidates, new Function<T, Position>() {
+       @Override
+       public Position apply(T input) {
+         return getClosestPoint(GeometryUtils.getBoundingRectangle(input.getShape()));
+       }
+     });
+    HashMultimap<Edge, Float> endMap = HashMultimap.create(candidates.size(), 2);
+    for (Position p : positions) {
+      endMap.put(p.getEdge(), p.getPosition());
+    }
+    Path path = new MultiPathGraphSearch(start, endMap).getPath();
+    if (path == null) return null;
+    int index = positions.indexOf(path.getEnd());
+    assert index >= 0;
+    if (index < 0) return null;
+    return Pair.of(candidates.get(index), path);
   }
 }

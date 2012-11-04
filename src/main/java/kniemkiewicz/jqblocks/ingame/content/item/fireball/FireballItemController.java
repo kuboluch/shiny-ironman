@@ -46,7 +46,7 @@ public class FireballItemController implements ItemController<FireballItem> {
 
   @Override
   public void listen(FireballItem selectedItem, List<Event> events) {
-    for (MousePressedEvent ev : Collections3.collect(events, MousePressedEvent.class)) {
+    for (MousePressedEvent ev : Collections3.filter(events, MousePressedEvent.class)) {
       if (ev.getButton() == Button.LEFT) {
         generateFireball();
       }

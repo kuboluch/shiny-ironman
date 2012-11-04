@@ -151,7 +151,7 @@ public class ProductionController implements SelectListener<ItemDefinition>, Eve
 
   @Override
   public void listen(List<Event> events) {
-    List<ProductionCompleteEvent> productionCompleteEvents = Collections3.collect(events, ProductionCompleteEvent.class);
+    List<ProductionCompleteEvent> productionCompleteEvents = Collections3.filter(events, ProductionCompleteEvent.class);
     if (!productionCompleteEvents.isEmpty()) {
       for (ProductionCompleteEvent e : productionCompleteEvents) {
         handleProductionCompleteEvent(e);

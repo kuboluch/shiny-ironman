@@ -108,26 +108,26 @@ public abstract class AbstractActionItemController<T extends Item>
 
   @Override
   public void listen(T item, List<Event> events) {
-    List<MousePressedEvent> mousePressedEvents = Collections3.collect(events, MousePressedEvent.class);
+    List<MousePressedEvent> mousePressedEvents = Collections3.filter(events, MousePressedEvent.class);
     if (!mousePressedEvents.isEmpty()) {
       handleMousePressedEvent(item, mousePressedEvents);
     }
 
-    List<MouseDraggedEvent> mouseDraggedEvents = Collections3.collect(events, MouseDraggedEvent.class);
+    List<MouseDraggedEvent> mouseDraggedEvents = Collections3.filter(events, MouseDraggedEvent.class);
     if (!mouseDraggedEvents.isEmpty()) {
       for (MouseDraggedEvent e : mouseDraggedEvents) {
         handleMouseDraggedEvent(item, e);
       }
     }
 
-    List<MouseReleasedEvent> mouseReleasedEvents = Collections3.collect(events, MouseReleasedEvent.class);
+    List<MouseReleasedEvent> mouseReleasedEvents = Collections3.filter(events, MouseReleasedEvent.class);
     if (!mouseReleasedEvents.isEmpty()) {
       for (MouseReleasedEvent e : mouseReleasedEvents) {
         handleMouseReleasedEvent(item, e);
       }
     }
 
-    List<ScreenMovedEvent> screenMovedEvents = Collections3.collect(events, ScreenMovedEvent.class);
+    List<ScreenMovedEvent> screenMovedEvents = Collections3.filter(events, ScreenMovedEvent.class);
     if (!screenMovedEvents.isEmpty()) {
       for (ScreenMovedEvent e : screenMovedEvents) {
         handleScreenMovedEvent(item, e);

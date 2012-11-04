@@ -52,7 +52,7 @@ public class FastTravelItemController implements ItemController<FastTravelItem> 
 
   @Override
   public void listen(FastTravelItem selectedItem, List<Event> events) {
-    for (MouseClickEvent ev : Collections3.collect(events, MouseClickEvent.class)) {
+    for (MouseClickEvent ev : Collections3.filter(events, MouseClickEvent.class)) {
       if (ev.getButton() == Button.LEFT) {
         executeTeleport();
       }

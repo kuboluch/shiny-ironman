@@ -8,7 +8,6 @@ import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
 import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderBackground;
 import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderDefinition;
 import kniemkiewicz.jqblocks.ingame.controller.CollisionController;
-import kniemkiewicz.jqblocks.ingame.object.DebugRenderableShape;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
@@ -17,7 +16,6 @@ import kniemkiewicz.jqblocks.util.Collections3;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
@@ -159,7 +157,7 @@ final public class GraphGenerator {
   private void addLadderVerticalEdgeFor(LadderBackground be) {
     Shape shape = be.getShape();
     Rectangle r = new Rectangle(shape.getMinX(), Sizes.MIN_Y, shape.getWidth(), Sizes.LEVEL_SIZE_Y);
-    List<LadderBackground> allLadders = Collections3.collectSubclasses(backgrounds.intersects(r), LadderBackground.class);
+    List<LadderBackground> allLadders = Collections3.filterSubclasses(backgrounds.intersects(r), LadderBackground.class);
     Collections3.sortByFunction(allLadders, new Function<LadderBackground, Float>() {
       @Override
       public Float apply(LadderBackground input) {
@@ -195,7 +193,7 @@ final public class GraphGenerator {
   private Edge addLadderHorizontalEdgeFor(LadderBackground be) {
     Shape shape = be.getShape();
     Rectangle r = new Rectangle(Sizes.MIN_X, shape.getMinY(), Sizes.LEVEL_SIZE_X, shape.getHeight());
-    List<LadderBackground> allLadders = Collections3.collectSubclasses(backgrounds.intersects(r), LadderBackground.class);
+    List<LadderBackground> allLadders = Collections3.filterSubclasses(backgrounds.intersects(r), LadderBackground.class);
     Collections3.sortByFunction(allLadders, new Function<LadderBackground, Float>() {
       @Override
       public Float apply(LadderBackground input) {

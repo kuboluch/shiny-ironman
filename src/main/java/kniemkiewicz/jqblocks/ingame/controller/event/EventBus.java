@@ -63,7 +63,7 @@ public class EventBus {
       List<Event> eventsOfIntrest = new ArrayList<Event>();
       List<Class> eventTypes = listener.getEventTypesOfInterest();
       for (Class eventType : eventTypes) {
-        eventsOfIntrest.addAll(Collections3.collectSubclasses(eventsForListeners, eventType));
+        eventsOfIntrest.addAll(Collections3.filterSubclasses(eventsForListeners, eventType));
       }
       Iterator<Event> iter = eventsOfIntrest.iterator();
       while (iter.hasNext()) {
