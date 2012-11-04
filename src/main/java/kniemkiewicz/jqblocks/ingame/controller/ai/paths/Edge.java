@@ -34,12 +34,19 @@ public class Edge implements RenderableObject<Edge>{
   }
   transient Line line;
   Type type;
+  String debugName;
 
   List<Joint> joints = new ArrayList<Joint>();
 
   Edge(Line line, Type type) {
     this.line = line;
     this.type = type;
+  }
+
+  Edge(Line line, Type type, String debugName) {
+    this.line = line;
+    this.type = type;
+    this.debugName = debugName;
   }
 
   @Override
@@ -159,7 +166,11 @@ public class Edge implements RenderableObject<Edge>{
   }
 
   public String toString() {
-    return "Edge{" + type + "," + line.getX1() + ":" + line.getX2() + "}";
+    if (debugName != null) {
+      return "Edge{" + debugName + "}";
+    } else {
+      return "Edge{" + type + "," + line.getX1() + ":" + line.getX2() + "}";
+    }
   }
 
   public Type getType() {

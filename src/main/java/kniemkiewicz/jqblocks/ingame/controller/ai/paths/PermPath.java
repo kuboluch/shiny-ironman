@@ -54,7 +54,7 @@ public final class PermPath implements Serializable {
     // Maybe add some change data about last change of graph so that we know when it is worth to search again if
     // path == null
     if (pathDirty || path == null || (start.getEdge() != path.getStart().getEdge())) {
-      Path newPath = new PathGraphSearch(start, endPosition).getPath();
+      Path newPath = pathGraph.get().getPath(start, endPosition);
       if (newPath == null) return null;
       path = newPath;
     }
@@ -69,7 +69,7 @@ public final class PermPath implements Serializable {
 
   public void switchDestinationTo(Position destination) {
     this.endPosition = destination;
-    path = new PathGraphSearch(path.getStart(), endPosition).getPath();
+    path = pathGraph.get().getPath(start, endPosition);
   }
 
   public Path fastGetPath() {

@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.controller.ai.paths;
 
 import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.controller.CollisionController;
+import kniemkiewicz.jqblocks.ingame.hud.info.TimingInfo;
 import kniemkiewicz.jqblocks.ingame.object.PhysicalObject;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.util.GeometryUtils;
@@ -32,6 +33,9 @@ final public class PathGraph {
 
   @Autowired
   RenderQueue renderQueue;
+
+  @Autowired
+  TimingInfo timingInfo;
 
   boolean RENDER_EDGES;
 
@@ -88,7 +92,10 @@ final public class PathGraph {
   public Path getPath(Position start, Position end) {
     assert start != null;
     assert end != null;
-    return new PathGraphSearch(start, end).getPath();
+    TimingInfo.Timer timer = timingInfo.getTimer("getPath");
+    Path p = new PathGraphSearch(start, end).getPath();
+    timer.record();
+    return p;
   }
 
   public PermPath getPermPath(Position start, Position end) {

@@ -1,5 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.controller.ai.paths;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Assert;
 import org.junit.Test;
 import org.newdawn.slick.geom.Line;
@@ -14,6 +16,8 @@ import java.util.List;
  * Date: 03.11.12
  */
 public class PathGraphSearchTest {
+
+  public static Log logger = LogFactory.getLog(PathGraphSearchTest.class);
 
   /**
    * First we define few points:
@@ -30,15 +34,15 @@ public class PathGraphSearchTest {
   /**
    * Edges always join some of point above and are named after them.
    */
-  Edge abg = new Edge(new Line(A, G), Edge.Type.TEST);
-  Edge bc = new Edge(new Line(B, C), Edge.Type.TEST);
-  Edge ad = new Edge(new Line(A, D), Edge.Type.TEST);
-  Edge de = new Edge(new Line(D, E), Edge.Type.TEST);
-  Edge ec = new Edge(new Line(E, C), Edge.Type.TEST);
-  Edge cf = new Edge(new Line(C, F), Edge.Type.TEST);
-  Edge bh = new Edge(new Line(B, H), Edge.Type.TEST);
-  Edge gi = new Edge(new Line(G, I), Edge.Type.TEST);
-  Edge hi = new Edge(new Line(H, I), Edge.Type.TEST);
+  Edge abg = new Edge(new Line(A, G), Edge.Type.TEST, "abg");
+  Edge bc = new Edge(new Line(B, C), Edge.Type.TEST, "bc");
+  Edge ad = new Edge(new Line(A, D), Edge.Type.TEST, "ad");
+  Edge de = new Edge(new Line(D, E), Edge.Type.TEST, "de");
+  Edge ec = new Edge(new Line(E, C), Edge.Type.TEST, "ec");
+  Edge cf = new Edge(new Line(C, F), Edge.Type.TEST, "cf");
+  Edge bh = new Edge(new Line(B, H), Edge.Type.TEST, "bh");
+  Edge gi = new Edge(new Line(G, I), Edge.Type.TEST, "gi");
+  Edge hi = new Edge(new Line(H, I), Edge.Type.TEST, "hi");
 
   void join(Edge a, Edge b, float posA, float posB) {
     a.addJoint(posA, b).with(b.addJoint(posB, a));
@@ -74,6 +78,7 @@ public class PathGraphSearchTest {
     for (Position p : positions) {
       edges.add(p.getEdge());
     }
+    logger.info(edges);
     return edges.toArray(new Edge[edges.size()]);
   }
 
@@ -95,7 +100,6 @@ public class PathGraphSearchTest {
   public void testGE() {
     Position g = new Position(abg, 1);
     Position e = new Position(ec, 0);
-    System.out.println(Arrays.asList(getEdgesBetween(g, e)));
     Assert.assertArrayEquals(getEdgesBetween(g, e), new Edge[]{abg, abg, ad, de, ec});
   }
 
@@ -103,7 +107,16 @@ public class PathGraphSearchTest {
   public void testIF() {
     Position i = new Position(gi, 1);
     Position f = new Position(cf, 1);
-    System.out.println(Arrays.asList(getEdgesBetween(i, f)));
-    Assert.assertArrayEquals(getEdgesBetween(i, f), new Edge[] {gi, hi, bh, bc, cf});
+    Assert.assertArrayEquals(getEdgesBetween(i, f), new Edge[] {gi, gi, hi, bh, bc, cf});
+  }
+
+  @Test
+  public void testAG() {
+    Position a = new Position(abg, 0);
+    Position g = new Position(abg, 1);
+    Assert.assertArrayEquals(getEdgesBetween(a, g), new Edge[] {abg, abg});
+    a = new Position(ad, 0);
+    g = new Position(gi, 0);
+    Assert.assertArrayEquals(getEdgesBetween(a, g), new Edge[] {ad, ad, abg, gi});
   }
 }

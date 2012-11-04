@@ -36,6 +36,10 @@ final class PathGraphSearch {
   // to the edge to which it points to, and everywhere along this edge.
   final Map<Joint, Joint> backtrackMap = new HashMap<Joint, Joint>();
   private SortedSet<Float> keySet;
+  // Those two indicate how and for what cost we got to "end". They may be updated if shortest path that gets to
+  // "end.getEdge" is not the cheapest to get to "end" itself.
+  private float lowestTargetCostFound = Float.MAX_VALUE;
+  private Joint lowestCostLastJoint = null;
 
   public PathGraphSearch(Position start, Position end) {
     this.start = start;
@@ -57,31 +61,38 @@ final class PathGraphSearch {
     Float cost = 0f;
     Joint next = startJoint;
     Joint prev = null;
-    while (next.getEdge() != end.getEdge()) {
-      logger.debug(next);
+    while (cost < lowestTargetCostFound) {
+      logger.debug("Next :" + next);
       if (!backtrackMap.containsKey(next)) {
         // Adding small cost to make algorithm choose path with smaller number of steps
         processJoint(cost + 0.1f, next);
         backtrackMap.put(next, prev);
         if (logger.isDebugEnabled()) {
-          logger.debug(String.valueOf(cost) + " " + getPathFor(next));
+          logger.debug("cost path :" + String.valueOf(cost) + " " + getPathFor(next));
         }
       }
-      if (keySet.size() == 0) return null;
+      if (keySet.size() == 0) return lowestCostLastJoint;
       cost = keySet.first();
       Pair<Joint, Joint> p = stack.get(cost).first();
       prev = p.getFirst();
       next = p.getSecond();
       Assert.executeAndAssert(stack.remove(cost, p));
     }
-    backtrackMap.put(next, prev);
-    return next;
+    return lowestCostLastJoint;
   }
 
   private void processJoint(float cost, Joint next) {
     Edge edge = next.getEdge();
     float initialPos = next.getOther().getPosition();
     float edgeLength = edge.line.length();
+    if (edge == end.getEdge()) {
+      float dist = Math.abs(initialPos - end.getPosition()) * edgeLength;
+      if (lowestTargetCostFound > cost + dist) {
+        lowestTargetCostFound = cost + dist;
+        lowestCostLastJoint = next;
+      }
+      return;
+    }
     for (Joint j : edge.joints) {
       if (j == next.getOther()) {
         if (!backtrackMap.containsKey(j)) {
@@ -107,12 +118,17 @@ final class PathGraphSearch {
   }
 
   private void computePath() {
-    // Joint that was used to get to the target edge.
-    Joint joint = traverseGraph();
-    if (joint == null) return;
+    List<Joint> joints;
+    if (start.getEdge() == end.getEdge()) {
+      joints = new LinkedList<Joint>();
+    } else {
+      // Joint that was used to get to the target edge.
+      Joint joint = traverseGraph();
+      if (joint == null) return;
 
-    // List of used joints.
-    List<Joint> joints = getPathFor(joint);
+      // List of used joints.
+      joints = getPathFor(joint);
+    }
     joints.add(new Joint(end.getPosition(), null));
     result = new Path(start,  new LinkedList<Joint>(joints));
   }
