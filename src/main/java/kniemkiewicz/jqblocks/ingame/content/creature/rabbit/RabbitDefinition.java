@@ -54,5 +54,5 @@ public interface RabbitDefinition {
 
   static final BeanName<RabbitController> CONTROLLER = new BeanName<RabbitController>(RabbitController.class);
 
-  static Vector2f STANDING_IMAGE_CENTER_SHIFT = new Vector2f(0, 5);
+  static Vector2f STANDING_IMAGE_CENTER_SHIFT = new Vector2f(0, 7);
 }
