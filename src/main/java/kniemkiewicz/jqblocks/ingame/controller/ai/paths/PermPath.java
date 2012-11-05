@@ -39,6 +39,10 @@ public final class PermPath implements Serializable {
       if (start == null) {
         return null;
       }
+      boolean sameLine = GeometryUtils.lineEquals(edge.getShape(), start.getEdge().getShape());
+      if (sameLine) {
+        start.setPosition(pos);
+      }
       pathDirty = true;
     }
     if (endPosition.getEdge().deleted()) {
@@ -48,6 +52,10 @@ public final class PermPath implements Serializable {
       endPosition = pathGraph.get().getClosestPoint(r);
       if (endPosition == null) {
         return null;
+      }
+      boolean sameLine = GeometryUtils.lineEquals(edge.getShape(), endPosition.getEdge().getShape());
+      if (sameLine) {
+        endPosition.setPosition(pos);
       }
       pathDirty = true;
     }

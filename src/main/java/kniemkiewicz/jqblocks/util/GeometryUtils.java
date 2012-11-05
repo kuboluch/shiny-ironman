@@ -144,4 +144,9 @@ public final class GeometryUtils {
   public static Rectangle getRectangleCenteredOn(float x, float y, int size) {
     return new Rectangle(x - size / 2, y - size / 2, size, size);
   }
+
+
+  public static boolean lineEquals(Line l1, Line l2) {
+    return l1.getX1() == l2.getX1() && l1.getY1() == l2.getY1() && l1.getX2() == l2.getX2() && l1.getY2() == l2.getY2();
+  }
 }

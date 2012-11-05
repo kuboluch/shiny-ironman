@@ -77,7 +77,7 @@ final public class PathGraph {
     float edgePos = 0;
     float radius2 = radius * radius;
     for (Edge e : collisionController.<Edge>fullSearch(PATHS, area)) {
-      float ePos = e.getClosestPos(pos, 2 * radius2);
+      float ePos = e.getClosestPos(pos, 2.5f * radius2);
       float dis = e.getPointFor(ePos).distanceSquared(pos);
       if (dis < minDistance) {
         closestEdge = e;
