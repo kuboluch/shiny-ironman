@@ -5,10 +5,7 @@ import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.content.bird.Bird;
 import kniemkiewicz.jqblocks.ingame.content.bird.SimpleBirdController;
 import kniemkiewicz.jqblocks.ingame.content.creature.bird.BirdController;
-import kniemkiewicz.jqblocks.ingame.controller.CollisionController;
-import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
-import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
-import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.controller.*;
 import kniemkiewicz.jqblocks.ingame.inventory.item.QuickItemInventory;
 import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
 import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
@@ -97,15 +94,8 @@ public final class World {
   @Autowired
   SimpleBirdController simpleBirdController;
 
-  long timestamp = 0;
-
-  public void advanceTime(long delta) {
-    timestamp += delta;
-  }
-
-  public long getTimestamp() {
-    return timestamp;
-  }
+  @Autowired
+  TimeController timeController;
 
   public void killMovingObject(PhysicalObject object) {
     if (object instanceof RenderableObject) {
@@ -164,7 +154,6 @@ public final class World {
     resourceInventory.serializeItems(stream);
     solidBlocks.serializeData(stream);
     villageGenerator.saveToStream(stream);
-    stream.writeObject(new Long(timestamp));
     stream.close();
   }
 
@@ -237,7 +226,6 @@ public final class World {
       resourceInventory.loadSerializedItems(stream);
       solidBlocks.deserializeData(stream);
       villageGenerator.loadFromStream(stream);
-      timestamp = (Long)stream.readObject();
     } catch (Exception e) {
       throw new GameLoadException(e);
     }
@@ -255,5 +243,9 @@ public final class World {
 
   public CollisionController getCollisionController() {
     return collisionController;
+  }
+
+  public TimeController getTimeController() {
+    return timeController;
   }
 }

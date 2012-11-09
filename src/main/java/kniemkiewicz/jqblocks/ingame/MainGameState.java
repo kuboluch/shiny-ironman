@@ -166,6 +166,9 @@ public class MainGameState extends BasicTWLGameState {
   ActiveBackgroundController activeBackgroundController;
 
   @Autowired
+  TimeController timeController;
+
+  @Autowired
   GraphController graphController;
 
   private Settings settings;
@@ -230,6 +233,7 @@ public class MainGameState extends BasicTWLGameState {
 
   public void singleUpdate(GameContainer gameContainer, int delta) {
     TimingInfo.Timer t = timingInfo.getTimer("update");
+    timeController.update(delta);
     keyboardInputEventBus.update();
     mouseInputEventBus.update();
     eventBus.update();
@@ -255,7 +259,6 @@ public class MainGameState extends BasicTWLGameState {
 
   @Override
   public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
-    world.advanceTime(delta);
     // This happens mostly with breakpoints and generally breaks physics.
     if (delta > 1000) return;
     int maxDelta = 8;

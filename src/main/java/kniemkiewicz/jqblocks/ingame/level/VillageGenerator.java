@@ -8,6 +8,7 @@ import kniemkiewicz.jqblocks.ingame.content.creature.bird.Bird;
 import kniemkiewicz.jqblocks.ingame.content.creature.peon.Peon;
 import kniemkiewicz.jqblocks.ingame.content.creature.peon.PeonController;
 import kniemkiewicz.jqblocks.ingame.content.creature.rabbit.Rabbit;
+import kniemkiewicz.jqblocks.ingame.content.creature.rabbit.RabbitController;
 import kniemkiewicz.jqblocks.ingame.content.creature.rabbit.RabbitDefinition;
 import kniemkiewicz.jqblocks.ingame.content.creature.rooster.Rooster;
 import kniemkiewicz.jqblocks.ingame.content.creature.rooster.RoosterDefinition;
@@ -16,6 +17,7 @@ import kniemkiewicz.jqblocks.ingame.content.item.rock.Rock;
 import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderBackground;
 import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
 import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
+import kniemkiewicz.jqblocks.ingame.controller.TimeController;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.controller.ai.paths.GraphController;
 import kniemkiewicz.jqblocks.ingame.controller.ai.paths.GraphGenerator;
@@ -84,6 +86,12 @@ public class VillageGenerator {
 
   @Autowired
   GraphController graphController;
+
+  @Autowired
+  TimeController timeController;
+
+  @Autowired
+  RabbitController rabbitController;
 
   public static final int STARTING_X = (Sizes.MIN_X + Sizes.MAX_X) / 2;
 
@@ -192,7 +200,15 @@ public class VillageGenerator {
     backgrounds.add(new Portal(STARTING_X - 4 * Sizes.BLOCK, villageY - 10 * Sizes.BLOCK, new Portal.Destination(new Vector2f(STARTING_X - 4 * Sizes.BLOCK, villageY - 40 * Sizes.BLOCK))));
     graphController.addSource(fireplaceElement);
     graphController.fillGraph();
-    Peon.createAndRegister(STARTING_X + Sizes.BLOCK * 5, (int)(startingY - 10 * Peon.HEIGHT), peonController);
+    final Peon peon = Peon.createAndRegister(STARTING_X + Sizes.BLOCK * 5, (int)(startingY - 10 * Peon.HEIGHT), peonController);
+    timeController.executeRepeatableAt(1000, 2000, new TimeController.Event() {
+      @Override
+      public void execute(long currentTime) {
+        Rabbit rabbit = new Rabbit(STARTING_X + Sizes.BLOCK * 8, (int)(startingY -  Peon.HEIGHT));
+        rabbit.addTo(movingObjects, renderQueue, updateQueue);
+        rabbitController.killed(rabbit, peon);
+      }
+    });
   }
 
   public void saveToStream(ObjectOutputStream stream) throws IOException {

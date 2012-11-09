@@ -56,7 +56,7 @@ public class HealthPoints implements Serializable {
     if (attackers == null) {
       attackers = new WeakHashMap<Object, Long>();
     }
-    long currentTime = world.getTimestamp();
+    long currentTime = world.getTimeController().getTime();
     boolean doDmg = false;
     if (attackers.containsKey(attacker)) {
       if (currentTime - attackers.get(attacker) > delta) {

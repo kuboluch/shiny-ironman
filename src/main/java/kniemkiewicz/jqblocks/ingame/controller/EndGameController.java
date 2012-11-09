@@ -26,9 +26,12 @@ public class EndGameController implements InputListener {
   @Autowired
   World world;
 
+  @Autowired
+  TimeController timeController;
+
   public void listen(Input input, int delta) {
     // Do not try any sudden moves just after start/restart.
-    if (world.getTimestamp() < 1000) return;
+    if (timeController.getTime() < 1000) return;
     if (KeyboardUtils.isExitKeyPressed(input)) {
       gameShouldEnd = true;
       logger.info("Exit key pressed");

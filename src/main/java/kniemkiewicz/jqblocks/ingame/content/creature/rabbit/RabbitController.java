@@ -68,8 +68,7 @@ public class RabbitController implements UpdateQueue.UpdateController<Rabbit>, H
   }
 
   @Override
-  public void damaged(Rabbit rabbit, QuadTree.HasShape source, int amount) {
-  }
+  public void damaged(Rabbit rabbit, QuadTree.HasShape source, int amount) { }
 
   @Override
   public void update(Rabbit rabbit, int delta) {
