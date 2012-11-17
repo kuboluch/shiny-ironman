@@ -58,6 +58,12 @@ public class FlipImageBody extends SimpleBody implements UpdateQueue.ToBeUpdated
     return super.addTo(renderQueue, freeFallController);
   }
 
+  public void remove(RenderQueue renderQueue, FreeFallController freeFallController, UpdateQueue updateQueue) {
+    renderQueue.remove(this);
+    freeFallController.remove(this);
+    updateQueue.remove(this);
+  }
+
   @Override
   public long getAge() {
     return age;

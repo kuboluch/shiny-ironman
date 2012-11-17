@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.controller;
 
+import kniemkiewicz.jqblocks.ingame.content.creature.FlipImageBody;
 import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
@@ -114,5 +115,9 @@ public final class FreeFallController {
         addComplex((HasFullXYMovement)po);
       }
     }
+  }
+
+  public void remove(HasFullXYMovement ob) {
+    complexObjects.remove(ob);
   }
 }

@@ -124,6 +124,10 @@ public class RenderQueue {
     renderableObjects.get(renderable.getLayer()).remove(renderable);
   }
 
+  public Set<RenderableObject> getRenderableObjects(RenderableObject.Layer layer) {
+    return renderableObjects.get(layer);
+  }
+
   public IterableIterator<?> iterateAllObjects() {
     List<Set<RenderableObject>> sets = new ArrayList<Set<RenderableObject>>();
     sets.addAll(renderableObjects.values());

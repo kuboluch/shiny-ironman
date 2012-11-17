@@ -4,6 +4,7 @@ import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.BackgroundBlockType;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
+import kniemkiewicz.jqblocks.ingame.content.creature.FlipImageBody;
 import kniemkiewicz.jqblocks.ingame.content.creature.bird.Bird;
 import kniemkiewicz.jqblocks.ingame.content.creature.peon.Peon;
 import kniemkiewicz.jqblocks.ingame.content.creature.peon.PeonController;
@@ -25,6 +26,7 @@ import kniemkiewicz.jqblocks.ingame.controller.ai.paths.PathGraph;
 import kniemkiewicz.jqblocks.ingame.controller.ai.paths.Position;
 import kniemkiewicz.jqblocks.ingame.object.DebugRenderableShape;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
+import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.content.background.Portal;
@@ -44,6 +46,8 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: knie
@@ -201,14 +205,23 @@ public class VillageGenerator {
     graphController.addSource(fireplaceElement);
     graphController.fillGraph();
     final Peon peon = Peon.createAndRegister(STARTING_X + Sizes.BLOCK * 5, (int)(startingY - 10 * Peon.HEIGHT), peonController);
-    timeController.executeRepeatableAt(1000, 2000, new TimeController.Event() {
+    /*timeController.executeRepeatableAt(1000, 3000, new TimeController.Event() {
       @Override
       public void execute(long currentTime) {
+        List<FlipImageBody> previous = new ArrayList<FlipImageBody>();
+        for (RenderableObject ob : renderQueue.getRenderableObjects(RenderableObject.Layer.OBJECTS)) {
+          if (ob instanceof FlipImageBody) {
+            previous.add((FlipImageBody) ob);
+          }
+        }
+        for (FlipImageBody p : previous) {
+          p.remove(renderQueue, freeFallController, updateQueue);
+        }
         Rabbit rabbit = new Rabbit(STARTING_X + Sizes.BLOCK * 8, (int)(startingY -  Peon.HEIGHT));
         rabbit.addTo(movingObjects, renderQueue, updateQueue);
         rabbitController.killed(rabbit, peon);
       }
-    });
+    });*/
   }
 
   public void saveToStream(ObjectOutputStream stream) throws IOException {

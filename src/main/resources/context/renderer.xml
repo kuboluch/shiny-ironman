@@ -237,4 +237,7 @@
         </constructor-arg>
     </bean>
 
+    <bean id="bloodPoolAnimation" class="kniemkiewicz.jqblocks.util.slick.VerticalSpriteSheetAnimation">
+        <constructor-arg ref="bloodPoolSheet"/>
+    </bean>
 </beans>

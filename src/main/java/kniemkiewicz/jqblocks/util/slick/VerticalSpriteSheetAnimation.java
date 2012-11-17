@@ -22,6 +22,7 @@ public class VerticalSpriteSheetAnimation implements Animation {
 
   @Override
   public Image getImage(int i) {
+    if (i >= getImagesCount()) return spritesheet.getSprite(0, getImagesCount() - 1);
     return spritesheet.getSprite(0, i);
   }
 

@@ -68,4 +68,10 @@
         <constructor-arg value="24"/>
         <constructor-arg value="24"/>
     </bean>
+
+    <bean id="bloodPoolSheet" class="org.newdawn.slick.SpriteSheet">
+        <constructor-arg value="spritesheet/blood.png"/>
+        <constructor-arg value="108"/>
+        <constructor-arg value="15"/>
+    </bean>
 </beans>
