@@ -1,7 +1,5 @@
 package kniemkiewicz.jqblocks.util;
 
-import kniemkiewicz.jqblocks.ingame.object.serialization.SerializationHelper;
-
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -60,9 +58,7 @@ public class Assert {
   // This method throws exception on failure.
   public static boolean validateSerializable(Serializable s) {
     try {
-      SerializationHelper.startSerialization();
       ooStream.writeObject(s);
-      SerializationHelper.flushData(ooStream);
     } catch (IOException e) {
       e.printStackTrace();
       return false;

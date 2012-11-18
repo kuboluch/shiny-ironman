@@ -6,7 +6,6 @@ import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.object.HasFullXYMovement;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
 import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
-import kniemkiewicz.jqblocks.ingame.object.serialization.SerializableRef;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.util.BeanName;
 import kniemkiewicz.jqblocks.util.SerializationUtils2;
@@ -29,12 +28,12 @@ public class StuckArrow implements RenderableObject<StuckArrow>,UpdateQueue.ToBe
 
   transient Line line;
   transient Vector2f diff;
-  final SerializableRef<KillablePhysicalObject> target;
+  final KillablePhysicalObject target;
   Boolean lastDirection = null;
 
   public StuckArrow(Line line, KillablePhysicalObject target) {
     this.line = line;
-    this.target = new SerializableRef<KillablePhysicalObject>(target);
+    this.target = target;
     this.diff = new Vector2f(line.getCenterX() - target.getShape().getCenterX(), line.getCenterY() - target.getShape().getCenterY());
     if (target instanceof HasFullXYMovement) {
       this.lastDirection = ((HasFullXYMovement) target).getXYMovement().getXMovement().getDirection();
@@ -69,19 +68,19 @@ public class StuckArrow implements RenderableObject<StuckArrow>,UpdateQueue.ToBe
 
   public void update() {
     if (lastDirection != null) {
-      if (this.lastDirection != ((HasFullXYMovement) target.get()).getXYMovement().getXMovement().getDirection()) {
-        this.lastDirection = ((HasFullXYMovement) target.get()).getXYMovement().getXMovement().getDirection();
+      if (this.lastDirection != ((HasFullXYMovement) target).getXYMovement().getXMovement().getDirection()) {
+        this.lastDirection = ((HasFullXYMovement) target).getXYMovement().getXMovement().getDirection();
         // flip line horizontally
         line.set(line.getX2(), line.getY1(), line.getX1(), line.getY2());
         diff.set(- diff.getX(), diff.getY());
       }
     }
-    line.setCenterX(this.target.get().getShape().getCenterX() + diff.getX());
-    line.setCenterY(this.target.get().getShape().getCenterY() + diff.getY());
+    line.setCenterX(this.target.getShape().getCenterX() + diff.getX());
+    line.setCenterY(this.target.getShape().getCenterY() + diff.getY());
   }
 
   KillablePhysicalObject getTarget(){
-    return target.get();
+    return target;
   }
 
   @Override

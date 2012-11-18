@@ -12,7 +12,6 @@ import kniemkiewicz.jqblocks.ingame.object.RenderableObject;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthPoints;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
-import kniemkiewicz.jqblocks.ingame.object.serialization.SerializableRef;
 import kniemkiewicz.jqblocks.ingame.renderer.ImageRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
@@ -37,7 +36,7 @@ public class Bat implements RenderableObject<Bat>, UpdateQueue.ToBeUpdated<Bat>,
   public static final int SIZE = 2 * Sizes.BLOCK;
   private static int BAT_BP = 5;
   HealthPoints healthPoints = new HealthPoints(BAT_BP, this);
-  SerializableRef<PhysicalObject> target = new SerializableRef<PhysicalObject>();
+  PhysicalObject target;
   // Used only when bat is chasing target.
   Vector2f accelerationVector = null;
 
@@ -98,11 +97,11 @@ public class Bat implements RenderableObject<Bat>, UpdateQueue.ToBeUpdated<Bat>,
   }
 
   public PhysicalObject getTarget() {
-    return target.get();
+    return target;
   }
 
   public void setTarget(PhysicalObject target) {
-    this.target.set(target);
+    this.target = target;
   }
 
   public Vector2f getAccelerationVector() {

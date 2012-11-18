@@ -5,7 +5,6 @@ import kniemkiewicz.jqblocks.ingame.object.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.controller.ProjectileController;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
-import kniemkiewicz.jqblocks.ingame.object.serialization.SerializableRef;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.movement.XYMovement;
@@ -31,12 +30,12 @@ public class Fireball implements ProjectileController.Projectile<Fireball> {
       new MovementDefinition(), new MovementDefinition());
 
   final XYMovement movement;
-  final private SerializableRef<QuadTree.HasShape> source;
+  final private QuadTree.HasShape source;
   private Rectangle rectangle;
 
   public Fireball(float x, float y, QuadTree.HasShape source, float xSpeed, float ySpeed) {
     this.movement = ARROW_MOVEMENT.getMovement(x - SIZE / 2, y - SIZE / 2).setXSpeed(xSpeed).setYSpeed(ySpeed);
-    this.source = new SerializableRef<QuadTree.HasShape>(source);
+    this.source = source;
     this.rectangle = new Rectangle(x - SIZE / 2, y - SIZE / 2, SIZE, SIZE);
   }
 
@@ -86,7 +85,7 @@ public class Fireball implements ProjectileController.Projectile<Fireball> {
   }
 
   public QuadTree.HasShape getSource() {
-    return source.get();
+    return source;
   }
 
   @Override

@@ -15,8 +15,6 @@ import kniemkiewicz.jqblocks.ingame.content.player.Player;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
-import kniemkiewicz.jqblocks.ingame.object.serialization.DeserializationHelper;
-import kniemkiewicz.jqblocks.ingame.object.serialization.SerializationHelper;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.resource.inventory.ResourceInventory;
 import kniemkiewicz.jqblocks.util.Assert;
@@ -139,11 +137,7 @@ public final class World {
         gameObjects.add(ob);
       }
     }
-    SerializationHelper.startSerialization();
-    for (Object ob : gameObjects) {
-      SerializationHelper.add(ob);
-    }
-    SerializationHelper.flushData(stream);
+    stream.writeObject(gameObjects);
     stream.writeObject(markIndexes(indexes, renderQueue.iterateAllObjects()));
     stream.writeObject(markIndexes(indexes, movingObjects.iterateAll()));
     stream.writeObject(markIndexes(indexes, updateQueue.iterateAll()));
@@ -160,7 +154,7 @@ public final class World {
   public void loadGameData(ObjectInputStream stream) {
     Player player = null;
     try {
-      List<?> gameObjects = DeserializationHelper.deserializeObjects(stream);
+      List<?> gameObjects = (List<?>) stream.readObject();
       logger.debug(gameObjects);
       for (Object ob : gameObjects) {
         if (ob instanceof Player) {

@@ -5,7 +5,6 @@ import kniemkiewicz.jqblocks.ingame.object.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.content.item.bow.BowRenderer;
 import kniemkiewicz.jqblocks.ingame.controller.ProjectileController;
 import kniemkiewicz.jqblocks.ingame.object.ObjectRenderer;
-import kniemkiewicz.jqblocks.ingame.object.serialization.SerializableRef;
 import kniemkiewicz.jqblocks.ingame.util.QuadTree;
 import kniemkiewicz.jqblocks.ingame.util.movement.MovementDefinition;
 import kniemkiewicz.jqblocks.ingame.util.movement.SingleAxisMovement;
@@ -36,13 +35,13 @@ public class Arrow implements ProjectileController.Projectile<Arrow> {
 
   transient Line line;
   final XYMovement movement;
-  final private SerializableRef<QuadTree.HasShape> source;
+  final private QuadTree.HasShape source;
   private static int LENGTH = Sizes.BLOCK;
 
   public Arrow(float x, float y, QuadTree.HasShape source, float xSpeed, float ySpeed) {
     this.line = new Line(x, y, x, y);
     this.movement = ARROW_MOVEMENT.getMovement(x, y).setXSpeed(xSpeed).setYSpeed(ySpeed);
-    this.source = new SerializableRef<QuadTree.HasShape>(source);
+    this.source = source;
   }
 
   @Override
@@ -99,7 +98,7 @@ public class Arrow implements ProjectileController.Projectile<Arrow> {
   }
 
   public QuadTree.HasShape getSource() {
-    return source.get();
+    return source;
   }
 
   @Override
