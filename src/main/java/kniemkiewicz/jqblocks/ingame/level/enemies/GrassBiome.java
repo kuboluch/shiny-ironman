@@ -4,6 +4,8 @@ import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.content.creature.bat.Bat;
+import kniemkiewicz.jqblocks.ingame.content.creature.rabbit.Rabbit;
+import kniemkiewicz.jqblocks.ingame.content.creature.rabbit.RabbitDefinition;
 import kniemkiewicz.jqblocks.ingame.content.creature.zombie.Zombie;
 import kniemkiewicz.jqblocks.ingame.object.hp.KillablePhysicalObject;
 import kniemkiewicz.jqblocks.ingame.content.player.Player;
@@ -35,7 +37,8 @@ public class GrassBiome implements Biome{
 
   enum MonsterType {
     ZOMBIE,
-    BAT
+    BAT,
+    RABBIT
   }
 
   WeightedPicker<Pair<MonsterType, Direction>> monsterPicker;
@@ -71,6 +74,7 @@ public class GrassBiome implements Biome{
     monsterPicker = new WeightedPicker<Pair<MonsterType, Direction>>();
     configurePickerFor(MonsterType.BAT, "GrassBiome.BAT_EVERY_N_SEC", 5);
     configurePickerFor(MonsterType.ZOMBIE, "GrassBiome.ZOMBIE_EVERY_N_SEC", 15);
+    configurePickerFor(MonsterType.RABBIT, "GrassBiome.RABBIT_EVERY_N_SEC", 10);
   }
 
   private void configurePickerFor(MonsterType type, String propertyName, float defaultEveryNSec) {
@@ -91,6 +95,8 @@ public class GrassBiome implements Biome{
           return generateBat(player, p.getSecond());
         case ZOMBIE:
           return generateZombie(player, p.getSecond());
+        case RABBIT:
+          return generateRabbit(player, p.getSecond());
         default:
           assert false;
       }
@@ -163,6 +169,20 @@ public class GrassBiome implements Biome{
     zombie.updateShape();
     if (zombie.addTo(movingObjects, renderQueue, updateQueue)) {
       return zombie;
+    } else {
+      return null;
+    }
+  }
+
+  Rabbit generateRabbit(Player player, Direction direction) {
+    Rabbit rabbit = new Rabbit(getMonsterX(player, direction), villageGenerator.getStartingY());
+    moveAwayFromVillage(player, rabbit);
+    rabbit.getXYMovement().getYMovement().setPos(Sizes.MIN_Y);
+    rabbit.updateShape();
+    rabbit.getXYMovement().getYMovement().setPos(solidBlocks.getBlocks().getUnscaledDropHeight(rabbit.getShape()) - RabbitDefinition.HEIGHT);
+    rabbit.updateShape();
+    if (rabbit.addTo(movingObjects, renderQueue, updateQueue)) {
+      return rabbit;
     } else {
       return null;
     }

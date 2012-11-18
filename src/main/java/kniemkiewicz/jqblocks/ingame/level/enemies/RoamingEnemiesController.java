@@ -61,7 +61,6 @@ public final class RoamingEnemiesController {
   static final float MAX_PURSUIT_DISTANCE_SCREENS = 1;
   int MAX_ACTIVE_ENEMIES = -1;
   static final float TOWN_RADIUS_FROM_FIREPLACE = 500;
-  static final float TOWN_RADIUS_FROM_PATH = 100;
 
   @PostConstruct
   void init() {

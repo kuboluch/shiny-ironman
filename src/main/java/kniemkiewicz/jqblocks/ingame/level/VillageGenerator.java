@@ -91,12 +91,6 @@ public class VillageGenerator {
   @Autowired
   GraphController graphController;
 
-  @Autowired
-  TimeController timeController;
-
-  @Autowired
-  RabbitController rabbitController;
-
   public static final int STARTING_X = (Sizes.MIN_X + Sizes.MAX_X) / 2;
 
   public static final int VILLAGE_RADIUS = 24;
@@ -204,24 +198,7 @@ public class VillageGenerator {
     backgrounds.add(new Portal(STARTING_X - 4 * Sizes.BLOCK, villageY - 10 * Sizes.BLOCK, new Portal.Destination(new Vector2f(STARTING_X - 4 * Sizes.BLOCK, villageY - 40 * Sizes.BLOCK))));
     graphController.addSource(fireplaceElement);
     graphController.fillGraph();
-    final Peon peon = Peon.createAndRegister(STARTING_X + Sizes.BLOCK * 5, (int)(startingY - 10 * Peon.HEIGHT), peonController);
-    /*timeController.executeRepeatableAt(1000, 3000, new TimeController.Event() {
-      @Override
-      public void execute(long currentTime) {
-        List<FlipImageBody> previous = new ArrayList<FlipImageBody>();
-        for (RenderableObject ob : renderQueue.getRenderableObjects(RenderableObject.Layer.OBJECTS)) {
-          if (ob instanceof FlipImageBody) {
-            previous.add((FlipImageBody) ob);
-          }
-        }
-        for (FlipImageBody p : previous) {
-          p.remove(renderQueue, freeFallController, updateQueue);
-        }
-        Rabbit rabbit = new Rabbit(STARTING_X + Sizes.BLOCK * 8, (int)(startingY -  Peon.HEIGHT));
-        rabbit.addTo(movingObjects, renderQueue, updateQueue);
-        rabbitController.killed(rabbit, peon);
-      }
-    });*/
+    Peon.createAndRegister(STARTING_X + Sizes.BLOCK * 5, (int)(startingY - 10 * Peon.HEIGHT), peonController);
   }
 
   public void saveToStream(ObjectOutputStream stream) throws IOException {

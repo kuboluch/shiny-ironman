@@ -59,9 +59,9 @@ public class FlipImageRenderer implements ObjectRenderer<FlipImageBody> {
     if (object.getAge() > START_FADING_TIME) {
       // Skip first frame.
       Image im = bloodPoolAnimation.getImage((int)((object.getAge() - START_FADING_TIME) / BLOOD_FRAME_LENGTH + 1));
-      float scale = 3 * object.getShape().getWidth() / im.getWidth();
+      float scale = 2 * object.getShape().getWidth() / im.getWidth();
       float w = im.getWidth() * scale;
-      float h = 2 * im.getHeight() * scale;
+      float h = 3 * im.getHeight() * scale;
       im.draw(object.getShape().getCenterX() - w / 2, object.getShape().getMaxY() - h * 3 / 4, w, h);
     }
   }
