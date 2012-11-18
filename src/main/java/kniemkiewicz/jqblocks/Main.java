@@ -35,6 +35,7 @@ public class Main {
     */
     ApplicationContext ctx = new ClassPathXmlApplicationContext(contextPath);
     Configuration configuration = ctx.getBean(Configuration.class);
+    configuration.initArgs(args);
     if (configuration.getBoolean("Main.HIDE_TWL_WHINING", true)) {
       System.setErr(new PrintStream(Assert.noopStream));
     }

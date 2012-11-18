@@ -9,6 +9,8 @@ import java.util.Properties;
  * This class is going to handle configuration such as window size and internal game settings.
  * Some of those should be configurable by user, others will be coming from internal config
  * files. For now it has only single immutable Properties object, loaded from file.
+ * It also parses args, if provided, looking for ones of following format property_name=property_value,
+ * using them in similar way as the ones from file, overriding them.
  * User: knie
  * Date: 7/21/12
  */
@@ -52,5 +54,24 @@ public class Configuration {
     String value = properties.getProperty(name);
     if (value == null) return defaultValue;
     return Boolean.valueOf(value);
+  }
+
+  public void initArgs(String[] args) {
+    for (String arg : args) {
+      if (arg.contains("=")) {
+        String[] tokens = arg.split("=");
+        assert tokens.length > 1;
+        if (tokens.length > 2) {
+          StringBuilder b = new StringBuilder();
+          for (int i = 1;i < tokens.length;i++) {
+            b.append(tokens[i]).append("=");
+          }
+          String s = b.toString();
+          properties.setProperty(tokens[0], s.substring(0, s.length() - 1));
+        } else {
+          properties.setProperty(tokens[0], tokens[1]);
+        }
+      }
+    }
   }
 }
