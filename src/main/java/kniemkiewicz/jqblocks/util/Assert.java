@@ -1,9 +1,6 @@
 package kniemkiewicz.jqblocks.util;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.Serializable;
+import java.io.*;
 
 /**
  * User: knie
@@ -39,8 +36,19 @@ public class Assert {
   }
 
   static public OutputStream noopStream = new OutputStream() {
+
+    String last = "";
+
     @Override
-    public void write(int b) throws IOException { }
+    public void write(int b) throws IOException {
+      /* This was useful for debugging crappy TWL messages.
+      StringWriter sw = new StringWriter();
+      new Throwable("").printStackTrace(new PrintWriter(sw));
+      String stackTrace = sw.toString();
+      if (stackTrace.equals(last)) return;
+      last = stackTrace;
+      System.out.println(last);*/
+    }
   };
 
   static private ObjectOutputStream ooStream;

@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.level;
 
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.BackgroundBlockType;
+import kniemkiewicz.jqblocks.ingame.block.RawEnumTable;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
 import kniemkiewicz.jqblocks.ingame.content.creature.FlipImageBody;
@@ -48,6 +49,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * User: knie
@@ -90,6 +92,9 @@ public class VillageGenerator {
 
   @Autowired
   GraphController graphController;
+
+  @Autowired
+  RandomCaveGenerator caveGenerator;
 
   public static final int STARTING_X = (Sizes.MIN_X + Sizes.MAX_X) / 2;
 
@@ -177,11 +182,12 @@ public class VillageGenerator {
     return rooster.addTo(movingObjects, renderQueue, updateQueue);
   }
 
-  private void makeCave() {
-
+  private void makeCave(Random random) {
+    caveGenerator.makeCave(STARTING_X, startingY + Sizes.BLOCK * 15, Sizes.BLOCK * 28, Sizes.BLOCK * 16, 8, random);
+    caveGenerator.makeCave(STARTING_X, startingY + Sizes.BLOCK * 45, Sizes.BLOCK * 28, Sizes.BLOCK * 16, 8, random);
   }
 
-  void generateVillage(int villageY) {
+  void generateVillage(int villageY, Random random) {
     startingY = villageY;
     makeHouse(STARTING_X, villageY);
     BackgroundElement fireplaceElement = fireplace.getPlaceableObject(STARTING_X - fireplace.getWidth() / 2, villageY - fireplace.getHeight(), workplaceController).getBackgroundElement();
@@ -199,6 +205,7 @@ public class VillageGenerator {
     graphController.addSource(fireplaceElement);
     graphController.fillGraph();
     Peon.createAndRegister(STARTING_X + Sizes.BLOCK * 5, (int)(startingY - 10 * Peon.HEIGHT), peonController);
+    makeCave(random);
   }
 
   public void saveToStream(ObjectOutputStream stream) throws IOException {

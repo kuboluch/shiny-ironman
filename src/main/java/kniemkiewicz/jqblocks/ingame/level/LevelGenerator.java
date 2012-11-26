@@ -52,7 +52,7 @@ public class LevelGenerator {
     t.logTimeAndRestart("surface generation");
     undergroundGenerator.generateRock(random);
     t.logTimeAndRestart("rock generation");
-    villageGenerator.generateVillage(villageY.get());
+    villageGenerator.generateVillage(villageY.get(), random);
     t.logTimeAndRestart("village generation");
     objectGenerator.generateTrees(random, heights);
     objectGenerator.generateBats(random, heights);

@@ -45,7 +45,7 @@ public final class PermPath implements Serializable {
       }
       pathDirty = true;
     }
-    if (endPosition.getEdge().deleted()) {
+    if (endPosition != null && endPosition.getEdge() != null && endPosition.getEdge().deleted()) {
       Edge edge = endPosition.getEdge();
       float pos = endPosition.getPosition();
       Rectangle r = GeometryUtils.getRectangleCenteredOn(edge.getXFor(pos), edge.getYFor(pos), 10);

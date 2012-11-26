@@ -1,19 +1,16 @@
 package kniemkiewicz.jqblocks;
 
+import de.matthiasmann.twl.DebugHook;
 import kniemkiewicz.jqblocks.ingame.Sizes;
+import kniemkiewicz.jqblocks.twl.SilentDebugHook;
 import kniemkiewicz.jqblocks.util.Assert;
-import kniemkiewicz.jqblocks.util.GeometryUtils;
-import kniemkiewicz.jqblocks.util.slick.SimpleGame;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.util.Log;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.Arrays;
 
 /**
  * User: krzysiek
@@ -27,7 +24,9 @@ public class Main {
   public static String WINDOW_WIDTH_NAME = "Main.WINDOW_WIDTH";
   public static String WINDOW_HEIGHT_NAME = "Main.WINDOW_HEIGHT";
 
-  public static void main(String[] args) throws SlickException, FileNotFoundException {
+  static PrintStream STD_ERR = null;
+
+  public static void main(String[] args) throws SlickException {
     /*
     Circle c1 = new Circle(3, 3, 30);
     Rectangle r = GeometryUtils.getBoundingRectangle(c1);
@@ -36,8 +35,9 @@ public class Main {
     ApplicationContext ctx = new ClassPathXmlApplicationContext(contextPath);
     Configuration configuration = ctx.getBean(Configuration.class);
     configuration.initArgs(args);
+    STD_ERR = System.err;
     if (configuration.getBoolean("Main.HIDE_TWL_WHINING", true)) {
-      System.setErr(new PrintStream(Assert.noopStream));
+      DebugHook.installHook(new SilentDebugHook());
     }
     Game game = ctx.getBean(Game.class);
     AppGameContainer app = new AppGameContainer(game);
