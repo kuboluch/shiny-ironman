@@ -52,6 +52,8 @@ public class LevelGenerator {
     t.logTimeAndRestart("surface generation");
     undergroundGenerator.generateRock(random);
     t.logTimeAndRestart("rock generation");
+    undergroundGenerator.generateCaves(random, villageY.get());
+    t.logTimeAndRestart("cave generation");
     villageGenerator.generateVillage(villageY.get(), random);
     t.logTimeAndRestart("village generation");
     objectGenerator.generateTrees(random, heights);

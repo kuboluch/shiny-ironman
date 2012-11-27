@@ -27,6 +27,9 @@ public class UndergroundGenerator {
   SolidBlocks solidBlocks;
 
   @Autowired
+  RandomCaveGenerator randomCaveGenerator;
+
+  @Autowired
   Configuration configuration;
 
   void generateRock(final Random random) {
@@ -94,6 +97,24 @@ public class UndergroundGenerator {
         y0 += 1;
         x0 += random.nextInt(3) - 1;
       }
+    }
+  }
+
+  void generateCaves(final Random random, int villageY) {
+    Rectangle totalRect = new Rectangle(Sizes.MIN_X, villageY, Sizes.MAX_X - Sizes.MIN_X, Sizes.MAX_Y - villageY);
+    generateCavesSingleThread(random, Sizes.MIN_X + 500, villageY + 500, Sizes.MAX_X - Sizes.MIN_X - 500, Sizes.MAX_Y - villageY - 500, totalRect);
+  }
+
+  void generateCavesSingleThread(Random random, int x0, int y0, int width, int height, Rectangle totalRect) {
+    final float CAVE_DENSITY = configuration.getFloat("UndergroundGenerator.CAVE_DENSITY", 0.005f);
+    for (int i = 0; i < width * height * CAVE_DENSITY; i++) {
+      int cx = random.nextInt(width) + x0;
+      int cy = random.nextInt(height) + y0;
+      int w = 10 * Sizes.BLOCK;
+      int h = 10 * Sizes.BLOCK;
+      if (!totalRect.contains(cx - w /2 - Sizes.BLOCK * 5, cy - h / 2 - Sizes.BLOCK * 5)) continue;
+      if (!totalRect.contains(cx + w /2 + Sizes.BLOCK * 5, cy + h / 2 + Sizes.BLOCK * 5)) continue;
+      randomCaveGenerator.makeCave(cx, cy, w, h, random);
     }
   }
 }

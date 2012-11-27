@@ -42,9 +42,12 @@ public class MapView implements InputListener, Renderable {
       g.setColor(Color.black);
       g.fillRect(0, 0, pointOfView.getWindowWidth(), pointOfView.getWindowHeight());
       RawEnumTable<WallBlockType> table = solidBlocks.getBlocks();
-      for (int i = 0; i < table.getWidth(); i++) {
-        for (int j = 0; j < table.getHeight(); j++) {
-          switch (table.get(i,j)) {
+      int scaleX = (int)Math.ceil(1.f * table.getWidth() / pointOfView.getWindowWidth());
+      int scaleY = (int)Math.ceil(1.f * table.getHeight() / pointOfView.getWindowHeight());
+      for (int i = 0; i < table.getWidth() / scaleX; i++) {
+        for (int j = 0; j < table.getHeight() / scaleY; j++) {
+          WallBlockType w = table.get(i * scaleX,j * scaleY);
+          switch (w) {
             case DIRT:
               g.setColor(DirtBlockTypeRenderer.BROWN);
               break;
@@ -54,8 +57,11 @@ public class MapView implements InputListener, Renderable {
             case EMPTY:
               g.setColor(RenderQueue.SKY);
               break;
+            case MAGIC_BRICK_WALL:
+              g.setColor(Color.pink);
+              break;
             default:
-              throw new IllegalArgumentException("Unknown WallBlockType");
+              throw new IllegalArgumentException("Unknown WallBlockType :" + w);
           }
           g.drawRect(i,j,1,1);
         }

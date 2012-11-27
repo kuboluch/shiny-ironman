@@ -182,11 +182,6 @@ public class VillageGenerator {
     return rooster.addTo(movingObjects, renderQueue, updateQueue);
   }
 
-  private void makeCave(Random random) {
-    caveGenerator.makeCave(STARTING_X, startingY + Sizes.BLOCK * 15, Sizes.BLOCK * 28, Sizes.BLOCK * 16, 8, random);
-    caveGenerator.makeCave(STARTING_X, startingY + Sizes.BLOCK * 45, Sizes.BLOCK * 28, Sizes.BLOCK * 16, 8, random);
-  }
-
   void generateVillage(int villageY, Random random) {
     startingY = villageY;
     makeHouse(STARTING_X, villageY);
@@ -205,7 +200,6 @@ public class VillageGenerator {
     graphController.addSource(fireplaceElement);
     graphController.fillGraph();
     Peon.createAndRegister(STARTING_X + Sizes.BLOCK * 5, (int)(startingY - 10 * Peon.HEIGHT), peonController);
-    makeCave(random);
   }
 
   public void saveToStream(ObjectOutputStream stream) throws IOException {

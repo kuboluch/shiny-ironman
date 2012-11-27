@@ -2,6 +2,7 @@ package kniemkiewicz.jqblocks.ingame.level;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.BackgroundBlockType;
 import kniemkiewicz.jqblocks.ingame.block.RawEnumTable;
@@ -14,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
 /**
@@ -28,6 +30,16 @@ public class RandomCaveGenerator {
   @Autowired
   SolidBlocks solidBlocks;
 
+  @Autowired
+  Configuration configuration;
+
+  float SIZE_TO_POINTS_RATIO = 0;
+
+  @PostConstruct
+  void init() {
+    SIZE_TO_POINTS_RATIO = configuration.getFloat("RandomCaveGenerator.SIZE_TO_POINTS_RATIO", 2);
+  }
+
   static final Function<Vector2i, Integer> GET_X_FUN = new Function<Vector2i, Integer>() {
     @Override
     public Integer apply(Vector2i input) {
@@ -37,7 +49,7 @@ public class RandomCaveGenerator {
 
   // Points will be ordered by x
   ArrayList<Vector2i> getOrderedPoints(int dx, int dy, int maxPointsPerWall, Random random) {
-    int points = random.nextInt(maxPointsPerWall) + 1;
+    int points = (maxPointsPerWall > 0 ? random.nextInt(maxPointsPerWall) : 0) + 1;
     ArrayList<Vector2i> li = new ArrayList<Vector2i>();
     Set<Integer> used = new HashSet<Integer>(points);
     for (int i = 0; i < points; i++) {
@@ -55,14 +67,14 @@ public class RandomCaveGenerator {
     solidBlocks.getBackground().set(x, y, BackgroundBlockType.DIRT);
   }
 
-  void makeCave(float cx, float cy, float dx, float dy, int maxPointsPerWall, Random random) {
-    assert maxPointsPerWall >= 1;
+  void makeCave(float cx, float cy, float dx, float dy, Random random) {
+    assert SIZE_TO_POINTS_RATIO >= 1;
     RawEnumTable<WallBlockType> table = solidBlocks.getBlocks();
     int width = (int) (dx / Sizes.BLOCK);
     int height = (int) (dy / Sizes.BLOCK);
     int dd = Math.min(width, height) / 3;
     int x0 = table.toXIndex((int) (cx - dx / 2)), y0 = table.toYIndex((int) (cy - dy / 2));
-    generateContour(maxPointsPerWall, random, width, height, dd, x0, y0);
+    generateContour(random, width, height, dd, x0, y0);
     int x1 = x0 + dd,         y1 = y0 + dd;
     int x2 = x0 + width - dd, y2 = y0 + height - dd;
     int x3 = x0 + width, y3 = y0 + height;
@@ -137,14 +149,16 @@ public class RandomCaveGenerator {
     }
   }
 
-  private void generateContour(int maxPointsPerWall, Random random, int width, int height, int dd, int x0, int y0) {
+  private void generateContour(Random random, int width, int height, int dd, int x0, int y0) {
+    int maxPointsPerWallX = (int)((width - 2 * dd) / SIZE_TO_POINTS_RATIO / Sizes.BLOCK);
+    int maxPointsPerWallY = (int)((height - 2 * dd) / SIZE_TO_POINTS_RATIO / Sizes.BLOCK);
     int x1 = x0 + dd,         y1 = y0 + dd;
     int x2 = x0 + width - dd, y2 = y0 + height - dd;
     List<List<Vector2i>> allPoints = new ArrayList<List<Vector2i>>();
     {
       // Top rectangle.
       Vector2i corner = new Vector2i(x1, y0);
-      List<Vector2i> points = getOrderedPoints(width - 2 * dd, dd, maxPointsPerWall, random);
+      List<Vector2i> points = getOrderedPoints(width - 2 * dd, dd, maxPointsPerWallX, random);
       for (Vector2i v : points) {
         v.add(corner);
       }
@@ -153,7 +167,7 @@ public class RandomCaveGenerator {
     {
       // Right rectangle.
       Vector2i corner = new Vector2i(x2, y1);
-      List<Vector2i> points = getOrderedPoints(height - 2 * dd, dd, maxPointsPerWall, random);
+      List<Vector2i> points = getOrderedPoints(height - 2 * dd, dd, maxPointsPerWallY, random);
       for (Vector2i v : points) {
         v.swap();
         v.add(corner);
@@ -163,7 +177,7 @@ public class RandomCaveGenerator {
     {
       // Bottom rectangle.
       Vector2i corner = new Vector2i(x1, y2);
-      ArrayList<Vector2i> points = getOrderedPoints(width - 2 * dd, dd, maxPointsPerWall, random);
+      ArrayList<Vector2i> points = getOrderedPoints(width - 2 * dd, dd, maxPointsPerWallX, random);
       for (Vector2i v : points) {
         v.add(corner);
       }
@@ -172,7 +186,7 @@ public class RandomCaveGenerator {
     {
       // Left rectangle.
       Vector2i corner = new Vector2i(x0, y1);
-      List<Vector2i> points = getOrderedPoints(height - 2 * dd, dd, maxPointsPerWall, random);
+      List<Vector2i> points = getOrderedPoints(height - 2 * dd, dd, maxPointsPerWallY, random);
       for (Vector2i v : points) {
         v.swap();
         v.add(corner);
