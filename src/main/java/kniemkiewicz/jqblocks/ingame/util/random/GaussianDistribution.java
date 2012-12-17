@@ -8,7 +8,6 @@ import java.util.Random;
  */
 public class GaussianDistribution implements ProbabilityDistribution {
   static Random random = new Random();
-
   private int expectation;
   private int standardDeviation = 2; // 95% within (expectation - range) and (expectation + range);
   private int range;
@@ -28,6 +27,15 @@ public class GaussianDistribution implements ProbabilityDistribution {
   }
 
   public int next() {
-    return Math.abs((int)(random.nextGaussian() * range / standardDeviation + expectation));
+    return Math.abs((int)(getGaussian(random, range / standardDeviation, expectation)));
+  }
+
+
+  public static double getGaussian(Random random, float min, float range, float average) {
+    return Math.max(min, getGaussian(random, range, average));
+  }
+
+  public static double getGaussian(Random random, float range, float average) {
+    return random.nextGaussian() * range + average;
   }
 }

@@ -150,8 +150,8 @@ public class RandomCaveGenerator {
   }
 
   private void generateContour(Random random, int width, int height, int dd, int x0, int y0) {
-    int maxPointsPerWallX = (int)((width - 2 * dd) / SIZE_TO_POINTS_RATIO / Sizes.BLOCK);
-    int maxPointsPerWallY = (int)((height - 2 * dd) / SIZE_TO_POINTS_RATIO / Sizes.BLOCK);
+    int maxPointsPerWallX = (int)((width - 2 * dd) / SIZE_TO_POINTS_RATIO );
+    int maxPointsPerWallY = (int)((height - 2 * dd) / SIZE_TO_POINTS_RATIO );
     int x1 = x0 + dd,         y1 = y0 + dd;
     int x2 = x0 + width - dd, y2 = y0 + height - dd;
     List<List<Vector2i>> allPoints = new ArrayList<List<Vector2i>>();
