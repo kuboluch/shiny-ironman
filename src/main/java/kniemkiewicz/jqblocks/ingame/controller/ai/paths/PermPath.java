@@ -59,6 +59,10 @@ public final class PermPath implements Serializable {
       }
       pathDirty = true;
     }
+    if (endPosition == null) {
+      path = null;
+      return null;
+    }
     // Maybe add some change data about last change of graph so that we know when it is worth to search again if
     // path == null
     if (pathDirty || path == null || (start.getEdge() != path.getStart().getEdge())) {

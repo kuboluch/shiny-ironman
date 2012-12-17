@@ -107,13 +107,13 @@ public class UndergroundGenerator {
   }
 
   void generateCavesSingleThread(Random random, int x0, int y0, int width, int height, Rectangle totalRect) {
-    final float CAVE_DENSITY = configuration.getFloat("UndergroundGenerator.CAVE_DENSITY", 0.000002f);
+    final float CAVE_DENSITY = configuration.getFloat("UndergroundGenerator.CAVE_DENSITY", 0.000007f);
     for (int i = 0; i < width * height * CAVE_DENSITY; i++) {
       int cx = random.nextInt(width) + x0;
       int cy = random.nextInt(height) + y0;
 
-      int w = (int)GaussianDistribution.getGaussian(random, 10 * Sizes.BLOCK, 10 * Sizes.BLOCK, 40 * Sizes.BLOCK);
-      int h = (int)GaussianDistribution.getGaussian(random, 10 * Sizes.BLOCK, 10 * Sizes.BLOCK, 40 * Sizes.BLOCK);
+      int w = (int)GaussianDistribution.getGaussian(random, 10 * Sizes.BLOCK, 10 * Sizes.BLOCK, 25 * Sizes.BLOCK);
+      int h = (int)GaussianDistribution.getGaussian(random, 10 * Sizes.BLOCK, 10 * Sizes.BLOCK, 25 * Sizes.BLOCK);
       if (!totalRect.contains(cx - w /2 - Sizes.BLOCK * 5, cy - h / 2 - Sizes.BLOCK * 5)) continue;
       if (!totalRect.contains(cx + w /2 + Sizes.BLOCK * 5, cy + h / 2 + Sizes.BLOCK * 5)) continue;
       randomCaveGenerator.makeCave(cx, cy, w, h, random);
