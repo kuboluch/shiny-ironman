@@ -9,7 +9,6 @@ import kniemkiewicz.jqblocks.ingame.hud.info.TimingInfo;
 import kniemkiewicz.jqblocks.ingame.inventory.item.Item;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.util.WeightedPicker;
-import kniemkiewicz.jqblocks.ingame.object.serialization.SerializableRef;
 import kniemkiewicz.jqblocks.ingame.util.Direction;
 import kniemkiewicz.jqblocks.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
