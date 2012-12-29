@@ -105,7 +105,8 @@ public class ItemSlot<T extends Item> extends AbstractDraggableSlot<T> {
       if (evt.getType().equals(Event.Type.MOUSE_BTNDOWN)) {
         if (evt.getMouseButton() == Event.MOUSE_LBUTTON) {
           if (!isSelected()) {
-            inventory.setSelectedIndex(inventoryIndex);
+            InventoryController inventoryController = springBeanProvider.getBean(InventoryController.class, true);
+            inventoryController.setInventorySelectedIndex(inventoryIndex);
           }
         }
         if (evt.getMouseButton() == Event.MOUSE_RBUTTON) {

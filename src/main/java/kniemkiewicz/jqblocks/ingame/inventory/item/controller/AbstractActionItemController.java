@@ -217,6 +217,11 @@ public abstract class AbstractActionItemController<T extends Item>
     }
   }
 
+  @Override
+  public boolean canDeselectItem(T item) {
+    return affectedRectangle == null;
+  }
+
   private ItemWrapper<T> getWrapper(T item) {
     return new ItemWrapper<T>(item, (Class<? extends UpdateQueue.UpdateController<ItemWrapper<T>>>)this.getClass());
   }

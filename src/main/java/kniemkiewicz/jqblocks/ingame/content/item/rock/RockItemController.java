@@ -22,4 +22,9 @@ public class RockItemController implements ItemController<RockItem> {
     int maxY = centerY - (item.isLarge() ? Rock.LARGE_CIRCLE_RADIUS : Rock.SMALL_CIRCLE_RADIUS);
     return new Rock(centerX, maxY, item.isLarge());
   }
+
+  @Override
+  public boolean canDeselectItem(RockItem item) {
+    return true;
+  }
 }

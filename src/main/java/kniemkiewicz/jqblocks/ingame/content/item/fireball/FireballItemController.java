@@ -64,4 +64,9 @@ public class FireballItemController implements ItemController<FireballItem> {
   public DroppableObject getObject(FireballItem item, int centerX, int centerY) {
     return null;
   }
+
+  @Override
+  public boolean canDeselectItem(FireballItem item) {
+    return true;
+  }
 }

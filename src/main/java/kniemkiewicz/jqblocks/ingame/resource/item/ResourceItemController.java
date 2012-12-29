@@ -31,4 +31,9 @@ public class ResourceItemController implements ItemController<SimpleResourceItem
   public DroppableObject getObject(SimpleResourceItem item, int centerX, int centerY) {
     return new ResourceObject(item.resource, Sizes.floorToBlockSizeX(centerX), Sizes.floorToBlockSizeY(centerY));
   }
+
+  @Override
+  public boolean canDeselectItem(SimpleResourceItem item) {
+    return true;
+  }
 }

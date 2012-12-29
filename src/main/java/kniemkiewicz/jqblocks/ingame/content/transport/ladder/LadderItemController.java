@@ -18,12 +18,6 @@ import org.springframework.stereotype.Component;
 public class LadderItemController extends AbstractActionItemController<LadderItem> {
 
   @Autowired
-  RenderQueue renderQueue;
-
-  @Autowired
-  MovingObjects movingObjects;
-
-  @Autowired
   SolidBlocks blocks;
 
   @Autowired

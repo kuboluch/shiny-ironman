@@ -16,4 +16,6 @@ public interface ItemController<T extends Item> {
 
   DroppableObject getObject(T item, int centerX, int centerY);
 
+  // Returns false if item cannot be deselected at given moment.
+  boolean canDeselectItem(T item);
 }

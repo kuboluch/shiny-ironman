@@ -116,22 +116,29 @@ public class InventoryController implements EventListener {
 
     // TODO add and move to PlayerEquipmentController
     if (itemInventory.getSelectedItem() != null && !itemDragController.isDragging()) {
-      Class<? extends ItemController> clazz = itemInventory.getSelectedItem().getItemController();
-      if (clazz != null) {
-        ItemController controller = provider.getBean(clazz, true);
+      ItemController controller = getItemController();
+      if (controller != null) {
         controller.listen(itemInventory.getSelectedItem(), events);
       }
     }
+  }
+
+  private ItemController<?> getItemController() {
+    Class<? extends ItemController> clazz = itemInventory.getSelectedItem().getItemController();
+    if (clazz != null) {
+      return provider.getBean(clazz, true);
+    }
+    return null;
   }
 
   private void handleKeyPressedEvent(KeyPressedEvent e) {
     if (KeyboardUtils.isNumericKeyPressed(e.getKey())) {
       int k = KeyboardUtils.getPressedNumericKey(e.getKey());
       if (k == 0) {
-        itemInventory.setSelectedIndex(9);
+        setInventorySelectedIndex(9);
         e.consume();
       } else if (k > 0 && k <= itemInventory.getSize()) {
-        itemInventory.setSelectedIndex(k - 1);
+        setInventorySelectedIndex(k - 1);
         e.consume();
       }
     }
@@ -145,6 +152,13 @@ public class InventoryController implements EventListener {
         }
       }
     }
+  }
+
+  public boolean setInventorySelectedIndex(int x) {
+    ItemController controller = getItemController();
+    if (controller != null && !controller.canDeselectItem(itemInventory.getSelectedItem())) return false;
+    itemInventory.setSelectedIndex(x);
+    return true;
   }
 
   private void handleMouseRightClickEvent(MousePressedEvent e) {
@@ -164,7 +178,7 @@ public class InventoryController implements EventListener {
       if (selectedIndex < 0) {
         selectedIndex = itemInventory.getSize() - 1;
       }
-      itemInventory.setSelectedIndex(selectedIndex);
+      setInventorySelectedIndex(selectedIndex);
       e.consume();
       return;
     } else if (e.getDelta() > 0) {
@@ -173,7 +187,7 @@ public class InventoryController implements EventListener {
       if (selectedIndex > itemInventory.getSize() - 1) {
         selectedIndex = 0;
       }
-      itemInventory.setSelectedIndex(selectedIndex);
+      setInventorySelectedIndex(selectedIndex);
       e.consume();
     }
   }
@@ -211,9 +225,9 @@ public class InventoryController implements EventListener {
   public boolean dropItem(Item item, int x, int y) {
     if (item == null) return false;
     if (!AbstractActionController.isInRange(x, y, playerController.getPlayer(), DROP_RANGE)) return false;
-    Class<? extends ItemController> clazz = item.getItemController();
-    if (clazz == null) return false;
-    ItemController controller = provider.getBean(clazz, true);
+    ItemController controller = getItemController();
+    if (controller == null) return false;
+    if (!controller.canDeselectItem(item)) return false;
     DroppableObject dropObject = controller.getObject(item, x, y);
     if (dropObject == null) return false;
     if (solidBlocks.isColliding(dropObject.getShape())) return false;

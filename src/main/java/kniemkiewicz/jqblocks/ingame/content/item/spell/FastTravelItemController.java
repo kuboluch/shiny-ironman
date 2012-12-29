@@ -89,4 +89,9 @@ public class FastTravelItemController implements ItemController<FastTravelItem> 
   public DroppableObject getObject(FastTravelItem item, int centerX, int centerY) {
     return null;
   }
+
+  @Override
+  public boolean canDeselectItem(FastTravelItem item) {
+    return true;
+  }
 }

@@ -39,9 +39,6 @@ public class BowItemController implements ItemController<BowItem> {
   @Autowired
   PointOfView pointOfView;
 
-  @Autowired
-  EventBus eventBus;
-
   @Resource
   Sound bowSound;
 
@@ -59,6 +56,11 @@ public class BowItemController implements ItemController<BowItem> {
     if (!pressedEvents.isEmpty()) {
       handlePressedEvent(pressedEvents);
     }
+  }
+
+  @Override
+  public boolean canDeselectItem(BowItem bowItem) {
+    return true;
   }
 
   @Override
