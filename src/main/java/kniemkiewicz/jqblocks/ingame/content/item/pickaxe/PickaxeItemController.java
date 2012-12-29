@@ -1,6 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.item.pickaxe;
 
 import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
+import kniemkiewicz.jqblocks.ingame.controller.SoundController;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.BackgroundBlockType;
@@ -11,10 +12,12 @@ import kniemkiewicz.jqblocks.ingame.object.DigEffect;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.Iterator;
 
 @Component
@@ -31,6 +34,12 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
 
   @Autowired
   FreeFallController freeFallController;
+
+  @Resource
+  Sound pickaxeSound;
+
+  @Autowired
+  SoundController soundController;
 
   private DigEffect digEffect;
 
@@ -57,6 +66,7 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
     blockEndurance = block.getEndurance();
     digEffect = new DigEffect(blockEndurance, affectedRectangle);
     renderQueue.add(digEffect);
+    soundController.playUnique(pickaxeSound);
   }
 
   @Override

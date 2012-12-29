@@ -19,4 +19,8 @@
     <bean id="fireballSound" class="org.newdawn.slick.Sound">
         <constructor-arg value="sounds/fireball.ogg"/>
     </bean>
+
+    <bean id="pickaxeSound" class="org.newdawn.slick.Sound">
+        <constructor-arg value="sounds/pickaxe_short.wav"/>
+    </bean>
 </beans>
