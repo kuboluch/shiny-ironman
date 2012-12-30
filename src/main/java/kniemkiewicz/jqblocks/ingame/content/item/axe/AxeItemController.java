@@ -2,10 +2,10 @@ package kniemkiewicz.jqblocks.ingame.content.item.axe;
 
 import kniemkiewicz.jqblocks.ingame.controller.CollisionController;
 import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
+import kniemkiewicz.jqblocks.ingame.inventory.item.controller.AbstractActionItemRectangleController;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.content.resource.Wood;
-import kniemkiewicz.jqblocks.ingame.inventory.item.controller.AbstractActionItemController;
 import kniemkiewicz.jqblocks.ingame.object.ProgressBar;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Component
-public class AxeItemController extends AbstractActionItemController<AxeItem> {
+public class AxeItemController extends AbstractActionItemRectangleController<AxeItem> {
 
   @Autowired
   private Backgrounds backgrounds;

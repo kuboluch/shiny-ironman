@@ -1,9 +1,10 @@
 package kniemkiewicz.jqblocks.ingame.inventory.item.controller;
 
-import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
-import kniemkiewicz.jqblocks.ingame.controller.InputContainer;
-import kniemkiewicz.jqblocks.ingame.controller.ItemController;
+import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
+import kniemkiewicz.jqblocks.ingame.controller.action.AbstractActionController;
+import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
+import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.controller.event.Event;
 import kniemkiewicz.jqblocks.ingame.controller.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.controller.event.EventListener;
@@ -14,18 +15,21 @@ import kniemkiewicz.jqblocks.ingame.controller.event.input.mouse.MousePressedEve
 import kniemkiewicz.jqblocks.ingame.controller.event.input.mouse.MouseReleasedEvent;
 import kniemkiewicz.jqblocks.ingame.controller.event.inventory.SelectedItemChangeEvent;
 import kniemkiewicz.jqblocks.ingame.controller.event.screen.ScreenMovedEvent;
-import kniemkiewicz.jqblocks.ingame.hud.inventory.ItemDragController;
+import kniemkiewicz.jqblocks.ingame.controller.InputContainer;
 import kniemkiewicz.jqblocks.ingame.inventory.item.Item;
+import kniemkiewicz.jqblocks.ingame.hud.inventory.ItemDragController;
 import kniemkiewicz.jqblocks.util.Collections3;
-import kniemkiewicz.jqblocks.util.Vector2i;
+import org.newdawn.slick.geom.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractActionItemController<T extends Item>
+public abstract class AbstractActionItemRectangleController<T extends Item>
     implements ItemController<T>, EventListener, UpdateQueue.UpdateController<ActionItemWrapper<T>> {
+
+  public static final int RANGE = 16 * Sizes.BLOCK;
 
   @Autowired
   protected UpdateQueue updateQueue;
@@ -42,9 +46,9 @@ public abstract class AbstractActionItemController<T extends Item>
   @Autowired
   EventBus eventBus;
 
-  T item;
+  protected Rectangle affectedRectangle;
 
-  Vector2i xy;
+  T item;
 
   @PostConstruct
   public void init() {
@@ -52,6 +56,8 @@ public abstract class AbstractActionItemController<T extends Item>
   }
 
   abstract protected boolean canPerformAction(int x, int y);
+
+  abstract protected Rectangle getAffectedRectangle(int x, int y);
 
   abstract protected void startAction();
 
@@ -61,8 +67,10 @@ public abstract class AbstractActionItemController<T extends Item>
 
   abstract protected boolean isActionCompleted();
 
+  abstract protected void onAction();
+
   private void start(T item, int x, int y) {
-    xy = new Vector2i(x ,y);
+    affectedRectangle = getAffectedRectangle(x, y);
     startAction();
     updateQueue.add(getWrapper(item));
     this.item = item;
@@ -72,11 +80,16 @@ public abstract class AbstractActionItemController<T extends Item>
     updateQueue.remove(getWrapper(item));
     this.item = null;
     stopAction();
-    xy = null;
+    affectedRectangle = null;
   }
 
   public boolean canPerformAction() {
-    return !itemDragController.isDragging() && canPerformAction(xy.getX(), xy.getY());
+    if (itemDragController.isDragging()) {
+      return false;
+    }
+    int x = Sizes.roundToBlockSizeX(affectedRectangle.getX());
+    int y = Sizes.roundToBlockSizeY(affectedRectangle.getY());
+    return canPerformAction(x, y);
   }
 
   @Override
@@ -87,7 +100,7 @@ public abstract class AbstractActionItemController<T extends Item>
   @Override
   public void listen(List<Event> events) {
     if (!events.isEmpty()) {
-      if (item != null) {
+      if (affectedRectangle != null) {
         stop();
       }
     }
@@ -128,64 +141,88 @@ public abstract class AbstractActionItemController<T extends Item>
     int x = 0;
     int y = 0;
     for (MousePressedEvent e : mousePressedEvents) {
-      x = e.getLevelX();
-      y = e.getLevelY();
-      if (e.getButton() == Button.LEFT && canPerformAction(e.getLevelX(), e.getLevelY())) {
+      x = Sizes.floorToBlockSizeX(e.getLevelX());
+      y = Sizes.floorToBlockSizeY(e.getLevelY());
+      if (isInRange(x, y) && e.getButton() == Button.LEFT) {
         mpe = e;
         break;
       }
     }
     if (mpe == null) return;
-    start(item, x, y);
+
+    if (canPerformAction(x, y)) {
+      start(item, x, y);
+    }
   }
 
   public void handleMouseDraggedEvent(T item, MouseDraggedEvent event) {
     if (event.getButton() != Button.LEFT) return;
-    handleMouseCoordChange(item, event.getNewLevelX(), event.getNewLevelY());
+    int x = Sizes.floorToBlockSizeX(event.getNewLevelX());
+    int y = Sizes.floorToBlockSizeY(event.getNewLevelY());
+    handleMouseCoordChange(item, x, y);
   }
 
   public void handleScreenMovedEvent(T item, ScreenMovedEvent event) {
     if (!inputContainer.getInput().isMouseButtonDown(0)) {
       return;
     }
-    handleMouseCoordChange(item, inputContainer.getInput().getMouseX() + event.getNewShiftX(), inputContainer.getInput().getMouseY() + event.getNewShiftY());
+    int x = Sizes.floorToBlockSizeX(inputContainer.getInput().getMouseX() + event.getNewShiftX());
+    int y = Sizes.floorToBlockSizeY(inputContainer.getInput().getMouseY() + event.getNewShiftY());
+    handleMouseCoordChange(item, x, y);
   }
 
   private void handleMouseCoordChange(T item, int x, int y) {
-    if (xy == null) return;
-    if (!canPerformAction(x, y)) {
+    Rectangle rect = new Rectangle(x, y, 1, 1);
+    if (affectedRectangle != null && (!affectedRectangle.intersects(rect) || !isInRange(x, y))) {
       stop();
+    }
+    if (!isInRange(x, y)) {
       return;
     }
-    xy.setX(x);
-    xy.setY(y);
+
+    if (affectedRectangle == null && canPerformAction(x, y)) {
+      start(item, x, y);
+    }
   }
 
   public void handleMouseReleasedEvent(T item, MouseReleasedEvent event) {
-    if (xy == null || event.getButton() != Button.LEFT) {
+    if (affectedRectangle == null) {
       return;
     }
+    if (event.getButton() != Button.LEFT) return;
+    int x = Sizes.floorToBlockSizeX(event.getLevelX());
+    int y = Sizes.floorToBlockSizeY(event.getLevelY());
+    if (!isInRange(x, y)) {
+      return;
+    }
+
     stop();
+  }
+
+  public boolean isInRange(int x, int y) {
+    return AbstractActionController.isInRange(x, y, playerController.getPlayer(), RANGE);
   }
 
   @Override
   public void update(ActionItemWrapper<T> wrapper, int delta) {
-    if (xy == null) {
+    if (affectedRectangle == null) {
       return;
     }
     updateAction(wrapper.getItem(), delta);
     if (isActionCompleted()) {
+      if (canPerformAction()) {
+        onAction();
+      }
       stop();
     }
   }
 
   @Override
   public boolean canDeselectItem(T item) {
-    return xy == null;
+    return affectedRectangle == null;
   }
 
   private ActionItemWrapper<T> getWrapper(T item) {
     return new ActionItemWrapper<T>(item, (Class<? extends UpdateQueue.UpdateController<ActionItemWrapper<T>>>)this.getClass());
   }
-
 }

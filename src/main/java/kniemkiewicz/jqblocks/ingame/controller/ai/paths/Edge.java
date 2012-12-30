@@ -80,7 +80,7 @@ public class Edge implements RenderableObject<Edge>{
       }
       g.draw(r);
     }
-    g.resetLineWidth();
+    g.setLineWidth(1);
   }
 
   Joint addJoint(float pos, Edge e) {

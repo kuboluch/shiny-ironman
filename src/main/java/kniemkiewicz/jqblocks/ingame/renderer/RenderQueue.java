@@ -82,10 +82,12 @@ public class RenderQueue {
     backgroundRenderer.render();
     g.translate(-pointOfView.getShiftX(), -pointOfView.getShiftY());
     Rectangle window = new Rectangle(pointOfView.getShiftX(), pointOfView.getShiftY(), pointOfView.getWindowWidth(), pointOfView.getWindowHeight());
+    assert g.getLineWidth() == 1;
     for (RenderableObject.Layer l : RenderableObject.Layer.values()) {
       for (RenderableObject r : renderableObjects.get(l)) {
         if (GeometryUtils.intersects(window, r.getShape())) {
           doRender(r, g, pointOfView);
+          assert g.getLineWidth() == 1;
         }
       }
     }

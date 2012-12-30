@@ -1,7 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.item.torch;
 
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
-import kniemkiewicz.jqblocks.ingame.inventory.item.controller.AbstractActionItemController;
+import kniemkiewicz.jqblocks.ingame.inventory.item.controller.AbstractActionItemRectangleController;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import org.newdawn.slick.geom.Rectangle;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * Date: 29.08.12
  */
 @Component
-public class TorchItemController extends AbstractActionItemController<TorchItem> {
+public class TorchItemController extends AbstractActionItemRectangleController<TorchItem> {
 
   @Autowired
   Backgrounds backgrounds;

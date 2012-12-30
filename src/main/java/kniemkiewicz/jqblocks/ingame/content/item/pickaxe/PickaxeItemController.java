@@ -2,12 +2,12 @@ package kniemkiewicz.jqblocks.ingame.content.item.pickaxe;
 
 import kniemkiewicz.jqblocks.ingame.controller.FreeFallController;
 import kniemkiewicz.jqblocks.ingame.controller.SoundController;
+import kniemkiewicz.jqblocks.ingame.inventory.item.controller.AbstractActionItemRectangleController;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
 import kniemkiewicz.jqblocks.ingame.Sizes;
 import kniemkiewicz.jqblocks.ingame.block.BackgroundBlockType;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.block.WallBlockType;
-import kniemkiewicz.jqblocks.ingame.inventory.item.controller.AbstractActionItemController;
 import kniemkiewicz.jqblocks.ingame.object.DigEffect;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.BackgroundElement;
@@ -21,7 +21,7 @@ import javax.annotation.Resource;
 import java.util.Iterator;
 
 @Component
-public class PickaxeItemController extends AbstractActionItemController<PickaxeItem> {
+public class PickaxeItemController extends AbstractActionItemRectangleController<PickaxeItem> {
 
   @Autowired
   private SolidBlocks blocks;
@@ -66,7 +66,6 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
     blockEndurance = block.getEndurance();
     digEffect = new DigEffect(blockEndurance, affectedRectangle);
     renderQueue.add(digEffect);
-    soundController.playUnique(pickaxeSound);
   }
 
   @Override
@@ -80,6 +79,7 @@ public class PickaxeItemController extends AbstractActionItemController<PickaxeI
   protected void updateAction(PickaxeItem item, int delta) {
     blockEndurance -= delta * item.getStrength();
     digEffect.setCurrentEndurance(blockEndurance);
+    soundController.playUnique(pickaxeSound);
   }
 
   @Override

@@ -1,9 +1,7 @@
 package kniemkiewicz.jqblocks.ingame.content.transport.ladder;
 
-import kniemkiewicz.jqblocks.ingame.controller.MovingObjects;
-import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
+import kniemkiewicz.jqblocks.ingame.inventory.item.controller.AbstractActionItemRectangleController;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
-import kniemkiewicz.jqblocks.ingame.inventory.item.controller.AbstractActionItemController;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import org.newdawn.slick.geom.Rectangle;
@@ -15,7 +13,7 @@ import org.springframework.stereotype.Component;
  * Date: 15.08.12
  */
 @Component
-public class LadderItemController extends AbstractActionItemController<LadderItem> {
+public class LadderItemController extends AbstractActionItemRectangleController<LadderItem> {
 
   @Autowired
   SolidBlocks blocks;
