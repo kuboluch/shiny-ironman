@@ -26,7 +26,7 @@ import java.io.ObjectOutputStream;
  */
 public class Arrow implements ProjectileController.Projectile<Arrow> {
 
-  private int ARROW_DMG = 10;
+  private int ARROW_DMG = 20;
 
   private static final long serialVersionUID = 1;
   private static XYMovementDefinition ARROW_MOVEMENT = new XYMovementDefinition(

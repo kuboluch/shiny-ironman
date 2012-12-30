@@ -3,6 +3,7 @@ package kniemkiewicz.jqblocks.ingame.inventory.item.controller;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.controller.InputContainer;
 import kniemkiewicz.jqblocks.ingame.controller.ItemController;
+import kniemkiewicz.jqblocks.ingame.controller.TimeController;
 import kniemkiewicz.jqblocks.ingame.controller.UpdateQueue;
 import kniemkiewicz.jqblocks.ingame.controller.event.Event;
 import kniemkiewicz.jqblocks.ingame.controller.event.EventBus;
@@ -42,9 +43,16 @@ public abstract class AbstractActionItemController<T extends Item>
   @Autowired
   EventBus eventBus;
 
+  @Autowired
+  TimeController timeController;
+
   T item;
 
   Vector2i xy;
+
+  boolean stopTriggered = false;
+  long startTime = 0;
+  long minDuration = 0;
 
   @PostConstruct
   public void init() {
@@ -62,13 +70,25 @@ public abstract class AbstractActionItemController<T extends Item>
   abstract protected boolean isActionCompleted();
 
   private void start(T item, int x, int y) {
+    if (xy != null) {
+      return;
+    }
     xy = new Vector2i(x ,y);
     startAction();
     updateQueue.add(getWrapper(item));
     this.item = item;
+    this.startTime = timeController.getTime();
+    stopTriggered = false;
   }
 
   private void stop() {
+    if (xy == null) {
+      return;
+    }
+    stopTriggered = true;
+    if (startTime + minDuration > timeController.getTime()) {
+      return;
+    }
     updateQueue.remove(getWrapper(item));
     this.item = null;
     stopAction();
@@ -174,7 +194,7 @@ public abstract class AbstractActionItemController<T extends Item>
       return;
     }
     updateAction(wrapper.getItem(), delta);
-    if (isActionCompleted()) {
+    if (stopTriggered || isActionCompleted()) {
       stop();
     }
   }
@@ -188,4 +208,7 @@ public abstract class AbstractActionItemController<T extends Item>
     return new ActionItemWrapper<T>(item, (Class<? extends UpdateQueue.UpdateController<ActionItemWrapper<T>>>)this.getClass());
   }
 
+  public void setMinDuration(long minDuration) {
+    this.minDuration = minDuration;
+  }
 }

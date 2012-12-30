@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks.ingame.content.player;
 
+import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
@@ -72,6 +73,11 @@ public class PlayerController implements InputListener,HealthController<Player> 
   @Autowired
   EventBus eventBus;
 
+  @Autowired
+  Configuration configuration;
+
+  private boolean RUN_COLLISION_ASSERTS;
+
   /**
    * This is manually invoked by Game to make sure that level is created before.
    */
@@ -81,6 +87,10 @@ public class PlayerController implements InputListener,HealthController<Player> 
     player.getXYMovement().getXMovement().setPos(VillageGenerator.STARTING_X);
     player.getXYMovement().getYMovement().setPos(villageGenerator.getStartingY() - Player.HEIGHT - 2);
     player.updateShape();
+    RUN_COLLISION_ASSERTS = configuration.getBoolean("PlayerController.RUN_COLLISION_ASSERTS", false);
+    if (RUN_COLLISION_ASSERTS && !Assert.ASSERT_ENABLED) {
+      logger.warn("RUN_COLLISION_ASSERTS=true but asserts are disabled!");
+    }
   }
 
   public void listen(Input input, int delta) {
@@ -114,10 +124,12 @@ public class PlayerController implements InputListener,HealthController<Player> 
   private void collideWithBlocks(Rectangle playerShape, float dx, float dy) {
     List<Rectangle> collidingRectangles = blocks.getBlocks().getIntersectingRectangles(playerShape);
 
-    for (Rectangle r : collidingRectangles) {
-      if(!GeometryUtils.intersects(r, playerShape)) {
-        blocks.getBlocks().getIntersectingRectangles(playerShape);
-        assert false;
+    if (RUN_COLLISION_ASSERTS) {
+      for (Rectangle r : collidingRectangles) {
+        if(!GeometryUtils.intersects(r, playerShape)) {
+          blocks.getBlocks().getIntersectingRectangles(playerShape);
+          assert false;
+        }
       }
     }
     for (Rectangle r : collidingRectangles) {
@@ -125,12 +137,10 @@ public class PlayerController implements InputListener,HealthController<Player> 
       logger.debug(GeometryUtils.toString(r) + " " + player.toString());
       player.updateShape();
     }
-    if (Assert.ASSERT_ENABLED) {
+    if (RUN_COLLISION_ASSERTS) {
       for (Rectangle r : collidingRectangles) {
         assert !GeometryUtils.intersects(r, player.getShape());
       }
-    }
-    if (Assert.ASSERT_ENABLED) {
       if (blocks.getBlocks().getIntersectingRectangles(player.getShape()).size() > 0) {
         for (Rectangle r : blocks.getBlocks().getIntersectingRectangles(player.getShape())) {
           HitResolver.resolve(player, dx, dy, r);

@@ -49,6 +49,10 @@ public class BowItemController extends AbstractActionItemController<BowItem> {
 
   private static float SPEED = Sizes.MAX_FALL_SPEED / 1.5f;
 
+  public BowItemController() {
+    setMinDuration(1000);
+  }
+
   public Vector2f getLevelBowPosition() {
     Rectangle shape = playerController.getPlayer().getShape();
     float dx = -Sizes.BLOCK / 2;
@@ -66,14 +70,6 @@ public class BowItemController extends AbstractActionItemController<BowItem> {
     return new Vector2f(pointOfView.getWindowWidth()/ 2 + dx, pointOfView.getWindowHeight() / 2 - Sizes.BLOCK / 2);
   }
 
-  private void shotArrow() {
-    Vector2f pos = getLevelBowPosition();
-    Vector2f speed = controllerUtils.getCurrentDirection(SPEED, getScreenBowPosition());
-
-    projectileController.add(new Arrow(pos.getX(), pos.getY(), playerController.getPlayer(), speed.getX(), speed.getY()));
-    soundController.play(bowSound, 0.7f);
-  }
-
   @Override
   protected boolean canPerformAction(int x, int y) {
     return true;
@@ -81,12 +77,16 @@ public class BowItemController extends AbstractActionItemController<BowItem> {
 
   @Override
   protected void startAction() {
-    soundController.playUnique(bowStringSound);
+    soundController.play(bowStringSound);
   }
 
   @Override
   protected void stopAction() {
-    shotArrow();
+    Vector2f pos = getLevelBowPosition();
+    Vector2f speed = controllerUtils.getCurrentDirection(SPEED, getScreenBowPosition());
+
+    projectileController.add(new Arrow(pos.getX(), pos.getY(), playerController.getPlayer(), speed.getX(), speed.getY()));
+    soundController.play(bowSound, 0.7f);
   }
 
   @Override
