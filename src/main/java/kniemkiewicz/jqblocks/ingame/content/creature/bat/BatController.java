@@ -99,7 +99,7 @@ public class BatController implements UpdateQueue.UpdateController<Bat>, HealthC
       bat.getXYMovement().update(delta);
       bat.updateShape();
       utils.resolveCollisionsWithWalls(bat);
-      utils.damageTouchedVillagers(bat, BITE_DMG);
+      utils.damageTouched(bat, BITE_DMG, true);
     }
   }
 

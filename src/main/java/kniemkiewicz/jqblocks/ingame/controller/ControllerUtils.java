@@ -128,10 +128,13 @@ public class ControllerUtils {
     return (po instanceof Enemy);
   }
 
-  public void damageTouchedVillagers(QuadTree.HasShape source, int damage) {
-    Shape shape = source.getShape();
+  public void damageTouched(QuadTree.HasShape source, int damage, boolean villagers) {
+    damageTouched(source, source.getShape(), damage, villagers);
+  }
+
+  public void damageTouched(QuadTree.HasShape source, Shape shape, int damage, boolean villagers) {
     for (PhysicalObject p : world.getCollisionController().<PhysicalObject>fullSearch(MovingObjects.MOVING, shape)) {
-      if (p instanceof Player) {
+      if (isVillager(p) == villagers) {
         ((HasHealthPoints) p).getHp().damageRateLimited(source, damage, 300, world);
       }
     }

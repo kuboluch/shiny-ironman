@@ -70,7 +70,7 @@ public class FireballExplosion implements AnimationRenderer.AnimationCompatible,
   }
 
   @Override
-  public Class<? extends UpdateQueue.UpdateController<? super FireballExplosion>> getUpdateController() {
+  public Class<FireballExplosionController> getUpdateController() {
     return FireballExplosionController.class;
   }
 }

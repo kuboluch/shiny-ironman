@@ -6,6 +6,7 @@ import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 import kniemkiewicz.jqblocks.ingame.inventory.item.Item;
 import kniemkiewicz.jqblocks.util.Pair;
 import kniemkiewicz.jqblocks.util.SpringBeanProvider;
+import kniemkiewicz.jqblocks.util.Vector2i;
 import org.newdawn.slick.Graphics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,18 +33,18 @@ public class DefaultEquippedItemRenderer implements EquippedItemRenderer<Item> {
     return playerController.getPlayer().isLeftFaced();
   }
 
-  public Pair<Integer, Integer> getDefaultXY() {
+  public Vector2i getDefaultXY() {
     if (isLeftFaced()) {
-      return Pair.of(pointOfView.getWindowWidth() / 2 - SIZE + 6, 2 + pointOfView.getWindowHeight() / 2 - SIZE);
+      return new Vector2i(pointOfView.getWindowWidth() / 2 - SIZE + 6, 2 + pointOfView.getWindowHeight() / 2 - SIZE);
     } else {
-      return Pair.of(pointOfView.getWindowWidth() / 2 - 6, 2 + pointOfView.getWindowHeight() / 2 - SIZE);
+      return new Vector2i(pointOfView.getWindowWidth() / 2 - 6, 2 + pointOfView.getWindowHeight() / 2 - SIZE);
     }
   }
 
   @Override
   public void renderEquippedItem(Item item, Graphics g) {
     ItemRenderer<Item> renderer = springBeanProvider.getBean(item.getItemRenderer(), true);
-    Pair<Integer, Integer> xy = getDefaultXY();
-    renderer.renderItem(item, xy.getFirst(), xy.getSecond(), SIZE, isLeftFaced());
+    Vector2i xy = getDefaultXY();
+    renderer.renderItem(item, xy.getX(), xy.getY(), SIZE, isLeftFaced());
   }
 }

@@ -52,4 +52,11 @@ public final class BeanName<T> implements Serializable {
   }
 
 
+  public static <T> BeanName<T> of(Class<? extends T> clazz) {
+    return new BeanName<T>(clazz);
+  }
+
+  public static <T> BeanName<T> of(Class<? extends T> clazz, String name) {
+    return new BeanName<T>(clazz, name);
+  }
 }

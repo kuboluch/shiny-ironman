@@ -44,15 +44,16 @@ public abstract class AbstractActionItemController<T extends Item>
   EventBus eventBus;
 
   @Autowired
-  TimeController timeController;
+  protected TimeController timeController;
 
-  T item;
+  protected T item;
 
   Vector2i xy;
 
   boolean stopTriggered = false;
-  long startTime = 0;
+  protected long startTime = 0;
   long minDuration = 0;
+  boolean periodic = false;
 
   @PostConstruct
   public void init() {
@@ -74,9 +75,9 @@ public abstract class AbstractActionItemController<T extends Item>
       return;
     }
     xy = new Vector2i(x ,y);
+    this.item = item;
     startAction();
     updateQueue.add(getWrapper(item));
-    this.item = item;
     this.startTime = timeController.getTime();
     stopTriggered = false;
   }
@@ -90,8 +91,8 @@ public abstract class AbstractActionItemController<T extends Item>
       return;
     }
     updateQueue.remove(getWrapper(item));
-    this.item = null;
     stopAction();
+    this.item = null;
     xy = null;
   }
 
@@ -197,6 +198,12 @@ public abstract class AbstractActionItemController<T extends Item>
     if (stopTriggered || isActionCompleted()) {
       stop();
     }
+    // This has to happen after stop() checking if we can complete the action.
+    if (xy != null && periodic) {
+      if (startTime + minDuration < timeController.getTime()) {
+        startTime = timeController.getTime();
+      }
+    }
   }
 
   @Override
@@ -210,5 +217,9 @@ public abstract class AbstractActionItemController<T extends Item>
 
   public void setMinDuration(long minDuration) {
     this.minDuration = minDuration;
+  }
+
+  public void setPeriodic(boolean periodic) {
+    this.periodic = periodic;
   }
 }

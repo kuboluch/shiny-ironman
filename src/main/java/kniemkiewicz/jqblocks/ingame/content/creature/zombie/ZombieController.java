@@ -83,7 +83,7 @@ public class ZombieController implements HealthController<Zombie>, UpdateQueue.U
   public void update(Zombie object, int delta) {
     followPlayer(object);
     freeFallController.updateComplex(delta, null, object);
-    controllerUtils.damageTouchedVillagers(object, TOUCH_DMG);
+    controllerUtils.damageTouched(object, TOUCH_DMG, true);
     object.setAge(object.getAge() + delta);
   }
 

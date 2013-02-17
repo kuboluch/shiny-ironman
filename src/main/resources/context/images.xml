@@ -25,6 +25,10 @@
         <constructor-arg value="images/meteor.gif"/>
     </bean>
 
+    <bean id="swordImage" class="org.newdawn.slick.Image">
+        <constructor-arg value="images/sword.png"/>
+    </bean>
+
     <bean id="zombieGifAnimation" class="kniemkiewicz.jqblocks.util.slick.GifAnimation">
         <constructor-arg value="images/zombie.gif"/>
     </bean>

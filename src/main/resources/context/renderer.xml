@@ -23,6 +23,10 @@
         <constructor-arg value="images/axe.png"/>
     </bean>
 
+    <bean id="swordRenderer" class="kniemkiewicz.jqblocks.ingame.renderer.SimpleImageRenderer">
+        <constructor-arg ref="swordImage"/>
+    </bean>
+
     <bean id="fireplaceRenderer" class="kniemkiewicz.jqblocks.ingame.object.workplace.renderer.WorkplaceImageRenderer">
         <constructor-arg value="images/fireplace.png"/>
     </bean>
