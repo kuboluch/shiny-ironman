@@ -3,12 +3,12 @@ package kniemkiewicz.jqblocks.ingame.content.player;
 import kniemkiewicz.jqblocks.Configuration;
 import kniemkiewicz.jqblocks.ingame.*;
 import kniemkiewicz.jqblocks.ingame.block.SolidBlocks;
+import kniemkiewicz.jqblocks.ingame.level.DefaultLevelGenerator;
 import kniemkiewicz.jqblocks.ingame.object.hp.HealthController;
 import kniemkiewicz.jqblocks.ingame.content.transport.ladder.LadderBackground;
 import kniemkiewicz.jqblocks.ingame.controller.*;
 import kniemkiewicz.jqblocks.ingame.controller.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.controller.event.input.mouse.MouseMovedEvent;
-import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
 import kniemkiewicz.jqblocks.ingame.level.VillageGenerator;
 import kniemkiewicz.jqblocks.ingame.object.background.Backgrounds;
 import kniemkiewicz.jqblocks.ingame.renderer.RenderQueue;
@@ -116,7 +116,7 @@ public class PlayerController implements InputListener,HealthController<Player> 
   }
 
   private void collideWithLevelWalls(Rectangle playerShape, float dx, float dy) {
-    for (QuadTree.HasShape po : collisionController.fullSearch(LevelGenerator.LEVEL_WALLS, playerShape)) {
+    for (QuadTree.HasShape po : collisionController.fullSearch(DefaultLevelGenerator.LEVEL_WALLS, playerShape)) {
       HitResolver.resolve(player, dx, dy, GeometryUtils.getBoundingRectangle(po.getShape()));
     }
   }

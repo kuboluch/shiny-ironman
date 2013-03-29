@@ -1,5 +1,6 @@
 package kniemkiewicz.jqblocks;
 
+import com.google.common.collect.Lists;
 import de.matthiasmann.twl.GUI;
 import kniemkiewicz.jqblocks.ingame.MainGameState;
 import kniemkiewicz.jqblocks.ingame.controller.EndGameController;
@@ -23,7 +24,9 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 public class SpringMainGameStateAdaptor extends BasicTWLGameState implements ApplicationContextAware {
 
@@ -33,11 +36,13 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
 
   ApplicationContext mainApplicationContext;
 
-  ApplicationContext stateApplicationContext;
+  Stack<ApplicationContext> stateApplicationContextStack = new Stack<ApplicationContext>();
 
   EndGameController endGameController;
 
   MainGameState gameState;
+  GameContainer gameContainer;
+  StateBasedGame stateBasedGame;
 
   @Override
   public int getID() {
@@ -46,13 +51,15 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
 
   @Override
   public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-    MainGameState.Settings gameSettings = new MainGameState.Settings();
-    initInternal(gameContainer, stateBasedGame, gameSettings);
+    MainGameState.Settings gameSettings = MainGameState.Settings.newDefault(null);
+    this.gameContainer = gameContainer;
+    this.stateBasedGame = stateBasedGame;
+    initInternal(gameSettings);
   }
 
-  void initInternal(GameContainer gameContainer, StateBasedGame stateBasedGame, MainGameState.Settings gameSettings) throws SlickException {
+  void buildAndSwitchContext(MainGameState.Settings gameSettings) throws SlickException {
     // This a fix for some stupid idea-spring conflict on Linux
-    stateApplicationContext = null;
+    ApplicationContext stateApplicationContext = null;
     while (stateApplicationContext == null) {
       try {
         stateApplicationContext = getContext(mainApplicationContext, new String[]{gameContextPath}, new Object[]{});
@@ -60,14 +67,27 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
         logger.error("???", e);
       }
     }
-    if (gameSettings.seed == null && gameSettings.savegame == null) {
-      gameSettings.seed = 1L;
-    }
+    stateApplicationContextStack.add(stateApplicationContext);
+    switchContextToNewest(gameSettings);
+    gameState.init(gameContainer, stateBasedGame);
+  }
+  void switchContextToNewest(MainGameState.Settings gameSettings) throws SlickException {
+    ApplicationContext stateApplicationContext = stateApplicationContextStack.lastElement();
     gameState = stateApplicationContext.getBean(MainGameState.class);
     gameState.setSettings(gameSettings);
     endGameController = stateApplicationContext.getBean(EndGameController.class);
+    createRootPane();
+    ((Game) stateBasedGame).changeRootPane(rootPane);
+    onGuiInit(rootPane.getGUI());
     System.gc();
-    gameState.init(gameContainer, stateBasedGame);
+  }
+
+  void initInternal(MainGameState.Settings gameSettings) throws SlickException {
+    if (gameSettings.isDefaultRandom()) {
+      gameSettings = MainGameState.Settings.newDefault(1L);
+    }
+    stateApplicationContextStack.clear();
+    buildAndSwitchContext(gameSettings);
   }
 
   public static ApplicationContext getContext(ApplicationContext parent, String[] contextPath, Object[] staticBeans) {
@@ -81,7 +101,7 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
 
   @Override
   public void onGuiInit(GUI gui) {
-    Map<String, Initializable> initMap = stateApplicationContext.getBeansOfType(Initializable.class);
+    Map<String, Initializable> initMap = stateApplicationContextStack.lastElement().getBeansOfType(Initializable.class);
     for (Initializable initializable : initMap.values()) {
       initializable.init(gui);
     }
@@ -99,19 +119,16 @@ public class SpringMainGameStateAdaptor extends BasicTWLGameState implements App
   public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
     if (endGameController.isGameShouldRestart()) {
       logger.info("Restarting");
-      MainGameState.Settings settings = new MainGameState.Settings();
       try {
+        MainGameState.Settings settings = MainGameState.Settings.newDefault(null);
         if (endGameController.isGameShouldBeLoaded()) {
           FileInputStream input = new FileInputStream(SaveGameListener.FILENAME);
           BufferedInputStream bufferedInputStream = new BufferedInputStream(input);
           ObjectInputStream objectInputStream = new ObjectInputStream(bufferedInputStream);
-          settings.savegame = objectInputStream;
+          settings = MainGameState.Settings.newFromSavegame(objectInputStream);
+          justAfterRestart = true;
         }
-        initInternal(gameContainer, stateBasedGame, settings);
-        createRootPane();
-        ((Game) stateBasedGame).changeRootPane(rootPane);
-        onGuiInit(rootPane.getGUI());
-        justAfterRestart = true;
+        initInternal(settings);
         return;
       } catch (IOException e) {
         throw new RuntimeException(e);

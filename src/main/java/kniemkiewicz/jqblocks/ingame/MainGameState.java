@@ -12,9 +12,11 @@ import kniemkiewicz.jqblocks.ingame.controller.event.EventBus;
 import kniemkiewicz.jqblocks.ingame.controller.event.input.keyboard.KeyboardInputEventBus;
 import kniemkiewicz.jqblocks.ingame.controller.event.input.mouse.MouseInputEventBus;
 import kniemkiewicz.jqblocks.ingame.inventory.action.PickupItemActionController;
-import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
+import kniemkiewicz.jqblocks.ingame.level.DefaultLevelGenerator;
 import kniemkiewicz.jqblocks.ingame.content.player.PlayerController;
 
+import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
+import kniemkiewicz.jqblocks.ingame.level.SavegameLevelGenerator;
 import kniemkiewicz.jqblocks.ingame.level.enemies.RoamingEnemiesController;
 import kniemkiewicz.jqblocks.ingame.production.ProductionAssignmentController;
 import kniemkiewicz.jqblocks.ingame.production.ProductionController;
@@ -34,6 +36,8 @@ import kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceActionController;
 import kniemkiewicz.jqblocks.ingame.object.workplace.WorkplaceController;
 import kniemkiewicz.jqblocks.twl.BasicTWLGameState;
 import kniemkiewicz.jqblocks.twl.RootPane;
+import kniemkiewicz.jqblocks.util.BeanName;
+import kniemkiewicz.jqblocks.util.SpringBeanProvider;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -49,10 +53,37 @@ import java.util.List;
 public class MainGameState extends BasicTWLGameState {
 
   public static class Settings {
-    // If not null, level will be generated using it. Otherwise some pseudorandom seed is chosen.
-    public Long seed = null;
-    // If not null, level will be loaded from this stream. Otherwise it will be generated randomly.
-    public ObjectInputStream savegame = null;
+    private BeanName<? extends LevelGenerator> generatorBeanName;
+    private LevelGenerator.Settings settings = new LevelGenerator.Settings();
+
+    public static Settings newDefault(Long seed) {
+      Settings settings = new Settings();
+      settings.settings.seed = seed;
+      settings.generatorBeanName = BeanName.of(DefaultLevelGenerator.class);
+      return settings;
+    }
+
+    public static Settings newFromSavegame(ObjectInputStream stream) {
+      assert stream != null;
+      Settings settings = new Settings();
+      settings.settings.savegame = stream;
+      settings.generatorBeanName = BeanName.of(SavegameLevelGenerator.class);
+      return settings;
+    }
+
+    private Settings() {}
+
+    public boolean isDefaultRandom() {
+      return getGeneratorBeanName().equals(BeanName.of(DefaultLevelGenerator.class)) && settings.seed == null;
+    }
+
+    public BeanName<? extends LevelGenerator> getGeneratorBeanName() {
+      return generatorBeanName;
+    }
+
+    public LevelGenerator.Settings getSettings() {
+      return settings;
+    }
   }
 
   //TODO: Sort those.
@@ -86,9 +117,6 @@ public class MainGameState extends BasicTWLGameState {
 
   @Autowired
   MouseInputEventBus mouseInputEventBus;
-
-  @Autowired
-  LevelGenerator levelGenerator;
 
   @Autowired
   UpdateQueue updateQueue;
@@ -171,11 +199,13 @@ public class MainGameState extends BasicTWLGameState {
   @Autowired
   GraphController graphController;
 
+  @Autowired
+  SpringBeanProvider springBeanProvider;
+
   private Settings settings;
 
   public void setSettings(Settings settings) {
     // seed and savegame cannot be set at once.
-    assert (settings.savegame == null) || (settings.seed == null);
     this.settings = settings;
   }
 
@@ -212,15 +242,8 @@ public class MainGameState extends BasicTWLGameState {
     renderQueue.add(healthBar);
     renderQueue.add(mapView);
     renderQueue.add(biomeInfo);
-    if (settings.savegame != null) {
-      world.loadGameData(settings.savegame);
-    } else {
-      if (settings.seed != null) {
-        levelGenerator.setSeed(settings.seed);
-      }
-      levelGenerator.generate();
-      playerController.initPlayer();
-    }
+
+    springBeanProvider.getBean(settings.getGeneratorBeanName(), true).generate(settings.getSettings());
   }
 
   @Override

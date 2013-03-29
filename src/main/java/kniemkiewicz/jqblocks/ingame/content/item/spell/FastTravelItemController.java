@@ -11,7 +11,7 @@ import kniemkiewicz.jqblocks.ingame.controller.ItemController;
 import kniemkiewicz.jqblocks.ingame.controller.event.Event;
 import kniemkiewicz.jqblocks.ingame.controller.event.input.mouse.Button;
 import kniemkiewicz.jqblocks.ingame.controller.event.input.mouse.MouseClickEvent;
-import kniemkiewicz.jqblocks.ingame.level.LevelGenerator;
+import kniemkiewicz.jqblocks.ingame.level.DefaultLevelGenerator;
 import kniemkiewicz.jqblocks.ingame.object.DroppableObject;
 import kniemkiewicz.jqblocks.util.Collections3;
 import org.newdawn.slick.geom.Vector2f;
@@ -82,7 +82,7 @@ public class FastTravelItemController implements ItemController<FastTravelItem> 
     int y = solidBlocks.getBlocks().getUnscaledDropHeight(player.getShape());
     player.getXYMovement().getYMovement().setPos(y - Player.HEIGHT - 2 * Sizes.BLOCK);
     player.updateShape();
-    return collisionController.fullSearch(LevelGenerator.LEVEL_WALLS, player.getShape()).size() == 0;
+    return collisionController.fullSearch(DefaultLevelGenerator.LEVEL_WALLS, player.getShape()).size() == 0;
   }
 
   @Override

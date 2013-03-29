@@ -49,24 +49,6 @@ public abstract class BasicTWLGameState extends BasicGameState {
     public abstract void onGuiInit(GUI gui);
 
     /**
-     * Installs the rootPane of this state as the active root pane.
-     * Calls createRootPane() on first run.
-     *
-     * @param container the GameContainer instance
-     * @param game the StateBasedGame instance
-     * @throws SlickException
-     * @see #createRootPane()
-     */
-    @Override
-    public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-        if(rootPane == null) {
-            createRootPane();
-        }
-        GUI gui = ((TWLStateBasedGame)game).setRootPane(rootPane);
-        onGuiInit(gui);
-    }
-
-    /**
      * Override this method to create your UI for this state.
      *
      * The theme name of the RootPane created by this method is "state"+getID().
